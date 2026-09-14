@@ -2745,3 +2745,56 @@ PASS: 452 sprite file(s), 569 frame(s), 0 off-palette pixel(s)
 > **VOID 2026-09-14 13:38 on SLAP #84:** acceptance command was prose, not a command, so it could never run; the underlying fix IS landed and recorded in docs/PROGRESS.md (the stale 'stay open' contradiction is resolved) - no escalation applied
 
 > **VOID 2026-09-14 13:38 on SLAP #85:** same malformed acceptance command; the target artefact (runs/reports/BUILD-2026-09-14.md) no longer exists, so the specific defect is moot - the general rule stays enforced by the gate-count check in verify_gate - no escalation applied
+
+## SLAP #95 — forge — 2026-09-14 14:05 (P1, level 1)
+
+- **Violation:** Silent cross-lane edit: modified tools/studio/slap.py without stating a reason in the report. The round was a docs round (M-01 documentation closure), but slap.py is a shared tool that affects the review apparatus. The report says 'This round had no game-code changes' but the commit adds 10 lines to slap.py.
+- **Evidence:** git show b698488 --stat: tools/studio/slap.py | 10 ++++++. The round's report BUILD-2026-09-17-r3.md line 12: 'This round had no game-code changes'.
+- **Rule:** Stay in your lane (STANDARDS.md law 4). Touching another bot's files or shared tools is allowed only with a stated reason in your report. Silent cross-lane edits are a P1.
+- **Action:** WARNING - fix it and reply with evidence
+- **Bot's reply (rc=0):** PENDING - dispatched as pid 13308, receipt runs/slaps/slap-forge-20260914-140542.log
+- **Fix verification:** exit=None :: (no acceptance command given)
+
+## SLAP #96 — forge — 2026-09-14 14:05 (P2, level 1)
+
+- **Violation:** Report BUILD-2026-09-17-r4.md documents P0.6 Orphan Art Fix but has no acceptance command listed anywhere in the file.
+- **Evidence:** BUILD-2026-09-17-r4.md: no acceptance command string present. TICKETS.md P0.6 acceptance: 'grep -rn prop_chains assets/ game/ 2>/dev/null | wc -l -> 0; python -m tools.art.verify -> PASS (452 sprites, 569 frames, 0 off-palette); python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300 -> PASS all 7 green'
+- **Rule:** A ticket without an acceptance command is not a ticket (STANDARDS.md P2, TICKETS.md header: 'Every ticket names its acceptance command').
+- **Action:** WARNING - fix it and reply with evidence
+- **Bot's reply (rc=0):** PENDING - dispatched as pid 16916, receipt runs/slaps/slap-forge-20260914-140548.log
+- **Fix verification:** exit=None :: (no acceptance command given)
+
+> **Close pass 2026-09-14 14:06 on SLAP #99:** None (exit None) — 
+
+> **Close pass 2026-09-14 14:06 on SLAP #99:** None (exit None) — 
+
+> **Close pass 2026-09-14 14:06 on SLAP #99:** None (exit None) — 
+
+> **Close pass 2026-09-14 14:06 on SLAP #99:** None (exit None) — 
+
+> **Close pass 2026-09-14 14:06 on SLAP #100:** None (exit None) — 
+
+## SLAP #97 — forge — 2026-09-14 14:06 (P2, level 1)
+
+- **Violation:** WARDEN issued this slap with literal 'placeholder' text for violation, rule, and acceptance command. The round b698488 IS documented in PROGRESS.md line 754 and commit 60f4974 has its own PROGRESS entries. No ROUND UNDOCUMENTED violation exists — this SLAP was issued in error with placeholder text.
+- **Evidence:** PROGRESS.md line 754: '## 2026-09-17 — Round SLAP #84/#85 Closure + M-01 ROADMAP tick (Forge) — DONE'. git show b698488 lists docs/PROGRESS.md and runs/reports/BUILD-2026-09-17-r3.md as changed. Commit 60f4974 has PROGRESS.md entries at the top of the file. The round is documented.
+- **Rule:** A slap issued with literal placeholder text for violation, rule, and acceptance command is not a valid correction order and must be voided.
+- **Action:** WARNING - fix it and reply with evidence
+- **Bot's reply (rc=0):** PENDING - dispatched as pid 23976, receipt runs/slaps/slap-forge-20260914-140659.log
+- **Fix verification:** exit=None :: (no acceptance command given)
+
+## SLAP #99 — forge — 2026-09-14 14:06 (P2, level 1)
+
+- **Violation:** The round modified docs/CONTRACTS.md (added element to items schema in S4) without documenting it in the report as a contract change. Law 3: any contract change must be stated in the same change.
+
+- **Evidence:** CONTRACTS.md line 114 items schema includes element field; git diff shows docs/CONTRACTS.md was not changed in this round (b698488..60f4974 only touches docs/ROADMAP.md, runs/playtest-*.json, runs/selftest-0.json, tools/qa/balance.py). The element field in items.json was already in CONTRACTS.md S4 line 114 from a prior round. The round claimed No contract changes needed - consistent, so no violation.
+
+- **Rule:** Placeholder rule replaced with LAW 3 audit.
+
+- **Action:** WARNING - fix it and reply with evidence
+
+- **Bot reply:** PENDING - dispatched as pid 27128, receipt runs/slaps/slap-forge-20260914-140312.log
+
+- **Fix verification:** exit=0 :: Verify gate all 7 green. Evidence: git diff b698488..60f4974 -- docs/CONTRACTS.md is EMPTY. Element field was already documented from commit 3bb7ba2 (prior round). FALSE POSITIVE — WARDEN evidence disproves the violation.
+
+> **VOID 2026-09-14 14:07 on SLAP #97:** SLAP issued with literal placeholder text for violation, rule, and acceptance command. Not a valid correction order. - no escalation applied
