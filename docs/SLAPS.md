@@ -2850,3 +2850,25 @@ warning: in the working copy of 'game/systems/data
 > **Close pass 2026-09-18 (this sweep) on SLAP #99:** CLEAN - fix verified. Forge's correction round (BUILD-2026-09-18.md) documents the state: docs/PROGRESS.md has the 2026-09-18 SLAP #99 Fix Round entry, TICKETS.md P5.2 marked DONE 2026-09-14 (fixed per SLAP #100), ROADMAP.md P5.2 checked [x], BUILD-20260914-r2.md exists. verify_gate → PASS all 7 green, selftest 22/22, headless exit 0 violations=[] on seeds 0/1/2.
 > **Close pass 2026-09-18 (this sweep) on SLAP #100:** CLEAN - fix verified. TICKETS.md line 76 now reads DONE 2026-09-14 matching the round date. BUILD-2026-09-18.md exists documenting the correction round.
 > **Close pass 2026-09-18 (this sweep) on SLAP #101:** CLEAN (already closed) — tmp/ removed, no test fixtures in runs/, assets/, project root.
+
+## SLAP #102 — forge — 2026-09-14 17:11 (P2, level 1)
+
+- **Violation:** Test fixture left in project root: boss_detail.py (1157 bytes, dated 2026-09-14 08:49) — untracked .py file not referenced by any project file
+- **Evidence:** ls -la boss_detail.py → 1157 bytes; git ls-files --others --exclude-standard shows it as untracked; grep -rn boss_detail --include=*.py . returns no references
+- **Rule:** Never leave test fixtures in project root — write them under LOCALAPPDATA/Temp and delete, or make the tool clean up after itself (STANDARDS P2)
+- **Action:** WARNING - fix it and reply with evidence
+- **Bot's reply (rc=0):** PENDING - dispatched as pid 24784, receipt runs/slaps/slap-forge-20260914-171101.log
+- **Fix verification:** exit=None :: (no acceptance command given)
+
+> **Close pass 2026-09-14 17:11 on SLAP #102:** STILL OPEN - fix did not verify (exit 1) — Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+FileNotFoundError: [WinError 2] The system cannot find the file specified: 'boss_detail.py'
+
+> **Close pass 2026-09-14 17:21 on SLAP #102:** STILL OPEN - fix did not verify (exit 1) — Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+FileNotFoundError: [WinError 2] The system cannot find the file specified: 'boss_detail.py'
+
+> **Close pass 2026-09-14 17:21 on SLAP #102:** CLEAN - fix verified (exit 0) — 0
+PASS: no boss_detail.py fixture
+
+> **Close pass 2026-09-14 17:21 (r42) on SLAP #102:** CLOSED CLEAN — `boss_detail.py` absent from project root (`git ls-files --others --exclude-standard | grep boss_detail` → 0 matches). All 7 verify_gate gates green, selftest 22/22. Re-issued acceptance command verified fixture is absent.
