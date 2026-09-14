@@ -9,7 +9,7 @@
 - **QA:** `python -m tools.qa.attr_audit` OK · `python -m tools.selftest` 19/19 · `sprite_critique` fragments 0 · `art.verify` 0 off-palette · `verify_gate --seeds 0 1 2 --turns 300` 7/7 PASS.
 - **Report:** `runs/reports/BUILD-2026-09-14-r29.md`. Commits `52f3bb0`, `cf375b3`, `339460d` + this round.
 
-## 2026-09-14 — P4.7 Audio Wiring (Forge)
+## 2026-09-14 — P4.7 Audio Wiring (Forge) — DONE
 
 - **Wired manifest-driven audio.** `game/engine/audio.py` now loads cues from `game/data/audio.json` via `load_audio_cue()` instead of synthesizing procedural drones. `set_biome()` loads the actual .wav file (catacombs drip, ember crackle, drowned bubbles); `play_title_theme()` loads `title_theme.wav`; new `play_death()` and `play_victory()` load the stings. `_BIOME_AMBIENCE` drowned_vaults now correctly maps to `music_drowned_vaults`. `EndScene.draw()` calls `play_death()`/`play_victory()`.
 - **Module-level audio singleton** (`set_audio_singleton`/`get_audio_singleton`) enables the module-level `play_death()`/`play_victory()` convenience functions that `scenes.py` imports and calls.
