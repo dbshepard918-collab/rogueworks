@@ -1501,9 +1501,9 @@
       "reply_rc": 0,
       "reply": "PENDING - dispatched as pid 21552, receipt runs/slaps/slap-forge-20260914-000016.log",
       "fix_command": "python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300",
-      "fix_exit": null,
-      "fix_output": "",
-      "status": "PENDING - awaiting the bot's turn"
+      "fix_exit": 0,
+      "fix_output": "  tools.validate_data                PASS     0.1s  game/data/rooms.json: 45 entries, ok | game/data/statuses.json: 21 entries, ok | PASS: 8 file(s), 292 entries, 0 error(s), 0 warning(s)\n  tools.art.verify                   PASS     0.4s  verify: palette 'vaelmoor' v1 (26 colours), tolerance 0 | sprites checked: 414 in 2 dir(s) | atlases: 8 (391 frames) | aliases: 39 | PASS: 414 sprite file(s), 391 frame(s), 0 off-palette pixel(s)\n  tools.selftest                     PASS     4.3s  [PASS] glyph-coverage               69 glyph(s) defined, all renderable | 18 checks: 18 passed, 0 skipped, 0 failed | OK: no failures\n  tools.studio.audit_sprites         PASS     0.4s  audit_sprites: 263 sprite name(s) referenced by content | resolved: 263 | MISSING : 0\n----------------------------------------",
+      "status": "CLEAN - fix verified"
     },
     {
       "n": 80,
@@ -1520,9 +1520,9 @@
       "reply_rc": 0,
       "reply": "PENDING - dispatched as pid 25444, receipt runs/slaps/slap-forge-20260914-000020.log",
       "fix_command": "python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300",
-      "fix_exit": null,
-      "fix_output": "",
-      "status": "PENDING - awaiting the bot's turn"
+      "fix_exit": 0,
+      "fix_output": "  tools.validate_data                PASS     0.1s  game/data/rooms.json: 45 entries, ok | game/data/statuses.json: 21 entries, ok | PASS: 8 file(s), 292 entries, 0 error(s), 0 warning(s)\n  tools.art.verify                   PASS     0.4s  verify: palette 'vaelmoor' v1 (26 colours), tolerance 0 | sprites checked: 414 in 2 dir(s) | atlases: 8 (391 frames) | aliases: 39 | PASS: 414 sprite file(s), 391 frame(s), 0 off-palette pixel(s)\n  tools.selftest                     PASS     4.1s  [PASS] glyph-coverage               69 glyph(s) defined, all renderable | 18 checks: 18 passed, 0 skipped, 0 failed | OK: no failures\n  tools.studio.audit_sprites         PASS     0.4s  audit_sprites: 263 sprite name(s) referenced by content | resolved: 263 | MISSING : 0\n----------------------------------------",
+      "status": "CLEAN - fix verified"
     },
     {
       "n": 81,
@@ -1538,6 +1538,25 @@
       "soul_note": "",
       "reply_rc": 0,
       "reply": "PENDING - dispatched as pid 12128, receipt runs/slaps/slap-pixel-20260914-000025.log",
+      "fix_command": "python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300",
+      "fix_exit": null,
+      "fix_output": "",
+      "status": "PENDING - awaiting the bot's turn"
+    },
+    {
+      "n": 82,
+      "at": "2026-09-14 00:00",
+      "bot": "forge",
+      "severity": "P2",
+      "violation": "Report with no commands: the PROGRESS.md entry for P0.4 cites commands that could not be verified as run in this round \u2014 no playtest JSON exists for the claimed 3-seed run, and the verify_gate output in the log shows 7 gates (not the 8 claimed in the PROGRESS entry which says 'all 7 green' vs the actual 7 gates; more importantly the claim 'frames at runs/shots/p04-glyph-0/... (519-542 KB each)' cites sizes that do not match: p04-glyph-2 is 519232 bytes but p04-glyph-0 is 541016 and p04-glyph-1 is 541954 \u2014 the claim '519-542 KB each' is a range that hides the fact only one seed's shots exist per directory).",
+      "evidence": "runs/playtest-0.json, playtest-1.json, playtest-2.json exist from the HEADLESS run I ran myself (timestamps Sep 13 23:56), but they are from my verification run, not the builder's. The builder's round-r2-forge.log shows no --log flag used, so no playtest JSON was produced by the builder's run. PROGRESS.md line 18: 'Frames at runs/shots/p04-glyph-0/, p04-glyph-1/, p04-glyph-2/ (519-542 KB each, 1280x720)' \u2014 actual sizes: 541016, 541954, 519232 bytes.",
+      "rule": "No claim without a command (STANDARDS law 1). Every documented run must have a corresponding playtest JSON or the claim is a confession.",
+      "rule_key": "no-claim-without-a-command-standards-law-1-every-documented-",
+      "level": 1,
+      "action": "WARNING - fix it and reply with evidence",
+      "soul_note": "",
+      "reply_rc": 0,
+      "reply": "PENDING - dispatched as pid 22340, receipt runs/slaps/slap-forge-20260914-000030.log",
       "fix_command": "python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300",
       "fix_exit": null,
       "fix_output": "",

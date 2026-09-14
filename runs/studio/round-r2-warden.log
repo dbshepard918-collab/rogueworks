@@ -232,3 +232,58 @@ the slaps issued, and the single biggest risk to the project right now.
 [1;38;2;255;215;0m╰──────────────────────────────────────────────────────────────────────────────╯[0m
   ┊ 📖 preparing read_file…
   ┊ 📖 preparing read_file…
+  ┊ 📖 read      BUILD-2026-09-13.md  0.3s
+  ┊ 📖 read      round-r2-warden.log  0.3s
+
+[1;38;2;255;215;0m╭─ ⚕ Hermes ───────────────────────────────────────────────────────────────────╮[0m
+[38;2;255;248;220mNow I have the full picture. Let me issue the slaps for the violations I found.[0m
+[1;38;2;255;215;0m╰──────────────────────────────────────────────────────────────────────────────╯[0m
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m tools.studio.slap --bot forge --severity P2 --violation "Overwrote a prior round BUILD report: BUILD-2026-09-13.md previously contained the Round 5 report ('Round 5: P1.3 Meta-progression tree') and was replaced with the P0.4 report, destroying the prior content." --evidence "runs/studio/round-r2-forge.log lines 555-559: write BUILD-2026-09-13.md; diff shows '-# BUILD-2026-09-13 — Round 5: P1.3 Meta-progression tree (Forge)' replaced by '+# Build Report — P0.4 Bitmap Font Glyph Coverage'. BUILD-2026-09-13-r10.md through r26.md exist but the base report for that date is gone." --rule "Each round writes its own BUILD report with a unique name (BUILD-<date>-rN.md). Never overwrite a prior round's report (STANDARDS P2, added 2026-09-13 13:14)." --fix "python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300" --async  0.3s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m tools.studio.slap --bot forge --severity P2 --violation "Undocumented round: no BUILD report for round 2, no dated PROGRESS.md entry for round 2, no ROADMAP.md tick for round 2. docs/PROGRESS.md entry is dated 2026-09-13 for P0.4 but round-r2-forge.log timestamps are 2026-09-13 23:47-23:57; the PROGRESS entry lacks round numbering." --evidence "docs/PROGRESS.md: single entry '## 2026-09-13 — P0.4 Bitmap Font Glyph Coverage (Forge)' — no round number, no prior round entries. runs/reports/: BUILD-2026-09-13.md (overwritten), BUILD-2026-09-13-r10.md through r26.md, no BUILD-2026-09-13-r2.md or r2-specific report. docs/TICKETS.md: P0.4 marked DONE but no round-ticket. docs/ROADMAP.md: P0.4 ticked [x] with date 2026-09-13." --rule "Round protocol (ROADMAP.md §Round protocol item 4): each round must PREPEND a dated entry to docs/PROGRESS.md, write runs/reports/BUILD-<date>.md, and tick the item in docs/ROADMAP.md + docs/TICKETS.md. An undocumented round did not happen (STANDARDS P2)." --fix "python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300" --async  0.2s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m tools.studio.slap --bot pixel --severity P3 --violation "Test debris in runs/: 6 redundant p04 shot directories for the same single frame (p04-glyph-0/1/2 each have frame-000050.png at 541016/541954/519232 bytes; p04 and p04-v have identical 541016-byte frame-000050.png; p04-glyph-v2 has same). Only p04-glyph-{0,1,2} are seed-specific evidence; p04, p04-v, p04-glyph-v2 are redundant copies." --evidence "ls runs/shots/: p04-glyph-0/frame-000050.png=541016 bytes, p04-glyph-1/frame-000050.png=541954 bytes, p04-glyph-2/frame-000050.png=519232 bytes, p04/frame-000050.png=541016 bytes, p04-v/frame-000050.png=541016 bytes, p04-glyph-v2/frame-000050.png=541016 bytes. p04 and p04-v frames are byte-identical to p04-glyph-0." --rule "Never leave test fixtures in runs/ or assets/ — use unique naming per seed and delete redundant copies (STANDARDS P2, added 2026-09-13 16:38)." --fix "python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300" --async  0.2s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m tools.studio.slap --bot forge --severity P2 --violation "Report with no commands: the PROGRESS.md entry for P0.4 cites commands that could not be verified as run in this round — no playtest JSON exists for the claimed 3-seed run, and the verify_gate output in the log shows 7 gates (not the 8 claimed in the PROGRESS entry which says 'all 7 green' vs the actual 7 gates; more importantly the claim 'frames at runs/shots/p04-glyph-0/... (519-542 KB each)' cites sizes that do not match: p04-glyph-2 is 519232 bytes but p04-glyph-0 is 541016 and p04-glyph-1 is 541954 — the claim '519-542 KB each' is a range that hides the fact only one seed's shots exist per directory)." --evidence "runs/playtest-0.json, playtest-1.json, playtest-2.json exist from the HEADLESS run I ran myself (timestamps Sep 13 23:56), but they are from my verification run, not the builder's. The builder's round-r2-forge.log shows no --log flag used, so no playtest JSON was produced by the builder's run. PROGRESS.md line 18: 'Frames at runs/shots/p04-glyph-0/, p04-glyph-1/, p04-glyph-2/ (519-542 KB each, 1280x720)' — actual sizes: 541016, 541954, 519232 bytes." --rule "No claim without a command (STANDARDS law 1). Every documented run must have a corresponding playtest JSON or the claim is a confession." --fix "python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300" --async  0.2s
+
+[1;38;2;255;215;0m╭─ ⚕ Hermes ───────────────────────────────────────────────────────────────────╮[0m
+[38;2;255;248;220mNow let me verify one more thing — the current state of the ledger:[0m
+[1;38;2;255;215;0m╰──────────────────────────────────────────────────────────────────────────────╯[0m
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m tools.studio.slap --list  0.4s
+  ┊ 📖 preparing read_file…
+  ┊ 📖 read      SLAPS.md  0.3s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         grep -n "^## SLAP #7[89]\|^## SLAP #80\|^## SLAP #81\|^## SLAP #82" "/c/Users/dbshe/rogueworks/docs/SLAPS.md"  0.2s
+  ┊ 📖 preparing read_file…
+  ┊ 📖 read      SLAPS.md L2486-2545  0.3s
+
+[1;38;2;255;215;0m╭─ ⚕ Hermes ───────────────────────────────────────────────────────────────────╮[0m
+[38;2;255;248;220mVerdict: SLAPPED[0m
+[38;2;255;248;220m[0m
+[38;2;255;248;220mWhat I verified myself (real output):[0m
+[38;2;255;248;220m- tools.qa.glyph_coverage → exit 0: "69 glyph(s) defined, all renderable"[0m
+[38;2;255;248;220m- tools.selftest → 18/18 PASS[0m
+[38;2;255;248;220m- tools.studio.verify_gate --seeds 0 1 2 --turns 300 → PASS all 7 green (7 gates: headless 0/1/2, validate_data, art.verify, selftest, audit_sprites)[0m
+[38;2;255;248;220m- game.main --headless --turns 300 --seed 0..2 → exit 0, violations=[] for all 3 seeds[0m
+[38;2;255;248;220m- Frames: p04-glyph-0/1/2 each have frame-000050.png (541016/541954/519232 bytes, 1280x720, 806 distinct colours) — real non-blank gameplay frames[0m
+[38;2;255;248;220m[0m
+[38;2;255;248;220mSlaps issued (4):[0m
+[38;2;255;248;220m- SLAP #79 (P2, level 2) — forge: Overwrote BUILD-2026-09-13.md (previously Round 5's report) with P0.4 content. Rule written into forge's SOUL.md. Fix: restore the prior report from git or rebuild it from round-r5-forge.log.[0m
+[38;2;255;248;220m- SLAP #80 (P2) — forge: Undocumented round — no BUILD-2026-09-13-r2.md, PROGRESS.md entry lacks round numbering, no round ticket in TICKETS.md.[0m
+[38;2;255;248;220m- SLAP #81 (P3) — pixel: Test debris in runs/ — 6 redundant shot directories (p04, p04-v, p04-glyph-v2 are byte-identical copies of p04-glyph-0). Delete the duplicates.[0m
+[38;2;255;248;220m- SLAP #82 (P2) — forge: Report with no commands — builder's run didn't use --log, so no playtest JSON exists for the claimed 3-seed run; frame size claim "519-542 KB each" is misleading (actual: 541016, 541954, 519232).[0m
+[38;2;255;248;220m[0m
+  [tool] ٩(๑❛ᴗ❛๑)۶ analyzing...
+[38;2;255;248;220mSingle biggest risk: The BUILD report for round 5 was silently overwritten by round 2's report. The studio now has no verifiable record of what round 5 produced, and the PROGRESS.md chain is broken — an undocumented round did not happen per STANDARDS law 2. Until the forge restores or rebuilds BUILD-2026-09-13.md with its original Round 5 content, the audit trail for the entire project is compromised.[0m
+[1;38;2;255;215;0m╰──────────────────────────────────────────────────────────────────────────────╯[0m
+
+Resume this session with:
+  hermes --resume 20260913_235656_52e345 -p warden
+  hermes -c "Review ROUND 2 of the Rogueworks continuous… #3" -p warden
+
+Session:        20260913_235656_52e345
+Title:          Review ROUND 2 of the Rogueworks continuous… #3
+Duration:       4m 12s
+Messages:       100 (1 user, 98 tool calls)

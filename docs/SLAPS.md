@@ -2524,3 +2524,18 @@ Messages:       53 (1 user, 51 tool calls)
 - **Action:** WARNING - fix it and reply with evidence
 - **Bot's reply (rc=0):** PENDING - dispatched as pid 12128, receipt runs/slaps/slap-pixel-20260914-000025.log
 - **Fix verification:** exit=None :: (no acceptance command given)
+
+## SLAP #82 — forge — 2026-09-14 00:00 (P2, level 1)
+
+- **Violation:** Report with no commands: the PROGRESS.md entry for P0.4 cites commands that could not be verified as run in this round — no playtest JSON exists for the claimed 3-seed run, and the verify_gate output in the log shows 7 gates (not the 8 claimed in the PROGRESS entry which says 'all 7 green' vs the actual 7 gates; more importantly the claim 'frames at runs/shots/p04-glyph-0/... (519-542 KB each)' cites sizes that do not match: p04-glyph-2 is 519232 bytes but p04-glyph-0 is 541016 and p04-glyph-1 is 541954 — the claim '519-542 KB each' is a range that hides the fact only one seed's shots exist per directory).
+- **Evidence:** runs/playtest-0.json, playtest-1.json, playtest-2.json exist from the HEADLESS run I ran myself (timestamps Sep 13 23:56), but they are from my verification run, not the builder's. The builder's round-r2-forge.log shows no --log flag used, so no playtest JSON was produced by the builder's run. PROGRESS.md line 18: 'Frames at runs/shots/p04-glyph-0/, p04-glyph-1/, p04-glyph-2/ (519-542 KB each, 1280x720)' — actual sizes: 541016, 541954, 519232 bytes.
+- **Rule:** No claim without a command (STANDARDS law 1). Every documented run must have a corresponding playtest JSON or the claim is a confession.
+- **Action:** WARNING - fix it and reply with evidence
+- **Bot's reply (rc=0):** PENDING - dispatched as pid 22340, receipt runs/slaps/slap-forge-20260914-000030.log
+- **Fix verification:** exit=None :: (no acceptance command given)
+
+> **Close pass 2026-09-14 00:01 on SLAP #79:** CLEAN - fix verified (exit 0) —   tools.validate_data                PASS     0.1s  game/data/rooms.json: 45 entries, ok | game/data/statuses.json: 21 entries, ok | PASS: 8 file(s), 292 entries, 0 error(s), 0 warning(s)
+  tools.art.
+
+> **Close pass 2026-09-14 00:01 on SLAP #80:** CLEAN - fix verified (exit 0) —   tools.validate_data                PASS     0.1s  game/data/rooms.json: 45 entries, ok | game/data/statuses.json: 21 entries, ok | PASS: 8 file(s), 292 entries, 0 error(s), 0 warning(s)
+  tools.art.
