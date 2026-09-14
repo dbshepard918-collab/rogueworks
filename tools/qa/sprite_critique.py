@@ -51,6 +51,11 @@ MAX_DUPLICATE_IOU = 0.92 # silhouettes this similar are the same sprite twice
 #: and normal for a family of consumables (potions share a bottle shape on purpose
 #: and are distinguished by colour). Only the first set fails the gate.
 DISTINCTNESS_REQUIRED = ("monsters", "props")
+
+#: Fragmenting a sprite into detached specks is a defect where a single readable body
+#: is expected. Particles legitimately have several components, so vfx is exempt.
+FRAGMENTATION_REQUIRED = ("monsters", "props", "items", "bosses")
+MAX_SPEC_PX = 3          # a component this small (and not the body) is a speck
 VLM_ENDPOINT = "http://localhost:1234/v1/chat/completions"
 VLM_MODEL = "qwen/qwen3-vl-8b"
 
@@ -83,6 +88,31 @@ def _alpha_metrics(cell) -> dict:
     }
 
 
+def _components(mask) -> list:
+    """4-connected component sizes of a boolean mask, largest first (flood fill)."""
+    from collections import deque
+    h, w = mask.shape
+    seen = [[False] * w for _ in range(h)]
+    sizes = []
+    for y0 in range(h):
+        for x0 in range(w):
+            if not mask[y0][x0] or seen[y0][x0]:
+                continue
+            q = deque([(y0, x0)])
+            seen[y0][x0] = True
+            n = 0
+            while q:
+                cy, cx = q.popleft()
+                n += 1
+                for dy, dx in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                    ny, nx = cy + dy, cx + dx
+                    if 0 <= ny < h and 0 <= nx < w and mask[ny][nx] and not seen[ny][nx]:
+                        seen[ny][nx] = True
+                        q.append((ny, nx))
+            sizes.append(n)
+    return sorted(sizes, reverse=True)
+
+
 def measure(root) -> dict:
     """Objective audit over the atlases. No model involved."""
     import numpy as np
@@ -99,6 +129,7 @@ def measure(root) -> dict:
         opaque = partial = 0
         fills, colours = [], []
         flats = []
+        fragmented = []
         # silhouettes are only comparable WITHIN an atlas: a coffer and a monster
         # sharing a bounding box is not a duplicate
         masks_by_size = {}
@@ -115,6 +146,10 @@ def measure(root) -> dict:
                 colours.append(n_colours)
                 if m["fill"] > FLAT_FILL and n_colours <= FLAT_COLOURS:
                     flats.append((fname, n_colours))
+                comps = _components(cell[..., 3] > 0)
+                specks = [c for c in comps[1:] if c <= MAX_SPEC_PX]
+                if specks:
+                    fragmented.append((fname, len(comps), len(specks), sum(specks)))
                 masks_by_size.setdefault((w, h), []).append((fname, (cell[..., 3] > 0).astype(np.uint8)))
 
         dupes = []
@@ -136,6 +171,9 @@ def measure(root) -> dict:
             "colours_mean": round(float(np.mean(colours)), 1) if colours else 0.0,
             "colours_max": int(max(colours)) if colours else 0,
             "flat_sprites": [f for f, _ in flats],
+            "fragmented_sprites": [{"frame": f, "components": c, "specks": s, "speck_px": px}
+                                   for f, c, s, px in fragmented[:12]],
+            "fragmented_count": len(fragmented),
             "near_duplicates": dupes[:12],
             "near_duplicates_advisory": name not in DISTINCTNESS_REQUIRED and bool(dupes),
         }
@@ -147,6 +185,16 @@ def measure(root) -> dict:
             report["problems"].append(
                 "%s: %s is a FLAT RECTANGLE (%d colours filling its whole cell) - not art"
                 % (name, fname, n_colours))
+        if name in FRAGMENTATION_REQUIRED and fragmented:
+            worst = max(fragmented, key=lambda r: r[2])
+            report["problems"].append(
+                "%s: %d sprite(s) fragment into detached specks, worst %s (%d components, "
+                "%d specks) - the sprite is falling apart" % (name, len(fragmented), worst[0],
+                                                              worst[1], worst[2]))
+        elif fragmented:
+            report.setdefault("advisory", []).append(
+                "%s: %d particle frame(s) have detached motes - expected for a particle effect"
+                % (name, len(fragmented)))
         if entry["fill_min"] and entry["fill_min"] < MIN_FILL:
             report["problems"].append("%s: a sprite fills only %.1f%% of its cell (min %.0f%%)"
                                       % (name, 100 * entry["fill_min"], 100 * MIN_FILL))
