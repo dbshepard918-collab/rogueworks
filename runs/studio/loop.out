@@ -269,3 +269,6 @@
 [02:03:47] ROUND 3 - running pre-flight gates
 [02:03:56] ROUND 3 item: P4.7 Original score (owner: tempo). Replace the procedural audio stubs with rendered music:
 [02:31:19] ROUND 3 builder: OK (317 tool calls, 1643s)
+[02:38:57] ROUND 3 review: OK (317 tool calls, 458s)
+[02:39:17] ROUND 4 - running pre-flight gates
+[02:39:24] ROUND 4 item: P4.8 Numeric audio QA. A cue is not shipped on vibes: assert duration, RMS, peak and DC

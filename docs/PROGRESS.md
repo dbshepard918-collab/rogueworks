@@ -1,5 +1,12 @@
 ## 2026-09-14 — r29: sprite debris cleared, vision pin defended, 4 latent crashes found (Forge)
 
+### 2026-09-14 — P4.8 Numeric audio QA (Forge)
+
+`tools/qa/audio_audit.py` `read_wav` now measures `dc_offset` and `zero_crossing_rate` from the PCM artefact on disk (stdlib `wave`, no torch/soundfile). The audit asserts `|dc_offset| <= 0.05` and flags a DC block only when BOTH DC offset is large AND zcr is low - the NaN-clamp signature (fp16 NaN clamped to -1.0 produces a full-scale DC offset with low zero-crossings). Selftest `check_audio_audit` reports per-cue numeric summary. All 7 cues pass: |dc| < 6e-05, rms 0.022-0.067, peak 0.12-0.30, click_ratio 0.0-0.028 (all below the 3.0 inaudible threshold).
+
+Gates: `tools.qa.audio_audit` -> OK; `tools.studio.verify_gate` -> PASS all 7 green; `tools.selftest` -> 19/19; headless seeds 0-2 exit 0 with violations=[].
+
+
 - **Sprite fragmentation fixed (P0.5 item c).** New `tools/art/despeckle.py` clears detached alpha components (≤ 3 px) — 43 frames / 241 px of keying debris, applied to source sprites **and** atlas PNGs in place, clearing pixels only inside each frame's existing rect so names, rects and layout cannot shift. `sprite_critique` fragments 43 → 0; `art.verify` still 0 off-palette over 414 sprites / 391 frames; 7/7 gates. P0.5 items (a) 6 flat props + (b) 3 duplicate monsters are unchanged — clearing pixels cannot invent absent art, so those stay with pixel.
 - **Vision benchmark — the new download loses.** Owner downloaded `qwen2.5-vl-7b-instruct` (asked as "2.7"; no such version). Head-to-head vs the `qwen/qwen3-vl-8b` pin on the sprite contact sheet, scored on verifiable answers only: **1/5 vs 4/5**, and ~2× slower (7.9 s / 15.3 s vs 4.1 s / 5.5 s). The challenger denied the flat-rectangle defect — the exact class this studio exists to catch. Pin unchanged; table + evidence in `docs/MODELS.md`, run `%TEMP%/rw_vlm_bench.py`.
 - **Critique-loop regression, measured and reverted.** Drawing index numbers into the contact sheet made the VLM regurgitate `1, 2, 3, … 188` instead of judging art. Reverted to unnumbered cells with a "row R, column C" rubric plus `cell_for_position()` to resolve a position back to an exact frame name.
@@ -18,31 +25,6 @@
 - All 7 cues pass `tools.qa.audio_audit`: rms 0.022-0.067, peak < 0.30, click_ratio <= 0.03.
 - **Files changed:** `game/engine/audio.py` (rewrote `set_biome`, `play_title_theme`, added `play_death`/`play_victory`, singleton helpers), `game/engine/scenes.py` (imported `play_death`, `play_victory`; added calls in `EndScene.draw`).
 - **QA:** `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green; `python -m tools.qa.audio_audit` → OK all 7 cues licensed and audible; `python -m game.main --headless --turns 300 --seed 0` exit 0, violations=[]; with `assets/audio/` deleted, game degrades silently (0 warnings).
-
-## 2026-09-14 — r29: sprite debris cleared, vision pin defended, 4 latent crashes found (Forge)
-
-- **Sprite fragmentation fixed (P0.5 item c).** New `tools/art/despeckle.py` clears detached alpha components (≤ 3 px) — 43 frames / 241 px of keying debris, applied to source sprites **and** atlas PNGs in place, clearing pixels only inside each frame's existing rect so names, rects and layout cannot shift. `sprite_critique` fragments 43 → 0; `art.verify` still 0 off-palette over 414 sprites / 391 frames; 7/7 gates. P0.5 items (a) 6 flat props + (b) 3 duplicate monsters are unchanged — clearing pixels cannot invent absent art, so those stay with pixel.
-------------------------------------------------------------------------------
-VERDICT: PASS - all 7 gate(s) green → PASS all 7 green; game/data/affixes.json: 28 entries, ok
-game/data/audio.json: 7 entries, ok
-game/data/biomes.json: 3 entries, ok
-game/data/flavor.json: 65 entries, ok
-game/data/items.json: 73 entries, ok
-game/data/meta_tree.json: 0 entries, ok
-game/data/monsters.json: 57 entries, ok
-game/data/rooms.json: 45 entries, ok
-game/data/statuses.json: 21 entries, ok
-PASS: 9 file(s), 299 entries, 0 error(s), 0 warning(s) → 0 errors, 0 warnings; audio-audit: 7 cue(s) in game/data/audio.json
-  title_theme            ace_step                     mit      15.00s rms=0.04465 peak=0.19992 click=0.0
-  music_catacombs_drip   ace_step                     mit      30.00s rms=0.0332 peak=0.14993 click=0.0
-  music_ember_warrens    ace_step                     mit      30.00s rms=0.02218 peak=0.11978 click=0.028
-  music_drowned_vaults   ace_step                     mit      30.00s rms=0.02655 peak=0.11996 click=0.0
-  boss_theme             ace_step                     mit      30.00s rms=0.05886 peak=0.19995 click=0.018
-  death_sting            ace_step                     mit      5.00s rms=0.06698 peak=0.29962 click=0.0
-  victory_sting          ace_step                     mit      5.00s rms=0.06698 peak=0.29974 click=0.002
-OK: every shipped cue is licensed and audible → OK all 7 cues licensed and audible.
-- **Files changed:** , , , , , , , , .
-- **Next:** P4.8 Numeric audio QA (wire audio_audit into selftest).
 
 # Progress log — Depths of Vaelmoor
 Newest entry first. One entry per build round; append, never rewrite history.

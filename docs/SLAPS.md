@@ -2545,3 +2545,17 @@ Messages:       53 (1 user, 51 tool calls)
 
 > **Close pass 2026-09-14 00:01 on SLAP #82:** CLEAN - fix verified (exit 0) —   tools.validate_data                PASS     0.1s  game/data/rooms.json: 45 entries, ok | game/data/statuses.json: 21 entries, ok | PASS: 8 file(s), 292 entries, 0 error(s), 0 warning(s)
   tools.art.
+
+## SLAP #83 — forge — 2026-09-14 02:36 (P2, level 1)
+
+- **Violation:** PROGRESS.md has a duplicate r29 entry with raw gate output pasted into the progress log (lines 21-44). The raw verify_gate/validate_data output and 'Files changed: , , , , , , , , .' placeholder belong in BUILD-2026-09-14-r29.md only; PROGRESS.md entries must be dated summaries, never raw command output.
+- **Evidence:** docs/PROGRESS.md lines 1-11 (first r29 entry, correct) and lines 21-44 (second r29 entry, identical topic, raw gate output with VERDICT: PASS block and 'Files changed: , , , , , , , , .'). grep -c '^## 2026-09-14 — r29' docs/PROGRESS.md -> 2
+- **Rule:** PROGRESS.md gets dated entries that describe what changed; raw gate output goes in BUILD-<date>.md only, never pasted into the progress log. STANDARDS.md P2: docs that describe a plan instead of what happened.
+- **Action:** WARNING - fix it and reply with evidence
+- **Bot's reply (rc=0):** Messages:       38 (1 user, 36 tool calls) |   hermes -c "*** SLAP #83 from WARDEN (severity P2…" -p forge
+
+Session:        20260914_023640_ede28f
+Title:          *** SLAP #83 from WARDEN (severity P2…
+Duration:       2m 6s
+Messages:       38 (1 user, 36 tool calls)
+- **Fix verification:** exit=0 :: removed duplicate r29 entry

@@ -1561,6 +1561,25 @@
       "fix_exit": 0,
       "fix_output": "  tools.validate_data                PASS     0.1s  game/data/rooms.json: 45 entries, ok | game/data/statuses.json: 21 entries, ok | PASS: 8 file(s), 292 entries, 0 error(s), 0 warning(s)\n  tools.art.verify                   PASS     0.4s  verify: palette 'vaelmoor' v1 (26 colours), tolerance 0 | sprites checked: 414 in 2 dir(s) | atlases: 8 (391 frames) | aliases: 39 | PASS: 414 sprite file(s), 391 frame(s), 0 off-palette pixel(s)\n  tools.selftest                     PASS     4.2s  [PASS] glyph-coverage               69 glyph(s) defined, all renderable | 18 checks: 18 passed, 0 skipped, 0 failed | OK: no failures\n  tools.studio.audit_sprites         PASS     0.4s  audit_sprites: 263 sprite name(s) referenced by content | resolved: 263 | MISSING : 0\n----------------------------------------",
       "status": "CLEAN - fix verified"
+    },
+    {
+      "n": 83,
+      "at": "2026-09-14 02:36",
+      "bot": "forge",
+      "severity": "P2",
+      "violation": "PROGRESS.md has a duplicate r29 entry with raw gate output pasted into the progress log (lines 21-44). The raw verify_gate/validate_data output and 'Files changed: , , , , , , , , .' placeholder belong in BUILD-2026-09-14-r29.md only; PROGRESS.md entries must be dated summaries, never raw command output.",
+      "evidence": "docs/PROGRESS.md lines 1-11 (first r29 entry, correct) and lines 21-44 (second r29 entry, identical topic, raw gate output with VERDICT: PASS block and 'Files changed: , , , , , , , , .'). grep -c '^## 2026-09-14 \u2014 r29' docs/PROGRESS.md -> 2",
+      "rule": "PROGRESS.md gets dated entries that describe what changed; raw gate output goes in BUILD-<date>.md only, never pasted into the progress log. STANDARDS.md P2: docs that describe a plan instead of what happened.",
+      "rule_key": "progress-md-gets-dated-entries-that-describe-what-changed-ra",
+      "level": 1,
+      "action": "WARNING - fix it and reply with evidence",
+      "soul_note": "",
+      "reply_rc": 0,
+      "reply": "Messages:       38 (1 user, 36 tool calls) |   hermes -c \"*** SLAP #83 from WARDEN (severity P2\u2026\" -p forge\n\nSession:        20260914_023640_ede28f\nTitle:          *** SLAP #83 from WARDEN (severity P2\u2026\nDuration:       2m 6s\nMessages:       38 (1 user, 36 tool calls)",
+      "fix_command": "python -c \"import re; c=open('docs/PROGRESS.md').read(); c2=re.sub(r'\\n## 2026-09-14 \u2014 r29: sprite debris cleared.*?OK: every shipped cue is licensed and audible -> OK all 7 cues licensed and audible\\.\\n-\\*\\*Files changed:\\) , , , , , , , , \\.\\n-\\*\\*Next:\\) P4\\.8 Numeric audio QA \\(wire audio_audit into selftest\\)\\.\\n','',c,flags=re.DOTALL); open('docs/PROGRESS.md','w').write(c2); print('removed duplicate r29 entry')\"",
+      "fix_exit": 0,
+      "fix_output": "removed duplicate r29 entry",
+      "status": "CLEAN - fix verified"
     }
   ]
 }

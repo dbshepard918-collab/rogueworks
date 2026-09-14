@@ -24,6 +24,9 @@ ENDPOINT = "http://localhost:1234/v1/chat/completions"
 IMG = os.environ.get("RW_BENCH_SHEET") or os.path.join(
     os.environ.get("TEMP", "."), "rw_sprite_contact.png")   # the sheet sprite_critique produces
 LMS = os.path.expanduser("~/.lmstudio/bin/lms.exe")
+# Budget for a THINKING model: it bills reasoning against max_tokens, so a tight
+# budget yields empty content and a false "cannot see" verdict.
+MAX_TOKENS = 2048
 
 # ground truth from how the sheet was generated (see tools/qa/sprite_critique.py):
 #   197 frames, 16 columns, 13 rows, last row partial with 5
@@ -61,7 +64,7 @@ def lms(*args, timeout=600):
         return None
 
 
-def ask(model, prompt, b64, max_tokens=400):
+def ask(model, prompt, b64, max_tokens=2048):
     body = {"model": model, "messages": [{"role": "user", "content": [
         {"type": "text", "text": prompt},
         {"type": "image_url", "image_url": {"url": "data:image/png;base64," + b64}}]}],
@@ -71,7 +74,19 @@ def ask(model, prompt, b64, max_tokens=400):
     started = time.time()
     with urllib.request.urlopen(req, timeout=900) as resp:
         data = json.loads(resp.read().decode())
-    return data["choices"][0]["message"]["content"], time.time() - started, data.get("usage", {})
+    choice = data["choices"][0]
+    msg = choice.get("message") or {}
+    usage = data.get("usage", {}) or {}
+    # A THINKING model bills its reasoning against max_tokens. Measured: glm-4.6v-flash
+    # returned content='' with finish_reason=length and 299/300 tokens in
+    # reasoning_content, mid-sentence - which scored 0/5 and looked like a vision
+    # failure when it was a budget failure. Report it instead of guessing.
+    return {"text": msg.get("content") or "",
+            "reasoning": msg.get("reasoning_content") or msg.get("reasoning") or "",
+            "finish": choice.get("finish_reason"),
+            "elapsed": time.time() - started,
+            "usage": usage,
+            "reasoning_tokens": (usage.get("completion_tokens_details") or {}).get("reasoning_tokens", 0)}
 
 
 def bench(model):
@@ -88,8 +103,18 @@ def bench(model):
     combined = "You are looking at a contact sheet of 2D game sprites. Answer each question " \
                "tersely, numbered 1-5.\n" + "\n".join("%d. %s" % (i + 1, q) for i, (_, q) in
                                                       enumerate(QUESTIONS))
-    text, elapsed, usage = ask(model, combined, b64, max_tokens=500)
-    print("  answers in %.1fs (%s tokens):" % (elapsed, usage.get("total_tokens")))
+    r = ask(model, combined, b64, max_tokens=MAX_TOKENS)
+    text, usage = r["text"], r["usage"]
+    print("  answers in %.1fs (%s tokens, finish=%s, reasoning=%s):"
+          % (r["elapsed"], usage.get("total_tokens"), r["finish"], r["reasoning_tokens"]))
+    if not text.strip():
+        print("     [EMPTY content] the model returned no answer text.")
+        if r["reasoning_tokens"]:
+            print("     DIAGNOSIS: %d reasoning tokens consumed the %d-token budget - raise "
+                  "--max-tokens (this is a harness limit, NOT a vision failure)"
+                  % (r["reasoning_tokens"], MAX_TOKENS))
+        elif r["reasoning"]:
+            print("     DIAGNOSIS: text went to reasoning_content: %r" % r["reasoning"][:120])
     for line in text.splitlines():
         if line.strip():
             print("     %s" % line.strip()[:96])
@@ -110,19 +135,26 @@ def bench(model):
         print("     [%s] Q%d %s" % ("OK " if ok else "MISS", i + 1, key))
     print("  SCORE: %d/%d known answers" % (correct, len(QUESTIONS)))
 
-    crit, celapsed, cusage = ask(model, CRITIQUE, b64, max_tokens=300)
+    cr = ask(model, CRITIQUE, b64, max_tokens=max(700, MAX_TOKENS))
+    crit, celapsed, cusage = cr["text"], cr["elapsed"], cr["usage"]
     print("  critique in %.1fs:" % celapsed)
     for line in crit.splitlines():
         if line.strip():
             print("     %s" % line.strip()[:96])
     lms("unload", "--all")
-    return {"model": model, "answer_latency_s": round(elapsed, 1),
-            "critique_latency_s": round(celapsed, 1), "score": correct,
+    return {"model": model, "max_tokens": MAX_TOKENS, "answer_latency_s": round(r["elapsed"], 1),
+            "answer_finish": r["finish"], "reasoning_tokens": r["reasoning_tokens"],
+            "answer_raw": text[:2000], "answer_empty": not text.strip(),
+            "critique_latency_s": round(celapsed, 1), "critique_raw": crit[:3000],
+            "critique_empty": not crit.strip(), "score": correct,
             "total": len(QUESTIONS)}
 
 
 results = []
-_only = [a for a in sys.argv[1:] if not a.startswith("-")]
+for _i, _a in enumerate(sys.argv):
+    if _a == "--max-tokens" and _i + 1 < len(sys.argv):
+        MAX_TOKENS = int(sys.argv[_i + 1])
+_only = [a for a in sys.argv[1:] if not a.startswith("-") and not a.isdigit()]
 for m in (_only or ("qwen2.5-vl-7b-instruct", "qwen/qwen3-vl-8b")):
     try:
         r = bench(m)

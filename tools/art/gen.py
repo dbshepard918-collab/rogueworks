@@ -42,6 +42,44 @@ CLIP_L = MODELS / "clip_l.safetensors"
 T5XXL = MODELS / "t5xxl-Q5_K_M.gguf"
 VAE = MODELS / "ae.safetensors"
 
+# --- licence gate -------------------------------------------------------------
+# Every licence below was read from the HuggingFace registry API
+# (https://huggingface.co/api/models/<repo> -> cardData.license), never from a model
+# card summary or memory. Ledger + rationale: docs/ART-LICENSES.md
+ART_COMMERCIAL_OK = {"apache-2.0", "bsd-3-clause", "cc0-1.0", "mit", "unlicense"}
+
+ART_BACKENDS = {
+    "flux_schnell": {
+        "repo": "black-forest-labs/FLUX.1-schnell",
+        "licence": "apache-2.0",
+        "wired": True,
+        "note": "default; the only art model this pipeline runs",
+    },
+    "dreamshaper_lcm": {
+        "repo": "Lykon/dreamshaper-7",
+        "licence": "creativeml-openrail-m",
+        "wired": False,
+        "note": "assessed 2026-09-14 and REFUSED: not OSI-approved and not on "
+                "ART_COMMERCIAL_OK. OpenRAIL-M allows commercial use but attaches use-based "
+                "restrictions that must pass downstream - an owner decision, not a tool "
+                "default. Would also need an SD1.5 VAE (FLUX's ae.safetensors is 16-channel "
+                "and incompatible).",
+    },
+}
+
+
+def licence_board() -> int:
+    """Print the art licence board. A licence that is not in a tool is not enforced."""
+    print("art licence board - verified via the HuggingFace registry API, not model cards")
+    print("  commercial-ok licences: %s" % ", ".join(sorted(ART_COMMERCIAL_OK)))
+    for name, b in ART_BACKENDS.items():
+        ok = b["licence"] in ART_COMMERCIAL_OK
+        print("  %-16s %-34s %-24s %-9s %s"
+              % (name, b["repo"], b["licence"],
+                 "SHIPPABLE" if ok else "REFUSED", "wired" if b["wired"] else "not wired"))
+        print("      %s" % b["note"])
+    return 0
+
 CELL = ("Pixel art sprite sheet, EXACTLY a {cols}x{rows} grid of {n} separate {what}, "
         "each drawn on a 32x32 pixel grid with hard aliased pixels (no anti-aliasing, no blur, "
         "no gradients), evenly spaced with clear gaps. The ENTIRE background is one flat solid "
@@ -267,6 +305,8 @@ def main(argv=None) -> int:
     ap.add_argument("-s", "--seed", type=int, default=0)
     ap.add_argument("-o", "--out", default=None)
     ap.add_argument("--no-unload", action="store_true", help="skip unloading local LLMs first")
+    ap.add_argument("--licence-board", action="store_true", dest="licence_board",
+                    help="print the art-model licence board (which models this pipeline may ship)")
     ap.add_argument("--tries", type=int, default=1, help="re-roll this many seeds until a file lands")
     # single-subject mode (T-07)
     ap.add_argument("--single", action="store_true",
@@ -277,6 +317,9 @@ def main(argv=None) -> int:
     ap.add_argument("--raw-dir", default=None,
                     help="directory for raw 512x512 outputs in --single mode (default $TEMP/rogueworks_raw)")
     args = ap.parse_args(argv)
+
+    if args.licence_board:
+        return licence_board()
 
     if args.single:
         return main_single(args)

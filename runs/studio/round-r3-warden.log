@@ -212,3 +212,73 @@ the slaps issued, and the single biggest risk to the project right now.
   ┊ 💻 preparing terminal…
   ┊ 💻 preparing terminal…
   ┊ 💻 $         grep -n "music_drowned_vaults\|set_audio_singleton\|play_death\|play_victory\|load_audio_cue" game/engine/audio.py  0.2s
+  ┊ 💻 $         grep -n "play_death\|play_victory" game/engine/scenes.py  0.1s
+
+[1;38;2;255;215;0m╭─ ⚕ Hermes ───────────────────────────────────────────────────────────────────╮[0m
+[38;2;255;248;220mNow I have the full picture. Let me verify the PROGRESS.md structural defect precisely.[0m
+[1;38;2;255;215;0m╰──────────────────────────────────────────────────────────────────────────────╯[0m
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         grep -c "^## 2026-09-14 — r29" docs/PROGRESS.md + 2 commands  0.2s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         grep -c "^## 2026-09-14 — r29: sprite debris cleared" docs/PROGRESS.md + 1 command  0.2s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         head -20 runs/reports/BUILD-2026-09-14-r29.md  0.2s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         grep -n "drowned_vaults" game/data/biomes.json game/engine/audio.py  0.1s
+
+[1;38;2;255;215;0m╭─ ⚕ Hermes ───────────────────────────────────────────────────────────────────╮[0m
+[38;2;255;248;220mI now have a complete picture of the round. Let me verify one final structural issue before issuing slaps.[0m
+[1;38;2;255;215;0m╰──────────────────────────────────────────────────────────────────────────────╯[0m
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         sed -n '21,45p' docs/PROGRESS.md  0.1s
+
+[1;38;2;255;215;0m╭─ ⚕ Hermes ───────────────────────────────────────────────────────────────────╮[0m
+[38;2;255;248;220mReview complete. Here's my verdict:[0m
+[38;2;255;248;220m[0m
+[38;2;255;248;220mVerdict: SLAPPED (one slap)[0m
+[38;2;255;248;220m[0m
+[38;2;255;248;220mWhat I verified (re-ran every gate myself)[0m
+[38;2;255;248;220m[0m
+[38;2;255;248;220m[0m
+[38;2;255;248;220mpython -m tools.studio.verify_gate --seeds 0 1 2 --turns 300[0m
+[38;2;255;248;220m→ VERDICT: PASS - all 7 gate(s) green   (exit 0)[0m
+[38;2;255;248;220m[0m
+[38;2;255;248;220mpython -m tools.qa.audio_audit[0m
+[38;2;255;248;220m→ OK: every shipped cue is licensed and audible  (exit 0)[0m
+[38;2;255;248;220m  7 cues: rms 0.022-0.067, peak < 0.30, click_ratio <= 0.03[0m
+[38;2;255;248;220m[0m
+[38;2;255;248;220mpython -m game.main --headless --turns 300 --seed 0[0m
+[38;2;255;248;220m→ exit 0, ok=True, violations=[], warnings=0[0m
+[38;2;255;248;220m[0m
+[38;2;255;248;220m[0m
+[38;2;255;248;220mWith assets/audio/ deleted: exits 0, silent degradation. The P4.7 implementation is sound — manifest-driven audio wired correctly, 7 real WAV files on disk (2.6MB ambients, 441KB stings), CONTRACTS.md §4 updated with the audio.json row, EndScene.draw() plays death/victory stings. The builder's claims match what's on disk.[0m
+[38;2;255;248;220m[0m
+[38;2;255;248;220mThe slap[0m
+[38;2;255;248;220m[0m
+[38;2;255;248;220mThe P4.7 ticket itself is fine — the acceptance command is specific and it passes. The defect is in docs/PROGRESS.md:[0m
+[38;2;255;248;220m[0m
+[38;2;255;248;220m- Lines 21-44 duplicate the r29 entry with raw verify_gate output pasted directly into the progress log (the VERDICT: PASS... block, Files changed: , , , , , , , , . placeholder, and OK: every shipped cue...). That raw output belongs in BUILD-2026-09-14-r29.md (which already has it properly formatted), not as a second progress entry. PROGRESS.md now has the same r29 entry twice — a structural defect that misleads the reviewer about what round produced what work.[0m
+[1;38;2;255;215;0m╰──────────────────────────────────────────────────────────────────────────────╯[0m
+  ┊ ⚡ preparing execute…
+🔧 Auto-repaired tool name: 'execute' -> 'execute_code'
+  ┊ 🐍 exec        0.0s [execute_code received a 'command' parameter, ...]
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m tools.studio.slap --bot forge --severity P2 --violation "PROGRESS.md has a duplicate r29 entry with raw gate output pasted into the progress log (lines 21-44). The raw verify_gate/validate_data output and 'Files changed: , , , , , , , , .' placeholder belong in BUILD-2026-09-14-r29.md only; PROGRESS.md entries must be dated summaries, never raw command output." --evidence "docs/PROGRESS.md lines 1-11 (first r29 entry, correct) and lines 21-44 (second r29 entry, identical topic, raw gate output with VERDICT: PASS block and 'Files changed: , , , , , , , , .'). grep -c '^## 2026-09-14 — r29' docs/PROGRESS.md -> 2" --rule "PROGRESS.md gets dated entries that describe what changed; raw gate output goes in BUILD-<date>.md only, never pasted into the progress log. STANDARDS.md P2: docs that describe a plan instead of what happened." --fix "python -c \"import re; c=open('docs/PROGRESS.md').read(); c2=re.sub(r'\n## 2026-09-14 — r29: sprite debris cleared.*?OK: every shipped cue is licensed and audible -> OK all 7 cues licensed and audible\.\n-\*\*Files changed:\) , , , , , , , , \.\n-\*\*Next:\) P4\.8 Numeric audio QA \(wire audio_audit into selftest\)\.\n','',c,flags=re.DOTALL); open('docs/PROGRESS.md','w').write(c2); print('removed duplicate r29 entry')\""  128.3s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         grep -c "^## 2026-09-14 — r29" docs/PROGRESS.md + 1 command  0.2s
+
+[1;38;2;255;215;0m╭─ ⚕ Hermes ───────────────────────────────────────────────────────────────────╮[0m
+[38;2;255;248;220mThe fix verified — PROGRESS.md now has exactly one r29 entry. The correction order is closed.[0m
+[38;2;255;248;220m[0m
+  [tool] ( ˘⌣˘)♡ formulating...
+[38;2;255;248;220mSingle biggest risk: P4.8 (Numeric audio QA) is still open and unassigned. The builder's own report lists it as "Next," but nobody picked it up. tools.qa.audio_audit exists and passes, but it is not wired into tools.selftest — meaning every future round that touches audio has no numeric regression gate. The cues are already shipped into assets/audio/ with no automated check that rms/peak/click_ratio stay within spec after the next code change. That is the structural gap the owner should assign immediately.[0m
+[1;38;2;255;215;0m╰──────────────────────────────────────────────────────────────────────────────╯[0m
+
+Resume this session with:
+  hermes --resume 20260914_023120_599d74 -p warden
+  hermes -c "Review ROUND 3 of the Rogueworks continuous… #4" -p warden
+
+Session:        20260914_023120_599d74
+Title:          Review ROUND 3 of the Rogueworks continuous… #4
+Duration:       7m 35s
+Messages:       120 (1 user, 118 tool calls)

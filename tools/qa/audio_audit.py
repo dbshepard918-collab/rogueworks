@@ -51,7 +51,7 @@ def _allowlist() -> set[str]:
 
 
 def read_wav(path: Path) -> dict:
-    """Decode a PCM wav with the stdlib: duration, rms, peak, wrap discontinuity."""
+    """Decode a PCM wav with the stdlib: duration, rms, peak, dc_offset, wrap discontinuity."""
     with wave.open(str(path), "rb") as fh:
         channels = fh.getnchannels()
         width = fh.getsampwidth()
@@ -67,6 +67,11 @@ def read_wav(path: Path) -> dict:
     peak = max(abs(s) for s in samples) / 32768.0
     mean_sq = sum((s / 32768.0) ** 2 for s in samples) / len(samples)
     rms = mean_sq ** 0.5
+    # DC offset: mean value should be near zero
+    dc_offset = sum(samples) / (len(samples) * 32768.0)
+    # zero-crossing rate: fraction of adjacent sample pairs that cross zero
+    crossings = sum(1 for i in range(len(samples) - 1) if samples[i] * samples[i + 1] < 0)
+    zcr = crossings / max(1, len(samples) - 1)
     # mono fold for the seam measure
     mono = samples[::channels] if channels > 1 else samples
     wrap = abs(mono[0] - mono[-1]) / 32768.0
@@ -76,6 +81,8 @@ def read_wav(path: Path) -> dict:
         "rate": rate, "channels": channels,
         "seconds": round(frames / float(rate), 3),
         "rms": round(rms, 5), "peak": round(peak, 5),
+        "dc_offset": round(dc_offset, 6),
+        "zero_crossing_rate": round(zcr, 5),
         "wrap_discontinuity": round(wrap, 6),
         "click_ratio": round(wrap / p95, 3) if p95 > 0 else None,
     }
@@ -141,6 +148,18 @@ def audit(root: Path, manifest_rel: str = MANIFEST, audio_rel: str = AUDIO_DIR) 
                                         % (cue_id, info["rms"], MIN_RMS))
                     if info["peak"] >= 0.999:
                         problems.append("%s: CLIPPING (peak %.5f)" % (cue_id, info["peak"]))
+                    # DC offset: a cue with a large DC block is broken
+                    # (fp16 NaN clamped to -1.0 produces a full-scale DC offset)
+                    if abs(info.get("dc_offset", 0.0)) > 0.05:
+                        problems.append("%s: DC offset %.5f exceeds 0.05 (possible NaN/clipping artifact)"
+                                        % (cue_id, info["dc_offset"]))
+                    # Near-zero zero-crossing rate WITH a large DC offset = a true DC block.
+                    # Ambient drones can have low zcr alone; that is only a bug when the
+                    # mean sample value is also far from zero (the NaN-clamp signature).
+                    if (abs(info.get("dc_offset", 0.0)) > 0.05
+                            and info.get("zero_crossing_rate", 1.0) < 0.05):
+                        problems.append("%s: DC block confirmed — dc_offset %.5f with zcr %.4f"
+                                        % (cue_id, info["dc_offset"], info["zero_crossing_rate"]))
                     if entry.get("loop") and info.get("click_ratio") is not None:
                         if info["click_ratio"] > CLICK_RATIO_MAX:
                             problems.append("%s: audible loop seam (click_ratio %.2f > %.1f)"
@@ -190,8 +209,9 @@ def main(argv=None) -> int:
     _util.say("audio-audit: %d cue(s) in %s" % (len(report["cues"]), report["manifest"]))
     for cue in report["cues"]:
         v = cue.get("verify") or {}
-        detail = ("%.2fs rms=%s peak=%s click=%s" % (v.get("seconds", 0), v.get("rms"),
-                                                     v.get("peak"), v.get("click_ratio"))
+        detail = ("%.2fs rms=%s peak=%s dc=%s zcr=%s click=%s" % (v.get("seconds", 0), v.get("rms"),
+                                                                     v.get("peak"), v.get("dc_offset"),
+                                                                     v.get("zero_crossing_rate"), v.get("click_ratio"))
                   if v and "error" not in v else "unverified")
         _util.say("  %-22s %-28s %-8s %s" % (cue["id"], cue["model"] or "?", cue["license"], detail))
     for problem in report["problems"]:

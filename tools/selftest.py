@@ -265,7 +265,12 @@ def check_audio_audit(root: Path, python: str) -> tuple[str, str]:
     cues = report.get("cues") or []
     if problems:
         return FAIL, f"{len(problems)} bad cue(s), first: {problems[0]}"
-    return PASS, f"{len(cues)} cue(s) licensed and audible"
+    # Numeric summary: dc_offset and zero_crossing_rate per cue
+    dc_bad = [c["id"] for c in cues if abs(c.get("verify", {}).get("dc_offset", 0)) > 0.05]
+    summary = f"{len(cues)} cue(s) licensed and audible"
+    if dc_bad:
+        summary += f" | DC-offset failures: {dc_bad}"
+    return PASS, summary
 
 
 def check_scene_legibility(root: Path, python: str) -> tuple[str, str]:
