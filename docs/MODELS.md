@@ -46,9 +46,33 @@ box. LM Studio reloads a swapped model in 5–16 s, so the pipeline is *load-ord
 ## Disqualified by measurement (cannot emit a tool call, even when forced)
 
 `qwen/qwen2.5-coder-14b` · `mistralai/ministral-3-14b-reasoning` (can when forced, chose not to when
-free) · `qwen2.5-vl-3b-instruct` · `minicpm-v-4_5` · `internvl3_5-8b` · `glm-4.1v-9b-thinking` ·
-`deepseek/deepseek-r1-0528-qwen3-8b` · `ui-tars-7b-dpo` · `holo1.5-7b` · `qwen/qwen3-vl-4b-instruct`
-(does not load).
+free) · `qwen2.5-vl-3b-instruct` · `qwen2.5-vl-7b-instruct` (see below) · `minicpm-v-4_5` ·
+`internvl3_5-8b` · `glm-4.1v-9b-thinking` · `deepseek/deepseek-r1-0528-qwen3-8b` · `ui-tars-7b-dpo` ·
+`holo1.5-7b` · `qwen/qwen3-vl-4b-instruct` (does not load)
+
+### Vision: why the pin stays `qwen/qwen3-vl-8b`
+
+The 7B Qwen2.5-VL was benchmarked head-to-head against the pin on the studio's real job (the sprite
+contact sheet), scored on **verifiable answers** — counts, colours, and the presence of a known
+defect — because prose quality cannot be scored honestly. Run:
+`%TEMP%/rw_vlm_bench.py`, evidence `%TEMP%/rw_vlm_bench_results.json`.
+
+| Question (known answer) | `qwen2.5-vl-7b-instruct` | `qwen/qwen3-vl-8b` |
+|---|---|---|
+| sprites in the top row (16) | 8 ✗ | 16 ✓ |
+| sprites in the last row (5) | 7 ✗ | 16 ✗ |
+| plate colour behind sprites (dark grey) | "white and blue" ✗ | "dark gray" ✓ |
+| duplicate sprites present (yes) | "yes" ✓ | "yes" ✓ |
+| flat solid rectangles present (yes, 6) | "no" ✗ | "yes" ✓ |
+| **score** | **1/5** | **4/5** |
+| answer latency / critique latency | 7.9 s / 15.3 s | 4.1 s / 5.5 s |
+
+The challenger is ~2× slower and missed the one defect class this studio exists to catch. Sheet size
+matters as much as the model: the same critique took **77 s at 2116×1896** and **5.5 s at 1092×888**.
+
+Do **not** draw index numbers on a contact sheet to make findings citable. Measured: the model then
+regurgitates `1, 2, 3, ... 188` instead of judging art — the labels become the task. Ask for
+"row R, column C" instead and resolve it with `cell_for_position()`.
 
 Note `qwen2.5-coder-14b` and `ui-tars-7b-dpo` were both recommended to the owner by an external
 advisor; both fail the first tool call with real tools attached.

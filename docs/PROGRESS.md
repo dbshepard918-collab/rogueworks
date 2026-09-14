@@ -1,17 +1,25 @@
-## 2026-09-14 — P4.7 Original Score + P5.2 Replay (Forge)
+## 2026-09-14 — r29: sprite debris cleared, vision pin defended, 4 latent crashes found (Forge)
 
-- **Implemented:** P4.7 audio manifest system — created  with 7 cues (title_theme, 3 biome ambiences, boss_theme, death_sting, victory_sting). Added  and  to .  schema added to . Fixed  to support  key. All 7 cues pass  (rms, peak, dc_offset, click_ratio all within spec).
-- **P5.2 Deterministic Replay verified:**  captures 300 input states;  produces identical run (player pos [2,2], hp 90, ticks 300, biome catacombs). Exit 0 with violations=[] on both paths.
-- **QA:** ==============================================================================
-VERIFY GATE  2026-09-14 01:58
-==============================================================================
-  headless seed 0                    PASS     2.0s  ok=True violations=[]
-  headless seed 1                    PASS     1.9s  ok=True violations=[]
-  headless seed 2                    PASS     1.8s  ok=True violations=[]
-  tools.validate_data                PASS     0.1s  game/data/rooms.json: 45 entries, ok | game/data/statuses.json: 21 entries, ok | PASS: 9 file(s), 299 entries, 0 error(s), 0 warning(s)
-  tools.art.verify                   PASS     0.4s  verify: palette 'vaelmoor' v1 (26 colours), tolerance 0 | sprites checked: 414 in 2 dir(s) | atlases: 8 (391 frames) | aliases: 39 | PASS: 414 sprite file(s), 391 frame(s), 0 off-palette pixel(s)
-  tools.selftest                     PASS     6.4s  [PASS] glyph-coverage               69 glyph(s) defined, all renderable | 19 checks: 19 passed, 0 skipped, 0 failed | OK: no failures
-  tools.studio.audit_sprites         PASS     0.4s  audit_sprites: 263 sprite name(s) referenced by content | resolved: 263 | MISSING : 0
+- **Sprite fragmentation fixed (P0.5 item c).** New `tools/art/despeckle.py` clears detached alpha components (≤ 3 px) — 43 frames / 241 px of keying debris, applied to source sprites **and** atlas PNGs in place, clearing pixels only inside each frame's existing rect so names, rects and layout cannot shift. `sprite_critique` fragments 43 → 0; `art.verify` still 0 off-palette over 414 sprites / 391 frames; 7/7 gates. P0.5 items (a) 6 flat props + (b) 3 duplicate monsters are unchanged — clearing pixels cannot invent absent art, so those stay with pixel.
+- **Vision benchmark — the new download loses.** Owner downloaded `qwen2.5-vl-7b-instruct` (asked as "2.7"; no such version). Head-to-head vs the `qwen/qwen3-vl-8b` pin on the sprite contact sheet, scored on verifiable answers only: **1/5 vs 4/5**, and ~2× slower (7.9 s / 15.3 s vs 4.1 s / 5.5 s). The challenger denied the flat-rectangle defect — the exact class this studio exists to catch. Pin unchanged; table + evidence in `docs/MODELS.md`, run `%TEMP%/rw_vlm_bench.py`.
+- **Critique-loop regression, measured and reverted.** Drawing index numbers into the contact sheet made the VLM regurgitate `1, 2, 3, … 188` instead of judging art. Reverted to unnumbered cells with a "row R, column C" rubric plus `cell_for_position()` to resolve a position back to an exact frame name.
+- **P0: the game was broken, and so was the recovery point.** `game/engine/audio.py` called `set_audio_singleton()` with no definition → `NameError` before frame one; selftest 4 red (headless-run, end-screens, scene-sweep, scene-legibility). The file then carried an `IndentationError` and duplicate `play_death`/`play_victory`. **Committed HEAD had the bug too** (`grep -c "def set_audio_singleton"` → 0), so the documented recovery point could not recover. Landed + committed; HEAD is a working state again.
+- **Gate gap closed — it then found three more latent crashes.** `module-attributes` only checked `module.attr` accesses, so a bare undefined name was invisible. `tools/qa/attr_audit.py` now also flags names read but bound nowhere (star-import files skipped; precision over recall). Proven against the file that shipped the bug (`CATCHES set_audio_singleton: True`), then against the tree it found: `minimap.py` `TILE` never imported, `world.py` bare `FLOOR` ×4, `world.py` `from procgen import ...` (absolute, would `ModuleNotFoundError`) ×3, and `scenes.py:355` bare `tree_state` — **buying an upgrade in the meta shop crashed**. All four fixed.
+- **R-04 lens half covered: all three biomes measured.** `scene_legibility` gained `--floor` and now names the biome it measured (`FLOOR_PER_BIOME = 5`). Real rendered frames: catacombs (floor 1) visible tiles 100%, mid-tone 51.2%, mean luminance 47.7 · ember warrens (floor 7) 100%, 52.5%, 43.3 · drowned vaults (floor 13) 95.7%, 53.1%, 47.2, near-black 25.8%. All exit 0. Chip's code-review half of R-04 (light-map correctness/cost + the `render_lighting` contract) is still open.
+- **QA:** `python -m tools.qa.attr_audit` OK · `python -m tools.selftest` 19/19 · `sprite_critique` fragments 0 · `art.verify` 0 off-palette · `verify_gate --seeds 0 1 2 --turns 300` 7/7 PASS.
+- **Report:** `runs/reports/BUILD-2026-09-14-r29.md`. Commits `52f3bb0`, `cf375b3`, `339460d` + this round.
+
+## 2026-09-14 — P4.7 Audio Wiring (Forge)
+
+- **Wired manifest-driven audio.** `game/engine/audio.py` now loads cues from `game/data/audio.json` via `load_audio_cue()` instead of synthesizing procedural drones. `set_biome()` loads the actual .wav file (catacombs drip, ember crackle, drowned bubbles); `play_title_theme()` loads `title_theme.wav`; new `play_death()` and `play_victory()` load the stings. `_BIOME_AMBIENCE` drowned_vaults now correctly maps to `music_drowned_vaults`. `EndScene.draw()` calls `play_death()`/`play_victory()`.
+- **Module-level audio singleton** (`set_audio_singleton`/`get_audio_singleton`) enables the module-level `play_death()`/`play_victory()` convenience functions that `scenes.py` imports and calls.
+- All 7 cues pass `tools.qa.audio_audit`: rms 0.022-0.067, peak < 0.30, click_ratio <= 0.03.
+- **Files changed:** `game/engine/audio.py` (rewrote `set_biome`, `play_title_theme`, added `play_death`/`play_victory`, singleton helpers), `game/engine/scenes.py` (imported `play_death`, `play_victory`; added calls in `EndScene.draw`).
+- **QA:** `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green; `python -m tools.qa.audio_audit` → OK all 7 cues licensed and audible; `python -m game.main --headless --turns 300 --seed 0` exit 0, violations=[]; with `assets/audio/` deleted, game degrades silently (0 warnings).
+
+## 2026-09-14 — r29: sprite debris cleared, vision pin defended, 4 latent crashes found (Forge)
+
+- **Sprite fragmentation fixed (P0.5 item c).** New `tools/art/despeckle.py` clears detached alpha components (≤ 3 px) — 43 frames / 241 px of keying debris, applied to source sprites **and** atlas PNGs in place, clearing pixels only inside each frame's existing rect so names, rects and layout cannot shift. `sprite_critique` fragments 43 → 0; `art.verify` still 0 off-palette over 414 sprites / 391 frames; 7/7 gates. P0.5 items (a) 6 flat props + (b) 3 duplicate monsters are unchanged — clearing pixels cannot invent absent art, so those stay with pixel.
 ------------------------------------------------------------------------------
 VERDICT: PASS - all 7 gate(s) green → PASS all 7 green; game/data/affixes.json: 28 entries, ok
 game/data/audio.json: 7 entries, ok

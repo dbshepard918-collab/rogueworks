@@ -71,8 +71,13 @@ def measure(surface) -> dict:
     }
 
 
-def render_frame(seed: int, ticks: int):
-    """Render one real gameplay frame through the game's own scene stack."""
+def render_frame(seed: int, ticks: int, floor: int = 1):
+    """Render one real gameplay frame through the game's own scene stack.
+
+    Returns ``(surface, biome_id)``. The biome matters because legibility was fixed
+    per-biome ambient (catacombs/ember_warrens/drowned_vaults) and only catacombs
+    had coverage - a single-biome pass is not evidence about the other two.
+    """
     import pygame
 
     from game.engine import scenes as scenes_mod
@@ -82,7 +87,7 @@ def render_frame(seed: int, ticks: int):
         def __init__(self):
             self.seed = seed
             self.turns = ticks
-            self.floor = 1
+            self.floor = floor
             self.headless = True
             self.script = None
             self.shot = None
@@ -106,11 +111,15 @@ def render_frame(seed: int, ticks: int):
         game = scenes_mod.Game(_Args(), profile, list(notes), headless=True,
                                save_path=str(scratch / "profile.json"))
         scene = game.start_run(seed=seed)
+        try:
+            scene.world.new_floor(floor)        # measure the biome we were asked for
+        except Exception:
+            pass
         for _ in range(ticks):
             scene.update(1 / 60.0)
         surface = pygame.Surface(SIZE)
         scene.draw(surface)
-        return surface
+        return surface, getattr(scene.world, "biome_id", "?")
     finally:
         import shutil
         shutil.rmtree(scratch, ignore_errors=True)
@@ -123,6 +132,9 @@ def main(argv=None) -> int:
     )
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--ticks", type=int, default=120)
+    ap.add_argument("--floor", type=int, default=1,
+                    help="floor to render; selects the biome (FLOOR_PER_BIOME=5: "
+                         "1-5 catacombs, 6-10 ember warrens, 11-15 drowned vaults)")
     ap.add_argument("--frame", default=None,
                     help="measure a saved PNG instead of rendering (audit any frame)")
     ap.add_argument("--json", action="store_true", dest="as_json")
@@ -137,6 +149,7 @@ def main(argv=None) -> int:
     pygame.display.set_mode((1, 1))
 
     if args.frame:
+        biome = None
         path = Path(args.frame)
         if not path.is_absolute():
             path = root / path
@@ -149,8 +162,10 @@ def main(argv=None) -> int:
         if not (root / "game" / "main.py").is_file():
             _util.say("game package not built yet - nothing to measure")
             return EXIT_PREREQ
-        m = measure(render_frame(int(args.seed), int(args.ticks)))
-        label = "scene legibility (seed %d, %d ticks)" % (args.seed, args.ticks)
+        surface, biome = render_frame(int(args.seed), int(args.ticks), int(args.floor))
+        m = measure(surface)
+        label = "scene legibility (seed %d, floor %d '%s', %d ticks)" % (
+            args.seed, args.floor, biome, args.ticks)
 
     problems = []
     if m["visible_tile_coverage"] < MIN_VISIBLE_TILE_COVERAGE:
@@ -171,8 +186,8 @@ def main(argv=None) -> int:
 
     rc = EXIT_FAIL if problems else EXIT_OK
     if args.as_json:
-        print(json.dumps({"ok": rc == EXIT_OK, "seed": args.seed, **m,
-                          "problems": problems}, indent=2))
+        print(json.dumps({"ok": rc == EXIT_OK, "seed": args.seed, "floor": args.floor,
+                          "biome": biome, **m, "problems": problems}, indent=2))
         return rc
 
     _util.say("scene legibility  %s" % label)

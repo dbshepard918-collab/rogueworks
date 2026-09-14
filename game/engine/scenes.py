@@ -22,6 +22,8 @@ from ..engine.audio import Audio, play, play_death, play_victory
 from ..engine.profiler import Profiler  # noqa: E402
 from ..ui.settings import RESOLUTION_MODES
 
+tree_state = meta_sys.tree_state
+
 VICTORY_TEXT = "THE LANTERN STILL BURNS"
 
 
@@ -352,7 +354,7 @@ class MetaShopScene(Scene):
             row = self.rows[self.index]
             if save_sys.purchase(self.profile, row["id"]):
                 save_sys.save_profile(self.profile)
-                self.rows = tree_state(self.profile)
+                self.rows = meta_sys.tree_state(self.profile)
                 self.index = 0
         elif event.key == pygame.K_ESCAPE:
             self.game.pop()

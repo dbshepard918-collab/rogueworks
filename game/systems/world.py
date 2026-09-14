@@ -1357,11 +1357,11 @@ class World:
                         for rx in range(sx, min(self.level.w, sx + sw)):
                             for ry in range(sy, min(self.level.h, sy + sh)):
                                 if 0 <= rx < self.level.w and 0 <= ry < self.level.h:
-                                    self.level.tiles[rx][ry] = FLOOR
+                                    self.level.tiles[rx][ry] = procgen.FLOOR
                         # Add to level.rooms if not already there
                         already = any(r.get("id") == rid for r in self.level.rooms)
                         if not already:
-                            from procgen import _room_from_data
+                            from .procgen import _room_from_data
                             room_obj = _room_from_data(dict(secret))
                             room_obj._revealed = True
                             self.level.rooms.append(room_obj)
@@ -1385,7 +1385,7 @@ class World:
         for (tx, ty), room_id in list(self.cracked_walls.items()):
             if abs(ptx - tx) <= 1 and abs(pty - ty) <= 1:
                 # Break the cracked wall
-                self.level.tiles[tx][ty] = FLOOR
+                self.level.tiles[tx][ty] = procgen.FLOOR
                 self.cracked_walls.pop((tx, ty), None)
                 # Find and reveal the associated secret room
                 for secret in self._level_secret_rooms:
@@ -1400,10 +1400,10 @@ class World:
                             for rx in range(sx, min(self.level.w, sx + sw)):
                                 for ry in range(sy, min(self.level.h, sy + sh)):
                                     if 0 <= rx < self.level.w and 0 <= ry < self.level.h:
-                                        self.level.tiles[rx][ry] = FLOOR
+                                        self.level.tiles[rx][ry] = procgen.FLOOR
                             already = any(r.get("id") == rid for r in self.level.rooms)
                             if not already:
-                                from procgen import _room_from_data
+                                from .procgen import _room_from_data
                                 room_obj = _room_from_data(dict(secret))
                                 room_obj._revealed = True
                                 self.level.rooms.append(room_obj)
@@ -1451,7 +1451,7 @@ class World:
             return
         room_id = self.cracked_walls.pop((tx, ty), None)
         if room_id:
-            self.level.tiles[tx][ty] = FLOOR
+            self.level.tiles[tx][ty] = procgen.FLOOR
             for secret in self._level_secret_rooms:
                 if secret.get("id") == room_id or (secret.get("kind") == "secret"):
                     rid = secret.get("id", "")
@@ -1464,10 +1464,10 @@ class World:
                         for rx in range(sx, min(self.level.w, sx + sw)):
                             for ry in range(sy, min(self.level.h, sy + sh)):
                                 if 0 <= rx < self.level.w and 0 <= ry < self.level.h:
-                                    self.level.tiles[rx][ry] = FLOOR
+                                    self.level.tiles[rx][ry] = procgen.FLOOR
                         already = any(r.get("id") == rid for r in self.level.rooms)
                         if not already:
-                            from procgen import _room_from_data
+                            from .procgen import _room_from_data
                             room_obj = _room_from_data(dict(secret))
                             room_obj._revealed = True
                             self.level.rooms.append(room_obj)

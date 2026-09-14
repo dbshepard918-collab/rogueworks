@@ -3,6 +3,7 @@
 import pygame
 
 from ..engine.assets import draw_text
+from ..systems.procgen import TILE
 
 MINIMAP_W = 208
 MINIMAP_H = 152

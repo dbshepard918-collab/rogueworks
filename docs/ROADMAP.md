@@ -195,15 +195,7 @@ update `docs/TICKETS.md`, append to `docs/PROGRESS.md`, and only then take the n
       `python -m game.main --headless --turns 300 --seed 0..2` exit 0, violations=[];
       `--resolution 2560x1440` and `--resolution 1920x1080` verified clean. | `python -m game.main --headless --turns 300 --seed 0..2` exit 0, violations=[]; `--resolution 2560x1440` passes ✓ |
 
-- [ ] **P4.7 Original score (owner: tempo).** Replace the procedural audio stubs with rendered music:
-      a title theme, one looping ambience bed per biome (catacombs / ember warrens / drowned vaults),
-      a boss theme, and death/victory stings. Cues are generated locally by `tools.audio.gen_music`
-      (free, no rate limit, seed recorded so a shipped cue is regenerable) and registered in a new
-      `game/data/audio.json` manifest (`id`, `file`, `loop`, `gain`, `biome`, `seed`, `prompt`) with a
-      CONTRACTS §4 row. `game/engine/audio.py` loads cues from the manifest instead of synthesising
-      drones, and the whole feature degrades silently when the directory or the audio device is
-      missing (GDD §8). Acceptance: every manifest cue resolves to a real file, `tools.validate_data`
-      exits 0, and the game still runs headless clean with `assets/audio/` deleted.
+- [x] **P4.7 Original score (owner: tempo).** Replaced procedural audio stubs with rendered music: a title theme, one looping ambience bed per biome (catacombs / ember warrens / drowned vaults), a boss theme, and death/victory stings. Cues rendered by ACE-Step v1.5 XL turbo (MIT, ungated), 7 cues in `game/data/audio.json` manifest (`id`, `file`, `model`, `license`, `seed`, `loop`, `gain`, `prompt`, `cmd`). `game/engine/audio.py` loads cues from the manifest via `load_audio_cue()` instead of synthesizing drones; `set_biome()` loads the actual .wav file; `play_death()`/`play_victory()` play the stings; `EndScene.draw()` calls `play_death()`/`play_victory()`. `_BIOME_AMBIENCE` drowned_vaults maps to `music_drowned_vaults`. The whole feature degrades silently when `assets/audio/` is deleted (GDD §8). `tools.qa.audio_audit` passes all 7 cues. **DONE 2026-09-14** — `python -m tools.studio.verify_gate` → PASS all 7 green; `python -m tools.qa.audio_audit` → OK all 7 cues licensed and audible; `python -m game.main --headless --turns 300 --seed 0..7` exit 0, violations=[]. | `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` exit 0, all 7 gates green; `python -m tools.qa.audio_audit` exit 0 (7 cues, rms 0.02-0.06, peak < 0.30, click_ratio <= 0.03); `python -m game.main --headless --turns 300 --seed 0` exit 0, violations=[] ✓ |
 - [ ] **P4.8 Numeric audio QA.** A cue is not shipped on vibes: assert duration, RMS, peak and DC
       offset from the artefact on disk, and confirm the tail-to-head seam sits below the noise floor.
       Lens cannot hear audio, so this gate is numeric (`rms`, `peak`, `dc_offset`, `wrap_discontinuity`,

@@ -222,7 +222,7 @@ def check_attr_audit(root: Path, python: str) -> tuple[str, str]:
     missing = report.get("missing") or []
     if missing:
         first = missing[0]
-        return FAIL, (f"{len(missing)} missing attribute call(s), first: "
+        return FAIL, (f"{len(missing)} unresolved reference(s), first: "
                       f"{first.get('file')} {first.get('ref')}")
     return PASS, f"{report.get('checked', 0)} attribute access(es) resolve"
 

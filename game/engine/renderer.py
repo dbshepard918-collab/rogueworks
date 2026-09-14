@@ -14,6 +14,7 @@ from ..ui.settings import rarity_colour
 
 from ..systems import biome_mods as _bm
 from ..systems.statuses import COMBO_IDS
+from game.systems.procgen import FLOOR
 
 TILE = 32
 
