@@ -1,3 +1,7 @@
+## 2026-09-17 — P0.6 Orphan Art Fix (Forge) — DONE
+
+- Removed phantom `prop_chains` manifest entry (no PNG on disk) from `assets/sprites/props/manifest.json` and `assets/art_manifest.json`. Verified: 0 references in assets/ and game/. art.verify: 452 sprites, 569 frames, 0 off-palette. verify_gate: 7/7 green.
+
 ## 2026-09-14 — escalation() no longer counts voided slaps (Forge) — DONE
 
 
