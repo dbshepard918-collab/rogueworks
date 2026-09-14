@@ -359,57 +359,149 @@ Verify after any model change here: `hermes cron list` shows the per-job pin, an
 session row is the receipt — `session_model_usage` for `cron_<job-id>_<ts>` must show the bot's
 model, never the Hermes bot's. The lens sweep needs LM Studio resident at its 02:00 slot; per
 Rule 3 of this roster a text-model substitute is not acceptable, so a failure there is the
-intended loud failure, not a prompt to add a fallback.
-
-## Directive framing beats model size (measured 2026-09-17)
-
-Every coder candidate measured this day (essentialai/rnj-1, prism-ml/bonsai-27b,
-google/gemma-4-e4b, google/gemma-4-26b-a4b, qwen/qwen3.8-27b) and the two live cloud pins
-(meituan/longcat-2.0:free, inclusionai/ling-3.0-flash-fin:free) were put through the same
-scoped edit: add one method to `game/systems/rng.py` with a byte-identical minimal diff.
-
-**The result was not about model size.** Under an OPEN-ENDED agentic framing (here is a
-file, explore it and make the change) **every** model failed - the cloud pins burned 20
-turns on discovery and made **zero** `write_file` calls. Under a PRECISE DIRECTIVE (here is
-the file content, insert exactly this method, return the complete file) the **same** cloud
-pins both PASSED, 0 lines deleted, in 16-48 s and under 6k tokens:
-
-| Model | Open-ended | Precise directive |
-|---|---|---|
-| `meituan/longcat-2.0:free` (chip) | 20 turns, 0 writes, FAIL | PASS, 0 deleted, 48 s, 1770 tok |
-| `inclusionai/ling-3.0-flash-fin:free` (forge) | 20 turns, 0 writes, FAIL | PASS, 0 deleted, 16 s, 5790 tok |
-
-A two-tier "intern drafter -> senior reviewer" pipeline was also measured end to end
-(`gemma-4-e4b` drafting, `longcat` reviewing): **FAIL**, 419 s total, reviewer deleted 58
-lines and had to reconstruct intent by exploration. The draft cost more than it saved.
-**A fast drafter only helps when the handoff is a precise directive; when it is a broken
-file plus 'fix this', the reviewer pays the discovery cost anyway and the pipeline is
-slower than a single precise call.**
-
-Consequences for this studio:
-- The seat's real requirement is not a bigger brain, it is a **concrete directive**. The
-  studio already has the directive-writer: WARDEN's correction orders and forge's ticket
-  briefs. Efficiency comes from brief quality, not from model tier.
-- Do not pick a candidate coder on tok/s. rnj-1 (45 tok/s) and gemma-4-e4b (51.8 tok/s) are
-  both faster than the incumbent and both fail the edit; speed is free and worthless here.
-- Test a candidate through the interface it will actually be used through. Testing agentic
-  exploration measures the harness, not the model.
-
-### VRAM hazard found the same day: duplicate model instances
-
-Repeated `lms load` calls stack **duplicate instances** of the same model (three copies of
-`gemma-4-e4b` = 19 GB requested on a 12 GB card). Always check `lms ps` before a trial and
-unload every instance; the earlier trials in this section ran with a second model resident
-and produced timeouts that were scored as model failures. One model at a time, verified.
-
-### P0 defect found by this work: the RNG was not random
-
-Driving a minimal edit through `game/systems/rng.py` exposed that `RNG._next()` lost two of
-its three xorshift steps to operator precedence (`&` binds tighter than `^`, so
-`x ^ (x << 25) & MASK64) ^ (x << 25) & MASK64` cancels to `x`). The generator had an
-**8-value cycle**: `randint(0, 9)` could never return 0, 3, 8 or 9, and 10,000 draws
-produced 8 distinct values. Fixed (commit `a9529f6`); verified 10,000 distinct values in
-10,000 draws, uniform buckets, deterministic per seed, no cycle in 200k draws, all seven
-gates green. Invisible to the golden-seed regression, which tests stability, not randomness
+intended loud failure, not a prompt to add a fallback.
+
+
+
+## Directive framing beats model size (measured 2026-09-17)
+
+
+
+Every coder candidate measured this day (essentialai/rnj-1, prism-ml/bonsai-27b,
+
+google/gemma-4-e4b, google/gemma-4-26b-a4b, qwen/qwen3.8-27b) and the two live cloud pins
+
+(meituan/longcat-2.0:free, inclusionai/ling-3.0-flash-fin:free) were put through the same
+
+scoped edit: add one method to `game/systems/rng.py` with a byte-identical minimal diff.
+
+
+
+**The result was not about model size.** Under an OPEN-ENDED agentic framing (here is a
+
+file, explore it and make the change) **every** model failed - the cloud pins burned 20
+
+turns on discovery and made **zero** `write_file` calls. Under a PRECISE DIRECTIVE (here is
+
+the file content, insert exactly this method, return the complete file) the **same** cloud
+
+pins both PASSED, 0 lines deleted, in 16-48 s and under 6k tokens:
+
+
+
+| Model | Open-ended | Precise directive |
+
+|---|---|---|
+
+| `meituan/longcat-2.0:free` (chip) | 20 turns, 0 writes, FAIL | PASS, 0 deleted, 48 s, 1770 tok |
+
+| `inclusionai/ling-3.0-flash-fin:free` (forge) | 20 turns, 0 writes, FAIL | PASS, 0 deleted, 16 s, 5790 tok |
+
+
+
+A two-tier "intern drafter -> senior reviewer" pipeline was also measured end to end
+
+(`gemma-4-e4b` drafting, `longcat` reviewing): **FAIL**, 419 s total, reviewer deleted 58
+
+lines and had to reconstruct intent by exploration. The draft cost more than it saved.
+
+**A fast drafter only helps when the handoff is a precise directive; when it is a broken
+
+file plus 'fix this', the reviewer pays the discovery cost anyway and the pipeline is
+
+slower than a single precise call.**
+
+
+
+Consequences for this studio:
+
+- The seat's real requirement is not a bigger brain, it is a **concrete directive**. The
+
+  studio already has the directive-writer: WARDEN's correction orders and forge's ticket
+
+  briefs. Efficiency comes from brief quality, not from model tier.
+
+- Do not pick a candidate coder on tok/s. rnj-1 (45 tok/s) and gemma-4-e4b (51.8 tok/s) are
+
+  both faster than the incumbent and both fail the edit; speed is free and worthless here.
+
+- Test a candidate through the interface it will actually be used through. Testing agentic
+
+  exploration measures the harness, not the model.
+
+
+
+### VRAM hazard found the same day: duplicate model instances
+
+
+
+Repeated `lms load` calls stack **duplicate instances** of the same model (three copies of
+
+`gemma-4-e4b` = 19 GB requested on a 12 GB card). Always check `lms ps` before a trial and
+
+unload every instance; the earlier trials in this section ran with a second model resident
+
+and produced timeouts that were scored as model failures. One model at a time, verified.
+
+
+
+### P0 defect found by this work: the RNG was not random
+
+
+
+Driving a minimal edit through `game/systems/rng.py` exposed that `RNG._next()` lost two of
+
+its three xorshift steps to operator precedence (`&` binds tighter than `^`, so
+
+`x ^ (x << 25) & MASK64) ^ (x << 25) & MASK64` cancels to `x`). The generator had an
+
+**8-value cycle**: `randint(0, 9)` could never return 0, 3, 8 or 9, and 10,000 draws
+
+produced 8 distinct values. Fixed (commit `a9529f6`); verified 10,000 distinct values in
+
+10,000 draws, uniform buckets, deterministic per seed, no cycle in 200k draws, all seven
+
+gates green. Invisible to the golden-seed regression, which tests stability, not randomness
+
 quality - a property no gate in this repo asserts (ticket P0.8).
+
+### Multi-stage chained handoff, measured both ways (2026-09-17)
+
+The owner's reframe - local drafter -> second local refiner -> cloud final review - was
+built and run end to end against the same acceptance probe. It failed **twice**, and both
+failures are the interesting part:
+
+**Attempt 1 (no handoff gates):** the drafter (`gemma-4-e4b`) produced a usable method in
+3 s. The refiner (`gemma-4-12b-qat`) returned **0 characters from 4000 tokens** - the
+thinking-model trap already documented above, where reasoning is billed against
+`max_tokens`. The chain forwarded the empty artefact, the cloud assembler dutifully
+inserted nothing, and the result failed with a missing method. **An ungated chain
+propagates garbage silently.**
+
+**Attempt 2 (with handoff gates):** the gate rejected attempt 1 (empty) and retried wider -
+attempt 1 cost 130 s and returned nothing, attempt 2 cost another 130 s for 244 characters.
+The refined method then **failed on indentation** (not attached to the class), and the
+cloud assembler call died with `HTTP 524` on the larger payload. Total >260 s for the
+refiner stage alone; verdict FAIL.
+
+Against that, a **single precise directive to one cloud model PASSED in 16-48 s** with zero
+deletions (table above).
+
+Conclusions, for anyone reframing the studio:
+1. **Gates between stages are mandatory.** Without one, a stage that returns empty output
+   is indistinguishable from success and poisons every stage after it.
+2. **A stage is only worth adding if its output is cheaper to verify than to produce.** The
+   refiner spent 260 s to emit a mis-indented method; that is a net loss at this task size.
+3. **Tier by measured strength, not by size of budget.** Local models measured strong at
+   short isolated generation (53 tokens in 3 s) and weak at any in-place edit; cloud models
+   measured strong at executing a precise directive and weak at open-ended exploration.
+4. **Chain length is a cost multiplier, not a quality multiplier.** For small, fully-
+   specified work, one precise directive to one competent executor beat every chain tried
+   here. Chaining should be reserved for work large enough that generation, not
+   verification, is the bottleneck.
+
+Harness: `%LOCALAPPDATA%\Temp\chain_trial.py` (sandboxed; unloads each local model before
+loading the next so the 12 GB card never holds two).
+
+
 
