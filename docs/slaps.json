@@ -1618,6 +1618,25 @@
       "fix_exit": 2,
       "fix_output": "/usr/bin/bash: -c: line 1: unexpected EOF while looking for matching `''",
       "status": "STILL OPEN - fix did not verify"
+    },
+    {
+      "n": 86,
+      "at": "2026-09-14 03:02",
+      "bot": "forge",
+      "severity": "P1",
+      "violation": "check_stairs is dead code: _bfs_reachable defined but never called; stair check passes without verifying reachability, existence, or duplication",
+      "evidence": "tools/qa/regression.py:159-198 check_stairs() never calls _bfs_reachable (line 136); lines 196-198 emit PASS with only metadata (floor/biome/player/map/rooms) \u2014 no wall/tiles data, no BFS, no target check",
+      "rule": "Regression assertions must actually test what they claim; a stair check that never calls BFS is not a stair check",
+      "rule_key": "regression-assertions-must-actually-test-what-they-claim-a-s",
+      "level": 1,
+      "action": "WARNING - fix it and reply with evidence",
+      "soul_note": "",
+      "reply_rc": 0,
+      "reply": "PENDING - dispatched as pid 8448, receipt runs/slaps/slap-forge-20260914-030205.log",
+      "fix_command": "cd /c/Users/dbshe/rogueworks && MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m tools.qa.regression --seeds 0 1 2 --turns 300",
+      "fix_exit": null,
+      "fix_output": "",
+      "status": "PENDING - awaiting the bot's turn"
     }
   ]
 }

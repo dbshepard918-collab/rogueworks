@@ -2581,3 +2581,12 @@ Messages:       38 (1 user, 36 tool calls)
 > **Close pass 2026-09-14 02:47 on SLAP #84:** STILL OPEN - fix did not verify (exit 1) — /usr/bin/bash: line 1: 19/19.: No such file or directory
 
 > **Close pass 2026-09-14 02:47 on SLAP #85:** STILL OPEN - fix did not verify (exit 2) — /usr/bin/bash: -c: line 1: unexpected EOF while looking for matching `''
+
+## SLAP #86 — forge — 2026-09-14 03:02 (P1, level 1)
+
+- **Violation:** check_stairs is dead code: _bfs_reachable defined but never called; stair check passes without verifying reachability, existence, or duplication
+- **Evidence:** tools/qa/regression.py:159-198 check_stairs() never calls _bfs_reachable (line 136); lines 196-198 emit PASS with only metadata (floor/biome/player/map/rooms) — no wall/tiles data, no BFS, no target check
+- **Rule:** Regression assertions must actually test what they claim; a stair check that never calls BFS is not a stair check
+- **Action:** WARNING - fix it and reply with evidence
+- **Bot's reply (rc=0):** PENDING - dispatched as pid 8448, receipt runs/slaps/slap-forge-20260914-030205.log
+- **Fix verification:** exit=None :: (no acceptance command given)

@@ -112,6 +112,36 @@ rules in the prompt.
 Note `qwen2.5-coder-14b` and `ui-tars-7b-dpo` were both recommended to the owner by an external
 advisor; both fail the first tool call with real tools attached.
 
+## Candidate assessment — 2026-09-14 (owner-added models)
+
+Five models the owner added, each measured on the harness for the lane it could serve. Numbers, not
+opinions; re-runnable with the commands given.
+
+| Model | Lane | Verdict | Measured |
+|---|---|---|---|
+| `essentialai/rnj-1` | coder (chip) | **trial it** | **45.1 tok/s**, 6.5 GiB VRAM, 3.7 s load @8K. Incumbent `qwen/qwen3-coder-30b`: 5.5 tok/s, 18.63 GB, 68 s load. 8× throughput and the card stays free — but speed is not code quality, so it needs one real edit before any pin moves. |
+| `zai-org/glm-4.6v-flash` | vision | no | 2/5 and 3/5 across two runs vs the pin's 4/5 (8 runs); 29.2 s vs 3.2 s; 2035 reasoning tokens per answer; denies the flat-rectangle defect. |
+| `allenai/olmocr-2-7b` | vision | no | 1/5, generic critique. A document-OCR model — `qwen2vl` arch does not make it a sprite critic. |
+| `google/gemma-3-27b` | text | no — does not fit | Resident **15.30 GiB** at 4K context on a 12,227 MiB card (already spilling to shared memory); Hermes needs 64K, where it cannot fit at all. `gemma-4-12b-qat` holds lore at 20 tok/s in 7.15 GB. |
+| `darkmaniac7/TokForge-DreamShaper-LCM-GGUF-q4` | art generation | no — licence | `Lykon/dreamshaper-7` is **creativeml-openrail-m** (registry-verified); our shipping art model is **apache-2.0**. Refused, not wired — see `docs/ART-LICENSES.md`. Needs an SD1.5 VAE regardless. |
+
+Reproduce:
+
+```
+python -m tools.qa.vlm_bench <model>                    # vision, known-answer scored
+python -m tools.studio.bench_local --model <m> --context 8192   # tok/s + VRAM + load
+python -m tools.art.gen --licence-board                 # which art models may ship
+```
+
+### Two traps these measurements set for the measurer
+
+1. **A thinking model bills reasoning against `max_tokens`.** `glm-4.6v-flash` scored **0/5** at a
+   300-token budget with `content: ''` and `finish_reason: length` — every token in
+   `reasoning_content`. At 2048 it scored 2-3/5. That is a harness limit, not blindness, and the
+   harness now says so in words.
+2. **`bench_local`'s default 64K context** makes a model that does not fit look like a model that is
+   broken (`HTTP Error 400`). Try `--context 8192` before recording a failure.
+
 ## The roster (live pins)
 
 | Bot | Primary | Fallback chain (tried in order) | Why |
