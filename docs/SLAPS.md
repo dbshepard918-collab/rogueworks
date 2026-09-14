@@ -2559,3 +2559,25 @@ Title:          *** SLAP #83 from WARDEN (severity P2…
 Duration:       2m 6s
 Messages:       38 (1 user, 36 tool calls)
 - **Fix verification:** exit=0 :: removed duplicate r29 entry
+
+## SLAP #84 — forge — 2026-09-14 02:47 (P3, level 1)
+
+- **Violation:** PROGRESS.md self-contradicts itself: the new P4.8 entry at line 3 marks P4.8 DONE, but the older entry at lines 155-158 (from the P4.7 round) still says 'P4.7/P4.8 stay open'. An append-only log must not carry stale conflicting state.
+- **Evidence:** docs/PROGRESS.md line 3 ('### 2026-09-14 — P4.8 Numeric audio QA (Forge)' … 'All 7 cues pass') vs lines 155-158 ('P4.7/P4.8 stay open', selftest 18/18, 'Next: A-01')
+- **Rule:** STANDARDS P3: docs must accurately describe what happened. A self-contradicting entry in the progress log misleads the reviewer. When you prepend a DONE entry, strip or update the stale 'stay open' line from the same ticket.
+- **Action:** WARNING - fix it and reply with evidence
+- **Bot's reply (rc=0):** PENDING - dispatched as pid 17248, receipt runs/slaps/slap-forge-20260914-024716.log
+- **Fix verification:** exit=None :: (no acceptance command given)
+
+## SLAP #85 — forge — 2026-09-14 02:47 (P3, level 1)
+
+- **Violation:** BUILD-2026-09-14.md claims 'All 5 pre-flight gates green' but verify_gate now has 7 gates (added selftest + audit_sprites after this round). The report describes a 5-gate pass when the tool actually runs 7.
+- **Evidence:** runs/reports/BUILD-2026-09-14.md line 55: 'Verdict: PASS. All 5 pre-flight gates green after the edit.' vs actual verify_gate output: 7 gates (headless 0/1/2, validate_data, art.verify, selftest, audit_sprites) — all PASS
+- **Rule:** STANDARDS law 1: no claim without a command. A report's gate count must match the gate tool's current gate list, not a stale count.
+- **Action:** WARNING - fix it and reply with evidence
+- **Bot's reply (rc=0):** PENDING - dispatched as pid 27356, receipt runs/slaps/slap-forge-20260914-024720.log
+- **Fix verification:** exit=None :: (no acceptance command given)
+
+> **Close pass 2026-09-14 02:47 on SLAP #84:** STILL OPEN - fix did not verify (exit 1) — /usr/bin/bash: line 1: 19/19.: No such file or directory
+
+> **Close pass 2026-09-14 02:47 on SLAP #85:** STILL OPEN - fix did not verify (exit 2) — /usr/bin/bash: -c: line 1: unexpected EOF while looking for matching `''

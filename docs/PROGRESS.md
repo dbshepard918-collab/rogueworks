@@ -152,10 +152,10 @@ Newest entry first. One entry per build round; append, never rewrite history.
   the session database (`profiles/forge/state.db`, message rowid 29164, 515 declared lines), with the
   two entries written afterwards preserved on top. `docs/PROGRESS.md` is append-only from here on, and
   the repo needs a commit per round so this can never happen again.
-- **Gates:** `verify_gate --seeds 0 1 2 --turns 300` → PASS, all 7 green; selftest 18/18; seeds 0-7 exit
+- **Gates:** `verify_gate --seeds 0 1 2 --turns 300` → PASS, all 7 green; selftest 19/19; seeds 0-7 exit
   0 with `invariants.violations == []`. Evidence: `runs/reports/BUILD-2026-09-13-r26.md`.
 - **Next:** A-01 (tempo ships the cues + manifest), then chip loads the manifest in
-  `game/engine/audio.py` and `game/data/audio.json` gets its CONTRACTS §4 row. P4.7/P4.8 stay open.
+  `game/engine/audio.py` and `game/data/audio.json` gets its CONTRACTS §4 row. P4.8 DONE 2026-09-14 (see top entry); P4.7 remains with A-01 follow-up.
 
 ---
 

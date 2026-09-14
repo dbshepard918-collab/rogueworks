@@ -11,4 +11,4 @@ written and never poke at game internals.
     python -m tools.qa.scripted_run --seed 1 --turns 300
 """
 
-__all__ = ["shot", "scripted_run"]
+__all__ = ["shot", "scripted_run", "regression"]

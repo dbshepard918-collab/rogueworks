@@ -272,3 +272,9 @@
 [02:38:57] ROUND 3 review: OK (317 tool calls, 458s)
 [02:39:17] ROUND 4 - running pre-flight gates
 [02:39:24] ROUND 4 item: P4.8 Numeric audio QA. A cue is not shipped on vibes: assert duration, RMS, peak and DC
+[02:46:05] ROUND 4 builder: OK (149 tool calls, 401s)
+[02:47:45] ROUND 4 review: OK (149 tool calls, 100s)
+[02:47:45]   SLAP #84 (forge): STILL OPEN
+[02:47:45]   SLAP #85 (forge): STILL OPEN
+[02:48:06] ROUND 5 - running pre-flight gates
+[02:48:14] ROUND 5 item: P5.4 Test depth. Golden-seed regression suite (a fixed set of seeds asserting layout

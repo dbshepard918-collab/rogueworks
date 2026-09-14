@@ -178,22 +178,7 @@ def check_headless_run(root: Path, python: str, turns: int, seed: int) -> tuple[
 
 def _run_tool(root: Path, python: str, module: str, timeout: int = 300) -> tuple[dict | None, str]:
     """Run a JSON-reporting tools.* command; return (report, error detail)."""
-    cmd = [python, "-m", module, "--json"]
-    try:
-        proc = subprocess.run(cmd, cwd=str(root), capture_output=True, text=True,
-                              timeout=timeout, env=_child_env())
-    except subprocess.TimeoutExpired:
-        return None, f"{module} timed out after {timeout}s"
-    except OSError as exc:
-        return None, f"cannot launch {module}: {exc}"
-    for line in reversed((proc.stdout or "").splitlines()):
-        if line.strip().startswith("{"):
-            try:
-                return json.loads(_last_json(proc.stdout)), ""
-            except json.JSONDecodeError:
-                break
-    tail = (proc.stderr or proc.stdout or "").strip().splitlines()
-    return None, f"{module} exited {proc.returncode}: {tail[-1] if tail else 'no output'}"
+    return _util.run_tool_subprocess(python, module, root, timeout)
 
 
 def check_glyph_coverage(root: Path, python: str) -> tuple[str, str]:
@@ -285,6 +270,18 @@ def check_scene_legibility(root: Path, python: str) -> tuple[str, str]:
                   % (100 * report.get("visible_tile_coverage", 0),
                      100 * report.get("mid_tone_share", 0),
                      report.get("mean_luminance", 0)))
+
+
+def check_regression(root: Path, python: str, seed: int) -> tuple[str, str]:
+    """Golden-seed layout-hash stability, stair reachability, balance."""
+    report, err = _run_tool(root, python, "tools.qa.regression", timeout=1200)
+    if report is None:
+        return FAIL, err or "regression tool unavailable"
+    if not report.get("ok", True):
+        fails = [c for c in report.get("checks", []) if c.get("status") == FAIL]
+        first = fails[0] if fails else {}
+        return FAIL, f"{len(fails)} regression check(s) red, first: {first.get('check','')} - {first.get('detail','')}"
+    return PASS, "golden seeds stable, stairs reachable, no balance violations"
 
 
 # --------------------------------------------------------------------------- #
@@ -457,6 +454,13 @@ def main(argv=None) -> int:
         h.record(tag, "scene-legibility", detail)
         tag, detail = check_glyph_coverage(root, args.python)
         h.record(tag, "glyph-coverage", detail)
+
+    # -- golden-seed regression ------------------------------------------- #
+    if not game_built:
+        h.record(SKIP, "golden-seed-regression", "game package not built yet")
+    else:
+        tag, detail = check_regression(root, args.python, int(args.seed))
+        h.record(tag, "golden-seed-regression", detail)
 
     counts = h.counts()
     if args.as_json:

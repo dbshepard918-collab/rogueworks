@@ -296,3 +296,25 @@ def guard(fn):
 def cli(fn):
     """Decorator for a module entry point: ``sys.exit(guard(main)())``."""
     return guard(fn)
+
+
+def run_tool_subprocess(python: str, module: str, root: Path, timeout: int = 300) -> tuple[dict | None, str]:
+    """Run a tools.* module as a subprocess, return (report_dict_or_None, error_detail)."""
+    cmd = [python, "-m", module, "--json"]
+    try:
+        env = {**os.environ, "MSYS_NO_PATHCONV": "1",
+               "SDL_VIDEODRIVER": "dummy", "SDL_AUDIODRIVER": "dummy"}
+        proc = subprocess.run(cmd, cwd=str(root), capture_output=True, text=True,
+                               timeout=timeout, env=env)
+    except subprocess.TimeoutExpired:
+        return None, f"{module} timed out after {timeout}s"
+    except OSError as exc:
+        return None, f"cannot launch {module}: {exc}"
+    for line in reversed((proc.stdout or "").splitlines()):
+        if line.strip().startswith("{"):
+            try:
+                return json.loads(line), ""
+            except json.JSONDecodeError:
+                break
+    tail = (proc.stderr or proc.stdout or "").strip().splitlines()
+    return None, f"{module} exited {proc.returncode}: {tail[-1] if tail else 'no output'}"
