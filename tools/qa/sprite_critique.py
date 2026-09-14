@@ -226,10 +226,16 @@ def vlm_critique(sheet_path, timeout=600) -> str:
         return json.loads(resp.read().decode())["choices"][0]["message"]["content"]
 
 
-def build_contact_sheet(root, out_path):
+def build_contact_sheet(root, out_path, max_w=1600, max_h=1200):
+    """Contact sheet at the largest WHOLE scale that fits the pixel budget.
+
+    An unnecessarily large sheet is not free: the local VLM processes it as
+    visual tokens (77 s for 2116x1896), and downscaling a finished sheet would
+    blur the very pixels under review. Choosing an integer scale up front keeps
+    NEAREST crispness and bounds the cost.
+    """
     from PIL import Image, ImageDraw
-    scale, cols, pad = 4, 16, 4
-    cell = 32 * scale
+    cols, pad = 16, 4
     items = []
     for name in DEFAULT_ATLASES:
         png = root / ATLAS_DIR / (name + ".png")
@@ -242,8 +248,17 @@ def build_contact_sheet(root, out_path):
             items.append((src, frames[frame_name]))
     if not items:
         return None
+
     rows = (len(items) + cols - 1) // cols
-    canvas = Image.new("RGB", (cols * (cell + pad) + pad, rows * (cell + pad) + pad), (26, 24, 34))
+    scale = 1
+    for candidate in (4, 3, 2, 1):
+        cell = 32 * candidate
+        if cols * (cell + pad) + pad <= max_w and rows * (cell + pad) + pad <= max_h:
+            scale = candidate
+            break
+    cell = 32 * scale
+    canvas = Image.new("RGB", (cols * (cell + pad) + pad, rows * (cell + pad) + pad),
+                       (26, 24, 34))
     draw = ImageDraw.Draw(canvas)
     for i, (src, box) in enumerate(items):
         r, c = divmod(i, cols)
