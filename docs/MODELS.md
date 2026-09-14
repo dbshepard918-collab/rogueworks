@@ -104,8 +104,10 @@ measurement before acting on it. Current tally on this project, all tests re-run
 | "anti-aliasing artifacts on the health/mana orbs" (2nd & 3rd time it raised anti-aliasing) | partial-alpha share | ❌ **FALSE** — 0.00% partial-alpha; it repeats this because it "knows" what game art looks like, not because it looked |
 | names sprites it cannot know: "Cursed", "Wisp", "Sword", "Dagger", "health/mana orbs" | the sheet carries **no labels** | ❌ **FABRICATED** — it invents plausible names for an unlabelled sheet; never quote a VLM's sprite name, always resolve a position |
 | "worst unreadable" picks: top row 3rd–4th from right, then R3C1–R3C5, then top row 3rd–4th again | same input, three runs | ⚠️ **UNSTABLE** — the specific picks move between runs; treat a claim as a lead to check, never as a finding |
+| `glm-4.6v-flash`: "excessive anti-aliasing artifacts (blurred edges/color bleed)" | partial-alpha share | ❌ **FALSE** — 0.00% partial-alpha. That is now the **4th** time a VLM has raised anti-aliasing here; it is a prior about what game art "should" look like, not an observation of this art |
+| `glm-4.6v-flash` names "question mark icon", "horse pair", "boot pair", "health/mana orbs" | the sheet carries no labels and contains no such sprites | ❌ **FABRICATED** — same invention pattern as the other candidates |
 
-Tally: **3 true, 6 false, 1 unstable.** Verdicts on *its own* advice ("add anti-aliasing") are wrong
+Tally: **3 true, 8 false, 1 unstable.** Verdicts on *its own* advice ("add anti-aliasing") are wrong
 far more often than its observations — never let it set the house rules, and always give it the house
 rules in the prompt.
 
@@ -120,7 +122,7 @@ opinions; re-runnable with the commands given.
 | Model | Lane | Verdict | Measured |
 |---|---|---|---|
 | `essentialai/rnj-1` | coder (chip) | **trial it** | **40–45 tok/s** (40.1 avg @150 tokens, 45.1 best @200), ~6.6 GiB VRAM, 3.7 s load @8K. Incumbent `qwen/qwen3-coder-30b`: 5.5 tok/s, 18.63 GB, 68 s load. ~8× throughput and the card stays free — but speed is not code quality, so it needs one real edit before any pin moves. Evidence: `%TEMP%/rw_bench_local.json` |
-| `zai-org/glm-4.6v-flash` | vision | no | 2/5 and 3/5 across two runs vs the pin's 4/5 (8 runs); 29.2 s vs 3.2 s; 2035 reasoning tokens per answer; denies the flat-rectangle defect. |
+| `zai-org/glm-4.6v-flash` | vision | no — **3/5, not 4/5** | Honest score **3/5 on a complete reply** (`finish=stop`), reproduced twice. It gets Q2/Q3/Q4 and **fails both questions that matter**: Q1 off by one (says 15, is 16) and Q5 — it **denies the flat-rectangle defect**, the one class this studio exists to catch. 36.5 s vs the pin's 3.2 s (~11× slower), ~2000 reasoning tokens per question. ⚠️ An earlier "2/5" in this file was **my harness truncating its reply**, not the model: see the correction note below. |
 | `allenai/olmocr-2-7b` | vision | no | 1/5, generic critique. A document-OCR model — `qwen2vl` arch does not make it a sprite critic. |
 | `google/gemma-3-27b` | text | no — **1.3 tok/s** | At 4K context: 74.9 s load, warm-up **158.8 s for 200 tokens = 1.3 tok/s**, 3 runs all 1.3. `qwen/qwen3-8b` does 23.1 tok/s and `gemma-4-12b-qat` 20.0 — ~18× slower, before Hermes' required 64K context. **Two instruments disagree on its footprint:** `bench_local` reports 11,408 MiB after load (11,586 in the summary) against a 12,227 MiB card, while `lms load` reports 15.30 GiB — either way it has no room left for a second model, and 64K cannot fit. |
 | `darkmaniac7/TokForge-DreamShaper-LCM-GGUF-q4` | art generation | no — licence | `Lykon/dreamshaper-7` is **creativeml-openrail-m** (registry-verified); our shipping art model is **apache-2.0**. Refused, not wired — see `docs/ART-LICENSES.md`. Needs an SD1.5 VAE regardless. |
@@ -141,10 +143,31 @@ python -m tools.art.gen --licence-board                 # which art models may s
 
 1. **A thinking model bills reasoning against `max_tokens`.** `glm-4.6v-flash` scored **0/5** at a
    300-token budget with `content: ''` and `finish_reason: length` — every token in
-   `reasoning_content`. At 2048 it scored 2-3/5. That is a harness limit, not blindness, and the
+   `reasoning_content`. At 2048 it scored 3/5. That is a harness limit, not blindness, and the
    harness now says so in words.
 2. **`bench_local`'s default 64K context** makes a model that does not fit look like a model that is
    broken (`HTTP Error 400`). Try `--context 8192` before recording a failure.
+
+#### Correction (same round): "2/5" for glm-4.6v-flash was a truncated reply
+
+I first recorded glm-4.6v-flash as **2/5**, then read the persisted raw answer:
+
+```
+1. 16          <- correct
+2. 5           <- correct
+(finish_reason: length - 2035 reasoning tokens consumed the 2048 budget here)
+```
+
+It was **cut off mid-answer** before reaching questions 3-5. Both answers it gave were right, and the
+score said otherwise. Re-run with `--max-tokens 8192` (`finish=stop`, complete):
+**3/5** — Q2/Q3/Q4 correct, Q1 off by one (15 vs 16), **Q5 wrong: it denies the flat rectangles**.
+
+Verdict unchanged (no — 11× slower and blind to the defect class we care about), but the recorded
+number was an artefact of my instrument, not a fact about the model. `vlm_bench` now **retries wider
+and prints `[WARNING] any score below is a FLOOR, not a verdict`** when a reply is still truncated, so
+a partial answer can no longer masquerade as a capability result. Two lessons, both now in the studio
+skill: a truncated response is not a score, and **reading the raw output is what caught it** — a
+scoring harness that persists only the score would have hidden this permanently.
 
 ## The roster (live pins)
 

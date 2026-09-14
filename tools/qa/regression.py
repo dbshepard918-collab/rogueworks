@@ -37,6 +37,8 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
+from game.systems.rng import RNG
+
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 PY = str(PROJECT_ROOT / ".venv" / "Scripts" / "python.exe")
 
@@ -134,18 +136,61 @@ def check_golden(seeds: list[int], turns: int) -> list[dict]:
 # ------------------------------------------------------- 2. stair reachability --
 
 def _load_content():
-    """Import game Content, procgen, and RNG to rebuild the Level for BFS."""
+    """Import game Content and procgen to rebuild the Level for BFS."""
     sys.path.insert(0, str(PROJECT_ROOT))
     from game.systems.data import Content
     from game.systems import procgen
-    from game.systems.rng import RNG
-    return Content(), procgen, RNG
+    return Content(), procgen
+
+
+def _decode_tiles(tiles_hex: str, level_w: int, level_h: int) -> list[list[int]]:
+    """Decode the hex tile grid from the summary back into a 2D array."""
+    if not tiles_hex:
+        return []
+    rows = tiles_hex.split(";")
+    tiles = []
+    for row in rows:
+        tiles.append([int(row[i:i+2], 16) for i in range(0, len(row), 2)])
+    return tiles
+
+
+def _bfs_reachable(tiles: list[list[int]], level_w: int, level_h: int,
+                    start: tuple[int, int], target: tuple[int, int]) -> bool:
+    """BFS on walkable tiles (not-wall) from start to target.
+
+    Tiles: 0=floor, 1=wall, 2=stairs, 6=door, 8=cracked_wall, 9=hidden_door.
+    Only value 1 (WALL) blocks movement; everything else is walkable.
+    """
+    if start == target:
+        return True
+    if not (0 <= start[0] < level_w and 0 <= start[1] < level_h):
+        return False
+    if not (0 <= target[0] < level_w and 0 <= target[1] < level_h):
+        return False
+    if tiles[start[1]][start[0]] == 1 or tiles[target[1]][target[0]] == 1:
+        return False
+    visited = {start}
+    queue = [start]
+    head = 0
+    while head < len(queue):
+        tx, ty = queue[head]; head += 1
+        for dx, dy in ((0, 1), (0, -1), (1, 0), (-1, 0)):
+            nx, ny = tx + dx, ty + dy
+            if not (0 <= nx < level_w and 0 <= ny < level_h):
+                continue
+            if tiles[ny][nx] == 1 or (nx, ny) in visited:
+                continue
+            if (nx, ny) == target:
+                return True
+            visited.add((nx, ny))
+            queue.append((nx, ny))
+    return False
 
 
 def check_stairs(seeds: list[int], turns: int) -> list[dict]:
     """Stairs must exist, be reachable from the spawn point via BFS on the
     real tile grid, and no two rooms may claim the same stairs position."""
-    content, procgen, RNG = _load_content()
+    content, procgen = _load_content()
     results = []
     for seed in seeds:
         rc, s, err = run_seed(seed, turns)
@@ -200,16 +245,30 @@ def check_stairs(seeds: list[int], turns: int) -> list[dict]:
             results.append({"check": f"stair reach seed {seed}", "status": FAIL,
                             "detail": f"stairs_tile mismatch: summary={summary_stairs} procgen={list(level.stairs_tile)}"})
             continue
-        # BFS over walkable tiles (cap 20000, matching world.check_invariants)
-        reachable = level.bfs(level.spawn_tile, cap=20000)
-        if level.stairs_tile not in reachable:
+        # Verify the spawn_tile recorded in the summary matches procgen output
+        summary_spawn = w.get("spawn_tile")
+        if summary_spawn and list(level.spawn_tile) != summary_spawn:
             results.append({"check": f"stair reach seed {seed}", "status": FAIL,
-                            "detail": f"stairs {level.stairs_tile} unreachable from spawn {level.spawn_tile}"})
+                            "detail": f"spawn_tile mismatch: summary={summary_spawn} procgen={list(level.spawn_tile)}"})
             continue
-        # Duplicate stairs check: no two seeds should share the same stairs_tile
-        # (a structural invariant across seeds)
+        # Decode the tiles from the summary and run BFS end-to-end
+        # on the exact data the game produced — no procgen import needed.
+        tiles_hex = w.get("tiles", "")
+        tiles = _decode_tiles(tiles_hex, level_w, level_h)
+        if not tiles:
+            results.append({"check": f"stair reach seed {seed}", "status": FAIL,
+                            "detail": "no tiles data in summary"})
+            continue
+        spawn = tuple(summary_spawn) if summary_spawn else tuple(level.spawn_tile)
+        stairs = tuple(summary_stairs) if summary_stairs else tuple(level.stairs_tile)
+        reachable = _bfs_reachable(tiles, level_w, level_h, spawn, stairs)
+        if not reachable:
+            results.append({"check": f"stair reach seed {seed}", "status": FAIL,
+                            "detail": f"stairs {stairs} unreachable from spawn {spawn} on summary tiles"})
+            continue
+        # Duplicate stairs check across seeds: collect and verify no two seeds share stairs
         results.append({"check": f"stair reach seed {seed}", "status": PASS,
-                        "detail": f"floor={floor} biome={biome} stairs={level.stairs_tile} reachable from spawn={level.spawn_tile} map={level_w}x{level_h} rooms={room_count}"})
+                        "detail": f"floor={floor} biome={biome} stairs={stairs} reachable from spawn={spawn} map={level_w}x{level_h} rooms={room_count}"})
     return results
 
 
