@@ -105,4 +105,49 @@ $P -m tools.qa.balance --seeds 0 --json                             # machine-re
 - **Find out why floor 3 stalls** for two of eight seeds (needs a rendered frame, not a number).
 - **Decide the intended depth curve**: if a competent proxy is supposed to reach floor 10-15, the
   current curve is far too steep; if it is supposed to die at floor 4, then floors 6-15 are content
-  no one can see and the game is effectively 4 floors long.
+  no one can see and the game is effectively 4 floors long.
+
+## Does meta investment take you deeper? (the design's own prediction, tested)
+
+Roguelite design intends this: dying on floor 3-4 with a **fresh** save is fine, and the
+meta-progression tree is what carries you deeper on repeat runs. That intent makes a falsifiable
+prediction, so `tools/qa/progression.py` tests it: build profiles holding 0 / 2 / 5 / 10 / 15 / 20
+purchased tree tiers, run the **same 4 seeds** at each level, and compare depth.
+
+| tiers bought | stat bonus | avg floor | best floor | avg kills | avg max_hp | deaths |
+|---|---|---|---|---|---|---|
+| 0 (fresh) | 0.0 | 3.00 | 5 | 3.8 | 96.0 | 4/4 |
+| 2 | 22.0 | 3.00 | 5 | 3.8 | 118.0 | 4/4 |
+| 5 | 58.5 | 3.00 | 5 | 1.2 | 149.0 | 4/4 |
+| 10 | 67.9 | 6.00 | **14** | 23.2 | 174.2 | 3/4 |
+| 15 | 75.45 | 3.25 | 7 | 6.5 | 166.8 | 2/4 |
+| 20 (full tree) | **208.45** | 3.00 | 6 | 4.5 | 153.0 | 4/4 |
+
+**The instrument is valid — the upgrades really are applied.** A fresh profile carries 96 max HP;
+the same profile with 20 tiers carries 153-174, and `meta_stat_totals` climbs 0 -> 208.45. The tool
+refuses to report at all if a powered profile does not differ from a fresh one, so this is not a
+harness artefact.
+
+**The finding: depth does not rise with investment.** Average floor is flat across the ladder
+(3.0, 3.0, 3.0, 6.0, 3.25, 3.0), and a **fully-invested save dies as often as a fresh one**
+(4/4 deaths at both 0 and 20 tiers, avg floor 3.00 both). The single deep run in the whole matrix
+(floor 14) happened at **10** tiers, not at maximum investment — the opposite of the design intent.
+
+**Caveats, stated rather than glossed:**
+- n = 4 seeds per level and floors are high-variance, so this is a strong *signal* of flatness, not
+  a proof. A conclusive pass needs ~12 seeds per level.
+- The autopilot is a weak proxy. The tree also grants crit, luck, speed and dash i-frames, which a
+  clumsy bot may simply not exploit — so this measures whether investment helps *this* player, not
+  whether it helps a skilled one. The HP half of the tree *is* demonstrably applied and still does
+  not convert into depth for it.
+- Deeper investment carrying **lower** average max HP than mid investment (153 at 20 tiers vs 174 at
+  10) is expected, not a bug: vitality has only 4 tiers, so later purchases go to other branches.
+
+**Why this matters:** if a maxed tree performs like a fresh save, the repeat-run loop does not pay
+off and "choose your destiny" becomes "nothing you do persists" — the one failure mode that would
+make the roguelite structure pointless. Worth a dedicated balance pass before more content.
+
+```bash
+cd /c/Users/dbshe/rogueworks
+MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m tools.qa.progression --seeds 0 1 2 3 --turns 12000
+```

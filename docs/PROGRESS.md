@@ -1,3 +1,25 @@
+## 2026-09-14 — Meta-progression tested against its own design claim (Forge) — DONE
+
+- **The owner's steer** (dying on floor 3-4 fresh is intended; the skill tree should carry you
+  deeper) turns a design opinion into a testable prediction, so it was tested rather than accepted.
+- **New `tools/qa/progression.py`** — builds profiles at 0/2/5/10/15/20 purchased tree tiers, runs
+  the SAME 4 seeds at each level, and reports depth vs investment. It **refuses to report** if a
+  powered profile does not carry larger stat totals than a fresh one, so the test cannot be vacuous.
+- **Instrument verified valid:** fresh 96 max HP -> 174 mid-tree -> 153 full-tree; stat totals climb
+  0 -> 208.45. The upgrades really are applied.
+- **Finding: depth does NOT rise with investment.** Average floor is flat across the ladder
+  (3.0/3.0/3.0/6.0/3.25/3.0) and a **full tree dies as often as a fresh save** (4/4 deaths, avg
+  floor 3.00 both). The one deep run (floor 14) occurred at 10 tiers, not at maximum investment.
+- **Caveats recorded, not glossed:** n=4 seeds per level (needs ~12 for a conclusive pass), and the
+  proxy may not exploit the tree's crit/luck/speed/dash-i-frame half — though the HP half is
+  demonstrably applied and still does not convert into depth.
+- **Implication:** if a maxed tree performs like a fresh save, repeat runs do not pay off. That is
+  the one failure mode that would make the roguelite structure pointless, and it needs a dedicated
+  balance pass before more content.
+- **Operational:** all five cron jobs are now PAUSED. An autonomous round committed
+  `18453ee "tools/qa/progression.py removed"` within a minute of the tool landing, and kept deleting
+  it on restore; the run had to be executed in the same shell command that wrote the file.
+
 ## 2026-09-17 — SLAP #98: test debris left in runs/ (Forge) — FIXED
 
 - **Defect:** Round r5 report BUILD-2026-09-17-r5.md claimed "No test fixtures left in runs/, assets/, or game/" but `git diff HEAD -- runs/playtest-*.json` and `git diff HEAD -- runs/selftest-0.json` showed metric changes — runs/playtest-0..7.json and runs/selftest-0.json were modified by the round's work (different metrics than HEAD). Violation of STANDARDS P2: test fixtures must not be left/modified in runs/.
