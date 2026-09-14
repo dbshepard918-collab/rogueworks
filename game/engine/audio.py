@@ -12,6 +12,7 @@ P4.3 additions:
 """
 
 import array
+import json
 import math
 import os
 
@@ -90,6 +91,7 @@ class Audio:
         self.warnings = warnings if warnings is not None else []
         self._current_biome = ""
         self._player_pos = (0.0, 0.0)
+        self._manifest = []  # audio manifest entries from game/data/audio.json
         if not enabled:
             return
         try:
@@ -97,6 +99,8 @@ class Audio:
                 pygame.mixer.init(frequency=22050, size=-16, channels=8, buffer=512)
             self.enabled = True
             self.ok = True
+            # Load audio manifest if it exists
+            self._load_manifest()
             for name, spec in _SFX_SPECS.items():
                 try:
                     samples = _make_wave_buffer(*spec)
@@ -185,6 +189,18 @@ class Audio:
         """Update the listener position for distance attenuation."""
         self._player_pos = (float(x), float(y))
 
+    # -- manifest -------------------------------------------------------
+    def _load_manifest(self):
+        """Load the audio manifest from game/data/audio.json if it exists."""
+        try:
+            if not os.path.exists(_AUDIO_MANIFEST_PATH):
+                return
+            with open(_AUDIO_MANIFEST_PATH) as f:
+                data = json.load(f)
+            self._manifest = data.get("manifest", [])
+        except Exception:
+            self._manifest = []
+
     # -- title theme ------------------------------------------------------
     def play_title_theme(self):
         """Play the title screen music once (non-looping)."""
@@ -228,6 +244,37 @@ def play(world, name, pos=None):
 
 
 # Wave module — retained for saving audio state
+
+_AUDIO_MANIFEST_PATH = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "audio.json"
+)
+
+
+def load_audio_cue(audio, cue_id):
+    """Load a manifest cue from disk into pygame.mixer.
+
+    Looks up the cue by id in the manifest, verifies the file exists,
+    and creates a pygame.mixer.Sound from it.  Returns the Sound or None.
+    """
+    if not audio.ok:
+        return None
+    for entry in audio._manifest:
+        if entry.get("id") == cue_id:
+            fpath = entry.get("file", "")
+            if not os.path.exists(fpath):
+                audio.warnings.append(f"audio cue missing: {cue_id} -> {fpath}")
+                return None
+            try:
+                sound = pygame.mixer.Sound(fpath)
+                gain = entry.get("gain", 0.25)
+                sound.set_volume(gain)
+                return sound
+            except Exception:
+                audio.warnings.append(f"audio cue load failed: {cue_id}")
+                return None
+    return None
+
+
 def save_wave_state(path):
     """Persist current audio configuration to a file."""
     data = {

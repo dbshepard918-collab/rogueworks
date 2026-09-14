@@ -8,9 +8,9 @@
     "violations": []
   },
   "metrics": {
-    "fps_equiv": 192,
+    "fps_equiv": 289,
     "frames": 300,
-    "ms_per_tick": 5.2188
+    "ms_per_tick": 3.4636
   },
   "metrics_profiler": {
     "atlas_mem_bytes": 2146304,
@@ -19,12 +19,12 @@
     "draw_calls": 969,
     "entity_cap": 200,
     "entity_count": 15,
-    "fps_equiv": 5440.7,
+    "fps_equiv": 9746.6,
     "particle_cap": 420,
     "particle_count": 0,
     "target_fps": 60,
-    "tick_ms": 0.18,
-    "tick_ms_smoothed": 0.16
+    "tick_ms": 0.1,
+    "tick_ms_smoothed": 0.1
   },
   "ok": true,
   "player": {

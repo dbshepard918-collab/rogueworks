@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "manifest": [
+    {
+      "id": "title_theme",
+      "file": "assets/audio/title_theme.wav",
+      "model": "ace_step",
+      "license": "mit",
+      "seed": 42,
+      "loop": false,
+      "gain": 0.25,
+      "prompt": "Epic roguelite title screen music, dramatic orchestral fanfare, medieval fantasy, slow build, powerful and atmospheric",
+      "cmd": "python -m tools.audio.gen_music --backend ace_step --seed 42 --seconds 15 --loop-fade 1000 --dtype bfloat16 --prompt \"Epic roguelite title screen music, dramatic orchestral fanfare, medieval fantasy, slow build, powerful and atmospheric\" --out assets/audio/title_theme.wav"
+    },
+    {
+      "id": "music_catacombs_drip",
+      "file": "assets/audio/amb_catacombs.wav",
+      "model": "ace_step",
+      "license": "mit",
+      "seed": 7,
+      "loop": true,
+      "gain": 0.12,
+      "prompt": "Dark underground catacombs ambience, dripping water, eerie echoes, slow tension, low drones, claustrophobic",
+      "cmd": "python -m tools.audio.gen_music --backend ace_step --seed 7 --seconds 30 --loop-fade 1500 --dtype bfloat16 --prompt \"Dark underground catacombs ambience, dripping water, eerie echoes, slow tension, low drones, claustrophobic\" --out assets/audio/amb_catacombs.wav"
+    },
+    {
+      "id": "music_ember_warrens",
+      "file": "assets/audio/amb_ember.wav",
+      "model": "ace_step",
+      "license": "mit",
+      "seed": 13,
+      "loop": true,
+      "gain": 0.12,
+      "prompt": "Ember warrens deep underground, molten rock echoes, crackling heat, industrial furnace atmosphere, rumble and hiss",
+      "cmd": "python -m tools.audio.gen_music --backend ace_step --seed 13 --seconds 30 --loop-fade 1500 --dtype bfloat16 --prompt \"Ember warrens deep underground, molten rock echoes, crackling heat, industrial furnace atmosphere, rumble and hiss\" --out assets/audio/amb_ember.wav"
+    },
+    {
+      "id": "music_drowned_vaults",
+      "file": "assets/audio/amb_drowned.wav",
+      "model": "ace_step",
+      "license": "mit",
+      "seed": 21,
+      "loop": true,
+      "gain": 0.10,
+      "prompt": "Drowned vaults underwater cavern, deep water currents, bubbling resonance, cold echoing space, submerged mystery",
+      "cmd": "python -m tools.audio.gen_music --backend ace_step --seed 21 --seconds 30 --loop-fade 1500 --dtype bfloat16 --prompt \"Drowned vaults underwater cavern, deep water currents, bubbling resonance, cold echoing space, submerged mystery\" --out assets/audio/amb_drowned.wav"
+    },
+    {
+      "id": "boss_theme",
+      "file": "assets/audio/boss_theme.wav",
+      "model": "ace_step",
+      "license": "mit",
+      "seed": 99,
+      "loop": true,
+      "gain": 0.20,
+      "prompt": "Boss battle theme, intense combat music, percussive and aggressive, escalating tension, boss fight climax",
+      "cmd": "python -m tools.audio.gen_music --backend ace_step --seed 99 --seconds 30 --loop-fade 1500 --dtype bfloat16 --prompt \"Boss battle theme, intense combat music, percussive and aggressive, escalating tension, boss fight climax\" --out assets/audio/boss_theme.wav"
+    },
+    {
+      "id": "death_sting",
+      "file": "assets/audio/death_sting.wav",
+      "model": "ace_step",
+      "license": "mit",
+      "seed": 55,
+      "loop": false,
+      "gain": 0.30,
+      "prompt": "Death sting, dramatic descending chord, somber and final, low register, one-shot fade",
+      "cmd": "python -m tools.audio.gen_music --backend ace_step --seed 55 --seconds 5 --loop-fade 500 --dtype bfloat16 --prompt \"Death sting, dramatic descending chord, somber and final, low register, one-shot fade\" --out assets/audio/death_sting.wav"
+    },
+    {
+      "id": "victory_sting",
+      "file": "assets/audio/victory_sting.wav",
+      "model": "ace_step",
+      "license": "mit",
+      "seed": 77,
+      "loop": false,
+      "gain": 0.30,
+      "prompt": "Victory sting, triumphant ascending chord, bright and celebratory, one-shot resolution",
+      "cmd": "python -m tools.audio.gen_music --backend ace_step --seed 77 --seconds 5 --loop-fade 500 --dtype bfloat16 --prompt \"Victory sting, triumphant ascending chord, bright and celebratory, one-shot resolution\" --out assets/audio/victory_sting.wav"
+    }
+  ]
+}
