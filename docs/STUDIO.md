@@ -186,6 +186,40 @@ changes went in so that cannot repeat silently:
 `memory.memory_char_limit` 2200 → **12000**, `memory.user_char_limit` 1375 → **4000**, set on the
 default profile and all seven bots. Each bot now has room to carry its own corrective rules.
 
+## Bot toolchain config (what every bot must be pointed at)
+
+Two settings live in each profile's `config.yaml` and were wrong by default. Both are per-profile, so
+they must be set on all eight (`default` + the seven bots) and verified with `-p <bot>`:
+
+```bash
+# 1. VISION ROUTING. Hermes resolves vision through agent/auxiliary_client.py; with no
+#    `auxiliary:` block it auto-routes to CLOUD (_VISION_AUTO_PROVIDER_ORDER = openrouter,
+#    nous, deepinfra). That 404'd on every call for two rounds while a free local VLM sat
+#    loaded on the box.
+hermes -p <bot> config set auxiliary.vision.provider lmstudio
+hermes -p <bot> config set auxiliary.vision.model qwen/qwen3-vl-8b
+hermes -p <bot> config set auxiliary.vision.base_url http://localhost:1234/v1
+hermes -p <bot> config set auxiliary.vision.timeout 600      # default 120s is too tight locally
+
+# 2. THE STUDIO SKILL. Each profile keeps its OWN copy, so an edit to forge's copy reaches
+#    nobody else — this one sat frozen at 172 lines in six bots while forge accumulated the
+#    audio, recoverability, vision and metric lessons.
+SRC="$HOME/AppData/Local/hermes/profiles/forge/skills/roguelite-game-factory/SKILL.md"
+for p in chip pixel lore lens warden tempo; do
+  cp "$SRC" "$HOME/AppData/Local/hermes/profiles/$p/skills/roguelite-game-factory/SKILL.md"
+done
+md5sum "$HOME/AppData/Local/hermes/profiles"/*/skills/roguelite-game-factory/SKILL.md \
+  | awk '{print $1}' | sort -u | wc -l     # must print 1
+```
+
+Check the vision route **mechanically** rather than through an agent turn — an agent one-shot only
+proves the model *chose* to call the tool (two attempts returned `0 tool calls`, proving nothing):
+
+```python
+from agent import auxiliary_client as aux
+print(aux.resolve_vision_provider_client())   # expect base_url=http://localhost:1234/v1/
+```
+
 ## Play it
 
 ```bash
