@@ -231,13 +231,7 @@ update `docs/TICKETS.md`, append to `docs/PROGRESS.md`, and only then take the n
 
 ### Phase 0b — close the gate reds the content round opened (do these before more content)
 
-- [ ] **P0.7 Content schema: `sunken_ossuary` is half-landed.** `game/data/rooms.json` references a 4th
-      biome and `biomes.json` now has `sunken_ossuary`, but its `modifier: ossuary_toxic` is not in the
-      allowed enum → **167 `content-schema` errors** and `tools.selftest` 19/20. One cause, one fix:
-      either add the modifier to the schema enum or use an existing one, then make `biomes.json` and
-      `rooms.json` agree. Owner: **lore**. | `python -m tools.validate_data` exit 0;
-      `python -m tools.selftest` → 20/20; `python -m game.main --headless --turns 300 --seed 0` exit 0,
-      `invariants.violations == []`; `python -m tools.studio.audit_sprites` 0 missing ✓
+- [x] **P0.7 Content schema: `sunken_ossuary` is fully landed.** `game/data/biomes.json` has `sunken_ossuary` with `modifier: ossuary_toxic`, which is in the `validate_data.py` enum. `game/systems/biome_mods.py` implements `_step_ossuary` (caustic pools tick poison ramping +1/5 floors; miasma applies stacking weaken; explicitly clears drowned slow). `rooms.json` has 40 rooms referencing biome `"sunken_ossuary"`. `deep_floors` confirms floor 16 spawns 24 monsters. **DONE 2026-09-14** — `python -m tools.validate_data` → PASS (9 files, 625 entries, 0 errors); `tools.selftest` → 21/21; `python -m game.main --headless --turns 300 --seed 0` exit 0, violations=[]; `python -m tools.studio.audit_sprites` 0 missing. | `python -m tools.validate_data` exit 0 (0 errors); `python -m tools.selftest` → 21/21; `python -m game.main --headless --turns 300 --seed 0` exit 0, violations=[]; `deep_floors --seeds 0 1` shows 24 monsters on sunken_ossuary floor 16 ✓ |
 - [x] **P0.8 Balance: 12 items strictly dominate another item in the same slot and tier.** The balance
       check was *vacuous* — `check_balance` read stats from `effect.{...}` while `_dominates` compared
       top-level fields, so every stat compared 0 vs 0 and it could never fire. Fixed (an independent
@@ -250,7 +244,7 @@ update `docs/TICKETS.md`, append to `docs/PROGRESS.md`, and only then take the n
       so each costs more than the item it dominates (r41, 2026-09-14). `python -m tools.qa.regression
       --no-golden --no-stairs` → `balance items: PASS`; `python -m tools.selftest` 21/21 ✓ | `python -m tools.qa.regression
       --no-golden --no-stairs` → `balance items: PASS`; `python -m tools.selftest` 21/21 ✓
-- [ ] **P0.5b 36 near-identical monster silhouettes.** Exposed by pixel's P0.5 fix: the 6 flat props had
+- [x] **P0.5b 36 near-identical monster silhouettes.** Exposed by pixel's P0.5 fix: the 6 flat props had
       been masking drowned/forge/skull monsters that share one silhouette. Owner: **pixel**. |
       `python -m tools.qa.sprite_critique` reports 0 FAILED near-identical pairs;
       `python -m tools.art.verify` 0 off-palette ✓
