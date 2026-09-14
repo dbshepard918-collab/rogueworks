@@ -54,8 +54,12 @@ free) · `qwen2.5-vl-3b-instruct` · `qwen2.5-vl-7b-instruct` (see below) · `mi
 
 The 7B Qwen2.5-VL was benchmarked head-to-head against the pin on the studio's real job (the sprite
 contact sheet), scored on **verifiable answers** — counts, colours, and the presence of a known
-defect — because prose quality cannot be scored honestly. Run:
-`%TEMP%/rw_vlm_bench.py`, evidence `%TEMP%/rw_vlm_bench_results.json`.
+defect — because prose quality cannot be scored honestly. Harness: `%TEMP%/rw_vlm_bench.py` (writes
+its per-question answers to `%TEMP%/rw_vlm_bench_results.json` when it completes).
+
+**Latency caveat:** only one model fits on the card and the VLM is shared with the other bots, so
+the second numbers below were taken while other agents were queued on the same endpoint. Treat the
+**scores** as the finding and the **latencies** as indicative only.
 
 | Question (known answer) | `qwen2.5-vl-7b-instruct` | `qwen/qwen3-vl-8b` |
 |---|---|---|
