@@ -25,3 +25,6 @@ assets/raw/
 # re-obtained per docs/STUDIO.md - not source, not worth versioning)
 tools/art/sd/bin/
 *.zip
+
+# loop stdout capture (the loop writes its own round-*.log transcripts)
+runs/studio/loop-foreground.log
