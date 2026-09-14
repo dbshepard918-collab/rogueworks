@@ -258,6 +258,25 @@ def check_audio_audit(root: Path, python: str) -> tuple[str, str]:
     return PASS, summary
 
 
+def check_deep_floors(root: Path, python: str) -> tuple[str, str]:
+    """Every biome must generate, populate, step AND draw - not just floor 1.
+
+    `verify_gate` plays 300 ticks, which is five seconds on the starting floor, so every
+    biome past the first was unreachable by any check: a crash on floor 11 or 16 would
+    ship as "gates green". This walks one floor per biome entry, steps each and renders it.
+    """
+    report, err = _run_tool(root, python, "tools.qa.deep_floors")
+    if report is None:
+        return FAIL, err
+    problems = report.get("problems") or []
+    if problems:
+        return FAIL, problems[0]
+    rows = report.get("rows") or []
+    biomes = len({r.get("biome") for r in rows})
+    return PASS, ("%d floor(s) across %d biome(s) generated, stepped and drawn"
+                  % (len(rows), biomes))
+
+
 def check_scene_legibility(root: Path, python: str) -> tuple[str, str]:
     """A rendered floor must be readable, not merely non-blank."""
     report, err = _run_tool(root, python, "tools.qa.scene_legibility")
@@ -441,6 +460,7 @@ def main(argv=None) -> int:
         h.record(SKIP, "end-screens", "game package not built yet")
         h.record(SKIP, "scene-sweep", "game package not built yet")
         h.record(SKIP, "glyph-coverage", "game package not built yet")
+        h.record(SKIP, "deep-floors", "game package not built yet")
     else:
         tag, detail = check_attr_audit(root, args.python)
         h.record(tag, "module-attributes", detail)
@@ -454,6 +474,8 @@ def main(argv=None) -> int:
         h.record(tag, "scene-legibility", detail)
         tag, detail = check_glyph_coverage(root, args.python)
         h.record(tag, "glyph-coverage", detail)
+        tag, detail = check_deep_floors(root, args.python)
+        h.record(tag, "deep-floors", detail)
 
     # -- golden-seed regression ------------------------------------------- #
     if not game_built:

@@ -158,7 +158,10 @@ def populate_floor(world, floor, biome_id):
     for room in level.rooms:
         if room["kind"] == "entrance":
             continue
-        budget = int(room["spawn_budget"]) + count_add
+        # .get, not []: rooms arrive from content AND from procgen, and a template missing
+        # an optional field must not end the run. This is the second time a room source has
+        # disagreed about this key, so the consumer refuses to be the thing that crashes.
+        budget = int(room.get("spawn_budget", 0) or 0) + count_add
         if room["kind"] == "boss":
             continue
         budget = max(0, min(8, budget))

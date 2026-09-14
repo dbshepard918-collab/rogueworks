@@ -334,6 +334,11 @@ def _place_secret_rooms(content, biome_id, level_w, level_h, cell, rng, rooms):
                 "y": ty,
                 "center": (tx + secret_w // 2, ty + secret_h // 2),
                 "props": [],
+                # A secret room holds treasure, not a fight - and it MUST carry this key:
+                # spawn.populate_floor reads room["spawn_budget"] for every non-entrance
+                # room, so a room built here without it crashed the run on any floor that
+                # rolled a secret room. Content rooms all carry 0 here; match them.
+                "spawn_budget": 0,
             })
             placed = True
             break
@@ -515,6 +520,19 @@ def _place_biome_tiles(tiles, level_w, level_h, biome_id, rng):
                 # don't place on top of the spawn area
                 burning.add((tx, ty))
                 tiles[tx][ty] = BURNING
+    elif biome_id == "sunken_ossuary":
+        # 3-6 caustic pools (2x2), more of them than the drowned vaults and smaller:
+        # the biome's hazard is the water itself, not the dark.
+        count = 3 + rng.randint(0, 3)
+        for _ in range(count):
+            tx = rng.randint(2, max(3, level_w - 4))
+            ty = rng.randint(2, max(3, level_h - 4))
+            for dx in range(2):
+                for dy in range(2):
+                    xx, yy = tx + dx, ty + dy
+                    if 0 <= xx < level_w and 0 <= yy < level_h and tiles[xx][yy] == FLOOR:
+                        water.add((xx, yy))
+                        tiles[xx][yy] = WATER
     elif biome_id == "drowned_vaults":
         # 2-4 water pools (2x2 blocks)
         count = 2 + rng.randint(0, 2)

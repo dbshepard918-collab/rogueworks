@@ -58,6 +58,19 @@ _MODULES = {
         "chain_radius": 130.0,
         "chain_damage": 1.0,
     },
+    "ossuary_toxic": {
+        "hud_label": "TOXIC",
+        "hud_color": (126, 168, 72),
+        # Sunken Ossuary pools are caustic: standing in one ticks poison every
+        # TOXIC_TICK_EVERY ticks, magnitude ramping +1 per 5 floors like ember heat.
+        "toxic_tick_every": 150,       # ticks (~2.5 s at 60 Hz)
+        "toxic_base_magnitude": 2,
+        "toxic_ramp_per_5": 1,
+        # the miasma corrodes anywhere on the floor: a slow stacking weaken
+        "miasma_tick_every": 900,      # ~15 s
+        "miasma_duration": 900,
+        "miasma_magnitude": 0.08,
+    },
     "catacombs_darkness": {
         "hud_label": "DARK",
         "hud_color": (138, 132, 150),
@@ -84,7 +97,7 @@ class _BiomeState:
     """Mutable state attached to a World for the current run/floor."""
     __slots__ = ("modifier", "heat_timer", "slip_timer",
                  "was_in_water", "respawn_queue", "respawned_ids",
-                 "last_moved")
+                 "last_moved", "toxic_timer", "miasma_timer")
 
     def __init__(self):
         self.modifier = None
@@ -94,6 +107,8 @@ class _BiomeState:
         self.respawn_queue = []          # list[dict] for catacombs
         self.respawned_ids = set()       # one revive per id per floor
         self.last_moved = False
+        self.toxic_timer = 0.0
+        self.miasma_timer = 0.0
 
 
 def attach_biome_state(world):
@@ -118,6 +133,8 @@ def set_modifier(world, mid):
     # entering a new biome: clear transient state that does not carry over
     st.heat_timer = 0.0
     st.slip_timer = 0.0
+    st.toxic_timer = 0.0
+    st.miasma_timer = 0.0
     st.was_in_water = False
     st.last_moved = False
     # respawn queue is floor-scoped; cleared in new_floor
@@ -141,6 +158,41 @@ def step(world, dt):
         _step_drowned(world, cfg, st)
     elif mid == "catacombs_darkness":
         _step_catacombs(world, cfg, st)
+    elif mid == "ossuary_toxic":
+        _step_ossuary(world, cfg, st)
+
+
+def _step_ossuary(world, cfg, st):
+    """Sunken Ossuary: the pools are caustic and the air corrodes.
+
+    Pools reuse the WATER tile (the renderer already draws it) but the *modifier*
+    gives them their meaning, exactly as drowned_water does - so the two biomes read
+    the same tile and behave differently. The drowned slow penalty is explicitly
+    cleared here: toxic water must not inherit it.
+    """
+    _clear_water_penalties(world)
+    player = world.player
+    if player is None or not player.alive:
+        st.toxic_timer = 0.0
+        return
+
+    if _tile_at(world, player) == TILE_WATER:
+        st.toxic_timer += 1.0       # step() runs once per tick (dt == TICK)
+        if st.toxic_timer >= cfg["toxic_tick_every"]:
+            st.toxic_timer = 0.0
+            ramp = max(0, (world.floor - 1) // 5) * cfg["toxic_ramp_per_5"]
+            status_sys.apply_status(world, player, "poison",
+                                    duration_ticks=cfg["toxic_tick_every"],
+                                    magnitude=cfg["toxic_base_magnitude"] + ramp)
+    else:
+        st.toxic_timer = 0.0
+
+    st.miasma_timer += 1.0
+    if st.miasma_timer >= cfg["miasma_tick_every"]:
+        st.miasma_timer = 0.0
+        status_sys.apply_status(world, player, "weaken",
+                                duration_ticks=cfg["miasma_duration"],
+                                magnitude=cfg["miasma_magnitude"])
 
 
 def _step_ember(world, cfg, st):
@@ -309,14 +361,30 @@ def _is_undead(defn):
 
 # -------------------------------------------------------------------- tiles
 
+def _level_tile_set(level, *names):
+    """First attribute of `level` that exists and is not None, else an empty set.
+
+    `Level` stores these as `_burning` / `_water`; these helpers used to look for
+    `_biome_burning_tiles` / `_biome_water_tiles`, which nothing ever set - so both
+    returned empty for every floor. The only consumers are the renderer's tile overlays,
+    which meant burning tiles, water pools and the Sunken Ossuary's toxic pools were
+    **drawn nowhere**: the player could not see the hazard standing on them.
+    """
+    for name in names:
+        value = getattr(level, name, None)
+        if value is not None:
+            return value
+    return frozenset()
+
+
 def burning_tiles(level):
     """Set of (tx, ty) burning tiles placed by procgen for the active ember floor."""
-    return getattr(level, "_biome_burning_tiles", frozenset())
+    return _level_tile_set(level, "_biome_burning_tiles", "_burning")
 
 
 def water_tiles(level):
-    """Set of (tx, ty) water tiles placed by procgen for the active drowned floor."""
-    return getattr(level, "_biome_water_tiles", frozenset())
+    """Set of (tx, ty) water/hazard-pool tiles placed by procgen for the active biome."""
+    return _level_tile_set(level, "_biome_water_tiles", "_water")
 
 
 def _tile_at(world, player):

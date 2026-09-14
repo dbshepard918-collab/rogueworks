@@ -302,7 +302,11 @@ class HUD:
         discovered = len(world.discovered_secrets)
         if total > 0:
             label = "SECRETS: %d/%d" % (discovered, total)
-            draw_text(surface, label, (24, 96 * fs), 1, colour=(180, 140, 240))
+            # `fs` is a local of draw(); this method had no such name, so any floor with a
+            # secret room raised NameError here and the whole frame failed to render. The
+            # scale lives on the instance.
+            draw_text(surface, label, (24, 96 * self.font_scale), self.font_scale,
+                      colour=(180, 140, 240))
 
     def _event_room_prompt(self, world, surface):
         """P3.3: Show interaction prompt when player is adjacent to an event room."""

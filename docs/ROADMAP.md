@@ -252,6 +252,13 @@ update `docs/TICKETS.md`, append to `docs/PROGRESS.md`, and only then take the n
       references anywhere in `game/`; not a duplicate of `prop_chain` (silhouette IoU 0.315). Place it
       in a room or delete it and drop the frame. Owners: **pixel + lore**. |
       `python -m tools.qa.sprite_critique` no new defects + `tools.art.verify` 0 off-palette ✓
+- [ ] **P0.9 The 4th biome spawns nothing.** `tools.qa.deep_floors` walks one floor per biome: floors
+      1/6/11 populate (14-19 monsters); floor 16 `sunken_ossuary` gives **7 rooms, 16 pools, 0 monsters**
+      on every seed tested. It generates and draws, but it is empty to walk through — and no gate could
+      see it before, because `verify_gate` plays five seconds on floor 1. Check that the biome's
+      monsters exist in `monsters.json` with a matching `biome` field. Owner: **lore**. |
+      `python -m tools.qa.deep_floors --seeds 0 1` shows a non-zero monster count for the
+      `sunken_ossuary` floor; `python -m tools.selftest` `deep-floors` PASS ✓
 - [ ] **R-04 Review the r28 lighting rewrite.** Lens' legibility half is done (all 3 biomes measured);
       chip still owes the code review: light-map correctness and cost, and whether
       `render_lighting(surface, world, ox, oy, dt)` still serves the renderer. Owner: **chip**. |
