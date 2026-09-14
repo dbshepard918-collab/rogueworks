@@ -1,3 +1,13 @@
+## 2026-09-14 — P5.6 Modding-lite: validate_data --mod-dir (Forge) — DONE
+
+- **P5.6 completed** — `tools/validate_data --mod-dir` now exits 0 with override dir.
+  - Added `--mod-dir` argument to `validate_data.main()`.
+  - Reordered `refs`/`atlas_frames` construction BEFORE mod overlay validation (fixes a `NameError` where `refs` was referenced before definition).
+  - Mod files validated against the same `SCHEMAS` as base content, with cross-reference checking against merged base+mod ids.
+  - `game/engine/input.py`: `ReplayInput` record mode now delegates to `AutoPilotInput` for real gameplay input during `--record`.
+  - `game/engine/scenes.py`: fixed indentation in replay input source wiring.
+- **Gates:** `python -m game.main --headless --turns 300 --seed 0` → exit 0, violations=[]; `python -m tools.validate_data` → PASS (9 files, 625 entries, 0 errors); `python -m tools.art.verify` → PASS (452 sprites, 569 frames, 0 off-palette); `python -m tools.selftest` → 22/22; `python -m tools.studio.verify_gate --seeds 0 1 2` → PASS all 7 green; `python -m tools.qa.rng_quality` → 9/9 PASS, `--inject-bug` catches the historical defect.
+
 ## 2026-09-14 — P5.6 Modding-lite (Forge) — DONE
 
 - **P5.6 implemented and documented** — Modding-lite: expose `game/data/` overrides from a user folder.
