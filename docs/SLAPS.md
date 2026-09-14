@@ -2691,3 +2691,10 @@ Messages:       38 (1 user, 36 tool calls)
 > **Close pass 2026-09-14 09:02 on SLAP #89:** CLEAN - fix verified (exit 0) — game/data/rooms.json: 205 entries, ok
 game/data/statuses.json: 21 entries, ok
 PASS: 9 file(s), 625 entries, 0 error(s), 0 warning(s)
+
+> **Close pass 2026-09-14 09:04 on SLAP #85:** STILL OPEN - fix did not verify (exit 2) — /usr/bin/bash: -c: line 1: unexpected EOF while looking for matching `''
+
+> **Close pass 2026-09-14 09:05 on SLAP #86:** STILL OPEN - fix did not verify (exit 1) —   File "C:\Users\dbshe\rogueworks\game\systems\rng.py", line 3
+    def random(self):
+Indentation
+  + balance items                                no strictly-dominant item found at any tier (compared 
