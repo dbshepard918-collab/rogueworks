@@ -229,6 +229,15 @@ class Audio:
         """Play the stairs descend sound with distance attenuation."""
         self.play("stairs", pos=pos)
 
+    # -- death / victory stings -----------------------------------------
+    def play_death(self):
+        """Play the death sting (non-positional, menu-style)."""
+        self.play("death")
+
+    def play_victory(self):
+        """Play the victory sting (non-positional, menu-style)."""
+        self.play("victory")
+
 
 # Module-level convenience function — matches existing wiring pattern
 def play(world, name, pos=None):
