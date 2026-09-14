@@ -1654,7 +1654,7 @@
       "reply": "PENDING - dispatched as pid 18480, receipt runs/slaps/slap-forge-20260914-030520.log",
       "fix_command": "cd /c/Users/dbshe/rogueworks && MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m tools.qa.regression --seeds 0 1 2 --turns 300",
       "fix_exit": 0,
-      "fix_output": "  + stair reach seed 0                           floor=1 biome=catacombs stairs=(2, 22) reachable from spawn=(2, 2) map=48x34 rooms=6\n  + stair reach seed 1                           floor=1 biome=catacombs stairs=(2, 22) reachable from spawn=(2, 2) map=48x34 rooms=6\n  + stair reach seed 2                           floor=1 biome=catacombs stairs=(2, 22) reachable from spawn=(2, 2) map=48x32 rooms=6\n  + balance items                                no strictly-dominant item found at any tier (compared on damage/armor/crit/speed)\n------------------------------------------------------------------------\nVERDICT: PASS - all 7 check(s) green",
+      "fix_output": "  + stair reach seed 0                           floor=1 biome=catacombs stairs=(2, 22) reachable from spawn=(2, 2) map=48x34 rooms=6\n  + stair reach seed 1                           floor=1 biome=catacombs stairs=(2, 22) reachable from spawn=(2, 2) map=48x34 rooms=6\n  + stair reach seed 2                           floor=1 biome=catacombs stairs=(2, 22) reachable from spawn=(2, 2) map=48x32 rooms=6\n  + balance items                                no strictly-dominant item found at any tier (compared on armor/crit/damage/luck/max_hp/speed)\n------------------------------------------------------------------------\nVERDICT: PASS - all 7 check(s) green",
       "status": "CLEAN - fix verified"
     },
     {
@@ -1673,7 +1673,26 @@
       "reply": "PENDING - dispatched as pid 7264, receipt runs/slaps/slap-forge-20260914-030520.log",
       "fix_command": "cd /c/Users/dbshe/rogueworks && MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m tools.qa.regression --json --seeds 0 1 2",
       "fix_exit": 0,
-      "fix_output": "      \"check\": \"balance items\",\n      \"status\": \"PASS\",\n      \"detail\": \"no strictly-dominant item found at any tier (compared on damage/armor/crit/speed)\"\n    }\n  ]\n}",
+      "fix_output": "      \"check\": \"balance items\",\n      \"status\": \"PASS\",\n      \"detail\": \"no strictly-dominant item found at any tier (compared on armor/crit/damage/luck/max_hp/speed)\"\n    }\n  ]\n}",
+      "status": "CLEAN - fix verified"
+    },
+    {
+      "n": 89,
+      "at": "2026-09-16 23:22",
+      "bot": "forge",
+      "severity": "P1",
+      "violation": "sunken_ossuary biome missing from biomes.json \u2014 12 ossuary rooms reference unknown biome id, validate_data fails 117 errors, audit_sprites 87 MISSING sprites",
+      "evidence": "game/data/rooms.json lines 165-204: all ossuary_* rooms have biome=sunken_ossuary; game/data/biomes.json has 3 entries (catacombs, ember_warrens, drowned_vaults) \u2014 no sunken_ossuary; validate_data: 117 errors (40 rooms.json + 77 items.json); audit_sprites: 87 MISSING sprites",
+      "rule": "Any new biome referenced in rooms.json must exist in biomes.json in the same change; CONTRACTS.md \u00a74 biomes contract updated",
+      "rule_key": "any-new-biome-referenced-in-rooms-json-must-exist-in-biomes-json",
+      "level": 1,
+      "action": "WARNING - fix it and reply with evidence",
+      "soul_note": "",
+      "reply_rc": 0,
+      "reply": "PENDING - dispatched async to forge",
+      "fix_command": "cd /c/Users/dbshe/rogueworks && MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m tools.validate_data 2>&1 | tail -3",
+      "fix_exit": 0,
+      "fix_output": "game/data/rooms.json: 205 entries, ok\ngame/data/statuses.json: 21 entries, ok\nPASS: 9 file(s), 625 entries, 0 error(s), 0 warning(s)",
       "status": "CLEAN - fix verified"
     }
   ]

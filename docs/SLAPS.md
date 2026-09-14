@@ -2677,3 +2677,17 @@ Messages:       38 (1 user, 36 tool calls)
 > **Close pass 2026-09-14 08:09 on SLAP #85:** STILL OPEN - fix did not verify (exit 2) — /usr/bin/bash: -c: line 1: unexpected EOF while looking for matching `''
 
 > **Close pass 2026-09-14 08:09 on SLAP #85:** STILL OPEN - fix did not verify (exit 2) — /usr/bin/bash: -c: line 1: unexpected EOF while looking for matching `''
+
+> **Close pass 2026-09-14 09:02 on SLAP #87:** CLEAN - fix verified (exit 0) —   + stair reach seed 0                           floor=1 biome=catacombs stairs=(2, 22) reachable from spawn=(2, 2) map=48x34 rooms=6
+  + stair reach seed 1                           floor=1 biome=cat
+
+> **Close pass 2026-09-14 09:02 on SLAP #88:** CLEAN - fix verified (exit 0) —       "check": "balance items",
+      "status": "PASS",
+      "detail": "no strictly-dominant item found at any tier (compared on armor/crit/damage/luck/max_hp/speed)"
+    }
+  ]
+}
+
+> **Close pass 2026-09-14 09:02 on SLAP #89:** CLEAN - fix verified (exit 0) — game/data/rooms.json: 205 entries, ok
+game/data/statuses.json: 21 entries, ok
+PASS: 9 file(s), 625 entries, 0 error(s), 0 warning(s)
