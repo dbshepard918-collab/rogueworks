@@ -487,18 +487,25 @@ the QA verdict, and the next item you would take.
 [38;2;255;255;255;48;2;19;87;20m+b = json.load(open('game/data/biomes.json'))[0m
 [38;2;255;255;255;48;2;19;87;20m+[0m
 [38;2;255;255;255;48;2;19;87;20m+# Check biomes.json monster lists vs monsters.json actual biome field[0m
-[38;2;255;255;255;48;2;19;87;20m+print("=== biomes.json monster lists vs monsters.json biome field ===")[0m
-[38;2;255;255;255;48;2;19;87;20m+for entry in b['entries']:[0m
-[38;2;255;255;255;48;2;19;87;20m+    bio_id = entry['id'][0m
-[38;2;255;255;255;48;2;19;87;20m+    bio_monsters = entry.get('monsters', [])[0m
-[38;2;255;255;255;48;2;19;87;20m+    # Check which monsters in monsters.json have this biome[0m
-[38;2;255;255;255;48;2;19;87;20m+    actual = [mon['id'] for mon in m['entries'] if mon.get('biome') == bio_id][0m
-[38;2;255;255;255;48;2;19;87;20m+    print(f"\n  {bio_id}:")[0m
-[38;2;255;255;255;48;2;19;87;20m+    print(f"    biomes.json lists: {len(bio_monsters)} monsters")[0m
-[38;2;255;255;255;48;2;19;87;20m+    print(f"    monsters.json has biome={bio_id}: {len(actual)} monsters")[0m
-[38;2;255;255;255;48;2;19;87;20m+    [0m
-[38;2;255;255;255;48;2;19;87;20m+    # Check which biomes.json monsters are missing from monsters.json with matching biome[0m
-[38;2;255;255;255;48;2;19;87;20m+    missing = [mid for mid in bio_monsters if not any(mon['id']==mid and mon.get('biome')==bio_id for mon in m['entries'])][0m
+[38;2;255;255;255;48;2;19;87;20m+print  ┊ 💻 preparing terminal…
+  ┊ 💻 $         rm -f runs/studio/round-r7-forge.log.tmp + 6 commands  0.4s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         git status --short 2>/dev/null + 2 commands  0.2s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         git diff --stat HEAD -- runs/studio/round-r7-forge.log 2>/dev/null + 1 command  0.2s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         git show HEAD:runs/studio/loop.out + 5 commands  0.4s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         git diff runs/studio/loop.out HEAD 2>/dev/null + 2 commands  0.3s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         git status --short 2>/dev/null + 2 commands  0.2s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         git diff runs/studio/round-r7-forge.log HEAD 2>/dev/null  0.2s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         git diff --stat HEAD -- runs/studio/round-r7-forge.log 2>/dev/null + 2 commands  0.2s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         git status --short 2>/dev/null | grep -v "round-r7" + 1 command  0.2s
+on in m['entries'])][0m
 [38;2;255;255;255;48;2;19;87;20m+    print(f"    Missing or wrong biome: {missing}")[0m
 [38;2;255;255;255;48;2;19;87;20m+    [0m
 [38;2;255;255;255;48;2;19;87;20m+    # Check which monsters.json monsters with this biome are NOT in biomes.json list[0m

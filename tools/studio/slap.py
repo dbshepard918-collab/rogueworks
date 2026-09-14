@@ -59,9 +59,19 @@ def slug(rule: str) -> str:
 
 
 def escalation(ledger: dict, bot: str, rule_key: str) -> int:
+    """How severe this bot's *next* offence of the same rule should be (1-3).
+
+    VOID entries are excluded on purpose: a voided slap is one that was established as NOT the
+    bot's failure (a malformed acceptance command, a target artefact that no longer exists). If a
+    void still counted, its level would push the next genuine first offence straight to level 2 -
+    writing the rule into the bot's SOUL.md - for something the bot never did. The same defect
+    class as the prose `--fix`: a record that was never evidence must not be used as evidence.
+    """
     n = 1
     for s in ledger["slaps"]:
         if s["bot"] == bot and s["rule_key"] == rule_key:
+            if str(s.get("status", "")).strip().upper().startswith("VOID"):
+                continue
             n = max(n, int(s.get("level", 1)) + 1)
     return min(n, 3)
 
