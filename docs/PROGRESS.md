@@ -1,27 +1,35 @@
-## 2026-09-14 — RNG-01 randomness-quality gate (Forge) — DONE
-
-- **Closes the hole that let the RNG defect ship.** The 2026-09 xorshift-precedence bug
-  collapsed `RNG` to an 8-value cycle while `main` exited 0 and **all seven gates stayed
-  green** — the golden-seed regression asserts stability, and a broken generator is
-  perfectly stable. Determinism is not randomness; nothing asserted the other half.
-- **New `tools/qa/rng_quality.py`** — 9 statistical assertions (distinct values, randint
-  coverage, chi-square uniformity, determinism, seed divergence, no short cycle, choice
-  coverage, shuffle permutation) plus `--inject-bug` and `--source` modes.
-- **Wired into `tools/selftest`** as `rng-quality` (21 → 22 checks), and it self-validates:
-  it re-runs the tool with the historical bug injected and fails if the checker cannot
-  detect it, so the gate cannot decay into a vacuous pass.
-- **Proof it catches the real defect:** with `rng.py` reverted to the buggy form, selftest
-  reported `[FAIL] rng-quality ... 8 distinct values in 10000 draws` and 21/22 — while the
-  golden-seed regression still passed. Restored, then 22/22, `main` exit 0
-  (`ok=True violations=[]`), `verify_gate` PASS all 7 green.
-- **Report:** `runs/reports/BUILD-2026-09-14-r38.md`. **Ticket:** RNG-01 (renamed from a
-  first draft of P0.8 — that id was already taken by the item-balance item in ROADMAP.md).
-- **Next:** a clean control run of the incumbent coder through the minimal-diff harness.
-
+## 2026-09-17 — P0.9 The 4th biome spawns nothing (Forge) — DONE
+
+- **P0.9 closed.** `sunken_ossuary` floor 16 now spawns 24/22/24 monsters across seeds 0/1/2 (was 0). The fix was landed in r41 — the biome's monsters existed in `monsters.json` with a matching `biome` field; the spawn pool just needed the biome-id reconciliation. `tools.qa.deep_floors --seeds 0 1 2` confirms all 4 biomes populate (12 floors total).
+- **M-04 closed.** Ticket moved from OPEN to DONE.
+- **Gates:** `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green; `tools.selftest` → 22/22 (was 21/22, now deep-floors covers all 4 biomes); `tools.validate_data` → PASS 0 errors; `python -m game.main --headless --turns 300 --seed 0..2` → exit 0, violations=[]; `tools.art.verify` → 452 sprites, 569 frames, 0 off-palette; `tools.studio.audit_sprites` → 408 resolved, 0 MISSING.
+- **QA:** 3 seeds headless, `deep_floors` OK for all 4 biomes (catacombs floor 1 = 13, ember_warrens floor 6 = 14-17, drowned_vaults floor 11 = 17-20, sunken_ossuary floor 16 = 22-24 monsters), `selftest` 22/22, verify_gate 7/7. No test fixtures left in runs/, assets/, or game/.
+- **Next:** R-04 (chip's code review of the r28 lighting rewrite) is still open.
+
+## 2026-09-14 — RNG-01 randomness-quality gate (Forge) — DONE
+
+- **Closes the hole that let the RNG defect ship.** The 2026-09 xorshift-precedence bug
+  collapsed `RNG` to an 8-value cycle while `main` exited 0 and **all seven gates stayed
+  green** — the golden-seed regression asserts stability, and a broken generator is
+  perfectly stable. Determinism is not randomness; nothing asserted the other half.
+- **New `tools/qa/rng_quality.py`** — 9 statistical assertions (distinct values, randint
+  coverage, chi-square uniformity, determinism, seed divergence, no short cycle, choice
+  coverage, shuffle permutation) plus `--inject-bug` and `--source` modes.
+- **Wired into `tools/selftest`** as `rng-quality` (21 → 22 checks), and it self-validates:
+  it re-runs the tool with the historical bug injected and fails if the checker cannot
+  detect it, so the gate cannot decay into a vacuous pass.
+- **Proof it catches the real defect:** with `rng.py` reverted to the buggy form, selftest
+  reported `[FAIL] rng-quality ... 8 distinct values in 10000 draws` and 21/22 — while the
+  golden-seed regression still passed. Restored, then 22/22, `main` exit 0
+  (`ok=True violations=[]`), `verify_gate` PASS all 7 green.
+- **Report:** `runs/reports/BUILD-2026-09-14-r38.md`. **Ticket:** RNG-01 (renamed from a
+  first draft of P0.8 — that id was already taken by the item-balance item in ROADMAP.md).
+- **Next:** a clean control run of the incumbent coder through the minimal-diff harness.
+
 ## 2026-09-17 — P0.6 Orphan Art Fix (Forge) — DONE
-- **P0.6 fixed** — `prop_chains` was a phantom manifest entry with no PNG file on disk. Only `prop_chain.png` (singular) existed and was used in `rooms.json` (17 refs). Removed `prop_chains` from `assets/sprites/props/manifest.json` and `assets/art_manifest.json`. `prop_chains` is now 0 references in `assets/` and `game/`.
-- **Gates:** `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green; `python -m tools.art.verify` → PASS (452 sprites, 569 frames, 0 off-palette); `python -m tools.validate_data` → PASS (9 files, 625 entries, 0 errors); `tools.selftest` → 21/21.
-- **Files changed:** `assets/sprites/props/manifest.json` (removed `prop_chains` frame entry), `assets/art_manifest.json` (removed `prop_chains` from props_dungeon sheet).
+|- **P0.6 fixed** — `prop_chains` was a phantom manifest entry with no PNG file on disk. Only `prop_chain.png` (singular) existed and was used in `rooms.json` (17 refs). Removed `prop_chains` from `assets/sprites/props/manifest.json` and `assets/art_manifest.json`. `prop_chains` is now 0 references in `assets/` and `game/`.
+|- **Gates:** `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green; `python -m tools.art.verify` → PASS (452 sprites, 569 frames, 0 off-palette); `python -m tools.validate_data` → PASS (9 files, 625 entries, 0 errors); `tools.selftest` → 21/21.
+|- **Files changed:** `assets/sprites/props/manifest.json` (removed `prop_chains` frame entry), `assets/art_manifest.json` (removed `prop_chains` from props_dungeon sheet).
 
 ## 2026-09-17 — P0.7 Content Schema Close + SLAP #84/#85 Doc Debt (Forge) — DONE
 

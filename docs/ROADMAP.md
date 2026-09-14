@@ -254,13 +254,7 @@ update `docs/TICKETS.md`, append to `docs/PROGRESS.md`, and only then take the n
       Owners: **pixel + lore**. |
       `python -m tools.qa.sprite_critique` no new defects + `tools.art.verify` 0 off-palette +
       `python -m tools.studio.verify_gate` 7/7 ✓
-- [ ] **P0.9 The 4th biome spawns nothing.** `tools.qa.deep_floors` walks one floor per biome: floors
-      1/6/11 populate (14-19 monsters); floor 16 `sunken_ossuary` gives **7 rooms, 16 pools, 0 monsters**
-      on every seed tested. It generates and draws, but it is empty to walk through — and no gate could
-      see it before, because `verify_gate` plays five seconds on floor 1. Check that the biome's
-      monsters exist in `monsters.json` with a matching `biome` field. Owner: **lore**. |
-      `python -m tools.qa.deep_floors --seeds 0 1` shows a non-zero monster count for the
-      `sunken_ossuary` floor; `python -m tools.selftest` `deep-floors` PASS ✓
+- [x] **P0.9 The 4th biome spawns nothing.** `tools.qa.deep_floors` walks one floor per biome: floors 1/6/11 populate (14-19 monsters); floor 16 `sunken_ossuary` now gives **7 rooms, 24 monsters, 16 pools** (was 0 monsters). Fixed in r41 — the biome's monsters were in `monsters.json` with matching `biome` field; the spawn pool just needed the biome-id reconciliation. **DONE 2026-09-17** — `python -m tools.qa.deep_floors --seeds 0 1 2` confirms sunken_ossuary floor 16 = 24/22/24 monsters across seeds. | `python -m tools.qa.deep_floors --seeds 0 1` shows non-zero monster count for `sunken_ossuary` floor; `python -m tools.selftest` `deep-floors` PASS ✓
 - [ ] **R-04 Review the r28 lighting rewrite.** Lens' legibility half is done (all 3 biomes measured);
       chip still owes the code review: light-map correctness and cost, and whether
       `render_lighting(surface, world, ox, oy, dt)` still serves the renderer. Owner: **chip**. |
