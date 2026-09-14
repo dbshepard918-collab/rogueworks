@@ -10,7 +10,7 @@
   "metrics": {
     "fps_equiv": 228,
     "frames": 300,
-    "ms_per_tick": 4.3945
+    "ms_per_tick": 4.3941
   },
   "metrics_profiler": {
     "atlas_mem_bytes": 2146304,
@@ -19,11 +19,11 @@
     "draw_calls": 969,
     "entity_cap": 200,
     "entity_count": 15,
-    "fps_equiv": 9737.1,
+    "fps_equiv": 6807.4,
     "particle_cap": 420,
     "particle_count": 0,
     "target_fps": 60,
-    "tick_ms": 0.1,
+    "tick_ms": 0.15,
     "tick_ms_smoothed": 0.11
   },
   "ok": true,
