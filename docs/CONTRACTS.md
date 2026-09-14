@@ -269,6 +269,33 @@ P5.1 mechanisms:
 - **Autosave on floor entry**: `world.new_floor()` calls `save_sys.save_profile(self.profile, slot_name="autosave")` when `self.floor != self.previous_floor`. Failure is silently caught to never break gameplay.
 - **Named slots**: `save_slot(slot_name, profile)` / `load_slot(slot_name)` / `list_saves()` allow multiple named save files.
 
+### P5.6 Modding-lite (added 2026-09-14)
+
+The `game/data/` content directory can be overridden or layered with a user mod
+folder via two CLI flags:
+
+- `--data-dir <path>` — replaces `game/data/` entirely for content loading.
+- `--mod-dir <path>` — layered on top of `data-dir` (or `game/data/`). Mod JSON
+  files override base entries by matching `id`; duplicate ids warn but the mod wins.
+
+Each mod file in `--mod-dir` must be named `<table>.json` where `table` is one of:
+`monsters`, `items`, `affixes`, `rooms`, `biomes`, `statuses`, `flavor`.
+
+Every mod file is a JSON object:
+```json
+{"version": 1, "entries": [...]}
+```
+
+- `version` must be `1`; any other value produces a validator error.
+- `entries` must be an array; any other type produces a validator error.
+- Each entry must match the schema of its base table (see §4).
+- Duplicate `id` values within a mod file produce a validator error.
+- Filenames not matching a known table produce a validator warning
+  (must be in CONTRACTS §4).
+- Mod files are validated by `tools.validate_data --mod-dir <path>`.
+- If a mod file is unreadable (corrupt JSON, permission error), the game emits a
+  warning and skips it — never crashes.
+
 Version history:
-- v1 → v2: meta-progression tree fields (`meta`, `levels`, `essence`).
-- v2 → v3: `save_slots`, `autosave`, `run_history`, `codex`, `bestiary`, `class_id`, `unlocks`, `ascension`, `unlocked_classes`, `unlocked_ascension`. Migration path defined in `load_profile()`.
+|- v1 → v2: meta-progression tree fields (`meta`, `levels`, `essence`).
+|- v2 → v3: `save_slots`, `autosave`, `run_history`, `codex`, `bestiary`, `class_id`, `unlocks`, `ascension`, `unlocked_classes`, `unlocked_ascension`. Migration path defined in `load_profile()`.
