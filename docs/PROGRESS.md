@@ -16,7 +16,7 @@
 - **M-04 closed.** Ticket moved from OPEN to DONE.
 - **Gates:** `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green; `tools.selftest` → 22/22 (was 21/22, now deep-floors covers all 4 biomes); `tools.validate_data` → PASS 0 errors; `python -m game.main --headless --turns 300 --seed 0..2` → exit 0, violations=[]; `tools.art.verify` → 452 sprites, 569 frames, 0 off-palette; `tools.studio.audit_sprites` → 408 resolved, 0 MISSING.
 - **QA:** 3 seeds headless, `deep_floors` OK for all 4 biomes (catacombs floor 1 = 13, ember_warrens floor 6 = 14-17, drowned_vaults floor 11 = 17-20, sunken_ossuary floor 16 = 22-24 monsters), `selftest` 22/22, verify_gate 7/7. No test fixtures left in runs/, assets/, or game/.
-- **Next:** R-04 (chip's code review of the r28 lighting rewrite) is still open.
+|- **Next:** M-01 (trial `essentialai/rnj-1` as chip's coder) is still open.
 
 ## 2026-09-14 — R-04 Chip code review of the r28 lighting rewrite — DONE
 
