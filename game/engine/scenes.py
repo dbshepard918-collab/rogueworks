@@ -903,14 +903,10 @@ class EndScene(Scene):
     def draw(self, surface):
         surface.fill(colour("void", (11, 10, 16)))
         # P4.7: play death/victory sting
-        audio = getattr(self.game, "_audio", None)
-        if audio is None:
-            audio = Audio(enabled=not self.game.headless)
-            self.game._audio = audio
         if self.victory:
-            audio.play_victory()
+            play_victory()
         else:
-            audio.play_death()
+            play_death()
         menus_mod.draw_end_screen(surface, self.world, self.victory, self.game.profile, self.menu)
 
 

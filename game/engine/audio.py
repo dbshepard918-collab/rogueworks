@@ -94,10 +94,10 @@ class Audio:
         self._current_biome = ""
         self._player_pos = (0.0, 0.0)
         self._manifest = []  # audio manifest entries from game/data/audio.json
-        set_audio_singleton(self)
         if not enabled:
             return
         try:
+            set_audio_singleton(self)
             if not pygame.mixer.get_init():
                 pygame.mixer.init(frequency=22050, size=-16, channels=8, buffer=512)
             self.enabled = True
@@ -284,16 +284,32 @@ class Audio:
         self.play("stairs", pos=pos)
 
 
+# -- module-level audio singleton -----------------------------------
+_audio_singleton = None
+
+
+def set_audio_singleton(audio):
+    """Set the module-level audio singleton for play_death/play_victory."""
+    global _audio_singleton
+    _audio_singleton = audio
+
+
+def get_audio_singleton():
+    """Return the module-level audio singleton, or None."""
+    global _audio_singleton
+    return _audio_singleton
+
+
 def play_death():
-    """Module-level convenience function to play the death sting."""
-    audio = getattr(_audio_singleton, "_instance", None)
+    """Play the death sting via the module-level audio singleton."""
+    audio = get_audio_singleton()
     if audio is not None:
         audio.play_death()
 
 
 def play_victory():
-    """Module-level convenience function to play the victory sting."""
-    audio = getattr(_audio_singleton, "_instance", None)
+    """Play the victory sting via the module-level audio singleton."""
+    audio = get_audio_singleton()
     if audio is not None:
         audio.play_victory()
 
