@@ -1492,7 +1492,7 @@ class World:
                 "tiles": tiles_hex,
             }
 
-    def summary(self, ok=None, round=None):
+    def summary(self, ok=None, round_num=None):
             player = self.player
             violations = self.check_invariants()
             counts = self.counts()
@@ -1533,6 +1533,6 @@ class World:
                 "errors": list(self.errors),
                 "invariants": {"violations": violations},
             }
-            if round is not None:
-                result["round"] = round
+            if round_num is not None:
+                result["round"] = round_num
             return result
