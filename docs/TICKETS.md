@@ -4,6 +4,8 @@ Status legend: `TODO` · `DOING` · `DONE` · `BLOCKED`. Owner routes work to th
 Every ticket names its **acceptance command** — a ticket without one is not a ticket.
 
 ## Open
+
+||||||| P0.8 | **chip** | **OPEN — no gate asserts randomness QUALITY.** `RNG._next()` lost two of three xorshift steps to operator precedence and collapsed to an **8-value cycle** (`randint(0,9)` could never return 0/3/8/9; 10,000 draws gave 8 distinct values). Every existing gate stayed green: the golden-seed regression asserts *stability*, not randomness, so a broken generator is perfectly 'deterministic' and passes. Fixed in commit `a9529f6`, but **nothing stops it recurring**. Add a statistical check: over 10,000 draws `RNG(seed).random()` must yield >9,000 distinct values, `randint(0,9)` must reach all ten values, and a 10-bucket chi-square must stay in tolerance. It must FAIL on the pre-fix implementation - prove that first. | `python -m tools.qa.rng_quality` exits 0 on the fixed generator AND non-zero when `_next()` is reverted to the precedence-bugged form; `python -m tools.selftest` includes it ✓ |
 
 |||||| # | Owner | Ticket | Acceptance |
 |---|---|---|---|---|
