@@ -104,9 +104,22 @@ def bench(model):
                "tersely, numbered 1-5.\n" + "\n".join("%d. %s" % (i + 1, q) for i, (_, q) in
                                                       enumerate(QUESTIONS))
     r = ask(model, combined, b64, max_tokens=MAX_TOKENS)
+    # A truncated answer is not a score. Measured: glm-4.6v-flash answered Q1=16 and
+    # Q2=5 CORRECTLY and then hit finish_reason=length, because 2035 reasoning tokens
+    # ate the 2048 budget - reported as "2/5", which reads as a capability verdict and
+    # is really a harness limit. Retry wider instead of scoring a partial reply.
+    escalated = 0
+    while r["finish"] == "length" and r["usage"].get("completion_tokens", 0) >= MAX_TOKENS \
+            and MAX_TOKENS * (4 ** (escalated + 1)) <= 32768:
+        escalated += 1
+        wider = MAX_TOKENS * (4 ** escalated)
+        print("     [TRUNCATED at %d tokens - retrying with %d to avoid scoring a partial reply]"
+              % (MAX_TOKENS, wider))
+        r = ask(model, combined, b64, max_tokens=wider)
     text, usage = r["text"], r["usage"]
-    print("  answers in %.1fs (%s tokens, finish=%s, reasoning=%s):"
-          % (r["elapsed"], usage.get("total_tokens"), r["finish"], r["reasoning_tokens"]))
+    print("  answers in %.1fs (%s tokens, finish=%s, reasoning=%s%s):"
+          % (r["elapsed"], usage.get("total_tokens"), r["finish"], r["reasoning_tokens"],
+             ", after %d escalation(s)" % escalated if escalated else ""))
     if not text.strip():
         print("     [EMPTY content] the model returned no answer text.")
         if r["reasoning_tokens"]:
@@ -115,6 +128,9 @@ def bench(model):
                   % (r["reasoning_tokens"], MAX_TOKENS))
         elif r["reasoning"]:
             print("     DIAGNOSIS: text went to reasoning_content: %r" % r["reasoning"][:120])
+    if r["finish"] == "length":
+        print("     [WARNING] still truncated at %d tokens - any score below is a FLOOR, "
+              "not a verdict" % (MAX_TOKENS * (4 ** escalated) if escalated else MAX_TOKENS))
     for line in text.splitlines():
         if line.strip():
             print("     %s" % line.strip()[:96])
@@ -144,6 +160,7 @@ def bench(model):
     lms("unload", "--all")
     return {"model": model, "max_tokens": MAX_TOKENS, "answer_latency_s": round(r["elapsed"], 1),
             "answer_finish": r["finish"], "reasoning_tokens": r["reasoning_tokens"],
+            "truncated": r["finish"] == "length", "escalations": escalated,
             "answer_raw": text[:2000], "answer_empty": not text.strip(),
             "critique_latency_s": round(celapsed, 1), "critique_raw": crit[:3000],
             "critique_empty": not crit.strip(), "score": correct,
