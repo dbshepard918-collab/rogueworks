@@ -17,7 +17,11 @@ import json
 import math
 import os
 
-import pygame
+try:
+    import pygame
+    _PYGAME_OK = True
+except ImportError:
+    _PYGAME_OK = False
 
 _SFX_SPECS = {
     "hit":      (220.0, 0.075, 0.35, "square"),
