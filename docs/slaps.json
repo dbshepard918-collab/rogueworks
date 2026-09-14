@@ -1635,7 +1635,7 @@
       "reply": "PENDING - dispatched as pid 8448, receipt runs/slaps/slap-forge-20260914-030205.log",
       "fix_command": "cd /c/Users/dbshe/rogueworks && MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m tools.qa.regression --seeds 0 1 2 --turns 300",
       "fix_exit": 0,
-      "fix_output": "  + stair reach seed 0                           floor=1 biome=catacombs player=(2,2) map=48x34 rooms=6\n  + stair reach seed 1                           floor=1 biome=catacombs player=(2,2) map=48x34 rooms=6\n  + stair reach seed 2                           floor=1 biome=catacombs player=(2,2) map=48x32 rooms=6\n  - balance items                                items.json carries no comparable combat stats (measured zero on damage, armor, crit, power, defense, speed, heal across 73 entries) - dominance is not measurable from this schema, so this check asserts nothing rather than inventing findings from price order\n------------------------------------------------------------------------\nVERDICT: PASS - all 7 check(s) green",
+      "fix_output": "  + stair reach seed 0                           floor=1 biome=catacombs stairs=(2, 22) reachable from spawn=(2, 2) map=48x34 rooms=6\n  + stair reach seed 1                           floor=1 biome=catacombs stairs=(2, 22) reachable from spawn=(2, 2) map=48x34 rooms=6\n  + stair reach seed 2                           floor=1 biome=catacombs stairs=(2, 22) reachable from spawn=(2, 2) map=48x32 rooms=6\n  + balance items                                no strictly-dominant item found at any tier (compared on damage/armor/crit/speed)\n------------------------------------------------------------------------\nVERDICT: PASS - all 7 check(s) green",
       "status": "CLEAN - fix verified"
     },
     {
@@ -1654,7 +1654,7 @@
       "reply": "PENDING - dispatched as pid 18480, receipt runs/slaps/slap-forge-20260914-030520.log",
       "fix_command": "cd /c/Users/dbshe/rogueworks && MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m tools.qa.regression --seeds 0 1 2 --turns 300",
       "fix_exit": 0,
-      "fix_output": "  + stair reach seed 0                           floor=1 biome=catacombs player=(2,2) map=48x34 rooms=6\n  + stair reach seed 1                           floor=1 biome=catacombs player=(2,2) map=48x34 rooms=6\n  + stair reach seed 2                           floor=1 biome=catacombs player=(2,2) map=48x32 rooms=6\n  - balance items                                items.json carries no comparable combat stats (measured zero on damage, armor, crit, power, defense, speed, heal across 73 entries) - dominance is not measurable from this schema, so this check asserts nothing rather than inventing findings from price order\n------------------------------------------------------------------------\nVERDICT: PASS - all 7 check(s) green",
+      "fix_output": "  + stair reach seed 0                           floor=1 biome=catacombs stairs=(2, 22) reachable from spawn=(2, 2) map=48x34 rooms=6\n  + stair reach seed 1                           floor=1 biome=catacombs stairs=(2, 22) reachable from spawn=(2, 2) map=48x34 rooms=6\n  + stair reach seed 2                           floor=1 biome=catacombs stairs=(2, 22) reachable from spawn=(2, 2) map=48x32 rooms=6\n  + balance items                                no strictly-dominant item found at any tier (compared on damage/armor/crit/speed)\n------------------------------------------------------------------------\nVERDICT: PASS - all 7 check(s) green",
       "status": "CLEAN - fix verified"
     },
     {
@@ -1673,7 +1673,7 @@
       "reply": "PENDING - dispatched as pid 7264, receipt runs/slaps/slap-forge-20260914-030520.log",
       "fix_command": "cd /c/Users/dbshe/rogueworks && MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m tools.qa.regression --json --seeds 0 1 2",
       "fix_exit": 0,
-      "fix_output": "      \"check\": \"balance items\",\n      \"status\": \"SKIP\",\n      \"detail\": \"items.json carries no comparable combat stats (measured zero on damage, armor, crit, power, defense, speed, heal across 73 entries) - dominance is not measurable from this schema, so this check asserts nothing rather than inventing findings from price order\"\n    }\n  ]\n}",
+      "fix_output": "      \"check\": \"balance items\",\n      \"status\": \"PASS\",\n      \"detail\": \"no strictly-dominant item found at any tier (compared on damage/armor/crit/speed)\"\n    }\n  ]\n}",
       "status": "CLEAN - fix verified"
     }
   ]

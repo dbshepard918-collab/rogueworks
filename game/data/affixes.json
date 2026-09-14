@@ -282,6 +282,331 @@
       "tier_min": 4,
       "tier_max": 5,
       "weight": 10
+    },
+    {
+      "id": "of_fire",
+      "name": "of Fire",
+      "effect": {
+        "damage": 5
+      },
+      "tier_min": 2,
+      "tier_max": 4,
+      "weight": 55
+    },
+    {
+      "id": "of_ice",
+      "name": "of Ice",
+      "effect": {
+        "damage": 5
+      },
+      "tier_min": 2,
+      "tier_max": 4,
+      "weight": 55
+    },
+    {
+      "id": "of_lightning",
+      "name": "of Lightning",
+      "effect": {
+        "damage": 6
+      },
+      "tier_min": 3,
+      "tier_max": 5,
+      "weight": 42
+    },
+    {
+      "id": "of_poison_bloom",
+      "name": "of Poison Bloom",
+      "effect": {
+        "damage": 4
+      },
+      "tier_min": 2,
+      "tier_max": 3,
+      "weight": 60
+    },
+    {
+      "id": "of_shadow_step",
+      "name": "of Shadow Step",
+      "effect": {
+        "damage": 6
+      },
+      "tier_min": 3,
+      "tier_max": 5,
+      "weight": 38
+    },
+    {
+      "id": "of_holy_light",
+      "name": "of Holy Light",
+      "effect": {
+        "damage": 5
+      },
+      "tier_min": 2,
+      "tier_max": 4,
+      "weight": 48
+    },
+    {
+      "id": "of_cinder",
+      "name": "of Cinder",
+      "effect": {
+        "damage": 7
+      },
+      "tier_min": 3,
+      "tier_max": 5,
+      "weight": 32
+    },
+    {
+      "id": "of_spectral_shield",
+      "name": "of Spectral Shield",
+      "effect": {
+        "armor": 3
+      },
+      "tier_min": 1,
+      "tier_max": 3,
+      "weight": 72
+    },
+    {
+      "id": "of_iron_will",
+      "name": "of Iron Will",
+      "effect": {
+        "armor": 6
+      },
+      "tier_min": 3,
+      "tier_max": 5,
+      "weight": 38
+    },
+    {
+      "id": "of_the_obelisk",
+      "name": "of the Obelisk",
+      "effect": {
+        "armor": 5
+      },
+      "tier_min": 2,
+      "tier_max": 4,
+      "weight": 52
+    },
+    {
+      "id": "of_phasing",
+      "name": "of Phasing",
+      "effect": {
+        "armor": 2
+      },
+      "tier_min": 1,
+      "tier_max": 2,
+      "weight": 88
+    },
+    {
+      "id": "of_renewal",
+      "name": "of Renewal",
+      "effect": {
+        "max_hp": 15
+      },
+      "tier_min": 1,
+      "tier_max": 3,
+      "weight": 78
+    },
+    {
+      "id": "of_mending",
+      "name": "of Mending",
+      "effect": {
+        "max_hp": 28
+      },
+      "tier_min": 3,
+      "tier_max": 5,
+      "weight": 30
+    },
+    {
+      "id": "of_vitality_well",
+      "name": "of Vitality Well",
+      "effect": {
+        "max_hp": 22
+      },
+      "tier_min": 2,
+      "tier_max": 4,
+      "weight": 50
+    },
+    {
+      "id": "of_life_bloom",
+      "name": "of Life Bloom",
+      "effect": {
+        "max_hp": 13
+      },
+      "tier_min": 1,
+      "tier_max": 2,
+      "weight": 85
+    },
+    {
+      "id": "of_gale",
+      "name": "of Gale",
+      "effect": {
+        "speed": 0.18
+      },
+      "tier_min": 1,
+      "tier_max": 3,
+      "weight": 68
+    },
+    {
+      "id": "of_sudden_charge",
+      "name": "of Sudden Charge",
+      "effect": {
+        "speed": 0.25
+      },
+      "tier_min": 2,
+      "tier_max": 4,
+      "weight": 42
+    },
+    {
+      "id": "of_the_hurricane",
+      "name": "of the Hurricane",
+      "effect": {
+        "speed": 0.32
+      },
+      "tier_min": 3,
+      "tier_max": 5,
+      "weight": 24
+    },
+    {
+      "id": "of_dash",
+      "name": "of Dash",
+      "effect": {
+        "speed": 0.12
+      },
+      "tier_min": 1,
+      "tier_max": 2,
+      "weight": 82
+    },
+    {
+      "id": "of_fortune_seeker",
+      "name": "of Fortune Seeker",
+      "effect": {
+        "luck": 3
+      },
+      "tier_min": 2,
+      "tier_max": 4,
+      "weight": 55
+    },
+    {
+      "id": "of_serendipity",
+      "name": "of Serendipity",
+      "effect": {
+        "luck": 6
+      },
+      "tier_min": 3,
+      "tier_max": 5,
+      "weight": 24
+    },
+    {
+      "id": "of_chance",
+      "name": "of Chance",
+      "effect": {
+        "luck": 2
+      },
+      "tier_min": 1,
+      "tier_max": 3,
+      "weight": 78
+    },
+    {
+      "id": "of_blessing",
+      "name": "of Blessing",
+      "effect": {
+        "luck": 4
+      },
+      "tier_min": 2,
+      "tier_max": 5,
+      "weight": 48
+    },
+    {
+      "id": "of_precise_strike",
+      "name": "of Precise Strike",
+      "effect": {
+        "crit": 5
+      },
+      "tier_min": 2,
+      "tier_max": 4,
+      "weight": 48
+    },
+    {
+      "id": "of_critical_mass",
+      "name": "of Critical Mass",
+      "effect": {
+        "crit": 8
+      },
+      "tier_min": 3,
+      "tier_max": 5,
+      "weight": 28
+    },
+    {
+      "id": "of_edge",
+      "name": "of Edge",
+      "effect": {
+        "crit": 5
+      },
+      "tier_min": 2,
+      "tier_max": 3,
+      "weight": 62
+    },
+    {
+      "id": "of_rupture",
+      "name": "of Rupture",
+      "effect": {
+        "crit": 7
+      },
+      "tier_min": 3,
+      "tier_max": 5,
+      "weight": 32
+    },
+    {
+      "id": "of_berserk",
+      "name": "of Berserk",
+      "effect": {
+        "damage": 9,
+        "speed": 0.1
+      },
+      "tier_min": 3,
+      "tier_max": 5,
+      "weight": 18
+    },
+    {
+      "id": "of_hardened",
+      "name": "of Hardened",
+      "effect": {
+        "armor": 4,
+        "luck": 2
+      },
+      "tier_min": 2,
+      "tier_max": 3,
+      "weight": 52
+    },
+    {
+      "id": "of_eclipse",
+      "name": "of Eclipse",
+      "effect": {
+        "damage": 7,
+        "luck": 3
+      },
+      "tier_min": 3,
+      "tier_max": 5,
+      "weight": 22
+    },
+    {
+      "id": "of_the_storm",
+      "name": "of the Storm",
+      "effect": {
+        "damage": 8,
+        "speed": 0.15
+      },
+      "tier_min": 3,
+      "tier_max": 5,
+      "weight": 20
+    },
+    {
+      "id": "of_deep_resolve",
+      "name": "of Deep Resolve",
+      "effect": {
+        "max_hp": 36,
+        "armor": 3
+      },
+      "tier_min": 3,
+      "tier_max": 5,
+      "weight": 16
     }
   ]
 }
