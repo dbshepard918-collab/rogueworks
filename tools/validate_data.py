@@ -123,6 +123,11 @@ SCHEMAS: dict[str, dict[str, dict]] = {
         "ambient_sound": {"type": "dict", "required": False},
         "attenuation": {"type": "dict", "required": False},
         "sfx_events": {"type": "dict", "required": False},
+        "secret_rooms": {"type": "list", "required": False},
+    },
+    "audio.json": {
+        "version": {"type": "num", "min": 1},
+        "manifest": {"type": "list", "items": {"type": "dict"}, "required": False},
     },
     "statuses.json": {
         "id": {"type": "str", "id": True},
@@ -435,6 +440,26 @@ def validate_dir(data_dir: Path, atlas_dir: Path, project_root: Path) -> Report:
             report.files.append({
                 "file": fname,
                 "entries": 0,
+                "errors": len(report.errors) - file_errors_before,
+            })
+            continue
+
+        # audio.json uses "manifest" instead of "entries"
+        if fname == "audio.json":
+            manifest = data.get("manifest", [])
+            if not isinstance(manifest, list):
+                report.error(fname, f"'manifest' must be an array, got {describe(manifest)}")
+            else:
+                for idx, entry in enumerate(manifest):
+                    if not isinstance(entry, dict):
+                        report.error(f"{fname} [{idx}]", "entry must be an object")
+                        continue
+                    for req_field in ("id", "file", "model", "license", "seed", "loop", "gain"):
+                        if req_field not in entry:
+                            report.error(f"{fname} [{idx}]", f"missing required field '{req_field}'")
+            report.files.append({
+                "file": fname,
+                "entries": len(manifest),
                 "errors": len(report.errors) - file_errors_before,
             })
             continue

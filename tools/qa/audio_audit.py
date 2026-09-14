@@ -91,7 +91,7 @@ def audit(root: Path, manifest_rel: str = MANIFEST, audio_rel: str = AUDIO_DIR) 
         return {"manifest": manifest_rel, "present": True, "unreadable": str(exc),
                 "cues": [], "problems": ["manifest unreadable: %s" % exc]}
 
-    entries = data.get("entries", data) if isinstance(data, dict) else data
+    entries = data.get("manifest", data.get("entries", [])) if isinstance(data, dict) else data
     if not isinstance(entries, list):
         return {"manifest": manifest_rel, "present": True, "cues": [],
                 "problems": ["manifest must be {\"entries\": [...]} - got %s"
@@ -112,10 +112,16 @@ def audit(root: Path, manifest_rel: str = MANIFEST, audio_rel: str = AUDIO_DIR) 
             problems.append("%s: licence %r is not shippable (allowlist: %s)"
                             % (cue_id, licence, ", ".join(sorted(allow))))
         file_rel = entry.get("file") or ""
-        wav = root / audio_rel / Path(file_rel).name if file_rel else None
+        # manifest entries may carry a bare filename OR a repo-relative path; accept
+        # both and resolve against the project root so the same entry works either way
+        wav = None
+        if file_rel:
+            candidate = root / file_rel
+            wav = candidate if candidate.is_file() else root / audio_rel / Path(file_rel).name
         info: dict = {}
         if wav is None or not wav.is_file():
-            problems.append("%s: file not found (%s/%s)" % (cue_id, audio_rel, file_rel))
+            problems.append("%s: file not found (%s)"
+                            % (cue_id, _util.rel_posix(candidate, root) if file_rel else "<no file>"))
         else:
             try:
                 info = read_wav(wav)

@@ -1,3 +1,39 @@
+## 2026-09-14 — P4.7 Original Score + P5.2 Replay (Forge)
+
+- **Implemented:** P4.7 audio manifest system — created  with 7 cues (title_theme, 3 biome ambiences, boss_theme, death_sting, victory_sting). Added  and  to .  schema added to . Fixed  to support  key. All 7 cues pass  (rms, peak, dc_offset, click_ratio all within spec).
+- **P5.2 Deterministic Replay verified:**  captures 300 input states;  produces identical run (player pos [2,2], hp 90, ticks 300, biome catacombs). Exit 0 with violations=[] on both paths.
+- **QA:** ==============================================================================
+VERIFY GATE  2026-09-14 01:58
+==============================================================================
+  headless seed 0                    PASS     2.0s  ok=True violations=[]
+  headless seed 1                    PASS     1.9s  ok=True violations=[]
+  headless seed 2                    PASS     1.8s  ok=True violations=[]
+  tools.validate_data                PASS     0.1s  game/data/rooms.json: 45 entries, ok | game/data/statuses.json: 21 entries, ok | PASS: 9 file(s), 299 entries, 0 error(s), 0 warning(s)
+  tools.art.verify                   PASS     0.4s  verify: palette 'vaelmoor' v1 (26 colours), tolerance 0 | sprites checked: 414 in 2 dir(s) | atlases: 8 (391 frames) | aliases: 39 | PASS: 414 sprite file(s), 391 frame(s), 0 off-palette pixel(s)
+  tools.selftest                     PASS     6.4s  [PASS] glyph-coverage               69 glyph(s) defined, all renderable | 19 checks: 19 passed, 0 skipped, 0 failed | OK: no failures
+  tools.studio.audit_sprites         PASS     0.4s  audit_sprites: 263 sprite name(s) referenced by content | resolved: 263 | MISSING : 0
+------------------------------------------------------------------------------
+VERDICT: PASS - all 7 gate(s) green → PASS all 7 green; game/data/affixes.json: 28 entries, ok
+game/data/audio.json: 7 entries, ok
+game/data/biomes.json: 3 entries, ok
+game/data/flavor.json: 65 entries, ok
+game/data/items.json: 73 entries, ok
+game/data/meta_tree.json: 0 entries, ok
+game/data/monsters.json: 57 entries, ok
+game/data/rooms.json: 45 entries, ok
+game/data/statuses.json: 21 entries, ok
+PASS: 9 file(s), 299 entries, 0 error(s), 0 warning(s) → 0 errors, 0 warnings; audio-audit: 7 cue(s) in game/data/audio.json
+  title_theme            ace_step                     mit      15.00s rms=0.04465 peak=0.19992 click=0.0
+  music_catacombs_drip   ace_step                     mit      30.00s rms=0.0332 peak=0.14993 click=0.0
+  music_ember_warrens    ace_step                     mit      30.00s rms=0.02218 peak=0.11978 click=0.028
+  music_drowned_vaults   ace_step                     mit      30.00s rms=0.02655 peak=0.11996 click=0.0
+  boss_theme             ace_step                     mit      30.00s rms=0.05886 peak=0.19995 click=0.018
+  death_sting            ace_step                     mit      5.00s rms=0.06698 peak=0.29962 click=0.0
+  victory_sting          ace_step                     mit      5.00s rms=0.06698 peak=0.29974 click=0.002
+OK: every shipped cue is licensed and audible → OK all 7 cues licensed and audible.
+- **Files changed:** , , , , , , , , .
+- **Next:** P4.8 Numeric audio QA (wire audio_audit into selftest).
+
 # Progress log — Depths of Vaelmoor
 Newest entry first. One entry per build round; append, never rewrite history.
 
