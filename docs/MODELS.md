@@ -54,8 +54,8 @@ free) · `qwen2.5-vl-3b-instruct` · `qwen2.5-vl-7b-instruct` (see below) · `mi
 
 The 7B Qwen2.5-VL was benchmarked head-to-head against the pin on the studio's real job (the sprite
 contact sheet), scored on **verifiable answers** — counts, colours, and the presence of a known
-defect — because prose quality cannot be scored honestly. Harness: `%TEMP%/rw_vlm_bench.py` (writes
-its per-question answers to `%TEMP%/rw_vlm_bench_results.json` when it completes).
+defect — because prose quality cannot be scored honestly. Harness: `python -m tools.qa.vlm_bench [model]` (versioned in the repo; merge-writes its
+per-question answers plus the sheet hash to `%TEMP%/rw_vlm_bench_results.json`).
 
 **Latency caveat:** only one model fits on the card and the VLM is shared with the other bots, so
 the second numbers below were taken while other agents were queued on the same endpoint. Treat the
@@ -67,12 +67,19 @@ the second numbers below were taken while other agents were queued on the same e
 | sprites in the last row (5) | 7 ✗ | 16 ✗ |
 | plate colour behind sprites (dark grey) | "white and blue" ✗ | "dark gray" ✓ |
 | duplicate sprites present (yes) | "yes" ✓ | "yes" ✓ |
-| flat solid rectangles present (yes, 6) | "no" ✗ | "yes" ✓ |
-| **score** | **1/5** | **4/5** |
-| answer latency / critique latency | 7.9 s / 15.3 s | 4.1 s / 5.5 s |
+| flat solid rectangles present (yes, 6) | **"no" ✗** | "yes" ✓ |
+| **score** | **1/5** (its only successful run) | **4/5, reproduced in 6 separate runs** |
+| answer / critique latency | 7.9 s / 15.3 s | 3.2–4.1 s / 4.4–6.2 s |
 
-The challenger is ~2× slower and missed the one defect class this studio exists to catch. Sheet size
-matters as much as the model: the same critique took **77 s at 2116×1896** and **5.5 s at 1092×888**.
+**It also does not reliably load.** On the retry `lms load qwen2.5-vl-7b-instruct --gpu max -c 8192`
+timed out after **600 s**. On a box that holds one model at a time, swap cost *is* part of the model's
+cost — a model that cannot be loaded cannot serve as a fallback, regardless of quality.
+
+The challenger is ~2× slower, blind to the one defect class this studio exists to catch, and did not
+load on demand. Sheet size matters as much as the model: the same critique took **77 s at
+2116×1896** and 4.4–6.2 s at 1092×888. Evidence (`python -m tools.qa.vlm_bench qwen/qwen3-vl-8b`) pins the exact
+sheet — canonical `rw_sprite_contact.png`, 197 cells, `sha256 58894dcb…` — so a future run is
+comparable rather than merely similar.
 
 Do **not** draw index numbers on a contact sheet to make findings citable. Measured: the model then
 regurgitates `1, 2, 3, ... 188` instead of judging art — the labels become the task. Ask for
@@ -94,10 +101,13 @@ measurement before acting on it. Current tally on this project, all tests re-run
 | R3C5 `monster_hive_splitter` reads as an unreadable blob | IoU vs the measured trio | ✅ **TRUE** — it is one of the 3 confirmed silhouette duplicates |
 | "nothing looks like a resized photo / gradient" | `art.verify` palette + partial-alpha | ✅ **TRUE** |
 | "9/10 — reads as deliberate game art" | objective defect count | ⚠️ **DISAGREES** — the same round measures 24 objective defects; self-scores are not evidence |
+| "anti-aliasing artifacts on the health/mana orbs" (2nd & 3rd time it raised anti-aliasing) | partial-alpha share | ❌ **FALSE** — 0.00% partial-alpha; it repeats this because it "knows" what game art looks like, not because it looked |
+| names sprites it cannot know: "Cursed", "Wisp", "Sword", "Dagger", "health/mana orbs" | the sheet carries **no labels** | ❌ **FABRICATED** — it invents plausible names for an unlabelled sheet; never quote a VLM's sprite name, always resolve a position |
+| "worst unreadable" picks: top row 3rd–4th from right, then R3C1–R3C5, then top row 3rd–4th again | same input, three runs | ⚠️ **UNSTABLE** — the specific picks move between runs; treat a claim as a lead to check, never as a finding |
 
-Tally: **3 true, 4 false, 1 false claim whose lead found a real defect.** Verdicts on *its own*
-advice ("add anti-aliasing") are wrong far more often than its observations — never let it set the
-house rules, and always give it the house rules in the prompt.
+Tally: **3 true, 6 false, 1 unstable.** Verdicts on *its own* advice ("add anti-aliasing") are wrong
+far more often than its observations — never let it set the house rules, and always give it the house
+rules in the prompt.
 
 Note `qwen2.5-coder-14b` and `ui-tars-7b-dpo` were both recommended to the owner by an external
 advisor; both fail the first tool call with real tools attached.
