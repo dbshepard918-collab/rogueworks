@@ -1,0 +1,21 @@
+{
+  "slap_id": 101,
+  "bot": "forge",
+  "timestamp": "2026-09-14T16:31:00",
+  "severity": "P2",
+  "escalation_level": 1,
+  "violation": "Test fixtures left in project root: tmp/p52-r2rec.json, tmp/p52-r2rpl.json, tmp/p52-r2rpl2.json, tmp/r.json, tmp/r.json.log, tmp/r2.json.log are verification run artefacts from this round.",
+  "evidence": "ls /c/Users/dbshe/rogueworks/tmp/: p52-r2rec.json p52-r2rpl.json p52-r2rpl2.json r.json r.json.log r2.json.log — all dated during round 2, none referenced by any project file",
+  "rule": "Never leave test fixtures in runs/ or assets/ or project root — write them under C:\\Users\\dbshe\\AppData\\Local\\Temp and delete them, or make the tool clean up after itself (STANDARDS P2).",
+  "action": "WARNING - fix it and reply with evidence",
+  "bot_reply_pid": 13004,
+  "bot_reply_rc": 0,
+  "fix_verification": {
+    "command": "python C:\\Users\\dbshe\\AppData\\Local\\Temp\\cleanup_tmp.py",
+    "exit_code": 0,
+    "output": "tmp/ at C:\\Users\\dbshe\\rogueworks\\tmp removed",
+    "post_verify_ls": "No such file or directory",
+    "status": "CLEAN - fix verified"
+  },
+  "close_pass": "2026-09-14 16:32 on SLAP #101: CLEAN - fix verified (exit 0) — tmp/ removed"
+}

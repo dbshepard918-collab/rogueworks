@@ -2815,3 +2815,40 @@ PASS: 452 sprite file(s), 569 frame(s), 0 off-palette pixel(s)
 > **Close pass 2026-09-14 15:27 on SLAP #98:** CLEAN - fix verified (exit 0) — VERDICT: PASS - all 7 gate(s) green
 warning: in the working copy of 'game/engine/scenes.py', LF will be replaced by CRLF the next time Git touches it
 warning: in the working copy of 'game/systems/data
+
+## SLAP #99 — forge — 2026-09-14 16:31 (P2, level 2)
+
+- **Violation:** Round 2 is undocumented: no PROGRESS.md prepend entry, no BUILD-2026-09-18.md report written. The builder hit iteration budget 500/500 and explicitly listed remaining docs work. STANDARDS: each round must PREPEND a dated entry to docs/PROGRESS.md, write runs/reports/BUILD-<date>.md, and tick ROADMAP+TICKETS. An undocumented round did not happen.
+- **Evidence:** docs/PROGRESS.md: no entry newer than 2026-09-17 (P0.6 Orphan Art Fix); runs/reports/: no BUILD-2026-09-18.md; round-r2-forge.log summary: 'Remaining (not done — session hit tool limit): 1. docs/ROADMAP.md — tick P5.2, 2. docs/PROGRESS.md — prepend dated entry, 3. runs/reports/BUILD-2026-09-18.md — write BUILD report, 4. git add -A && git commit'
+- **Rule:** Round protocol (ROADMAP.md §Round protocol item 4): each round must PREPEND a dated entry to docs/PROGRESS.md, write runs/reports/BUILD-<date>.md, and tick the item in docs/ROADMAP.md + docs/TICKETS.md. An undocumented round did not happen.
+- **Action:** ESCALATED - the rule is now written into forge's SOUL.md (loads every session)
+- **Bot's reply (rc=0):** PENDING - dispatched as pid 25616, receipt runs/slaps/slap-forge-20260914-163107.log
+- **Fix verification:** exit=None :: (no acceptance command given)
+
+## SLAP #100 — forge — 2026-09-14 16:31 (P3, level 2)
+
+- **Violation:** TICKETS.md P5.2 ticket says DONE 2026-09-18 but the round ran on 2026-09-14. Date claims must match reality — a progress log that lies about dates misleads the reviewer.
+- **Evidence:** docs/TICKETS.md line 76: DONE 2026-09-18; round-r2-forge.log timestamps show 2026-09-14; system date 2026-09-14 per STANDARDS.md entries
+- **Rule:** Docs must accurately describe what happened. Date claims must match the system date and file timestamps.
+- **Action:** ESCALATED - the rule is now written into forge's SOUL.md (loads every session)
+- **Bot's reply (rc=0):** PENDING - dispatched as pid 10404, receipt runs/slaps/slap-forge-20260914-163107.log
+- **Fix verification:** exit=None :: (no acceptance command given)
+
+## SLAP #101 — forge — 2026-09-14 16:31 (P2, level 1)
+
+- **Violation:** Test fixtures left in project root: tmp/p52-r2rec.json, tmp/p52-r2rpl.json, tmp/p52-r2rpl2.json, tmp/r.json, tmp/r.json.log, tmp/r2.json.log are verification run artefacts from this round. STANDARDS: never leave test fixtures in runs/ or assets/ — write under LOCALAPPDATA/Temp and delete, or make the tool clean up after itself.
+- **Evidence:** ls /c/Users/dbshe/rogueworks/tmp/: p52-r2rec.json p52-r2rpl.json p52-r2rpl2.json r.json r.json.log r2.json.log — all dated during round 2, none referenced by any project file
+- **Rule:** Never leave test fixtures in runs/ or assets/ or project root — write them under C:\Users\dbshe\AppData\Local\Temp and delete them, or make the tool clean up after itself (STANDARDS P2).
+- **Action:** WARNING - fix it and reply with evidence
+- **Bot's reply (rc=0):** PENDING - dispatched as pid 13004, receipt runs/slaps/slap-forge-20260914-163112.log
+- **Fix verification:** exit=None :: (no acceptance command given)
+
+> **Close pass 2026-09-14 16:32 on SLAP #99:** STILL OPEN - fix did not verify (exit 2) — [SKIP] glyph-coverage               game package not built yet
+[SKIP] deep-floors                  game package not built yet
+[SKIP] golden-seed-regression       game package not built yet
+
+19 checks:
+
+> **Close pass 2026-09-14 16:32 on SLAP #100:** MALFORMED ACCEPTANCE COMMAND - not a runnable command, so NOT verifiable and NOT a bot failure; reissue with --close N --reissue-fix '<command>' (exit None) — acceptance command was prose: 'Edit docs/TICKETS.md line 76: change DONE 2026-09-18 to DONE 2026-09-14'
+
+> **Close pass 2026-09-14 16:32 on SLAP #101:** CLEAN - fix verified (exit 0) — tmp/ removed
