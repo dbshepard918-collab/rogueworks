@@ -61,16 +61,18 @@ VLM_MODEL = "qwen/qwen3-vl-8b"
 
 RUBRIC = (
     "You are the art director for a top-down action roguelite. The image is a contact sheet of the "
-    "sprites that ship in the game, each shown at 4x on a grey tile, ordered left-to-right, top-to-bottom.\n"
+    "sprites that ship in the game, laid out left-to-right, top-to-bottom, 16 cells per row. Refer to "
+    "a sprite ONLY by its position as 'row R, column C' (1-based). Do not invent sprite names - the "
+    "sheet carries none.\n"
     "HOUSE RULES, already enforced by measurement - do NOT contradict them or suggest breaking them:\n"
     "  * this is HARD-EDGED pixel art: every pixel is fully opaque or fully transparent, so "
     "'anti-aliasing', 'softer edges' and 'gradients' are DEFECTS here, never improvements;\n"
     "  * the palette is limited to 26 colours on purpose;\n"
     "  * sprite sizes and grid alignment are already verified correct.\n"
-    "Answer ONLY these questions, terse and specific:\n"
-    "1. Does each sprite read as a distinct OBJECT at 32x32, or are some an unreadable blob? Name the "
-    "   worst offenders by position (row/column).\n"
-    "2. Which sprites are near-duplicates of each other that a player could not tell apart?\n"
+    "Answer ONLY these questions, terse and specific. Keep the whole reply under 150 words:\n"
+    "1. Which positions read as an unreadable blob rather than a distinct object? Give at most the "
+    "   worst 5 as 'row R, column C'.\n"
+    "2. Which positions are near-duplicates that a player could not tell apart? At most 3 pairs.\n"
     "3. Does anything look like a resized photograph or a smooth gradient rather than pixel art?\n"
     "4. One concrete, in-medium improvement (hard edges, silhouette, silhouette contrast against the "
     "   floor - NOT anti-aliasing).\n"
@@ -226,13 +228,31 @@ def vlm_critique(sheet_path, timeout=600) -> str:
         return json.loads(resp.read().decode())["choices"][0]["message"]["content"]
 
 
+def cell_for_position(mapping, cols, row, column):
+    """Resolve a 'row R, column C' reference back to an exact frame name.
+
+    The VLM works in positions; the fix needs frame names. Without this bridge its
+    findings are unactionable, and with labels drawn into the image instead the model
+    just enumerated the labels (measured: it returned 1..188 and no critique at all).
+    """
+    index = (row - 1) * cols + (column - 1)
+    if 0 <= index < len(mapping):
+        entry = mapping[index]
+        return "%s (%s)" % (entry["frame"], entry["atlas"])
+    return None
+
+
 def build_contact_sheet(root, out_path, max_w=1600, max_h=1200):
     """Contact sheet at the largest WHOLE scale that fits the pixel budget.
 
-    An unnecessarily large sheet is not free: the local VLM processes it as
-    visual tokens (77 s for 2116x1896), and downscaling a finished sheet would
-    blur the very pixels under review. Choosing an integer scale up front keeps
-    NEAREST crispness and bounds the cost.
+    Cells are **numbered** and the index->frame mapping is returned. Without it the
+    VLM invents names (it reported "the 'Cursed' sprites" for a sheet that carries no
+    labels at all), which makes its findings unactionable. A number resolves to an
+    exact frame name.
+
+    An unnecessarily large sheet is not free either: the local VLM processes it as
+    visual tokens (77 s at 2116x1896), and downscaling a finished sheet would blur
+    the very pixels under review.
     """
     from PIL import Image, ImageDraw
     cols, pad = 16, 4
@@ -245,9 +265,9 @@ def build_contact_sheet(root, out_path, max_w=1600, max_h=1200):
         frames = json.loads(meta.read_text(encoding="utf-8")).get("frames", {})
         src = Image.open(png).convert("RGBA")
         for frame_name in sorted(frames):
-            items.append((src, frames[frame_name]))
+            items.append((name, frame_name, src, frames[frame_name]))
     if not items:
-        return None
+        return None, []
 
     rows = (len(items) + cols - 1) // cols
     scale = 1
@@ -260,15 +280,19 @@ def build_contact_sheet(root, out_path, max_w=1600, max_h=1200):
     canvas = Image.new("RGB", (cols * (cell + pad) + pad, rows * (cell + pad) + pad),
                        (26, 24, 34))
     draw = ImageDraw.Draw(canvas)
-    for i, (src, box) in enumerate(items):
+
+    mapping = []
+    for i, (atlas_name, frame_name, src, box) in enumerate(items):
         r, c = divmod(i, cols)
         x, y = pad + c * (cell + pad), pad + r * (cell + pad)
         draw.rectangle([x - 1, y - 1, x + cell, y + cell], fill=(70, 64, 86))
         sprite = src.crop((box[0], box[1], box[0] + box[2], box[1] + box[3]))
         sprite = sprite.resize((cell, cell), Image.NEAREST)
         canvas.paste(sprite, (x, y), sprite)
+        mapping.append({"index": i, "atlas": atlas_name, "frame": frame_name,
+                        "row": r + 1, "column": c + 1})
     canvas.save(out_path)
-    return out_path
+    return out_path, mapping
 
 
 def main(argv=None) -> int:
@@ -291,12 +315,15 @@ def main(argv=None) -> int:
     vlm_text = None
     if args.vlm:
         sheet = args.sheet or os.path.join(os.environ.get("TEMP", "."), "rw_sprite_contact.png")
-        build_contact_sheet(root, sheet)
+        built, mapping = build_contact_sheet(root, sheet)
+        # publish the index -> frame map so a VLM finding like "cells 3 and 40" is
+        # actionable instead of an invented sprite name
+        report["contact_sheet"] = built
+        report["cell_map"] = mapping
         try:
-            vlm_text = vlm_critique(sheet)
+            vlm_text = vlm_critique(built)
         except Exception as exc:                                  # noqa: BLE001
             vlm_text = "VLM critique unavailable: %s: %s" % (type(exc).__name__, exc)
-        report["contact_sheet"] = sheet
         report["vlm"] = vlm_text
 
     rc = EXIT_FAIL if report["problems"] else EXIT_OK

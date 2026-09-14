@@ -18,7 +18,7 @@ from ..engine.assets import colour, draw_text, text_size, load_palette
 from ..engine.input import KeyboardInput, ScriptedInput, ReplayInput
 from ..engine.gamepad import GamepadInput
 from ..engine.renderer import Renderer
-from ..engine.audio import Audio, play
+from ..engine.audio import Audio, play, play_death, play_victory
 from ..engine.profiler import Profiler  # noqa: E402
 from ..ui.settings import RESOLUTION_MODES
 
@@ -902,6 +902,15 @@ class EndScene(Scene):
 
     def draw(self, surface):
         surface.fill(colour("void", (11, 10, 16)))
+        # P4.7: play death/victory sting
+        audio = getattr(self.game, "_audio", None)
+        if audio is None:
+            audio = Audio(enabled=not self.game.headless)
+            self.game._audio = audio
+        if self.victory:
+            audio.play_victory()
+        else:
+            audio.play_death()
         menus_mod.draw_end_screen(surface, self.world, self.victory, self.game.profile, self.menu)
 
 

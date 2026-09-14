@@ -1,4 +1,4 @@
-"""Optional procedural audio.  Never a blocker: silently disabled when no device.
+"""Optional audio.  Never a blocker: silently disabled when no device.
 
 GDD section 8: the game must run silently and happily with no audio device.
 
@@ -8,7 +8,8 @@ P4.3 additions:
   * title theme music (MenuScene draw)
   * door open sound event
   * stairs play event
-  * wave module retained for saving/loading audio state
+  * death and victory sting events (play_death, play_victory)
+  * manifest-driven cue loading from assets/audio/
 """
 
 import array
@@ -37,7 +38,7 @@ _SFX_SPECS = {
 _BIOME_AMBIENCE = {
     "catacombs":      {"music": "music_catacombs_drip",  "loop_gain": 0.12},
     "ember_warrens":  {"music": "music_ember_warrens",   "loop_gain": 0.12},
-    "drowned_vaults": {"music": None,                     "loop_gain": 0.0},
+    "drowned_vaults": {"music": "music_drowned_vaults",  "loop_gain": 0.10},
 }
 
 # Distance attenuation model
@@ -78,8 +79,9 @@ def _attenuate(distance, base_volume=0.35):
 class Audio:
     """Thin wrapper over pygame.mixer with graceful degradation.
 
-    P4.3: supports distance-attenuated SFX playback, biome ambience loops,
-    title theme music, door-open events, and stairs events.
+    Loads manifest cues from game/data/audio.json via load_audio_cue()
+    and plays them as pygame.mixer.Sound objects.  Procedural SFX
+    (_SFX_SPECS) are still synthesized on demand.
     """
 
     def __init__(self, enabled=True, warnings=None):
@@ -92,6 +94,7 @@ class Audio:
         self._current_biome = ""
         self._player_pos = (0.0, 0.0)
         self._manifest = []  # audio manifest entries from game/data/audio.json
+        set_audio_singleton(self)
         if not enabled:
             return
         try:
@@ -147,8 +150,9 @@ class Audio:
     def set_biome(self, biome_id):
         """Switch the ambient loop to match the current biome.
 
-        Stops the previous loop and starts the new one.  If the biome has
-        no music entry (drowned_vaults), all ambience fades out.
+        Loads the manifest cue by id via load_audio_cue() instead of
+        synthesizing a procedural drone.  If the biome has no music
+        entry, all ambience fades out gracefully.
         """
         if not self.ok:
             return
@@ -161,18 +165,18 @@ class Audio:
         self._stop_ambience()
         # Start new ambience on a dedicated channel
         try:
-            # Create or reuse a looping ambience sound
             music_key = cfg["music"]
-            if music_key not in self.sounds:
-                # Generate a low-frequency ambient drone
-                samples = _make_wave_buffer(60.0, 4.0, 1.0, "sine")
-                self.sounds[music_key] = pygame.mixer.Sound(buffer=samples)
-            self.sounds[music_key].set_volume(cfg["loop_gain"])
-            ch = pygame.mixer.find_channel()
-            if ch is not None:
-                ch.set_volume(cfg["loop_gain"])
-                ch.play(self.sounds[music_key], loops=-1)
-                self.ambience_channels[biome_id] = ch
+            # Load the manifest cue from disk (not procedural synthesis)
+            sound = load_audio_cue(self, music_key)
+            if sound is not None:
+                if music_key not in self.sounds:
+                    self.sounds[music_key] = sound
+                self.sounds[music_key].set_volume(cfg["loop_gain"])
+                ch = pygame.mixer.find_channel()
+                if ch is not None:
+                    ch.set_volume(cfg["loop_gain"])
+                    ch.play(self.sounds[music_key], loops=-1)
+                    self.ambience_channels[biome_id] = ch
         except Exception:
             pass
 
@@ -189,7 +193,7 @@ class Audio:
         """Update the listener position for distance attenuation."""
         self._player_pos = (float(x), float(y))
 
-    # -- manifest -------------------------------------------------------
+    # -- manifest ---------------------------------------------------------
     def _load_manifest(self):
         """Load the audio manifest from game/data/audio.json if it exists."""
         try:
@@ -203,19 +207,69 @@ class Audio:
 
     # -- title theme ------------------------------------------------------
     def play_title_theme(self):
-        """Play the title screen music once (non-looping)."""
+        """Play the title screen music once (non-looping).
+
+        Loads title_theme.wav from the manifest instead of synthesizing
+        a 440Hz tone.
+        """
         if not self.ok:
             return
         self._stop_ambience()
         try:
             if "title_theme" not in self.sounds:
-                samples = _make_wave_buffer(440.0, 3.0, 0.2, "sine")
-                self.sounds["title_theme"] = pygame.mixer.Sound(buffer=samples)
-            ch = pygame.mixer.find_channel()
-            if ch is not None:
-                ch.set_volume(0.25)
-                ch.play(self.sounds["title_theme"])
-                self.title_channel = ch
+                sound = load_audio_cue(self, "title_theme")
+                if sound is not None:
+                    self.sounds["title_theme"] = sound
+            snd = self.sounds.get("title_theme")
+            if snd is not None:
+                ch = pygame.mixer.find_channel()
+                if ch is not None:
+                    ch.set_volume(0.25)
+                    ch.play(snd)
+                    self.title_channel = ch
+        except Exception:
+            pass
+
+    # -- death and victory stings -----------------------------------------
+    def play_death(self):
+        """Play the death sting once (non-looping).
+
+        Loads death_sting.wav from the manifest.
+        """
+        if not self.ok:
+            return
+        try:
+            if "death_sting" not in self.sounds:
+                sound = load_audio_cue(self, "death_sting")
+                if sound is not None:
+                    self.sounds["death_sting"] = sound
+            snd = self.sounds.get("death_sting")
+            if snd is not None:
+                ch = pygame.mixer.find_channel()
+                if ch is not None:
+                    ch.set_volume(0.30)
+                    ch.play(snd)
+        except Exception:
+            pass
+
+    def play_victory(self):
+        """Play the victory sting once (non-looping).
+
+        Loads victory_sting.wav from the manifest.
+        """
+        if not self.ok:
+            return
+        try:
+            if "victory_sting" not in self.sounds:
+                sound = load_audio_cue(self, "victory_sting")
+                if sound is not None:
+                    self.sounds["victory_sting"] = sound
+            snd = self.sounds.get("victory_sting")
+            if snd is not None:
+                ch = pygame.mixer.find_channel()
+                if ch is not None:
+                    ch.set_volume(0.30)
+                    ch.play(snd)
         except Exception:
             pass
 
@@ -229,14 +283,19 @@ class Audio:
         """Play the stairs descend sound with distance attenuation."""
         self.play("stairs", pos=pos)
 
-    # -- death / victory stings -----------------------------------------
-    def play_death(self):
-        """Play the death sting (non-positional, menu-style)."""
-        self.play("death")
 
-    def play_victory(self):
-        """Play the victory sting (non-positional, menu-style)."""
-        self.play("victory")
+def play_death():
+    """Module-level convenience function to play the death sting."""
+    audio = getattr(_audio_singleton, "_instance", None)
+    if audio is not None:
+        audio.play_death()
+
+
+def play_victory():
+    """Module-level convenience function to play the victory sting."""
+    audio = getattr(_audio_singleton, "_instance", None)
+    if audio is not None:
+        audio.play_victory()
 
 
 # Module-level convenience function — matches existing wiring pattern
@@ -260,7 +319,7 @@ _AUDIO_MANIFEST_PATH = os.path.join(
 
 
 def load_audio_cue(audio, cue_id):
-    """Load a manifest cue from disk into pygame.mixer.
+    """Load a manifest cue from disk into pygame.mixer.Sound.
 
     Looks up the cue by id in the manifest, verifies the file exists,
     and creates a pygame.mixer.Sound from it.  Returns the Sound or None.

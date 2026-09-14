@@ -729,6 +729,7 @@ class World:
                              color=(79, 209, 200), speed=150.0, life=0.9, size=4)
         self.camera.add_shake(10.0)
         play(self, "death")
+        self.audio.play_death()
         # P3.5: ensure rooms_visited is counted on death
         self._track_room_visit()
         self.floating.add(self.content.flavor_for("death", self.rng) or "You fall.",
@@ -738,6 +739,7 @@ class World:
         if self.run_state != "running":
             return
         self.run_state = "victory"
+        self.audio.play_victory()
         self.floating.add("VAELMOOR IS EMPTY. THE LANTERN STILL BURNS.",
                           color=(232, 178, 60), life=5.0)
 

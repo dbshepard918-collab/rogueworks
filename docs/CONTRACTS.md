@@ -114,6 +114,7 @@ All files are a JSON **object** with `{"version": 1, "entries": [ ... ]}`; array
 | `game/data/statuses.json` | `id`, `name`, `kind`(`dot`\|`debuff`\|`buff`), `magnitude`, `duration`(ticks), `tick_every`, `icon` |
 || `game/data/flavor.json` | `{"version":1,"entries":[{"id":..., "context":(`death`|`levelup`|`item`|`shrine`|`boss`), "text": "..."}]}` |
 || `game/data/meta_tree.json` | `{"version":1, "respec_cost": int(>=0), "branches":[{"id":str,"name":str,"color":[3 ints 0-255],"tiers":[{"level":int,"label":str,"stat":str,"bonus":num,"cost":int(>0),"desc":str,"prereq":str|null}]}]}` |
+|| `game/data/audio.json` | `{"version":1,"manifest":[{"id":str,"file":str,"model":str,"license":str,"seed":int,"loop":bool,"gain":float,"prompt":str,"cmd":str}]}` — audio manifest entries with `id` (e.g. `death_sting`, `victory_sting`), `file` path, `model`, `license`, `seed`, `loop`, `gain`, `prompt`, `cmd` |
 
 Numbers are numbers and booleans are booleans, never strings. `sprite` values must exist as frames in
 an atlas (validator cross-checks `assets/atlas/*.json`).
