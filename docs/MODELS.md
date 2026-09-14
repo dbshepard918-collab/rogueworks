@@ -122,7 +122,7 @@ opinions; re-runnable with the commands given.
 | Model | Lane | Verdict | Measured |
 |---|---|---|---|
 | `essentialai/rnj-1` | coder (chip) | **trial it** | **40–45 tok/s** (40.1 avg @150 tokens, 45.1 best @200), ~6.6 GiB VRAM, 3.7 s load @8K. Incumbent `qwen/qwen3-coder-30b`: 5.5 tok/s, 18.63 GB, 68 s load. ~8× throughput and the card stays free — but speed is not code quality, so it needs one real edit before any pin moves. Evidence: `%TEMP%/rw_bench_local.json` |
-| `zai-org/glm-4.6v-flash` | vision | no — **3/5, not 4/5** | Honest score **3/5 on a complete reply** (`finish=stop`), reproduced twice. It gets Q2/Q3/Q4 and **fails both questions that matter**: Q1 off by one (says 15, is 16) and Q5 — it **denies the flat-rectangle defect**, the one class this studio exists to catch. 36.5 s vs the pin's 3.2 s (~11× slower), ~2000 reasoning tokens per question. ⚠️ An earlier "2/5" in this file was **my harness truncating its reply**, not the model: see the correction note below. |
+| `zai-org/glm-4.6v-flash` | vision | **No — 3/5, and blind to broken frames** | Sheet bench: **3/5 on a complete reply** (`finish=stop`, reproduced twice) vs the pin's 4/5 (8 runs); Q1 off by one, **Q5 wrong — it denies the flat-rectangle defect**. Frame bench (quality, ground-truthed) is the decider: it rates an **unplayable** frame (34% visible tiles, mean luminance 15 — the exact "unplayable" bug signature) at **7/10 readable**, classification **1/3** vs the pin's 2/3. 13-27 s per frame. ⚠️ An earlier "2/5" in this file was **my harness truncating its reply** — see the correction note. |
 | `allenai/olmocr-2-7b` | vision | no | 1/5, generic critique. A document-OCR model — `qwen2vl` arch does not make it a sprite critic. |
 | `google/gemma-3-27b` | text | no — **1.3 tok/s** | At 4K context: 74.9 s load, warm-up **158.8 s for 200 tokens = 1.3 tok/s**, 3 runs all 1.3. `qwen/qwen3-8b` does 23.1 tok/s and `gemma-4-12b-qat` 20.0 — ~18× slower, before Hermes' required 64K context. **Two instruments disagree on its footprint:** `bench_local` reports 11,408 MiB after load (11,586 in the summary) against a 12,227 MiB card, while `lms load` reports 15.30 GiB — either way it has no room left for a second model, and 64K cannot fit. |
 | `darkmaniac7/TokForge-DreamShaper-LCM-GGUF-q4` | art generation | no — licence | `Lykon/dreamshaper-7` is **creativeml-openrail-m** (registry-verified); our shipping art model is **apache-2.0**. Refused, not wired — see `docs/ART-LICENSES.md`. Needs an SD1.5 VAE regardless. |
@@ -147,6 +147,35 @@ python -m tools.art.gen --licence-board                 # which art models may s
    harness now says so in words.
 2. **`bench_local`'s default 64K context** makes a model that does not fit look like a model that is
    broken (`HTTP Error 400`). Try `--context 8192` before recording a failure.
+
+#### Quality, not speed: can either model tell a broken frame from a playable one?
+
+Speed was never the deciding axis. `tools/qa/vlm_frame_bench` renders one real frame, degrades it by
+known factors (the same multiply-the-frame mechanism behind the original "floor 1 is unplayable" bug),
+labels each variant with the numeric legibility gate, and asks the model to rate readability 0-10.
+Ground truth and both models, one run:
+
+| frame | ground truth | `qwen3-vl-8b` (pin) | `glm-4.6v-flash` |
+|---|---|---|---|
+| x1.00 | mean_lum 49.0, **100%** tiles, gate **PASS** | 7.0 ✓ | 8.0 ✓ |
+| x0.55 | mean_lum 27.2, 76% tiles, gate **FAIL** | 5.0 (borderline) | **8.0 ✗** |
+| x0.30 | mean_lum 15.0, **34%** tiles, gate **FAIL** | 3.0 ✓ | **7.0 ✗** |
+| | ordering monotonic | YES | YES (barely) |
+| | **classification vs the gate** | **2/3** | **1/3** |
+
+**GLM rates the unplayable frame 7/10 — "readable".** That frame is 34% visible tiles at mean luminance
+15, the exact signature of the bug the owner reported as "looks like trash". For the one job the studio
+needs a vision model to do — look at a rendered frame and say whether it is playable — GLM cannot
+separate broken from good, and it never produced the tile-coverage number at all (the pin's estimates
+run 60/30/20 against the true 100/76/34: understated, but directionally right).
+
+So the rejection is **quality, not throughput**: 13-27 s per frame and blind to the defect class. The
+pin also misses the middle frame (5.0 on a FAIL), which is the useful part of this result — **neither
+VLM is an authority.** `scene_legibility` stays the gate; a VLM is a second opinion that must be
+calibrated against ground truth before anyone acts on it.
+
+Reproduce: `python -m tools.qa.vlm_frame_bench qwen/qwen3-vl-8b zai-org/glm-4.6v-flash --max-tokens 8192`
+→ `%TEMP%/rw_frame_bench.json`.
 
 #### Correction (same round): "2/5" for glm-4.6v-flash was a truncated reply
 
