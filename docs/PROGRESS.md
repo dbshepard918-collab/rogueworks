@@ -26,6 +26,53 @@ Newest entry first. One entry per build round; append, never rewrite history.
 
 ---
 
+## 2026-09-14 — P0: the dungeon was unplayable (lighting rebuilt) + a legibility gate (Forge)
+
+- **Reported by the owner from a screenshot:** *"map is dark, large pixelated circles, it didnt even
+  look like a map or playable map - no sprites, no monster sprites, no props."* P0 — an unplayable view
+  outranks features. Reproduced from a real frame before touching anything: **73.7% of pixels below
+  16/255 luminance, 33.2% of tiles visible**, and vision describing *"5 large, rounded, soft-edged
+  shapes with wavy/scalloped outer borders"* — the owner's "large pixelated circles".
+- **Three defects, all in `game/engine/lighting.py`.** (1) The fog step multiplied the entire frame by
+  the near-black ambient `(11,10,16)` under `BLEND_RGB_MULT`, so floor tiles — art that measures 78
+  mean luminance — rendered at ~26/255, i.e. black. (2) Each tile inside a light stamped a **solid
+  32 px-radius disc** (64 px diameter), so a 140 px lantern stamped ~190 overlapping discs: no
+  gradient, tiered edges. That is literally the "large pixelated circles". (3) The line-of-sight mask
+  is indexed by **level** tile but was queried with **screen** tile indices, so shadows landed at
+  random.
+- **Repair:** a real light map — per-biome ambient fill (near-white, since multiply can only darken),
+  cached radial gradients with the `(1-t)^2` falloff baked into the **RGB** values, per-tile shadowing
+  in **level** space, one `BLEND_RGB_MULT` at the end; visibility memoised per (level, player tile)
+  because it is ~900 Bresenham rays.
+- **Measured before → after, same seed and tick:** visible tiles **33.2% → 100%**, mid-tone pixels
+  **4.5% → 51.2%**, near-black **73.7% → 28.5%**, distinct colours 806 → **5,449**, gradient
+  smoothness (distinct luminance levels on a scanline) **12.7 → 33.6**, cost **3.23 ms/frame**.
+- **A bug in my own first fix, caught by measuring:** I carried the gradient in the alpha channel, but
+  `BLEND_RGB_ADD` ignores alpha, so the disc added flat and the lantern left the player's own tile at
+  `1 distinct colour`. Baking the falloff into RGB fixed it.
+- **Entities were always drawn — proven, not assumed:** the palette is locked to 26 colours so "sprite
+  colours present" proves nothing, so the player was isolated by rendering with the player hidden and
+  diffing — **250/1024 pixels change** in its 32×32 rect. Monsters sampled at their own positions show
+  22-71 distinct colours each; brazier 46 at 110 luminance, sarcophagus 32 at 168.
+- **Root cause of it shipping:** P4.1's acceptance metric was *"centre/brightness ratio > 4.0"* — a
+  **contrast** measurement. It passed on a frame that was 74% near-black. New gate
+  **`tools.qa.scene_legibility`** (wired into selftest, 18 → 19 checks) asserts visible-tile coverage
+  ≥85%, mid-tone share ≥25%, near-black ≤45%, colours ≥500, and **is proven to fail on the actual
+  broken frame** (`--frame` audits any saved PNG). Cost: 0 distinct-colour checks can catch a readable
+  dungeon without this.
+- **Lane note:** `lighting.py` belongs to chip; edited by forge because this was a P0 reported by the
+  owner and the feature was non-functional rather than imperfect. Signature unchanged, nothing else
+  imports it, review ticket open.
+- **Not verified this round:** vision was down (`404` on every call, retried), so legibility is
+  evidenced numerically and the frame is handed to the owner; ember warrens and drowned vaults were
+  tuned but not re-measured.
+- **Gates:** `verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green; selftest **19/19**. Evidence:
+  `runs/reports/BUILD-2026-09-13-r28.md`.
+
+---
+
+---
+
 ## 2026-09-13 — Music bot `tempo`
 
 ---

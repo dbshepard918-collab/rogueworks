@@ -71,7 +71,8 @@ def check_debris(root: Path) -> list[dict]:
     for pat in ("runs/scripts/*", "runs/*.py", "assets/**/_*", "assets/raw/_*",
                 "game/**/_*.py", "game/**/*_test.py", "assets/**/*_test.*"):
         for p in sorted(root.glob(pat)):
-            if p.is_file():
+            # __init__.py matches game/**/_*.py but is shipped, not debris
+            if p.is_file() and p.name != "__init__.py":
                 out.append(v("R-DEBRIS", "test debris left in the shipped tree",
                              "ls %s" % p.relative_to(root).as_posix(), p.relative_to(root).as_posix()))
     for p in sorted((root / "tools" / "studio").glob("*.py")):
@@ -275,6 +276,16 @@ def main(argv=None) -> int:
     ap.add_argument("--json", action="store_true", dest="as_json")
     ap.add_argument("--no-update", action="store_true", help="grade without moving the snapshot forward")
     args = ap.parse_args(argv)
+
+    # Evidence strings may contain non-ASCII glyphs (e.g. the arrow in a BUILD
+    # report's title). The Windows console default (cp1252) cannot encode those
+    # and would raise UnicodeEncodeError before every violation is printed, so
+    # force UTF-8 output for the whole process.
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
+    except Exception:  # noqa: BLE001 - encoding may be fixed on some platforms
+        pass
 
     if args.accept is not None:
         ok = rules.is_runnable_command(args.accept)

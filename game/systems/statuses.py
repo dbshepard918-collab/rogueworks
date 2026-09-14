@@ -201,11 +201,9 @@ def refresh_status_mods(actor):
                                 flat.get("armor", 0.0) + inst.magnitude * ARMOR_PER_POINT)
         elif sid == "regeneration":
             pass                       # handled as a heal-over-time in tick_statuses
-        elif inst.kind == "buff":
-            flat["damage"] = flat.get("damage", 0.0) + inst.magnitude * 0.5
-        elif inst.kind == "debuff":
-            pct["speed"] = pct.get("speed", 0.0) - min(0.5, inst.magnitude * 0.4)
-        # P2.5 combo statuses
+        # P2.5 combo statuses - checked BEFORE the generic kind branches so they
+        # are reachable: shatter is kind="debuff" and would otherwise be caught
+        # by the generic debuff branch below (dead special-case).
         elif sid == "steam_burst":
             flat["damage"] = flat.get("damage", 0.0) + inst.magnitude * 0.2
         elif sid == "shatter":
@@ -213,6 +211,10 @@ def refresh_status_mods(actor):
         elif sid == "frost_burn":
             flat["armor"] = min(ARMOR_FRACTION_CAP,
                                 flat.get("armor", 0.0) - inst.magnitude * 0.1)
+        elif inst.kind == "buff":
+            flat["damage"] = flat.get("damage", 0.0) + inst.magnitude * 0.5
+        elif inst.kind == "debuff":
+            pct["speed"] = pct.get("speed", 0.0) - min(0.5, inst.magnitude * 0.4)
     if flat:
         actor.stats.set_mod("status:flat", flat)
     if pct:

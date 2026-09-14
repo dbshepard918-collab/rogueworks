@@ -332,6 +332,29 @@ class World:
             return self.floor_killed >= 0.7 * self.floor_spawned
         return False
 
+    def objective_tile(self):
+        """The floor's goal tile - the stairs down that ends the floor.
+
+        Consumed by AutoPilotInput (QA autopilot) as the navigation objective
+        when there is no threat worth engaging.
+        """
+        level = getattr(self, "level", None)
+        if level is None:
+            return (0, 0)
+        return getattr(level, "stairs_tile", (0, 0))
+
+    def path_to(self, sx, sy, gx, gy, cap=12000):
+        """Pathfind from tile (sx, sy) to (gx, gy) on the current level.
+
+        Returns a list of (tx, ty) tiles from start to goal, or None when no
+        path exists. Consumed by AutoPilotInput (QA autopilot) and by monster
+        re-pathing in ai.py (_step_toward).
+        """
+        level = getattr(self, "level", None)
+        if level is None:
+            return None
+        return level.bfs_path((sx, sy), (gx, gy), cap=cap)
+
     def _reset_room_clear_state(self):
         """Reset room-clear tracking for a new floor."""
         self.room_clear_state = {}
@@ -959,12 +982,12 @@ class World:
         if not adds or not boss_mon.alive:
             return
         for add_id in adds:
-            add_defn = self.content.monster_by_id(add_id)
+            add_defn = self.content.monster(add_id)
             if add_defn is None:
                 continue
-            # Spawn near the boss
-            angle = boss_mon.rng.random() * 6.28318530718
-            dist = 40 + boss_mon.rng.random() * 40
+            # Spawn near the boss (the world owns the RNG, not the monster)
+            angle = self.rng.random() * 6.28318530718
+            dist = 40 + self.rng.random() * 40
             ax = boss_mon.x + math.cos(angle) * dist
             ay = boss_mon.y + math.sin(angle) * dist
             mon = make_monster(self, add_defn, ax, ay,

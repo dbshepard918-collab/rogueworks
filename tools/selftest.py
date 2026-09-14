@@ -268,6 +268,20 @@ def check_audio_audit(root: Path, python: str) -> tuple[str, str]:
     return PASS, f"{len(cues)} cue(s) licensed and audible"
 
 
+def check_scene_legibility(root: Path, python: str) -> tuple[str, str]:
+    """A rendered floor must be readable, not merely non-blank."""
+    report, err = _run_tool(root, python, "tools.qa.scene_legibility")
+    if report is None:
+        return FAIL, err
+    problems = report.get("problems") or []
+    if problems:
+        return FAIL, problems[0]
+    return PASS, ("tiles visible %.0f%%, mid-tone %.0f%%, mean lum %.1f"
+                  % (100 * report.get("visible_tile_coverage", 0),
+                     100 * report.get("mid_tone_share", 0),
+                     report.get("mean_luminance", 0)))
+
+
 # --------------------------------------------------------------------------- #
 # entry point
 # --------------------------------------------------------------------------- #
@@ -434,6 +448,8 @@ def main(argv=None) -> int:
         h.record(tag, "scene-sweep", detail)
         tag, detail = check_audio_audit(root, args.python)
         h.record(tag, "audio-audit", detail)
+        tag, detail = check_scene_legibility(root, args.python)
+        h.record(tag, "scene-legibility", detail)
         tag, detail = check_glyph_coverage(root, args.python)
         h.record(tag, "glyph-coverage", detail)
 
