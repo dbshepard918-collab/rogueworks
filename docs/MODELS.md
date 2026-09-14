@@ -83,6 +83,66 @@ rejected 7B missed); Q1/Q2 sprite counts ✗ (the miscount failure class). 11.4 
 stays** — the e4b misses nothing that mattered, but it counts sprites as badly as the
 qwen2.5-vl-7b did, and it shares the card with the runtime models.
 
+**2026-09-14 addition — `google/gemma-4-26b-a4b` (the bigger Gemma).** Same harness,
+fresh run: **3/5** — Q2 last-row count ✓, Q3 plate ✓, Q5 flat-rects ✓; Q1 count ✗ (15/16,
+off by one), **Q4 ✗ — it denied the duplicate sprites exist**, a worse miss than the e4b's,
+because duplicate-detection is the studio's second defect class. Answers took **351.9 s**
+(2468 tokens, finish=stop, 1857 reasoning — the harness auto-escalated 2048→8192 once to
+avoid scoring a truncated reply) and critique **164.3 s**: ~30–50× slower than the pin.
+Verdict: **pin stays.** Bigger was not better — same score as the 7.5B e4b, one extra
+wrong answer class, and unusable latency for a QA loop that audits frames by the dozen.
+
+**2026-09-14 addition — full local VLM sweep (owner-requested).** Same harness
+(`tools.qa.vlm_bench`), one model loaded at a time, 32768 ctx, canonical contact sheet:
+
+| model | score | answers | critique | notes |
+|---|---|---|---|---|
+| `qwen/qwen3-vl-8b` (pin) | **4/5** (6 runs) | 3–4 s | 4–6 s | misses Q2 last-row count |
+| `qwen3-vl-30b-a3b-instruct` | **4/5** | 20.0 s | 40.3 s | **same miss pattern as the pin (Q2 count); everything else ✓** |
+| `google/gemma-4-26b-a4b` | 3/5 | 351.9 s | 164.3 s | denied the duplicates exist |
+| `google/gemma-4-e4b` | 3/5 | 11.4 s | 10.6 s | miscounts |
+| `internvl3_5-8b` | 3/5 | 3.3 s | 4.1 s | **denied flat-rects** (the defect class) |
+| `minicpm-v-4_5` | 0/5 | 19.7 s | 12.3 s | flat wrong on every countable question |
+| `ui-tars-7b-dpo` | 1/5 | 3.5 s | 3.6 s | UI-grounding specialist, not an art auditor |
+| `holo1.5-7b` | 1/5 | 3.0 s | 3.2 s | same — its "improvement" advice also wanted anti-aliasing |
+| `qwen2.5-vl-3b-instruct` | 1/5 | 2.9 s | 3.2 s | previously rejected, reconfirmed |
+| `allenai/olmocr-2-7b` | 1/5 | — | — | OCR specialist, wrong tool |
+| `zai-org/glm-4.6v-flash` | 3/5 | 27–132 s | — | rated an unplayable frame 7/10 (frame-bench) |
+
+**Findings:**
+1. **`qwen3-vl-30b-a3b-instruct` is the first model to match the pin, and it shares the
+   pin's only miss** (Q2, the same miscount) — its 4/5 is the same 4/5. It is the
+   designated **quality fallback** for vision when the card is free, but at 18.8 GB it
+   cannot co-reside with the acting/vision runtime pair on the 12 GB card, and at 20 s
+   vs 3–4 s per answer it loses the throughput contest 5×. The pin keeps the seat.
+2. **Specialists score like their specialty, not like a generalist.** ui-tars (UI
+   grounding), holo1.5 (GUI action grounding) and olmocr (text OCR) all scored 1/5 on an
+   art sheet — using them here is the same trap as benchmarking a coder on vision.
+3. **MiniCPM-V 4.5's strong general-vision reputation did not transfer** (0/5): it
+   misread every countable question on this sheet. Domain transfer is not a given —
+   always bench on the real job.
+4. Both fast Gemma VLMs miss exactly one countable question each; only the two Qwen VL
+   models (8B and 30B MoE) and glm-4.6v-flash reach 4/5 or 3/5 with the defect-relevant
+   answers intact.
+
+**2026-09-14 addition — the legacy GGUF tier: all five disqualified without a score.**
+Owner requested the 2023-era LLaVA-family GGUFs; all downloaded, none can serve vision on
+the current LM Studio runtime:
+
+| model | result |
+|---|---|
+| `nisten/obsidian-3b-multimodal` (Q6) | **load fail** — runtime cannot parse its CLIP mmproj |
+| `abetlen/BakLLaVA-1` (Q4_K) | **load fail** — same CLIP mmproj failure |
+| `PsiPi/liuhaotian_llava-v1.5-13b` (Q4_0 + Q5_K_M) | **load fail** — same, both quants |
+| `mozilla-ai/llava-v1.5-7b-llamafile` | **load fail** — same (the llamafile also ships as a self-extracting binary) |
+| `PsiPi/NousResearch_Nous-Hermes-2-Vision` (Q5_K_M) | loads text-only; server rejects images: *"does not support image inputs"* |
+
+Same lesson as the coder trials, now confirmed in the vision lane: **a model that cannot
+load through the studio's own tooling cannot hold a seat, regardless of its reputation.**
+The 2023 LLaVA mmproj format is no longer supported by the current llama.cpp runtime; if
+these models matter, the path is a maintained re-quant (e.g. lmstudio-community's current
+LLaVA builds), not these original repos.
+
 **It also does not reliably load.** On the retry `lms load qwen2.5-vl-7b-instruct --gpu max -c 8192`
 timed out after **600 s**. On a box that holds one model at a time, swap cost *is* part of the model's
 cost — a model that cannot be loaded cannot serve as a fallback, regardless of quality.
