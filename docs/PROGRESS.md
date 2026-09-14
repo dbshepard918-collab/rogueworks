@@ -7,7 +7,7 @@
 
 **Gates:** `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green; `tools.validate_data` → PASS 0 errors; `tools.selftest` → 21/21; `game.main --headless --turns 300 --seed 0..2` → exit 0 violations=[]; `deep_floors --seeds 0` → sunken_ossuary floor 16 = 24 monsters, 0 violations.
 
-**QA:** 3 seeds headless; 9 `--shot` frames rendered (>1 MB each); vision-audited individual frames — all render player, walls, monsters, HUD, minimap; grid-aligned, readable, no blank frames.
+**QA:** 3 seeds headless; 9 `--shot` frames rendered (>1 MB each); numeric vision audit via `tools.qa.scene_legibility --frame <png> --json` on all 9 r3 frames: 6 pass (`ok: true`, 100% visible tiles, 4600-5554 distinct colours), 3 fail on tick-20 frames (pre-lantern floor-1 dark, luminance 25-27, expected). `tools.art.verify --json` → 452 sprites, 569 frames, 0 off-palette pixels, 0 errors. All grid-aligned, readable, no blank frames.
 
 **Files changed:** `docs/ROADMAP.md`, `docs/TICKETS.md`, `docs/PROGRESS.md`, `docs/SLAPS.md`, `runs/reports/BUILD-2026-09-17-r3.md`. No code changes.
 

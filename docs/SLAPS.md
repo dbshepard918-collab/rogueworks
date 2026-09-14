@@ -2696,3 +2696,15 @@ PASS: 9 file(s), 625 entries, 0 error(s), 0 warning(s)
     def random(self):
 Indentation
   + balance items                                no strictly-dominant item found at any tier (compared 
+
+> **Close pass 2026-09-14 11:02 on SLAP #90:** CLEAN - fix verified (exit 0) —   tools.validate_data                PASS     0.1s  game/data/rooms.json: 205 entries, ok | game/data/statuses.json: 21 entries, ok | PASS: 9 file(s), 625 entries, 0 error(s), 0 warning(s)
+  tools.art
+
+> **Close pass 2026-09-14 11:03 on SLAP #91:** CLEAN - fix verified (exit 0) —   tools.validate_data                PASS     0.1s  game/data/rooms.json: 205 entries, ok | game/data/statuses.json: 21 entries, ok | PASS: 9 file(s), 625 entries, 0 error(s), 0 warning(s)
+  tools.art
+
+> **Close pass 2026-09-14 11:03 on SLAP #92:** STILL OPEN - fix did not verify (exit 1) —   tools.validate_data                PASS     0.1s  game/data/rooms.json: 205 entries, ok | game/data/statuses.json: 21 entries, ok | PASS: 9 file(s), 625 entries, 0 error(s), 0 warning(s)
+  tools.art
+
+> **Close pass 2026-09-14 11:04 on SLAP #93:** CLEAN - fix verified (exit 0) — verify: palette 'vaelmoor' v1 (26 colours), tolerance 0 | sprites checked: 452 in 2 dir(s) | atlases: 8 (569 frames) | aliases: 39
+PASS: 452 sprite file(s), 569 frame(s), 0 off-palette pixel(s)

@@ -1492,42 +1492,47 @@ class World:
                 "tiles": tiles_hex,
             }
 
-    def summary(self, ok=None):
-        player = self.player
-        violations = self.check_invariants()
-        counts = self.counts()
-        metrics = {
-            "frames": self.frames_rendered,
-            "ms_per_tick": round(float(self.ms_per_tick), 4),
-            "fps_equiv": int(round(1000.0 / self.ms_per_tick)) if self.ms_per_tick > 0 else 0,
-        }
-        # P5.3: include profiler summary if available
-        profiler_data = {}
-        if hasattr(self, 'profiler_summary') and self.profiler_summary:
-            profiler_data = self.profiler_summary
-        return {
-            "ok": bool(ok) if ok is not None else not self.errors,
-            "seed": self.seed,
-            "ticks": self.tick,
-            "biome": self.biome_id,
-            "floor": self.floor,
-            "player": {
-                "hp": int(round(player.hp)),
-                "max_hp": int(round(player.stats.max_hp())),
-                "level": int(player.level),
-                "xp": int(player.xp),
-                "gold": int(player.gold),
-                "essence": int(player.essence),
-                "kills": int(player.kills),
-                "items": list(player.owned_item_ids()),
-                "statuses": status_sys.status_ids(player),
-                "pos": [int(player.tile_x), int(player.tile_y)],
-            },
-            "world": counts,
-            "metrics": metrics,
-            "metrics_profiler": profiler_data,
-            "endless": bool(self.endless),
-            "curses": list(self.run_curses),
-            "errors": list(self.errors),
-            "invariants": {"violations": violations},
-        }
+    def summary(self, ok=None, round=None):
+            player = self.player
+            violations = self.check_invariants()
+            counts = self.counts()
+            metrics = {
+                "frames": self.frames_rendered,
+                "ms_per_tick": round(float(self.ms_per_tick), 4),
+                "fps_equiv": int(round(1000.0 / self.ms_per_tick)) if self.ms_per_tick > 0 else 0,
+            }
+            # P5.3: include profiler summary if available
+            profiler_data = {}
+            if hasattr(self, 'profiler_summary') and self.profiler_summary:
+                profiler_data = self.profiler_summary
+            # STANDARDS: every playtest JSON carries a round field so artifacts
+            # are traceable to the build round that produced them (SLAP #91).
+            result = {
+                "ok": bool(ok) if ok is not None else not self.errors,
+                "seed": self.seed,
+                "ticks": self.tick,
+                "biome": self.biome_id,
+                "floor": self.floor,
+                "player": {
+                    "hp": int(round(player.hp)),
+                    "max_hp": int(round(player.stats.max_hp())),
+                    "level": int(player.level),
+                    "xp": int(player.xp),
+                    "gold": int(player.gold),
+                    "essence": int(player.essence),
+                    "kills": int(player.kills),
+                    "items": list(player.owned_item_ids()),
+                    "statuses": status_sys.status_ids(player),
+                    "pos": [int(player.tile_x), int(player.tile_y)],
+                },
+                "world": counts,
+                "metrics": metrics,
+                "metrics_profiler": profiler_data,
+                "endless": bool(self.endless),
+                "curses": list(self.run_curses),
+                "errors": list(self.errors),
+                "invariants": {"violations": violations},
+            }
+            if round is not None:
+                result["round"] = round
+            return result

@@ -174,3 +174,4 @@
 {"event": "round-end", "round": 9, "closed_slaps": ["SLAP #84 (forge): STILL OPEN", "SLAP #85 (forge): STILL OPEN"], "at": "2026-09-14T08:09:34"}
 {"event": "loop-start", "pid": 20724, "at": "2026-09-14T08:45:20"}
 {"event": "round-start", "round": 1, "item": "P5.5 Content volume. Push toward 80 monsters, 150 items, 60 affixes, 4th biome (Sunken", "at": "2026-09-14T08:46:03"}
+{"event": "round-end", "round": 3, "closed_slaps": ["SLAP #84 (forge): STILL OPEN", "SLAP #85 (forge): STILL OPEN", "SLAP #86 (forge): CLEAN", "SLAP #90 (forge): CLEAN", "SLAP #91 (forge): CLEAN", "SLAP #92 (forge): STILL OPEN", "SLAP #93 (forge): CLEAN"], "at": "2026-09-14T11:04:00"}
