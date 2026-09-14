@@ -122,7 +122,7 @@ opinions; re-runnable with the commands given.
 | `essentialai/rnj-1` | coder (chip) | **trial it** | **45.1 tok/s**, 6.5 GiB VRAM, 3.7 s load @8K. Incumbent `qwen/qwen3-coder-30b`: 5.5 tok/s, 18.63 GB, 68 s load. 8× throughput and the card stays free — but speed is not code quality, so it needs one real edit before any pin moves. |
 | `zai-org/glm-4.6v-flash` | vision | no | 2/5 and 3/5 across two runs vs the pin's 4/5 (8 runs); 29.2 s vs 3.2 s; 2035 reasoning tokens per answer; denies the flat-rectangle defect. |
 | `allenai/olmocr-2-7b` | vision | no | 1/5, generic critique. A document-OCR model — `qwen2vl` arch does not make it a sprite critic. |
-| `google/gemma-3-27b` | text | no — does not fit | Resident **15.30 GiB** at 4K context on a 12,227 MiB card (already spilling to shared memory); Hermes needs 64K, where it cannot fit at all. `gemma-4-12b-qat` holds lore at 20 tok/s in 7.15 GB. |
+| `google/gemma-3-27b` | text | no — **1.3 tok/s** | At 4K context: 74.9 s load, warm-up **158.8 s for 200 tokens = 1.3 tok/s**, `lms load` reports 15.30 GiB resident on a 12,227 MiB card (already spilling to shared memory). `qwen/qwen3-8b` does 23.1 tok/s and `gemma-4-12b-qat` 20.0 — this is ~18× slower, before Hermes' required 64K context, which cannot fit at all. |
 | `darkmaniac7/TokForge-DreamShaper-LCM-GGUF-q4` | art generation | no — licence | `Lykon/dreamshaper-7` is **creativeml-openrail-m** (registry-verified); our shipping art model is **apache-2.0**. Refused, not wired — see `docs/ART-LICENSES.md`. Needs an SD1.5 VAE regardless. |
 
 Reproduce:
