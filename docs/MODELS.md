@@ -539,34 +539,92 @@ Conclusions, for anyone reframing the studio:
 
 Harness: `%LOCALAPPDATA%\Temp\chain_trial.py` (sandboxed; unloads each local model before
 
-loading the next so the 12 GB card never holds two).
-
-### The incumbent's control run - the assumption broke (2026-09-17)
-
-Earlier trials never produced a clean control for the seated coder `qwen/qwen3-coder-30b`,
-so "the incumbent stays" rested on an untested assumption. It was finally measured through
-the **same precise directive** the two cloud pins passed:
-
-| Model | Time | Acceptance | Lines deleted |
-|---|---|---|---|
-| `inclusionai/ling-3.0-flash-fin:free` (forge pin) | **16 s** | PASS | 0 |
-| `meituan/longcat-2.0:free` (chip pin) | **48 s** | PASS | 0 |
-| **`qwen/qwen3-coder-30b` (incumbent, local)** | **350 s** | **FAIL - `SyntaxError`** | 0 |
-
-The incumbent did not destroy the file (0 deletions - the failure mode is not destructive
-here), but it returned content that will not parse, and it took 7-22x as long. On this 12 GB
-card its 18.63 GB footprint forces partial CPU offload (`offloadRatio 0.583` in its saved
-config), which is where the 5.5 tok/s comes from.
-
-**So the seat is not safe by default - it is safe by convention.** The honest conclusion is
-that no model in this roster has been shown to be reliable on this task: the cloud pins pass
-it in seconds, the local incumbent failed it, and every challenger failed it destructively.
-The open question is whether the incumbent's failure reproduces (single sample) or was a
-one-off extraction artefact - the returned file was ~1415 tokens against a ~1300-token file,
-so it was not truncated, but the reply's code block was not independently inspected.
-**Next action: repeat the control 3x before any pin moves.**
+loading the next so the 12 GB card never holds two).
+
+
+
+### The incumbent's control run - the assumption broke (2026-09-17)
+
+
+
+Earlier trials never produced a clean control for the seated coder `qwen/qwen3-coder-30b`,
+
+so "the incumbent stays" rested on an untested assumption. It was finally measured through
+
+the **same precise directive** the two cloud pins passed:
+
+
+
+| Model | Time | Acceptance | Lines deleted |
+
+|---|---|---|---|
+
+| `inclusionai/ling-3.0-flash-fin:free` (forge pin) | **16 s** | PASS | 0 |
+
+| `meituan/longcat-2.0:free` (chip pin) | **48 s** | PASS | 0 |
+
+| **`qwen/qwen3-coder-30b` (incumbent, local)** | **330-340 s** | **PASS 3/3** (corrected) | 0 |
+
+
+
+**CORRECTION (same day, after reading the raw replies): the incumbent did NOT fail — my harness
+
+did.** The first pass scored 0/3 with `SyntaxError`. Saving and re-reading the raw replies showed
+
+the model had returned a complete, correct, minimal edit every time (0 source lines lost, the
+
+acceptance probe PASSes); its code fence was tagged `python code`, and my extractor only stripped
+
+a fence line that was exactly `python` / `py` / empty. The stray `python code` line became line 1
+
+of the file and `ast.parse` raised a SyntaxError that looked like the model's fault. Rescoring the
+
+three saved replies with a tolerant extractor gives **3/3 PASS**. The real finding is **reliable
+
+but slow**: 330-340 s against 16 s (ling) and 48 s (longcat) for the identical directive, with its
+
+18.63 GB footprint forcing partial CPU offload (`offloadRatio 0.583`), which is where 5.5 tok/s
+
+comes from. On this 12 GB
+
+card its 18.63 GB footprint forces partial CPU offload (`offloadRatio 0.583` in its saved
+
+config), which is where the 5.5 tok/s comes from.
+
+
+
+**So the seat IS safe on this task — the incumbent passed it three times out of three, and every
+
+challenger measured today failed it destructively.** It is simply 7-20x slower than the free cloud
+
+pins for the identical directive: the cloud models are faster here, not better.
+
+The open question is whether the incumbent's failure reproduces (single sample) or was a
+
+one-off extraction artefact - the returned file was ~1415 tokens against a ~1300-token file,
+
+so it was not truncated, but the reply's code block was not independently inspected.
+
+**DONE: repeated 3x — 3/3 PASS** (see the correction above). No pin change is implied.
 
 
 
 
+
+
+
+
+### Note on instruments (2026-09-14)
+
+Two measurement bugs produced false verdicts on this page in a single day: an acceptance test
+
+that could not pass on a correct edit (it depended on the game's RNG, which was itself broken),
+
+and a code-fence extractor that mangled a `python code` tag and reported the model's correct
+
+output as a SyntaxError. **Both were caught only by persisting and reading the raw artefact.**
+
+A score with no raw output behind it hides the harness's own failures — so every harness here
+
+now saves the raw reply, and every verdict quotes it.
 
