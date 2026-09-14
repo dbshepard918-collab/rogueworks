@@ -310,11 +310,44 @@ def run_tool_subprocess(python: str, module: str, root: Path, timeout: int = 300
         return None, f"{module} timed out after {timeout}s"
     except OSError as exc:
         return None, f"cannot launch {module}: {exc}"
-    for line in reversed((proc.stdout or "").splitlines()):
-        if line.strip().startswith("{"):
-            try:
-                return json.loads(line), ""
-            except json.JSONDecodeError:
-                break
-    tail = (proc.stderr or proc.stdout or "").strip().splitlines()
+    text = proc.stdout or ""
+    # 1. the whole stdout is one JSON document (normal case)
+    try:
+        return json.loads(text), ""
+    except json.JSONDecodeError:
+        pass
+    # 2. otherwise take the LAST balanced {...} block. Tools pretty-print their JSON
+    #    (indent=2), which the old line-by-line scan could not read: it looked for a
+    #    line starting with '{', found the closing brace's line, failed to parse, and
+    #    reported the last output line ('}') as the error - so six healthy checks were
+    #    marked FAIL while the tools were exiting 0.
+    depth, start, last = 0, None, ""
+    in_str, esc = False, False
+    for i, ch in enumerate(text):
+        if in_str:
+            if esc:
+                esc = False
+            elif ch == "\\":
+                esc = True
+            elif ch == '"':
+                in_str = False
+            continue
+        if ch == '"':
+            in_str = True
+        elif ch == "{":
+            if depth == 0:
+                start = i
+            depth += 1
+        elif ch == "}":
+            if depth:
+                depth -= 1
+                if depth == 0 and start is not None:
+                    try:
+                        last = json.loads(text[start:i + 1])
+                    except json.JSONDecodeError:
+                        pass
+                    start = None
+    if isinstance(last, dict):
+        return last, ""
+    tail = (proc.stderr or text).strip().splitlines()
     return None, f"{module} exited {proc.returncode}: {tail[-1] if tail else 'no output'}"

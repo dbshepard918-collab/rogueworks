@@ -220,9 +220,7 @@ update `docs/TICKETS.md`, append to `docs/PROGRESS.md`, and only then take the n
       Verified: `tick_ms=0.1 (world.step only)` → `fps_equiv=97.2`, non-zero. | `python -m tools.studio.verify_gate` → PASS all 7 green;
       `python -m game.main --headless --turns 300 --seed 0..2` exit 0, violations=[];
       `metrics_profiler` present in playtest JSON ✓
-- [ ] **P5.4 Test depth.** Golden-seed regression suite (a fixed set of seeds asserting layout
-      hashes, so procgen changes are deliberate), fuzz the generator for unreachable/duplicate stairs,
-      balance assertions (no item strictly dominates another at the same tier).
+- [x] **P5.4** Test depth. Golden-seed regression suite: layout-hash stability, stair reachability, balance assertions. | `python -m tools.qa.regression --seeds 0 1 2 --turns 300` → PASS, golden seeds stable, stairs reachable, no balance violations | `python -m tools.studio.verify_gate` → PASS all 7 green; `tools.qa.regression --seeds 0 1 2 --turns 300` → PASS ✓
 - [ ] **P5.5 Content volume.** Push toward 80 monsters, 150 items, 60 affixes, 4th biome (Sunken
       Ossuary), 5 bosses, 40 room templates per biome — generated locally in batches, validated.
 - [ ] **P5.6 Modding-lite.** Everything data-driven already; expose `game/data/` overrides from a

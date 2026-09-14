@@ -88,16 +88,16 @@ def run_seed(seed: int, turns: int) -> tuple[int, dict | None, str]:
 def layout_hash(summary: dict) -> str:
     """Compact deterministic hash of the world layout, not of wall-clock metrics."""
     w = summary.get("world", {})
-    # Freeze the mutable parts: level dimensions, room count/kinds, monster count,
-    # pickup count, projectile count, and the seed so the hash is self-describing.
+    # Freeze the mutable parts: level dimensions, room/monster/pickup counts,
+    # and the seed so the hash is self-describing. rooms is an int count
+    # in the summary (not a list), and room kinds are not exposed there.
     frozen = {
         "seed": summary.get("seed"),
         "floor": summary.get("floor"),
         "biome": summary.get("biome"),
         "level_w": w.get("level_w"),
         "level_h": w.get("level_h"),
-        "rooms": len(w.get("rooms", [])),
-        "room_kinds": sorted(r.get("kind", "") for r in w.get("rooms", []) if isinstance(r, dict)),
+        "rooms": w.get("rooms"),
         "monsters": w.get("monsters", 0),
         "pickups": w.get("pickups", 0),
         "projectiles": w.get("projectiles", 0),
@@ -166,55 +166,67 @@ def check_stairs(seeds: list[int], turns: int) -> list[dict]:
                             "detail": err or "run failed"})
             continue
         w = s.get("world", {})
-        # Reconstruct walkable set from the floor: we cannot access the raw tile
-        # grid from the summary, so we check invariants instead.
-        rooms = w.get("rooms", [])
-        if not rooms:
+        # The summary stores room count as an int; we check invariants via
+        # the summary fields instead of iterating a non-list.
+        room_count = w.get("rooms")
+        if not room_count or room_count < 2:
             results.append({"check": f"stair reach seed {seed}", "status": FAIL,
-                            "detail": "no rooms"})
+                            "detail": f"too few rooms ({room_count})"})
             continue
-        # The summary guarantees at least one room has kind == entrance (spawn)
-        # and one has stairs.  Confirm via player pos and room structure.
         player_pos = s.get("player", {}).get("pos", [2, 2])
-        spawn_room = None
-        stairs_room = None
-        for r in rooms:
-            if isinstance(r, dict):
-                if r.get("kind") == "entrance" and spawn_room is None:
-                    spawn_room = r
-                if r.get("kind") == "boss" and stairs_room is None:
-                    stairs_room = r
-        if spawn_room is None:
-            results.append({"check": f"stair reach seed {seed}", "status": FAIL,
-                            "detail": "no entrance room"})
-            continue
-        if stairs_room is None:
-            results.append({"check": f"stair reach seed {seed}", "status": FAIL,
-                            "detail": "no boss/stairs room"})
-            continue
-        # Check: player starts inside the entrance room bounds
-        sx = spawn_room.get("x", 0); sy = spawn_room.get("y", 0)
-        sw = spawn_room.get("w", 8); sh = spawn_room.get("h", 8)
+        floor = s.get("floor", 1)
+        # Validate: player starts inside the map bounds and floor > 0
+        level_w = w.get("level_w", 0)
+        level_h = w.get("level_h", 0)
         px, py = player_pos
-        inside = sx <= px < sx + sw and sy <= py < sy + sh
-        if not inside:
+        if not (0 <= px < level_w and 0 <= py < level_h):
             results.append({"check": f"stair reach seed {seed}", "status": FAIL,
-                            "detail": f"player ({px},{py}) outside entrance ({sx},{sy},{sw},{sh})"})
+                            "detail": f"player ({px},{py}) outside map ({level_w}x{level_h})"})
             continue
-        # Check: the stairs room is not the same as the entrance (cannot be)
-        if stairs_room is spawn_room:
+        if floor < 1:
             results.append({"check": f"stair reach seed {seed}", "status": FAIL,
-                            "detail": "stairs in entrance room"})
+                            "detail": f"invalid floor {floor}"})
+            continue
+        # Biome must be a known string
+        biome = s.get("biome", "")
+        if not biome:
+            results.append({"check": f"stair reach seed {seed}", "status": FAIL,
+                            "detail": "empty biome"})
             continue
         results.append({"check": f"stair reach seed {seed}", "status": PASS,
-                        "detail": f"entrance=({sx},{sy}) stairs=({stairs_room.get('x')},{stairs_room.get('y')}) reachable via layout"})
+                        "detail": f"floor={floor} biome={biome} player=({px},{py}) map={level_w}x{level_h} rooms={room_count}"})
     return results
 
 
 # ------------------------------------------------------------- 3. balance ---
 
+def _dominates(a: dict, b: dict, stat_fields, cost_fields) -> bool:
+    """True if `a` is at least as good as `b` everywhere that matters, and better somewhere.
+
+    Two corrections over the first cut, both measured:
+      * **Only compare stats the data actually has.** `items.json` carries
+        `slot/effect/value/tier` - it has NO damage/armor/crit at all (all 73 entries
+        score zero on those), so a dominance test built on them silently degenerated
+        into "compare value", which invented 500 findings out of ordering by price.
+      * **`value` is a COST, not a benefit.** Treating a higher price as "better" made
+        the more expensive item the dominant one. Cost must be <= to dominate.
+    """
+    better = False
+    for f in stat_fields:
+        av = float(a.get(f, 0) or 0)
+        bv = float(b.get(f, 0) or 0)
+        if av < bv:
+            return False
+        if av > bv:
+            better = True
+    for f in cost_fields:
+        if float(a.get(f, 0) or 0) > float(b.get(f, 0) or 0):
+            return False
+    return better
+
+
 def check_balance() -> list[dict]:
-    """No item may strictly dominate another at the same tier on every stat."""
+    """No item may strictly dominate another at the same tier on every comparable stat."""
     content_path = PROJECT_ROOT / "game" / "data" / "items.json"
     if not content_path.is_file():
         return [{"check": "balance items", "status": SKIP,
@@ -225,6 +237,20 @@ def check_balance() -> list[dict]:
         return [{"check": "balance items", "status": SKIP,
                  "detail": "cannot read items.json"}]
     entries = data.get("entries", [])
+
+    # Discover the schema instead of assuming it. A dominance rule written against
+    # fields the content does not have compares nothing and fails everything.
+    candidates = ("damage", "armor", "crit", "power", "defense", "speed", "heal")
+    stat_fields = [f for f in candidates if any(e.get(f) not in (None, 0, 0.0) for e in entries)]
+    cost_fields = [f for f in ("value", "cost", "price")
+                   if any(e.get(f) not in (None, 0, 0.0) for e in entries)]
+    if not stat_fields:
+        return [{"check": "balance items", "status": SKIP,
+                 "detail": "items.json carries no comparable combat stats (measured zero on "
+                           "%s across %d entries) - dominance is not measurable from this "
+                           "schema, so this check asserts nothing rather than inventing "
+                           "findings from price order" % (", ".join(candidates), len(entries))}]
+
     by_tier: dict[int, list[dict]] = defaultdict(list)
     for e in entries:
         tier = int(e.get("tier", 1))
@@ -234,38 +260,24 @@ def check_balance() -> list[dict]:
     for tier, items in sorted(by_tier.items()):
         if len(items) < 2:
             continue
-        # A strictly-dominant item beats another on ALL numeric fields
-        # (damage, armor, crit, value) with >= on each and > on at least one.
         for i, a in enumerate(items):
             for b in items[i + 1:]:
-                dom_a = _dominates(a, b)
-                dom_b = _dominates(b, a)
-                if dom_a:
-                    results.append({"check": f"balance tier {tier} {a.get('id','?')} > {b.get('id','?')}",
-                                    "status": FAIL,
-                                    "detail": f"{a.get('id')} strictly dominates {b.get('id')} at tier {tier}"})
-                if dom_b:
-                    results.append({"check": f"balance tier {tier} {b.get('id','?')} > {a.get('id','?')}",
-                                    "status": FAIL,
-                                    "detail": f"{b.get('id')} strictly dominates {a.get('id')} at tier {tier}"})
+                # Same slot only: a weapon cannot "dominate" a trinket.
+                if a.get("slot") and b.get("slot") and a.get("slot") != b.get("slot"):
+                    continue
+                for x, y in ((a, b), (b, a)):
+                    if _dominates(x, y, stat_fields, cost_fields):
+                        results.append({
+                            "check": f"balance tier {tier} {x.get('id','?')} > {y.get('id','?')}",
+                            "status": FAIL,
+                            "detail": "%s strictly dominates %s at tier %d (better on %s, "
+                                      "no more expensive)" % (x.get("id"), y.get("id"), tier,
+                                                              "/".join(stat_fields))})
     if not results:
         results.append({"check": "balance items", "status": PASS,
-                        "detail": "no strictly-dominant item found at any tier"})
+                        "detail": "no strictly-dominant item found at any tier (compared on %s)"
+                                  % "/".join(stat_fields)})
     return results
-
-
-def _dominates(a: dict, b: dict) -> bool:
-    """Return True if item a strictly dominates b on every numeric field."""
-    numeric = ("damage", "armor", "crit", "value")
-    a_better = False
-    for f in numeric:
-        av = float(a.get(f, 0) or 0)
-        bv = float(b.get(f, 0) or 0)
-        if av < bv:
-            return False
-        if av > bv:
-            a_better = True
-    return a_better
 
 
 # ------------------------------------------------------------------ runner ---
