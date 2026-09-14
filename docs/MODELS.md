@@ -111,10 +111,19 @@ good it sounds.
 
 | Backend | Repo | Licence (from the registry API) | Gated | Verdict |
 |---|---|---|---|---|
-| `ace_step` | `ACE-Step/acestep-v15-xl-turbo-diffusers` | `mit` | `False` | **pinned.** 8-step turbo render, 44.1 kHz stereo up to 240 s, bpm/key/time-signature control, instrumental mode. |
-| `ace_step_sft` | `ACE-Step/acestep-v15-xl-sft-diffusers` | `mit` | `False` | higher-quality sibling for a cue worth more compute. |
+| `ace_step` | `ACE-Step/acestep-v15-xl-turbo-diffusers` | `mit` | `False` | **pinned and proven.** 8-step turbo render, 44.1 kHz stereo up to 240 s, bpm/key/time-signature control, instrumental mode. Rendered a shippable cue end-to-end (see below). |
+| `ace_step_sft` | `ACE-Step/acestep-v15-xl-sft-diffusers` | `mit` | `False` | **pinned but not yet rendered.** 11.5 GB of weights — expect to need `--offload`; do not cite it as usable until a cue comes out of it. |
 | `musicgen` | `facebook/musicgen-medium` | `cc-by-nc-4.0` | `False` | **BLOCKED — non-commercial weights.** Its 15 GB cache was deleted so it cannot silently render unshippable audio. |
 | `stable_audio_open` | `stabilityai/stable-audio-open-1.0` | `stable-audio-community` | `auto` | **BLOCKED —** gated (`401` on first fetch) *and* non-permissive. |
+
+### The 12 GB numbers for audio (measured, not assumed)
+
+| Mode | Peak VRAM | Note |
+|---|---|---|
+| GPU-resident (`--dtype bfloat16`) | **11,118 MiB** (probe) / **12,732 MiB** (full 31 s cue) | The full-length figure is *over* the card's 12,227 MiB, so it leans on shared memory. It works, but it is the first thing to move if a render ever dies. |
+| `--offload` (`enable_model_cpu_offload`) | **8,026 MiB** | Streams each component to the GPU only while it runs. Slower, and the only mode with real headroom on this box. |
+
+`--dtype float16` produced **all-NaN** output on this checkpoint in *both* modes (probe: `min=nan max=nan mean=nan std=nan` on the raw `audios` tensor, shape `(1, 2, 240000)`), so the NaN is a dtype problem, not a memory problem — `bfloat16` is the default. A NaN buffer written as PCM-16 becomes a full-scale DC block that passes a naive loudness check, which is why the tool now refuses non-finite output before writing.
 
 Two traps worth keeping written down:
 

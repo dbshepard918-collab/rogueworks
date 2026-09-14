@@ -39,7 +39,7 @@ Every row below is the `gated` and `license` field the registry itself returns f
 | Backend | Repo | Licence (registry) | Gated | Verdict |
 |---|---|---|---|---|
 | `ace_step` | `ACE-Step/acestep-v15-xl-turbo-diffusers` | `mit` | `False` | **SHIPPABLE — the shipping backend.** |
-| `ace_step_sft` | `ACE-Step/acestep-v15-xl-sft-diffusers` | `mit` | `False` | SHIPPABLE — higher-quality sibling. |
+| `ace_step_sft` | `ACE-Step/acestep-v15-xl-sft-diffusers` | `mit` | `False` | Licence SHIPPABLE, **not yet rendered** — 11.5 GB of weights, needs `--offload`. Unproven until a cue comes out of it. |
 | `musicgen` | `facebook/musicgen-medium` | `cc-by-nc-4.0` | `False` | **BLOCKED — non-commercial.** |
 | `stable_audio_open` | `stabilityai/stable-audio-open-1.0` | `stable-audio-community` | `auto` | **BLOCKED — gated + non-permissive.** |
 

@@ -134,10 +134,16 @@ Every rendered cue must be **free to ship**, so the backend's weights must be pe
 
 | Backend | Repo | Licence | Verdict |
 |---|---|---|---|
-| `ace_step` | `ACE-Step/Ace-Step1.5` | **MIT** | **SHIPPABLE — the shipping backend.** Ungated, no account, 44.1 kHz stereo, bpm/key/time-signature control, up to 240 s. |
-| `ace_step_v1` | `ACE-Step/ACE-Step-v1-3.5B` | **Apache-2.0** | SHIPPABLE — fallback in the same family. |
+| `ace_step` | `ACE-Step/acestep-v15-xl-turbo-diffusers` | **MIT** | **SHIPPABLE — the shipping backend, proven end to end.** Ungated, no account, 44.1 kHz stereo, bpm/key/time-signature control, up to 240 s. |
+| `ace_step_sft` | `ACE-Step/acestep-v15-xl-sft-diffusers` | **MIT** | SHIPPABLE licence, **not yet rendered** (11.5 GB — use `--offload`). Not to be cited as usable until a cue comes out of it. |
 | `musicgen` | `facebook/musicgen-medium` | **CC-BY-NC-4.0** | **BLOCKED — non-commercial.** Every cue it renders is unusable in a shipping game. |
 | `stable_audio_open` | `stabilityai/stable-audio-open-1.0` | community (gated) | **BLOCKED — gated repo + bespoke commercial terms.** Needs an account and an acceptance step. |
+
+**Memory on a 12 GB card:** the turbo checkpoint peaks at **12,732 MiB** resident for a 31 s cue —
+over the card's 12,227 MiB, so it leans on shared memory. `--offload` drops that to **8,026 MiB** and
+is the mode with real headroom. `--dtype` defaults to **bfloat16**: float16 returns all-NaN on this
+checkpoint regardless of memory mode (measured, both ways), and the tool refuses non-finite output
+before it can reach the disk.
 
 Shipping allowlist: `apache-2.0`, `mit`, `cc0-1.0`, `bsd-3-clause`, `unlicense`.
 Provenance and the per-asset ledger live in `docs/AUDIO-LICENSES.md`. Sound effects are **not** model-
