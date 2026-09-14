@@ -199,6 +199,33 @@ def _last_json(text: str) -> str:
     return text[start:end + 1] if start >= 0 and end > start else "{}"
 
 
+def check_rng_quality(root: Path, python: str) -> tuple[str, str]:
+    """The generator must be statistically random AND this checker must be able to tell.
+
+    Determinism alone is not randomness: the golden-seed regression passes happily on a
+    generator that cycles through eight values, which is how the 2026-09 xorshift-precedence
+    defect shipped. So this check runs the statistics and then re-runs the tool with the
+    historical bug injected - a checker that cannot fail is not a checker.
+    """
+    report, err = _run_tool(root, python, "tools.qa.rng_quality")
+    if report is None:
+        return FAIL, err
+    failed = [c for c in report.get("checks", []) if not c.get("ok")]
+    if failed:
+        first = failed[0]
+        return FAIL, (f"{len(failed)} check(s) red, first: {first.get('check')} - "
+                      f"{first.get('detail')}")
+    probe, err2 = _util.run_tool_subprocess(python, "tools.qa.rng_quality", root,
+                                             timeout=300, extra_args=["--inject-bug"])
+    if probe is None:
+        return FAIL, f"self-test could not run: {err2}"
+    if not probe.get("injected_bug_detected"):
+        return FAIL, ("the checker passed the precedence-bugged generator - it is blind to the "
+                      "exact defect it exists to catch")
+    return PASS, (f"{len(report.get('checks', []))} statistical check(s) pass; self-test detects "
+                  f"the injected defect")
+
+
 def check_attr_audit(root: Path, python: str) -> tuple[str, str]:
     """Every intra-project module attribute the game calls must exist."""
     report, err = _run_tool(root, python, "tools.qa.attr_audit")
@@ -474,6 +501,8 @@ def main(argv=None) -> int:
         h.record(tag, "scene-legibility", detail)
         tag, detail = check_glyph_coverage(root, args.python)
         h.record(tag, "glyph-coverage", detail)
+        tag, detail = check_rng_quality(root, args.python)
+        h.record(tag, "rng-quality", detail)
         tag, detail = check_deep_floors(root, args.python)
         h.record(tag, "deep-floors", detail)
 

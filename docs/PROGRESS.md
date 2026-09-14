@@ -1,3 +1,23 @@
+## 2026-09-14 — RNG-01 randomness-quality gate (Forge) — DONE
+
+- **Closes the hole that let the RNG defect ship.** The 2026-09 xorshift-precedence bug
+  collapsed `RNG` to an 8-value cycle while `main` exited 0 and **all seven gates stayed
+  green** — the golden-seed regression asserts stability, and a broken generator is
+  perfectly stable. Determinism is not randomness; nothing asserted the other half.
+- **New `tools/qa/rng_quality.py`** — 9 statistical assertions (distinct values, randint
+  coverage, chi-square uniformity, determinism, seed divergence, no short cycle, choice
+  coverage, shuffle permutation) plus `--inject-bug` and `--source` modes.
+- **Wired into `tools/selftest`** as `rng-quality` (21 → 22 checks), and it self-validates:
+  it re-runs the tool with the historical bug injected and fails if the checker cannot
+  detect it, so the gate cannot decay into a vacuous pass.
+- **Proof it catches the real defect:** with `rng.py` reverted to the buggy form, selftest
+  reported `[FAIL] rng-quality ... 8 distinct values in 10000 draws` and 21/22 — while the
+  golden-seed regression still passed. Restored, then 22/22, `main` exit 0
+  (`ok=True violations=[]`), `verify_gate` PASS all 7 green.
+- **Report:** `runs/reports/BUILD-2026-09-14-r38.md`. **Ticket:** RNG-01 (renamed from a
+  first draft of P0.8 — that id was already taken by the item-balance item in ROADMAP.md).
+- **Next:** a clean control run of the incumbent coder through the minimal-diff harness.
+
 ## 2026-09-17 — P0.6 Orphan Art Fix (Forge) — DONE
 - **P0.6 fixed** — `prop_chains` was a phantom manifest entry with no PNG file on disk. Only `prop_chain.png` (singular) existed and was used in `rooms.json` (17 refs). Removed `prop_chains` from `assets/sprites/props/manifest.json` and `assets/art_manifest.json`. `prop_chains` is now 0 references in `assets/` and `game/`.
 - **Gates:** `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green; `python -m tools.art.verify` → PASS (452 sprites, 569 frames, 0 off-palette); `python -m tools.validate_data` → PASS (9 files, 625 entries, 0 errors); `tools.selftest` → 21/21.

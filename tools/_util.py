@@ -298,9 +298,10 @@ def cli(fn):
     return guard(fn)
 
 
-def run_tool_subprocess(python: str, module: str, root: Path, timeout: int = 300) -> tuple[dict | None, str]:
+def run_tool_subprocess(python: str, module: str, root: Path, timeout: int = 300,
+                        extra_args: list[str] | None = None) -> tuple[dict | None, str]:
     """Run a tools.* module as a subprocess, return (report_dict_or_None, error_detail)."""
-    cmd = [python, "-m", module, "--json"]
+    cmd = [python, "-m", module, "--json"] + list(extra_args or [])
     try:
         env = {**os.environ, "MSYS_NO_PATHCONV": "1",
                "SDL_VIDEODRIVER": "dummy", "SDL_AUDIODRIVER": "dummy"}

@@ -463,45 +463,84 @@ produced 8 distinct values. Fixed (commit `a9529f6`); verified 10,000 distinct v
 
 gates green. Invisible to the golden-seed regression, which tests stability, not randomness
 
-quality - a property no gate in this repo asserts (ticket P0.8).
-
-### Multi-stage chained handoff, measured both ways (2026-09-17)
-
-The owner's reframe - local drafter -> second local refiner -> cloud final review - was
-built and run end to end against the same acceptance probe. It failed **twice**, and both
-failures are the interesting part:
-
-**Attempt 1 (no handoff gates):** the drafter (`gemma-4-e4b`) produced a usable method in
-3 s. The refiner (`gemma-4-12b-qat`) returned **0 characters from 4000 tokens** - the
-thinking-model trap already documented above, where reasoning is billed against
-`max_tokens`. The chain forwarded the empty artefact, the cloud assembler dutifully
-inserted nothing, and the result failed with a missing method. **An ungated chain
-propagates garbage silently.**
-
-**Attempt 2 (with handoff gates):** the gate rejected attempt 1 (empty) and retried wider -
-attempt 1 cost 130 s and returned nothing, attempt 2 cost another 130 s for 244 characters.
-The refined method then **failed on indentation** (not attached to the class), and the
-cloud assembler call died with `HTTP 524` on the larger payload. Total >260 s for the
-refiner stage alone; verdict FAIL.
-
-Against that, a **single precise directive to one cloud model PASSED in 16-48 s** with zero
-deletions (table above).
-
-Conclusions, for anyone reframing the studio:
-1. **Gates between stages are mandatory.** Without one, a stage that returns empty output
-   is indistinguishable from success and poisons every stage after it.
-2. **A stage is only worth adding if its output is cheaper to verify than to produce.** The
-   refiner spent 260 s to emit a mis-indented method; that is a net loss at this task size.
-3. **Tier by measured strength, not by size of budget.** Local models measured strong at
-   short isolated generation (53 tokens in 3 s) and weak at any in-place edit; cloud models
-   measured strong at executing a precise directive and weak at open-ended exploration.
-4. **Chain length is a cost multiplier, not a quality multiplier.** For small, fully-
-   specified work, one precise directive to one competent executor beat every chain tried
-   here. Chaining should be reserved for work large enough that generation, not
-   verification, is the bottleneck.
-
-Harness: `%LOCALAPPDATA%\Temp\chain_trial.py` (sandboxed; unloads each local model before
-loading the next so the 12 GB card never holds two).
+quality - a property no gate in this repo asserts (now gated: ticket RNG-01, `tools/qa/rng_quality` wired into selftest).
+
+
+
+### Multi-stage chained handoff, measured both ways (2026-09-17)
+
+
+
+The owner's reframe - local drafter -> second local refiner -> cloud final review - was
+
+built and run end to end against the same acceptance probe. It failed **twice**, and both
+
+failures are the interesting part:
+
+
+
+**Attempt 1 (no handoff gates):** the drafter (`gemma-4-e4b`) produced a usable method in
+
+3 s. The refiner (`gemma-4-12b-qat`) returned **0 characters from 4000 tokens** - the
+
+thinking-model trap already documented above, where reasoning is billed against
+
+`max_tokens`. The chain forwarded the empty artefact, the cloud assembler dutifully
+
+inserted nothing, and the result failed with a missing method. **An ungated chain
+
+propagates garbage silently.**
+
+
+
+**Attempt 2 (with handoff gates):** the gate rejected attempt 1 (empty) and retried wider -
+
+attempt 1 cost 130 s and returned nothing, attempt 2 cost another 130 s for 244 characters.
+
+The refined method then **failed on indentation** (not attached to the class), and the
+
+cloud assembler call died with `HTTP 524` on the larger payload. Total >260 s for the
+
+refiner stage alone; verdict FAIL.
+
+
+
+Against that, a **single precise directive to one cloud model PASSED in 16-48 s** with zero
+
+deletions (table above).
+
+
+
+Conclusions, for anyone reframing the studio:
+
+1. **Gates between stages are mandatory.** Without one, a stage that returns empty output
+
+   is indistinguishable from success and poisons every stage after it.
+
+2. **A stage is only worth adding if its output is cheaper to verify than to produce.** The
+
+   refiner spent 260 s to emit a mis-indented method; that is a net loss at this task size.
+
+3. **Tier by measured strength, not by size of budget.** Local models measured strong at
+
+   short isolated generation (53 tokens in 3 s) and weak at any in-place edit; cloud models
+
+   measured strong at executing a precise directive and weak at open-ended exploration.
+
+4. **Chain length is a cost multiplier, not a quality multiplier.** For small, fully-
+
+   specified work, one precise directive to one competent executor beat every chain tried
+
+   here. Chaining should be reserved for work large enough that generation, not
+
+   verification, is the bottleneck.
+
+
+
+Harness: `%LOCALAPPDATA%\Temp\chain_trial.py` (sandboxed; unloads each local model before
+
+loading the next so the 12 GB card never holds two).
+
 
 
 
