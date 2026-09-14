@@ -1,3 +1,10 @@
+## 2026-09-14 — SLAP #94 Fix: remove stale duplicate R-04 entry from PROGRESS.md (Forge) — DONE
+
+- **Defect:** PROGRESS.md had a duplicate, self-contradicting R-04 entry: lines 1-11 said 'BUG FOUND AND FIXED' (flicker fix already applied), lines 21-31 still said 'BUG FOUND' with 'Files to fix' listed — the stale entry misled the reviewer about whether the fix was landed. SLAP #94 (P3, level 3 — frozen lane).
+- **Fix:** Deleted the stale duplicate block (lines 21-32). Only one R-04 entry remains, correctly stating 'BUG FOUND AND FIXED' with the fix landed. Verified the fix is in source: `LightSource.tick(dt)` at lighting.py:88-91, `light.tick(dt)` at lighting.py:252, shadow bounds `range(0, h, TILE)` at lighting.py:275.
+- **Verification:** `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green; `python -m game.main --headless --turns 300 --seed 0` → exit 0, violations=[].
+- **Commit:** a7bcf76.
+
 ## 2026-09-14 — Studio org chart: authority, reporting lines, tiers (Forge) — DONE
 
 - **The studio was flat** — five lanes, a reviewer and a music bot, with no authority chain,
