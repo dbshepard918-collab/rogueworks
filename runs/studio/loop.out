@@ -288,3 +288,7 @@
 [03:06:39]   in-flight work detected (8448 chat -q, You are forge. Your work was reviewed and rejected., VIOLATION: check_stairs is dead code: _bfs_reachable defined but never called; stair check passes without verifying reachability, existence, or duplication) - waiting for it to finish
 [03:18:09] ROUND 6 - running pre-flight gates
 [03:18:52] ROUND 6 item: P5.5 Content volume. Push toward 80 monsters, 150 items, 60 affixes, 4th biome (Sunken
+[04:18:52] ROUND 6 builder: TIMEOUT (0 tool calls, 3600s)
+[04:18:52]   SLAP #84 (forge): STILL OPEN
+[04:18:52]   SLAP #85 (forge): STILL OPEN
+[04:19:13]   in-flight work detected (10848 chat -q, You are forge. Your work was reviewed and rejected., VIOLATION: rooms.json has 40 rooms referencing biome 'ossuary' but biomes.json defines only 3 biomes — no ossuary entry. validate_data red (40 errors), selftest 19/20.) - waiting for it to finish

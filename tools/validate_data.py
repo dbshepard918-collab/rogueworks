@@ -118,7 +118,7 @@ SCHEMAS: dict[str, dict[str, dict]] = {
         "ambient": {"type": "list", "items": {"type": "int", "min": 0, "max": 255}, "len": 3},
         "fog": {"type": "num", "min": 0.0, "max": 1.0},
         "music": {"type": "str", "nullable": True},
-        "modifier": {"type": "str", "enum": {"catacombs_darkness", "ember_heat", "drowned_water", None}, "nullable": True},
+        "modifier": {"type": "str", "enum": {"catacombs_darkness", "ember_heat", "drowned_water", "ossuary_toxic", None}, "nullable": True},
         "secret_rooms": {"type": "list", "required": False},
         "ambient_sound": {"type": "dict", "required": False},
         "attenuation": {"type": "dict", "required": False},
@@ -215,7 +215,7 @@ def check_value(field: str, value, spec: dict, refs: dict[str, set[str] | None])
             errs.append(f"field '{field}' = {value!r} is not snake_case")
         enum = spec.get("enum")
         if enum and value not in enum:
-            errs.append(f"field '{field}' = {value!r} is off-schema; allowed: {', '.join(sorted(enum))}")
+            errs.append(f"field '{field}' = {value!r} is off-schema; allowed: {', '.join(sorted(x for x in enum if x is not None))}")
         ref = spec.get("ref")
         if ref:
             known = refs.get(ref)

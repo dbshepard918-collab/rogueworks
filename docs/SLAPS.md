@@ -2653,3 +2653,7 @@ Messages:       38 (1 user, 36 tool calls)
 
 > **Close pass 2026-09-14 03:17 on SLAP #86:** CLEAN - fix verified (exit 0) —   + stair reach seed 0                           floor=1 biome=catacombs stairs=(2, 22) reachable from spawn=(2, 2) map=48x34 rooms=6
   + stair reach seed 1                           floor=1 biome=cat
+
+> **Close pass 2026-09-14 04:18 on SLAP #84:** STILL OPEN - fix did not verify (exit 1) — /usr/bin/bash: line 1: 19/19.: No such file or directory
+
+> **Close pass 2026-09-14 04:18 on SLAP #85:** STILL OPEN - fix did not verify (exit 2) — /usr/bin/bash: -c: line 1: unexpected EOF while looking for matching `''

@@ -2077,7 +2077,7 @@
     },
     {
       "id": "ossuary_boss_boss_1",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "boss",
       "w": 23,
       "h": 19,
@@ -2089,7 +2089,7 @@
     },
     {
       "id": "ossuary_boss_boss_2",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "boss",
       "w": 23,
       "h": 16,
@@ -2102,7 +2102,7 @@
     },
     {
       "id": "ossuary_entrance_entrance_1",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "entrance",
       "w": 12,
       "h": 12,
@@ -2113,7 +2113,7 @@
     },
     {
       "id": "ossuary_entrance_entrance_2",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "entrance",
       "w": 16,
       "h": 14,
@@ -2125,7 +2125,7 @@
     },
     {
       "id": "ossuary_shop_shop_1",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "shop",
       "w": 8,
       "h": 7,
@@ -2138,7 +2138,7 @@
     },
     {
       "id": "ossuary_shop_shop_2",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "shop",
       "w": 7,
       "h": 6,
@@ -2151,7 +2151,7 @@
     },
     {
       "id": "ossuary_shrine_shrine_1",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "shrine",
       "w": 10,
       "h": 10,
@@ -2164,7 +2164,7 @@
     },
     {
       "id": "ossuary_shrine_shrine_2",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "shrine",
       "w": 9,
       "h": 9,
@@ -2177,7 +2177,7 @@
     },
     {
       "id": "ossuary_treasure_treasure_1",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "treasure",
       "w": 11,
       "h": 10,
@@ -2190,7 +2190,7 @@
     },
     {
       "id": "ossuary_treasure_treasure_2",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "treasure",
       "w": 12,
       "h": 10,
@@ -2203,7 +2203,7 @@
     },
     {
       "id": "ossuary_treasure_treasure_3",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "treasure",
       "w": 12,
       "h": 8,
@@ -2216,7 +2216,7 @@
     },
     {
       "id": "ossuary_blacksmith_blacksmith_1",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "blacksmith",
       "w": 11,
       "h": 8,
@@ -2229,7 +2229,7 @@
     },
     {
       "id": "ossuary_blacksmith_blacksmith_2",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "blacksmith",
       "w": 10,
       "h": 10,
@@ -2242,7 +2242,7 @@
     },
     {
       "id": "ossuary_gambling_gambling_1",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "gambling",
       "w": 8,
       "h": 7,
@@ -2256,7 +2256,7 @@
     },
     {
       "id": "ossuary_gambling_gambling_2",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "gambling",
       "w": 8,
       "h": 8,
@@ -2269,7 +2269,7 @@
     },
     {
       "id": "ossuary_fountain_fountain_1",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "fountain",
       "w": 8,
       "h": 8,
@@ -2280,7 +2280,7 @@
     },
     {
       "id": "ossuary_fountain_fountain_2",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "fountain",
       "w": 8,
       "h": 7,
@@ -2291,7 +2291,7 @@
     },
     {
       "id": "ossuary_omen_omen_1",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "omen",
       "w": 8,
       "h": 7,
@@ -2303,7 +2303,7 @@
     },
     {
       "id": "ossuary_omen_omen_2",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "omen",
       "w": 7,
       "h": 8,
@@ -2315,7 +2315,7 @@
     },
     {
       "id": "ossuary_omen_omen_3",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "omen",
       "w": 7,
       "h": 7,
@@ -2328,7 +2328,7 @@
     },
     {
       "id": "ossuary_secret_secret_1",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "secret",
       "w": 8,
       "h": 5,
@@ -2341,7 +2341,7 @@
     },
     {
       "id": "ossuary_secret_secret_2",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "secret",
       "w": 6,
       "h": 6,
@@ -2353,7 +2353,7 @@
     },
     {
       "id": "ossuary_secret_secret_3",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "secret",
       "w": 5,
       "h": 6,
@@ -2365,7 +2365,7 @@
     },
     {
       "id": "ossuary_combat_variety_1",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "combat",
       "w": 17,
       "h": 18,
@@ -2377,7 +2377,7 @@
     },
     {
       "id": "ossuary_treasure_variety_2",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "treasure",
       "w": 22,
       "h": 10,
@@ -2390,7 +2390,7 @@
     },
     {
       "id": "ossuary_combat_variety_3",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "combat",
       "w": 14,
       "h": 10,
@@ -2402,7 +2402,7 @@
     },
     {
       "id": "ossuary_combat_variety_4",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "combat",
       "w": 9,
       "h": 10,
@@ -2414,7 +2414,7 @@
     },
     {
       "id": "ossuary_combat_variety_5",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "combat",
       "w": 9,
       "h": 19,
@@ -2426,7 +2426,7 @@
     },
     {
       "id": "ossuary_treasure_variety_6",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "treasure",
       "w": 13,
       "h": 13,
@@ -2440,7 +2440,7 @@
     },
     {
       "id": "ossuary_combat_variety_7",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "combat",
       "w": 10,
       "h": 8,
@@ -2452,7 +2452,7 @@
     },
     {
       "id": "ossuary_combat_variety_8",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "combat",
       "w": 17,
       "h": 9,
@@ -2464,7 +2464,7 @@
     },
     {
       "id": "ossuary_treasure_variety_9",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "treasure",
       "w": 16,
       "h": 8,
@@ -2477,7 +2477,7 @@
     },
     {
       "id": "ossuary_combat_variety_10",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "combat",
       "w": 16,
       "h": 20,
@@ -2489,7 +2489,7 @@
     },
     {
       "id": "ossuary_combat_variety_11",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "combat",
       "w": 19,
       "h": 8,
@@ -2501,7 +2501,7 @@
     },
     {
       "id": "ossuary_treasure_variety_12",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "treasure",
       "w": 14,
       "h": 10,
@@ -2515,7 +2515,7 @@
     },
     {
       "id": "ossuary_combat_variety_13",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "combat",
       "w": 10,
       "h": 13,
@@ -2528,7 +2528,7 @@
     },
     {
       "id": "ossuary_treasure_variety_14",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "treasure",
       "w": 12,
       "h": 20,
@@ -2541,7 +2541,7 @@
     },
     {
       "id": "ossuary_combat_variety_15",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "combat",
       "w": 16,
       "h": 14,
@@ -2553,7 +2553,7 @@
     },
     {
       "id": "ossuary_combat_variety_16",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "combat",
       "w": 22,
       "h": 14,
@@ -2565,7 +2565,7 @@
     },
     {
       "id": "ossuary_combat_variety_17",
-      "biome": "ossuary",
+      "biome": "sunken_ossuary",
       "kind": "combat",
       "w": 13,
       "h": 16,
