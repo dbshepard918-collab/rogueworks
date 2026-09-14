@@ -49,7 +49,7 @@ def main() -> int:
     with OUT.open("ab") as fh:
         subprocess.Popen([PY, "-m", "tools.studio.loop"], cwd=str(ROOT), env=env,
                          stdout=fh, stderr=subprocess.STDOUT,
-                         creationflags=0x00000008)  # DETACHED_PROCESS|NEW_PROCESS_GROUP
+                         creationflags=0)  # DETACHED_PROCESS|NEW_PROCESS_GROUP
     print("watchdog: loop started detached (log: runs/studio/loop.out)")
     return 0
 
