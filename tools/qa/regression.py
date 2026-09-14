@@ -277,24 +277,35 @@ def check_stairs(seeds: list[int], turns: int) -> list[dict]:
 def _dominates(a: dict, b: dict, stat_fields, cost_fields) -> bool:
     """True if `a` is at least as good as `b` everywhere that matters, and better somewhere.
 
-    Two corrections over the first cut, both measured:
-      * **Only compare stats the data actually has.** `items.json` carries
-        `slot/effect/value/tier` - it has NO damage/armor/crit at all (all 73 entries
-        score zero on those), so a dominance test built on them silently degenerated
-        into "compare value", which invented 500 findings out of ordering by price.
+    Corrections, each paid for with a measurement:
+      * **Stats are NESTED under `effect`** (`{damage, armor, crit, luck, max_hp, speed}`), with
+        `slot/effect/value/tier` at top level. Reading top-level fields compared 0 against 0 for
+        every item, so this function could never return True: `check_balance` looked for stats in
+        `effect` while this compared the top level, and the gate passed vacuously. A green that
+        cannot go red is worse than no check at all.
       * **`value` is a COST, not a benefit.** Treating a higher price as "better" made
         the more expensive item the dominant one. Cost must be <= to dominate.
     """
+    def stat(item, field):
+        """Read a stat where the content actually puts it: inside `effect`."""
+        effect = item.get("effect")
+        value = effect.get(field) if isinstance(effect, dict) else None
+        if value is None:
+            value = item.get(field)
+        try:
+            return float(value or 0)
+        except (TypeError, ValueError):
+            return 0.0
+
     better = False
     for f in stat_fields:
-        av = float(a.get(f, 0) or 0)
-        bv = float(b.get(f, 0) or 0)
+        av, bv = stat(a, f), stat(b, f)
         if av < bv:
             return False
         if av > bv:
             better = True
     for f in cost_fields:
-        if float(a.get(f, 0) or 0) > float(b.get(f, 0) or 0):
+        if stat(a, f) > stat(b, f):
             return False
     return better
 
@@ -312,22 +323,19 @@ def check_balance() -> list[dict]:
                  "detail": "cannot read items.json"}]
     entries = data.get("entries", [])
 
-    # Discover the schema instead of assuming it. Combat stats live INSIDE
-    # effect.{damage,crit,...}, not at top-level. A dominance rule written
-    # against fields the content does not have compares nothing and fails
-    # everything.
-    candidates = ("damage", "armor", "crit", "power", "defense", "speed", "heal")
-    stat_fields = [f for f in candidates
-                   if any(e.get("effect", {}).get(f, 0) not in (None, 0, 0.0)
-                          for e in entries)]
+    # Discover the schema instead of assuming it. Stats live INSIDE effect.{...} and the set is
+    # whatever the content actually uses - a hardcoded candidate list silently ignored `max_hp`
+    # and `luck`, so an item granting +8 max_hp looked like it was dominated by one granting
+    # +0.15 speed. Comparing only SOME of an item's stats manufactures findings.
+    stat_fields = sorted({k for e in entries if isinstance(e.get("effect"), dict)
+                          for k in e["effect"]})
     cost_fields = [f for f in ("value", "cost", "price")
-                   if any(e.get(f, 0) not in (None, 0, 0.0) for e in entries)]
+                   if any(e.get(f) not in (None, 0, 0.0) for e in entries)]
     if not stat_fields:
         return [{"check": "balance items", "status": SKIP,
-                 "detail": "items.json carries no comparable combat stats (measured zero on "
-                           "%s across %d entries) - dominance is not measurable from this "
-                           "schema, so this check asserts nothing rather than inventing "
-                           "findings from price order" % (", ".join(candidates), len(entries))}]
+                 "detail": "no item carries an `effect` stat map - dominance is not measurable "
+                           "from this schema, so this check asserts nothing instead of inventing "
+                           "findings from price order"}]
 
     by_tier: dict[int, list[dict]] = defaultdict(list)
     for e in entries:

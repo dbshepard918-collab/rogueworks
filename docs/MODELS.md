@@ -198,6 +198,44 @@ a partial answer can no longer masquerade as a capability result. Two lessons, b
 skill: a truncated response is not a score, and **reading the raw output is what caught it** — a
 scoring harness that persists only the score would have hidden this permanently.
 
+## Model health — audited, not assumed (2026-09-14)
+
+`python -m tools.studio.model_health [--probe-local] [--json]` reads every profile, classifies each
+pin (**free** / **local** / **cloud?** / **PAID?**) and probes the routes it can. Exit 0 = every pin is
+free-tier or local and every probed route answered.
+
+**It found two dead routes.** Four bots carried HuggingFace fallbacks that could not work:
+
+| Route | What the probe returned | Verdict |
+|---|---|---|
+| `huggingface/zai-org/GLM-5.3-Flash` | `HTTP 402: You have depleted your monthly included credits. Purchase pre-paid credits to continue using Inference Providers.` | **A billing wall.** Not free-tier: it meters and then asks for money, which is precisely what the "never stop the studio on a billing limit" rule exists to prevent |
+| `huggingface/deepseek-ai/DeepSeek-V4.1-Flash` | HTTP 200 with **empty content** | Answers nothing — the classic free-endpoint failure mode |
+
+Both were **removed** from forge / chip / tempo / warden (`hermes -p <bot> config set fallback_model
+'[...]'`, verified stored as a real list). Every chain is now free-tier or local end-to-end:
+
+```
+forge    nous ling-3.0-flash-fin:free -> nous longcat-2.0:free -> nous laguna-xs-2.1:free -> local qwen3-8b
+chip     nous longcat-2.0:free        -> nous ling-3.0-flash-fin:free -> local qwen3-8b
+tempo    nous ling-3.0-flash-fin:free -> nous longcat-2.0:free -> nous laguna-xs-2.1:free -> local qwen3-8b
+warden   nous ling-3.0-flash-sante:free -> nous laguna-xs-2.1:free -> local qwen3-8b
+lens     local qwen3-vl-8b
+lore     local gemma-4-12b-qat -> local qwen3-8b
+pixel    local qwen3-vl-8b
+```
+
+Re-audit after any pin change: `python -m tools.studio.model_health` → `OK: every pinned model is
+free-tier or local`.
+
+Two notes for the next reader:
+- `fallback_model` triggers a "not a recognized config key — did you mean `fallback_providers`?" notice
+  from `hermes config set`. It is a **supported legacy alias**: `agent/agent_init.py::_fallback_entries`
+  normalises "legacy single-dict `fallback_model` / list `fallback_providers`", and `cli.py` reads it.
+  Verified in the code, not assumed from the warning.
+- Local load-testing is opt-in (`--probe-local`) because it unloads whatever is resident: during this
+  audit the studio loop was mid-round with a model loaded, so evicting it to run a health check would
+  have broken a round. The static audit and the live vision benches were the evidence instead.
+
 ## The roster (live pins)
 
 | Bot | Primary | Fallback chain (tried in order) | Why |

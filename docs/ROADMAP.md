@@ -224,6 +224,44 @@ update `docs/TICKETS.md`, append to `docs/PROGRESS.md`, and only then take the n
 - [x] **SLAP #88** Balance schema mismatch. `check_balance` and `fix_balance` read combat stats as top-level fields but `items.json` stores them inside `effect.{damage,crit,...}`. Fixed both files. Verified `regression --json --seeds 0 1 2 --no-stairs` returns `ok: true` with balance `PASS`. | `tools.qa.regression --json --seeds 0 1 2 --no-stairs` → `ok: true`, balance `PASS` ✓
 - [ ] **P5.5 Content volume.** Push toward 80 monsters, 150 items, 60 affixes, 4th biome (Sunken
       Ossuary), 5 bosses, 40 room templates per biome — generated locally in batches, validated.
+
+### Phase 0b — close the gate reds the content round opened (do these before more content)
+
+- [ ] **P0.7 Content schema: `sunken_ossuary` is half-landed.** `game/data/rooms.json` references a 4th
+      biome and `biomes.json` now has `sunken_ossuary`, but its `modifier: ossuary_toxic` is not in the
+      allowed enum → **167 `content-schema` errors** and `tools.selftest` 19/20. One cause, one fix:
+      either add the modifier to the schema enum or use an existing one, then make `biomes.json` and
+      `rooms.json` agree. Owner: **lore**. | `python -m tools.validate_data` exit 0;
+      `python -m tools.selftest` → 20/20; `python -m game.main --headless --turns 300 --seed 0` exit 0,
+      `invariants.violations == []`; `python -m tools.studio.audit_sprites` 0 missing ✓
+- [ ] **P0.8 Balance: 12 items strictly dominate another item in the same slot and tier.** The balance
+      check was *vacuous* — `check_balance` read stats from `effect.{...}` while `_dominates` compared
+      top-level fields, so every stat compared 0 vs 0 and it could never fire. Fixed (an independent
+      reimplementation agrees on the count): `rusty_blade` dominates `brine_dagger`,
+      `ossuary_shiv` dominates `chipped_hatchet`, `iron_mace` dominates `bog_brush`,
+      `lantern_flail` dominates `bone_javelin`, `studded_jerkin` dominates `tide_shield`, … 12 total.
+      Same stats or better on all six (`armor/crit/damage/luck/max_hp/speed`) *and* no more expensive —
+      a strictly worse choice for the player, which is a design defect, not a rounding error. Owner:
+      **lore** (content) with **chip** as backup for the schema. | `python -m tools.qa.regression
+      --no-golden --no-stairs` → `balance items: PASS`; `python -m tools.selftest` 20/20 ✓
+- [ ] **P0.5b 36 near-identical monster silhouettes.** Exposed by pixel's P0.5 fix: the 6 flat props had
+      been masking drowned/forge/skull monsters that share one silhouette. Owner: **pixel**. |
+      `python -m tools.qa.sprite_critique` reports 0 FAILED near-identical pairs;
+      `python -m tools.art.verify` 0 off-palette ✓
+- [ ] **P0.6 Orphan art: `prop_chains` ships and nothing draws it.** Packed in the props atlas, 0
+      references anywhere in `game/`; not a duplicate of `prop_chain` (silhouette IoU 0.315). Place it
+      in a room or delete it and drop the frame. Owners: **pixel + lore**. |
+      `python -m tools.qa.sprite_critique` no new defects + `tools.art.verify` 0 off-palette ✓
+- [ ] **R-04 Review the r28 lighting rewrite.** Lens' legibility half is done (all 3 biomes measured);
+      chip still owes the code review: light-map correctness and cost, and whether
+      `render_lighting(surface, world, ox, oy, dt)` still serves the renderer. Owner: **chip**. |
+      `python -m tools.qa.scene_legibility --floor 1|7|13` exit 0 and a written review in the round ✓
+- [ ] **M-01 Trial `essentialai/rnj-1` as chip's coder (quality first).** 40-45 tok/s and ~6.6 GiB vs the
+      incumbent's 5.5 tok/s / 18.63 GB — but speed is not the criterion. Run one real bug-fix through it
+      and compare edit quality against `qwen/qwen3-coder-30b`; the pin only moves on quality. Owner:
+      **chip**. | one landed ticket with `tools.selftest` 20/20 and `verify_gate` 7/7 **without
+      hand-correction**, plus a quality comparison in the round ✓
+
 - [ ] **P5.6 Modding-lite.** Everything data-driven already; expose `game/data/` overrides from a
       user folder, document the schemas, and add a validator error for the most common mistakes.
 
