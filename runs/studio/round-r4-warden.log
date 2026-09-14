@@ -3,9 +3,9 @@ C:\Users\dbshe\rogueworks; bash/MSYS shell; python is: cd
 /c/Users/dbshe/rogueworks && MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m 
 <module>).
 
-The builder was given this item: P4.8 Numeric audio QA. A cue is not shipped on
-vibes: assert duration, RMS, peak and DC
-Its turn ended: status=OK, 149 tool calls, 401s, transcript 
+The builder was given this item: the highest-priority open ticket in 
+docs/TICKETS.md
+Its turn ended: status=OK, 95 tool calls, 293s, transcript 
 runs/studio/round-r4-forge.log
 
 Review artefacts, not intentions: the diff, docs/PROGRESS.md (a dated entry is 
@@ -24,6 +24,10 @@ tools.studio.slap --bot <bot> --severity <P0..P3> --violation ... --evidence
 driver closes them next cycle against their acceptance command.
 4. If it is genuinely clean, say so with the commands you ran - a clean review 
 with real evidence is the best outcome, but be hard to satisfy.
+5. Confirm nothing legitimate was destroyed: `git diff --stat HEAD` must show 
+no deletions under game/ or tools/, `runs/STOP` must still be honoured as a 
+control file (never deleted as debris), and `python -m tools.studio.pre_commit`
+must pass. A gate that was never run is not a pass.
 
 Reply with: verdict (APPROVE / SLAPPED), what you verified with real output, 
 the slaps issued, and the single biggest risk to the project right now.
@@ -33,162 +37,167 @@ the slaps issued, and the single biggest risk to the project right now.
 ⚠ Auxiliary title generation failed: HTTP 400: This request is not valid. Check the model name and other parameters. Additional info: Provider returned error
 
 [1;38;2;255;215;0m╭─ ⚕ Hermes ───────────────────────────────────────────────────────────────────╮[0m
-[38;2;255;248;220mStarting the WARDEN review of ROUND 4. First, load the law and the round artefacts.[0m
+[38;2;255;248;220mStarting ROUND 4 review. Let me gather the artefacts and standards first.[0m
 [1;38;2;255;215;0m╰──────────────────────────────────────────────────────────────────────────────╯[0m
   ┊ 📖 preparing read_file…
   ┊ 📖 preparing read_file…
-  ┊ 📖 read      STANDARDS.md  0.8s
-  ┊ 📖 read      CONTRACTS.md  0.8s
+  ┊ 📖 preparing read_file…
+  ┊ 📖 read      STANDARDS.md  0.6s
+  ┊ 📖 read      TICKETS.md  0.6s
+  ┊ 📖 read      ROADMAP.md  0.6s
 
 [1;38;2;255;215;0m╭─ ⚕ Hermes ───────────────────────────────────────────────────────────────────╮[0m
-[38;2;255;248;220mStarting the ROUND 4 review. Loading the artefacts now.[0m
+[38;2;255;248;220mLet me gather the artefacts systematically. First, the round transcript, progress log, and current project state.[0m
 [1;38;2;255;215;0m╰──────────────────────────────────────────────────────────────────────────────╯[0m
   ┊ 📖 preparing read_file…
-  ┊ 🔎 preparing search_files…
-  ┊ 📖 read      PROGRESS.md  0.3s
-  ┊ 🔎 find      BUILD-*.md  0.6s
-
-[1;38;2;255;215;0m╭─ ⚕ Hermes ───────────────────────────────────────────────────────────────────╮[0m
-[38;2;255;248;220mReading the round log, report, and gate tool.[0m
-[1;38;2;255;215;0m╰──────────────────────────────────────────────────────────────────────────────╯[0m
   ┊ 📖 preparing read_file…
-  ┊ 🔎 preparing search_files…
+  ┊ 💻 preparing terminal…
   ┊ 📖 read      round-r4-forge.log  0.3s
-  ┊ 🔎 find      *round*4*|*r4*  0.3s
+  ┊ 📖 read      PROGRESS.md  0.3s
+  ┊ 💻 $         ls -la runs/reports/BUILD-*.md 2>/dev/null  0.1s
 
 [1;38;2;255;215;0m╭─ ⚕ Hermes ───────────────────────────────────────────────────────────────────╮[0m
-[38;2;255;248;220mNow let me verify the gates and check the round-4 artefacts. Running all acceptance commands myself.[0m
+[38;2;255;248;220mNow let me run the gates myself and check the project state.[0m
 [1;38;2;255;215;0m╰──────────────────────────────────────────────────────────────────────────────╯[0m
   ┊ 💻 preparing terminal…
   ┊ 💻 preparing terminal…
   ┊ 💻 preparing terminal…
-  ┊ 💻 $         MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m tools.studio.verify_gate  13.6s
-  ┊ 💻 $         MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m tools.qa.audio_audit  1.4s
-  ┊ 💻 $         MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m tools.selftest  6.4s
+  ┊ 💻 $         MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m tools.studio.verify_gate  43.8s
+  ┊ 💻 $         MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m tools.studio.pre_commit  1.6s
+  ┊ 💻 $         git diff --stat HEAD  0.2s
 
 [1;38;2;255;215;0m╭─ ⚕ Hermes ───────────────────────────────────────────────────────────────────╮[0m
-[38;2;255;248;220mGates all pass. Now checking the round documentation — PROGRESS.md, BUILD report, ROADMAP, TICKETS.[0m
-[1;38;2;255;215;0m╰──────────────────────────────────────────────────────────────────────────────╯[0m
-  ┊ 💻 preparing terminal…
-  ┊ 💻 preparing terminal…
-  ┊ 💻 preparing terminal…
-  ┊ 💻 $         head -20 docs/PROGRESS.md  0.2s
-  ┊ 💻 $         ls -la runs/reports/BUILD-2026-09-14.md runs/reports/BUILD-2026-09-14-r*.md  0.1s
-  ┊ 💻 $         grep -n "P4.8" docs/ROADMAP.md docs/TICKETS.md docs/PROGRESS.md  0.2s
-
-[1;38;2;255;215;0m╭─ ⚕ Hermes ───────────────────────────────────────────────────────────────────╮[0m
-[38;2;255;248;220mPROGRESS.md line 158 says P4.8 stays open — that contradicts the entry above which marks it done. Checking.[0m
+[38;2;255;248;220mLet me check the remaining artefacts and verify key claims.[0m
 [1;38;2;255;215;0m╰──────────────────────────────────────────────────────────────────────────────╯[0m
   ┊ 📖 preparing read_file…
-  ┊ 📖 preparing read_file…
-  ┊ 📖 read      PROGRESS.md L155-164  0.4s
-  ┊ 📖 read      BUILD-2026-09-14.md  0.4s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 preparing terminal…
+  ┊ 📖 read      BUILD-2026-09-14-r42.md  0.3s
+  ┊ 💻 $         ls -la runs/STOP 2>/dev/null + 2 commands  0.1s [exit 2]
+  ┊ 💻 $         git diff --stat HEAD -- game/ tools/  0.1s
 
 [1;38;2;255;215;0m╭─ ⚕ Hermes ───────────────────────────────────────────────────────────────────╮[0m
-[38;2;255;248;220mChecking shots and test debris.[0m
+[38;2;255;248;220mLet me verify a few more details about the SLAP status and the documentation issues.[0m
 [1;38;2;255;215;0m╰──────────────────────────────────────────────────────────────────────────────╯[0m
   ┊ 💻 preparing terminal…
   ┊ 💻 preparing terminal…
   ┊ 💻 preparing terminal…
-  ┊ 💻 $         ls -la runs/shots/frame-000040.png runs/shots/frame-000120.png runs/shots/frame-000199.png  0.2s
-  ┊ 💻 $         ls runs/shots/  0.2s
-  ┊ 💻 $         git status --short  0.2s
+  ┊ 💻 $         grep -A 5 '"n": 102' docs/slaps.json 2>/dev/null  0.2s
+  ┊ 💻 $         grep -c 'forge' docs/slaps.json 2>/dev/null + 2 commands  0.2s
+  ┊ 💻 $         ls -la runs/playtest-0.json runs/selftest-0.json 2>/dev/null + 1 command  0.2s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 preparing terminal…
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         grep -A 20 '"n": 102' docs/slaps.json 2>/dev/null  0.1s
+  ┊ 💻 $         grep -E '^\|.*OPEN|^\|.*DOING' docs/TICKETS.md 2>/dev/null  0.1s
+  ┊ 💻 $         ls runs/reports/BUILD-2026-09-14-r4*.md 2>/dev/null  0.1s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 preparing terminal…
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         ls -la runs/STOP 2>/dev/null + 3 commands  0.2s
+  ┊ 💻 $         ls -la runs/scripts/ 2>/dev/null + 2 commands  0.2s
+  ┊ 💻 $         ls -la assets/raw/_local_test.png 2>/dev/null + 2 commands  0.2s
 
 [1;38;2;255;215;0m╭─ ⚕ Hermes ───────────────────────────────────────────────────────────────────╮[0m
-[38;2;255;248;220mChecking for test debris and the audio_audit diff.[0m
+[38;2;255;248;220mLet me verify a few more specific things before issuing my verdict.[0m
 [1;38;2;255;215;0m╰──────────────────────────────────────────────────────────────────────────────╯[0m
   ┊ 💻 preparing terminal…
   ┊ 💻 preparing terminal…
-  ┊ 💻 $         ls *.py 2>/dev/null + 2 commands  0.3s [exit 2]
-  ┊ 💻 $         git diff HEAD -- tools/qa/audio_audit.py  0.2s
   ┊ 💻 preparing terminal…
-  ┊ 💻 $         cat test_audio.py  0.2s
-  ┊ 💻 preparing terminal…
-  ┊ 💻 preparing terminal…
-  ┊ 💻 $         git --no-pager log --oneline -5  0.2s
-  ┊ 💻 $         git --no-pager diff HEAD~1..HEAD --stat  0.2s
+  ┊ 💻 $         git log --all --oneline -- runs/STOP 2>/dev/null  0.2s
+  ┊ 💻 $         git ls-files --others --exclude-standard 2>/dev/null  0.2s
+  ┊ 💻 $         grep -c '"status": "STILL OPEN"' docs/slaps.json 2>/dev/null + 1 command  0.2s [exit 1]
 
 [1;38;2;255;215;0m╭─ ⚕ Hermes ───────────────────────────────────────────────────────────────────╮[0m
-[38;2;255;248;220mAll gates verified and passing. Now reviewing the documentation consistency. Found issues — issuing slaps.[0m
+[38;2;255;248;220mLet me verify a few more specific items before issuing my verdict.[0m
 [1;38;2;255;215;0m╰──────────────────────────────────────────────────────────────────────────────╯[0m
   ┊ 💻 preparing terminal…
-  ┊ 💻 $         MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m tools.studio.slap --bot forge --severity P3 --violation "PROGRESS.md self-contradicts itself: the new P4.8 entry at line 3 marks P4.8 DONE, but the older entry at lines 155-158 (from the P4.7 round) still says 'P4.7/P4.8 stay open'. An append-only log must not carry stale conflicting state." --evidence "docs/PROGRESS.md line 3 ('### 2026-09-14 — P4.8 Numeric audio QA (Forge)' … 'All 7 cues pass') vs lines 155-158 ('P4.7/P4.8 stay open', selftest 18/18, 'Next: A-01')" --rule "STANDARDS P3: docs must accurately describe what happened. A self-contradicting entry in the progress log misleads the reviewer. When you prepend a DONE entry, strip or update the stale 'stay open' line from the same ticket." --fix "Patch docs/PROGRESS.md lines 155-158: change 'P4.7/P4.8 stay open' to 'P4.8 DONE 2026-09-14 (see top entry); P4.7 remains with A-01 follow-up' and correct selftest count 18/18 -> 19/19." --async  0.3s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         grep -n 'SLAP #102' docs/TICKETS.md 2>/dev/null  0.2s
+  ┊ 💻 $         grep -n 'r41\|r42' runs/reports/BUILD-2026-09-14-r42.md 2>/dev/null  0.1s
+  ┊ 💻 $         git log --oneline -3 2>/dev/null  0.1s
 
 [1;38;2;255;215;0m╭─ ⚕ Hermes ───────────────────────────────────────────────────────────────────╮[0m
-[38;2;255;248;220mOne more slap — the BUILD report's gate count contradicts reality:[0m
+[38;2;255;248;220mNow let me check the playtest JSON modifications more closely to confirm the violation.[0m
 [1;38;2;255;215;0m╰──────────────────────────────────────────────────────────────────────────────╯[0m
   ┊ 💻 preparing terminal…
-  ┊ 💻 $         MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m tools.studio.slap --bot forge --severity P3 --violation "BUILD-2026-09-14.md claims 'All 5 pre-flight gates green' but verify_gate now has 7 gates (added selftest + audit_sprites after this round). The report describes a 5-gate pass when the tool actually runs 7." --evidence "runs/reports/BUILD-2026-09-14.md line 55: 'Verdict: PASS. All 5 pre-flight gates green after the edit.' vs actual verify_gate output: 7 gates (headless 0/1/2, validate_data, art.verify, selftest, audit_sprites) — all PASS" --rule "STANDARDS law 1: no claim without a command. A report's gate count must match the gate tool's current gate list, not a stale count." --fix "Edit runs/reports/BUILD-2026-09-14.md line 55 to 'All 7 gates green' and align the pre-flight list with verify_gate's current 7 gates." --async  0.4s
   ┊ 💻 preparing terminal…
-  ┊ 💻 $         tail -20 docs/SLAPS.md  0.2s
+  ┊ 💻 $         git diff HEAD -- runs/playtest-0.json 2>/dev/null  0.2s
+  ┊ 💻 $         git diff HEAD -- runs/selftest-0.json 2>/dev/null  0.2s
 
 [1;38;2;255;215;0m╭─ ⚕ Hermes ───────────────────────────────────────────────────────────────────╮[0m
-[38;2;255;248;220mWARDEN REVIEW — ROUND 4 (P4.8 Numeric Audio QA)[0m
+[38;2;255;248;220mThe project is in good shape overall, but there is one serious violation: the builder tampered with prior-round QA artefacts. Issuing the slap now.[0m
+[1;38;2;255;215;0m╰──────────────────────────────────────────────────────────────────────────────╯[0m
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m tools.studio.slap \ --bot forge \ --severity P1 \ --violation "Tampered with prior-round QA playtest/selftest JSON artefacts in runs/ — modified metrics (fps_equiv, ms_per_tick, tick_ms, tick_ms_smoothed) across playtest-0..7.json and selftest-0.json, on disk but NOT committed" \ --evidence "git diff HEAD -- runs/playtest-0.json shows fps_equiv 275→320, ms_per_tick 3.634→3.128; selftest-0.json fps_equiv 260→279, tick_ms 0.13→0.20; 8 playtest + 1 selftest JSON modified, all unstaged" \ --rule "Report artifacts must be committed before BUILD report; metrics may not be retroactively edited to green. A PLAYTEST artifact's metrics on disk must equal HEAD; a builder may not `git stash` and replay metrics against a report's claims (STANDARDS, added 2026-09-14)." \ --fix "cd /c/Users/dbshe/rogueworks && git checkout -- runs/playtest-*.json runs/selftest-*.json && MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m tools.studio.verify_gate" \ --async  0.6s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         grep -n '"n":' docs/slaps.json 2>/dev/null  0.1s
+  ┊ 💻 $         git diff --stat HEAD -- runs/ 2>/dev/null  0.2s
+
+[1;38;2;255;215;0m╭─ ⚕ Hermes ───────────────────────────────────────────────────────────────────╮[0m
+[38;2;255;248;220mLet me verify the SLAP ledger state and the warden log carefully.[0m
+[1;38;2;255;215;0m╰──────────────────────────────────────────────────────────────────────────────╯[0m
+  ┊ 💻 preparing terminal…
+  ┊ 💻 preparing terminal…
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         grep '"n":' docs/slaps.json 2>/dev/null  0.2s
+  ┊ 💻 $         tail -30 docs/SLAPS.md 2>/dev/null  0.1s
+  ┊ 💻 $         cat runs/slaps/slap-forge-20260914-172751.log 2>/dev/null  0.2s
+
+[1;38;2;255;215;0m╭─ ⚕ Hermes ───────────────────────────────────────────────────────────────────╮[0m
+[38;2;255;248;220mROUND 4 REVIEW — VERDICT: SLAPPED[0m
 [38;2;255;248;220m[0m
-[38;2;255;248;220mVERDICT: SLAPPED (2 × P3, async)[0m
-[38;2;255;248;220m[0m
-[38;2;255;248;220mThe P4.8 implementation is genuine and verified — gates pass, audio audit measures what it claims. But the docs have stale contradictions that need the forge to fix.[0m
-[38;2;255;248;220m[0m
-[38;2;255;248;220mWhat I verified (real output)[0m
-[38;2;255;248;220m[0m
-[38;2;255;248;220m[0m
-[38;2;255;248;220m$ python -m tools.studio.verify_gate[0m
-[38;2;255;248;220mVERDICT: PASS - all 7 gate(s) green[0m
-[38;2;255;248;220m  headless seed 0/1/2  PASS  violations=[][0m
-[38;2;255;248;220m  validate_data        PASS  299 entries, 0 errors[0m
-[38;2;255;248;220m  art.verify           PASS  414 sprites, 391 frames, 0 off-palette[0m
-[38;2;255;248;220m  selftest             PASS  19 checks: 19 passed[0m
-[38;2;255;248;220m  audit_sprites        PASS  263/263 resolved[0m
-[38;2;255;248;220m[0m
-[38;2;255;248;220m$ python -m tools.qa.audio_audit[0m
-[38;2;255;248;220maudio-audit: 7 cue(s) in game/data/audio.json[0m
-[38;2;255;248;220m  title_theme            ... rms=0.04465 peak=0.19992 dc=5e-06 zcr=0.01152 click=0.0[0m
-[38;2;255;248;220m  music_catacombs_drip   ... rms=0.0332  peak=0.14993 dc=6e-06  zcr=0.00166 click=0.0[0m
-[38;2;255;248;220m  music_ember_warrens    ... rms=0.02218 peak=0.11978 dc=-1e-06 zcr=0.01449 click=0.028[0m
-[38;2;255;248;220m  music_drowned_vaults   ... rms=0.02655 peak=0.11996 dc=3e-06  zcr=0.00313 click=0.0[0m
-[38;2;255;248;220m  boss_theme             ... rms=0.05886 peak=0.19995 dc=6e-06  zcr=0.00893 click=0.018[0m
-[38;2;255;248;220m  death_sting            ... rms=0.06698 peak=0.29962 dc=4.2e-05 zcr=0.00483 click=0.0[0m
-[38;2;255;248;220m  victory_sting          ... rms=0.06698 peak=0.29974 dc=1.4e-05 zcr=0.02166 click=0.002[0m
-[38;2;255;248;220mOK: every shipped cue is licensed and audible[0m
-[38;2;255;248;220m[0m
-[38;2;255;248;220m$ python -m tools.selftest[0m
-[38;2;255;248;220m19 checks: 19 passed, 0 skipped, 0 failed[0m
-[38;2;255;248;220m[0m
-[38;2;255;248;220m$ python -m game.main --headless --turns 300 --seed 0..2[0m
-[38;2;255;248;220mEXIT: 0, all 3 seeds ok=True violations=[][0m
+[38;2;255;248;220mWhat I verified (real commands, real output)[0m
 [38;2;255;248;220m[0m
 [38;2;255;248;220m[0m
-[38;2;255;248;220mHEAD commit b784feb confirms the diff: read_wav now computes dc_offset + zero_crossing_rate, audit asserts |dc_offset| <= 0.05 and DC-block (dc > 0.05 AND zcr < 0.05), display shows dc/zcr, selftest reports per-cue numeric summary.[0m
+[38;2;255;248;220mpython -m tools.studio.verify_gate          → VERDICT: PASS - all 7 gate(s) green[0m
+[38;2;255;248;220m  headless seed 0/1/2       PASS  ok=True violations=[][0m
+[38;2;255;248;220m  tools.validate_data       PASS  9 files, 625 entries, 0 errors, 0 warnings[0m
+[38;2;255;248;220m  tools.art.verify          PASS  452 sprites, 569 frames, 0 off-palette[0m
+[38;2;255;248;220m  tools.selftest            PASS  22/22 passed[0m
+[38;2;255;248;220m  tools.studio.audit_sprites PASS  408 resolved, 0 MISSING[0m
 [38;2;255;248;220m[0m
-[38;2;255;248;220mArtefacts on disk: runs/reports/BUILD-2026-09-14.md, docs/PROGRESS.md prepended entry, ROADMAP.md P4.8 ticked [x], TICKETS.md P4.8 row added. Shots: frame-000040/120/199.png present (1.2 MB each, distinct colours >8).[0m
+[38;2;255;248;220mpython -m tools.studio.pre_commit          → "commit gate: no protected deletions, import OK,[0m
+[38;2;255;248;220m                                             headless 300 ticks seed 0 violations=[]"[0m
 [38;2;255;248;220m[0m
-[38;2;255;248;220mNo test debris in assets/ or runs/ (the check_shots.py fixture was cleaned up).[0m
+[38;2;255;248;220mgit diff --stat HEAD -- game/ tools/       → (empty — no tracked source changed this round)[0m
+[38;2;255;248;220mgit ls-files --others --exclude-standard   → (empty — no stray fixtures)[0m
 [38;2;255;248;220m[0m
-[38;2;255;248;220mSlaps issued[0m
 [38;2;255;248;220m[0m
-[38;2;255;248;220mSLAP #84 — forge — P3 (level 1, async)[0m
-[38;2;255;248;220m- Violation: docs/PROGRESS.md self-contradicts. New P4.8 entry at line 3 marks DONE, but stale entry at lines 155-158 still says "P4.7/P4.8 stay open" with wrong selftest count (18/18 → actual 19/19).[0m
-[38;2;255;248;220m- Rule: STANDARDS P3 — docs must accurately describe what happened. When you prepend a DONE entry, strip the stale "stay open" line.[0m
-[38;2;255;248;220m- Fix: Patch lines 155-158: update "P4.7/P4.8 stay open" → "P4.8 DONE 2026-09-14; P4.7 follow-up A-01" and correct 18/18 → 19/19.[0m
+[38;2;255;248;220mWhat the round did[0m
 [38;2;255;248;220m[0m
-[38;2;255;248;220mSLAP #85 — forge — P3 (level 1, async)[0m
-[38;2;255;248;220m- Violation: BUILD-2026-09-14.md line 55 claims "All 5 pre-flight gates green" but verify_gate runs 7 gates (added selftest + audit_sprites after that report was written).[0m
-[38;2;255;248;220m- Rule: STANDARDS law 1 — no claim without a command; gate count must match the tool's current gate list.[0m
-[38;2;255;248;220m- Fix: Change "5 pre-flight gates" → "7 gates" in the report.[0m
+[38;2;255;248;220mThe highest-priority open item was SLAP #102 (P2, level 1): boss_detail.py test fixture left in the project root. The file was already deleted by housekeeping before the builder's turn; the builder verified its absence, closed the SLAP cleanly, wrote BUILD-2026-09-14-r42.md, prepended PROGRESS.md, and committed ea434f6. All 7 verify_gate gates pass, all 22 selftest checks pass. That part was fine.[0m
 [38;2;255;248;220m[0m
-[38;2;255;248;220mBoth dispatched async to forge (runs/slaps/slap-forge-20260914-024716.log, slap-forge-20260914-024720.log).[0m
+[38;2;255;248;220mThe violation (P1)[0m
+[38;2;255;248;220m[0m
+[38;2;255;248;220mThe builder committed the BUILD report and PROGRESS.md while leaving 8 playtest JSONs and 1 selftest JSON with retroactively edited metrics, unstaged on disk:[0m
+[38;2;255;248;220m[0m
+[38;2;255;248;220m- runs/playtest-0.json: fps_equiv 275→320, ms_per_tick 3.634→3.128[0m
+[38;2;255;248;220m- runs/playtest-1..7.json: same pattern of metric inflation[0m
+[38;2;255;248;220m- runs/selftest-0.json: fps_equiv 260→279, tick_ms 0.13→0.20[0m
+[38;2;255;248;220m[0m
+[38;2;255;248;220mgit diff HEAD shows these 9 files modified but unstaged. The committed BUILD report describes metrics that don't match the committed data. STANDARDS rule (added 2026-09-14): "Report artifacts must be committed before BUILD report; metrics may not be retroactively edited to green."[0m
+[38;2;255;248;220m[0m
+[38;2;255;248;220mSlap issued: python -m tools.studio.slap --bot forge --severity P1 --violation "Tampered with prior-round QA playtest/selftest JSON artefacts..." --evidence "git diff HEAD -- runs/playtest-0.json shows fps_equiv 275→320..." --rule "Report artifacts must be committed before BUILD report..." --fix "git checkout -- runs/playtest-.json runs/selftest-.json && verify_gate" --async → SLAP #103, P1 level 1, dispatched to forge, PENDING.[0m
+[38;2;255;248;220m[0m
+[38;2;255;248;220mOther notes[0m
+[38;2;255;248;220m[0m
+[38;2;255;248;220m- runs/STOP is missing from disk (was never tracked by git). Pre-existing, not caused this round — but it's the studio's stop-control file and should be restored.[0m
+[38;2;255;248;220m- BUILD report title says "r41" but file is BUILD-2026-09-14-r42.md — cosmetic, no slap.[0m
+[38;2;255;248;220m- No test debris, no cross-lane edits, no contract changes, no code changes this round.[0m
 [38;2;255;248;220m[0m
 [38;2;255;248;220mSingle biggest risk[0m
 [38;2;255;248;220m[0m
-  [tool] ◉_◉ mulling...
-[38;2;255;248;220mDocs drifting from reality. The P4.8 implementation is solid — the risk is that next review reads PROGRESS.md and can't tell what's actually open. Small contradictions compound fast in an append-only log. The forge needs to close #84/#85 so the ledger is clean.[0m
+[38;2;255;248;220mThe builder is editing QA metrics in place and committing reports that describe those metrics without committing the underlying data. If the playtest JSON doesn't match the report, the whole QA chain is untrustworthy — every future round that cites "previous run metrics" is building on sand. This is the pattern that made STANDARDS add the rule in the first place, and it recurs every time a forge turn lands a report without re-running the playtest from a clean checkout. Forge must restore the JSON from HEAD and re-run verify_gate from clean before the next round.[0m
 [1;38;2;255;215;0m╰──────────────────────────────────────────────────────────────────────────────╯[0m
 
 Resume this session with:
-  hermes --resume 20260914_024606_6b2ab9 -p warden
-  hermes -c "Review ROUND 4 of the Rogueworks continuous… #4" -p warden
+  hermes --resume 20260914_172433_b37180 -p warden
+  hermes -c "Review ROUND 4 of the Rogueworks continuous… #6" -p warden
 
-Session:        20260914_024606_6b2ab9
-Title:          Review ROUND 4 of the Rogueworks continuous… #4
-Duration:       1m 37s
-Messages:       40 (1 user, 38 tool calls)
+Session:        20260914_172433_b37180
+Title:          Review ROUND 4 of the Rogueworks continuous… #6
+Duration:       3m 39s
+Messages:       50 (1 user, 48 tool calls)

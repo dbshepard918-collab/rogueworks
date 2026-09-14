@@ -184,3 +184,8 @@
 {"event": "builder-turn", "round": 2, "bot": "forge", "tag": "r2", "status": "OK", "rc": 0, "seconds": 3247.1, "tool_calls": 776, "log": "runs/studio/round-r2-forge.log", "tail": "Title:          ROUND 2 of the continuous Rogueworks loop\u2026 #7\nDuration:       54m 5s\nMessages:       780 (3 user, 776 tool calls)", "at": "2026-09-14T16:25:56"}
 {"event": "review-turn", "round": 2, "bot": "warden", "tag": "r2", "status": "OK", "rc": 0, "seconds": 322.8, "tool_calls": 776, "log": "runs/studio/round-r2-warden.log", "tail": "Title:          Review ROUND 2 of the Rogueworks continuous\u2026 #4\nDuration:       5m 21s\nMessages:       74 (1 user, 72 tool calls)", "at": "2026-09-14T16:31:19"}
 {"event": "round-end", "round": 2, "closed_slaps": ["SLAP #99 (forge): STILL OPEN", "SLAP #100 (forge): STILL OPEN", "SLAP #101 (forge): CLEAN"], "at": "2026-09-14T16:32:09"}
+{"event": "review-turn", "round": 4, "bot": "warden", "tag": "r4", "status": "OK", "rc": 0, "seconds": 220.6, "tool_calls": 95, "log": "runs/studio/round-r4-warden.log", "tail": "Title:          Review ROUND 4 of the Rogueworks continuous\u2026 #6\nDuration:       3m 39s\nMessages:       50 (1 user, 48 tool calls)", "at": "2026-09-14T17:28:13"}
+{"event": "round-end", "round": 4, "closed_slaps": ["SLAP #102 (forge): CLEAN"], "at": "2026-09-14T17:28:57"}
+{"event": "loop-start", "pid": 18152, "at": "2026-09-14T17:29:50"}
+{"event": "loop-start", "pid": 27244, "at": "2026-09-14T17:44:50"}
+{"event": "loop-start", "pid": 20448, "at": "2026-09-14T17:59:50"}
