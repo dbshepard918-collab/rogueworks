@@ -32,6 +32,12 @@ silently skipped) — when one misbehaves, switch to another free one or go loca
 to route around it. A model joins the roster only after passing the **3-step chain probe**
 (`read_file` → `write_file` → `run_tests`); prose quality and benchmark scores do not count.
 
+## Who decides what (org chart)
+
+`docs/ORG.md` is the authority structure: the chain (Owner -> **forge** + **warden**, with chip/pixel/lore/tempo/lens under forge), every bot's reporting line, what each role may decide alone, the escalation path, and the roles this studio deliberately does NOT staff (no CFO, no HR, no marketing - there is no money, no hiring and no customer, so those seats would be bots with no work). Every bot's `SOUL.md` carries its own row of that chart, so the structure loads in-context instead of sitting in a document nobody reads.
+
+Two deliberate departures from a corporate template: **WARDEN reports to the Owner, not to forge** (a reviewer under the director it reviews is self-review), and **the IC ladder (senior/mid/junior/intern) is a model ladder, not more bots** - which tier may do which work is measured in `docs/MODELS.md`, not assumed.
+
 ## The law, and the slaps
 
 `docs/STANDARDS.md` is the law every bot reads at the start of every round: five rules (no claim

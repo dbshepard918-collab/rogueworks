@@ -1,3 +1,23 @@
+## 2026-09-14 — Studio org chart: authority, reporting lines, tiers (Forge) — DONE
+
+- **The studio was flat** — five lanes, a reviewer and a music bot, with no authority chain,
+  no reporting lines and no escalation path. The owner asked for an org chart; it did not exist.
+- **New `docs/ORG.md`**: Owner -> **forge** (CEO/Studio Director/Game Director merged, one game)
+  with chip/pixel/lore/tempo/lens under it, and **warden reporting to the Owner, not to forge** —
+  a reviewer under the director it reviews is self-review. Escalation path, per-role decision
+  rights, and the roles deliberately NOT staffed (no CFO/HR/CMO: no money, no hiring, no
+  customer) are all recorded with reasons.
+- **Every bot's `SOUL.md` now carries its own row of the chart** (reports to / receives from /
+  decides / escalates to), because a reporting line that disagrees with the SOULs is worse than
+  no chart — bots act on what loads in their context.
+- **Key structural finding: the IC ladder is a MODEL ladder, not more bots.** Senior/mid/junior/
+  intern map to model tiers within a lane, and which may do what is measured (`docs/MODELS.md`):
+  fast local = intern for isolated generation only; free-tier cloud executor = senior; WARDEN =
+  principal reviewer. The load-bearing role is the **brief-writer**, not the model tier.
+- **Report:** `runs/reports/BUILD-2026-09-14-r39.md`. Gates green, `main` exit 0, selftest 22/22.
+- **Operational:** the 15-minute loop watchdog and the 2 h build round are **paused** (owner
+  permission) — they were reverting uncommitted work. Resume commands are in the BUILD report.
+
 ## 2026-09-14 — R-04 Chip code review of the r28 lighting rewrite — DONE
 
 - **Review conducted.** Full read of `game/engine/lighting.py` (287 lines), the call site at `renderer.py:498-500`, `scene_legibility.py`, and `CONTRACTS.md` §3.
