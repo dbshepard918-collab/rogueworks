@@ -8,9 +8,9 @@
     "violations": []
   },
   "metrics": {
-    "fps_equiv": 319,
+    "fps_equiv": 322,
     "frames": 300,
-    "ms_per_tick": 3.1340843333358257
+    "ms_per_tick": 3.1010520000018005
   },
   "metrics_profiler": {
     "atlas_mem_bytes": 2491136,
