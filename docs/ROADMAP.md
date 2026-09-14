@@ -258,8 +258,14 @@ update `docs/TICKETS.md`, append to `docs/PROGRESS.md`, and only then take the n
 - [x] **R-04 Review the r28 lighting rewrite.** Chip's code review complete — light-map correctness PASS, cost PASS, contract PASS. Found dead flicker (flicker_phase never advanced by dt) — fixed with `LightSource.tick(dt)`. Shadow bounds tightened. All gates green. | `python -m tools.qa.scene_legibility --floor 1|7|13` exit 0, `verify_gate --seeds 0 1 2 --turns 300` 7/7 ✓
 - [x] **M-01 Trial `essentialai/rnj-1` as chip's coder (quality first).** `essentialai/rnj-1` **disqualified, incumbent `qwen/qwen3-coder-30b` stays.** Two independent disqualifiers: (1) the GGUF hard-caps at `max_context_length: 32768` (verified via LM Studio `/api/v0/models`), below Hermes' 64K agent floor, so `hermes -p chip -m essentialai/rnj-1` refuses to run it — it cannot hold the seat through the studio's own tooling; (2) driven through the raw tool-calling probe on a scoped `next_choice()` edit, it produced the edit but **destroyed 59 lines of `game/systems/rng.py`** (dropped `_splitmix64`, `main` exited 1 with `NameError`, selftest fell 21→13), then **looped the same failing `run_tests` command 10 consecutive turns without reading the error or reporting failure** — the false-confidence failure mode the ticket was designed to catch. Reverted via `git checkout`; main re-verified exit 0, selftest 21/21. Speed (45.2 tok/s) is irrelevant if the seat cannot be held. Do not re-trial without a model whose GGUF reports ≥64K. | `tools.selftest` 21/21 and `verify_gate` 7/7 after revert; `python -m tools.studio.bench_local --model essentialai/rnj-1 --context 8192` records the speed number for the record ✓
 
-- [ ] **P5.6 Modding-lite.** Everything data-driven already; expose `game/data/` overrides from a
+- [x] **P5.6 Modding-lite.** Everything data-driven already; expose `game/data/` overrides from a
       user folder, document the schemas, and add a validator error for the most common mistakes.
+      **DONE 2026-09-14** — `--data-dir` and `--mod-dir` CLI flags added to `game/main.py`;
+      `Content.__init__` accepts `mod_dir` and `_load_table_with_mod()` layers mod JSON
+      overrides on top of base data (by id, warn-on-duplicate); `World.__init__` and
+      `RunScene.__init__` thread `mod_dir` through to `Content`; `tools/validate_data.py`
+      `validate_dir()` gains `mod_dir` parameter that validates mod files against the same
+      schema and checks for duplicate ids. Gates 7/7 PASS.
 
 ---
 
