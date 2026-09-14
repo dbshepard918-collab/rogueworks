@@ -2710,3 +2710,14 @@ Indentation
 |
 > **Close pass 2026-09-14 11:04 on SLAP #93:** CLEAN - fix verified (exit 0) — verify: palette 'vaelmoor' v1 (26 colours), tolerance 0 | sprites checked: 452 in 2 dir(s) | atlases: 8 (569 frames) | aliases: 39
 PASS: 452 sprite file(s), 569 frame(s), 0 off-palette pixel(s)
+
+> **Close pass 2026-09-14 13:01 on SLAP #84:** STILL OPEN - fix did not verify (exit 1) — /usr/bin/bash: line 1: 19/19.: No such file or directory
+
+> **Close pass 2026-09-14 13:01 on SLAP #85:** STILL OPEN - fix did not verify (exit 2) — /usr/bin/bash: -c: line 1: unexpected EOF while looking for matching `''
+
+> **Close pass 2026-09-14 13:02 on SLAP #92:** CLEAN - fix verified (exit 0) —   tools.validate_data                PASS     0.1s  game/data/rooms.json: 205 entries, ok | game/data/statuses.json: 21 entries, ok | PASS: 9 file(s), 625 entries, 0 error(s), 0 warning(s)
+  tools.art
+
+> **Close pass 2026-09-14 13:12 on SLAP #84:** STILL OPEN - fix did not verify (exit 1) — /usr/bin/bash: line 1: 19/19.: No such file or directory
+
+> **Close pass 2026-09-14 13:12 on SLAP #85:** STILL OPEN - fix did not verify (exit 2) — /usr/bin/bash: -c: line 1: unexpected EOF while looking for matching `''

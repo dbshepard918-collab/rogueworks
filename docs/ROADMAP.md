@@ -255,10 +255,7 @@ update `docs/TICKETS.md`, append to `docs/PROGRESS.md`, and only then take the n
       `python -m tools.qa.sprite_critique` no new defects + `tools.art.verify` 0 off-palette +
       `python -m tools.studio.verify_gate` 7/7 ✓
 - [x] **P0.9 The 4th biome spawns nothing.** `tools.qa.deep_floors` walks one floor per biome: floors 1/6/11 populate (14-19 monsters); floor 16 `sunken_ossuary` now gives **7 rooms, 24 monsters, 16 pools** (was 0 monsters). Fixed in r41 — the biome's monsters were in `monsters.json` with matching `biome` field; the spawn pool just needed the biome-id reconciliation. **DONE 2026-09-17** — `python -m tools.qa.deep_floors --seeds 0 1 2` confirms sunken_ossuary floor 16 = 24/22/24 monsters across seeds. | `python -m tools.qa.deep_floors --seeds 0 1` shows non-zero monster count for `sunken_ossuary` floor; `python -m tools.selftest` `deep-floors` PASS ✓
-- [ ] **R-04 Review the r28 lighting rewrite.** Lens' legibility half is done (all 3 biomes measured);
-      chip still owes the code review: light-map correctness and cost, and whether
-      `render_lighting(surface, world, ox, oy, dt)` still serves the renderer. Owner: **chip**. |
-      `python -m tools.qa.scene_legibility --floor 1|7|13` exit 0 and a written review in the round ✓
+- [x] **R-04 Review the r28 lighting rewrite.** Chip's code review complete — light-map correctness PASS, cost PASS, contract PASS. Found dead flicker (flicker_phase never advanced by dt) — fixed with `LightSource.tick(dt)`. Shadow bounds tightened. All gates green. | `python -m tools.qa.scene_legibility --floor 1|7|13` exit 0, `verify_gate --seeds 0 1 2 --turns 300` 7/7 ✓
 - [ ] **M-01 Trial `essentialai/rnj-1` as chip's coder (quality first).** 40-45 tok/s and ~6.6 GiB vs the
       incumbent's 5.5 tok/s / 18.63 GB — but speed is not the criterion. Run one real bug-fix through it
       and compare edit quality against `qwen/qwen3-coder-30b`; the pin only moves on quality. Owner:

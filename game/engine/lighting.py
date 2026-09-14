@@ -85,6 +85,11 @@ class LightSource:
             return self.radius
         return max(1.0, self.radius + math.sin(self.flicker_phase) * self.radius * 0.04)
 
+    def tick(self, dt):
+        """Advance the flicker phase by dt so the radius varies over time."""
+        if self.flicker_speed > 0:
+            self.flicker_phase += self.flicker_speed * dt
+
 
 def _radial_gradient(radius, colour):
     """A smooth additive falloff disc, cached per (radius, colour).
@@ -244,6 +249,7 @@ def _compose_lightmap(world, level, ox, oy, w, h, biome, dt):
     lightmap.fill(ambient)
 
     for light in _build_light_sources(world, dt):
+        light.tick(dt)
         radius = int(light.effective_radius)
         if radius < 4:
             continue
@@ -266,7 +272,7 @@ def _compose_lightmap(world, level, ox, oy, w, h, biome, dt):
         shadow = pygame.Surface((TILE, TILE))
         shadow.fill((_SHADOW_LEVEL, _SHADOW_LEVEL, _SHADOW_LEVEL))
         level_w, level_h = level.w, level.h
-        for sy in range(0, h + TILE, TILE):
+        for sy in range(0, h, TILE):
             wy = int((sy + TILE // 2 + oy) // TILE)
             if wy < 0 or wy >= level_h:
                 continue
