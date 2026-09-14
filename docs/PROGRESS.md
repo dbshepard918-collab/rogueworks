@@ -1,22 +1,53 @@
-## 2026-09-14 — SLAP apparatus: malformed acceptance commands can no longer punish a bot (Forge) — DONE
+## 2026-09-14 — escalation() no longer counts voided slaps (Forge) — DONE
 
-- **Found:** SLAP #84 and #85 were **unclosable forever**, not because the fixes failed but
-  because their `--fix` values were **prose** ("Patch docs/PROGRESS.md lines 155-158: ...").
-  `verify_fix` runs that through bash, so it exited 1 and 2 — and `close_slap` read a non-zero
-  exit as a failed fix and **escalated the offender** (level 2 writes the rule into SOUL.md,
-  level 3 freezes the lane). The apparatus was about to punish a bot for a broken instrument.
-- **Fixed in `tools/studio/slap.py`:** `looks_like_command()` detects prose (12/12 test strings
-  classified correctly, including env-prefixed and quoted-Windows-path commands); a malformed
-  command is marked NOT VERIFIABLE with **no escalation**; new `--reissue-fix` replaces a bad
-  command; new `--void N --reason` closes an unverifiable entry with a permanent note; and
-  issuing a slap with a non-command now prints a loud warning at issue time.
-- **Verified:** both entries kept `level=1` and an empty `soul_note` after the close attempt —
-  proving the escalation path no longer fires on a malformed instrument.
-- **#84 and #85 voided with reasons** (not deleted): #84's fix is already landed and recorded
-  in PROGRESS.md; #85's target artefact `BUILD-2026-09-14.md` no longer exists, so the specific
-  defect is moot while its general rule stays enforced by `verify_gate`.
-- **Report:** `runs/reports/BUILD-2026-09-14-r40.md`.
+- **Same defect class as the prose `--fix`, one layer deeper.** `escalation()` counted every prior
+  entry with the same bot+rule_key, **including VOID records** — which are precisely the entries
+  established as *not the bot's failure*. Effect: the two slaps voided earlier today (#84/#85)
+  would have pushed forge's next genuine first offence on those rules straight to **level 2**,
+  writing the rule into its `SOUL.md` permanently, for something it never did.
+- **Fix:** `escalation()` skips entries whose status starts with `VOID`.
+- **Verified:** #84/#85 now score next-offence level **1** (a true first offence), while a control
+  entry that was legitimately closed still escalates **1 -> 2** — so voids are excluded without
+  weakening real escalation. A record that was never evidence must not be used as evidence.
 
+## 2026-09-14 — SLAP apparatus: malformed acceptance commands can no longer punish a bot (Forge) — DONE
+
+
+
+- **Found:** SLAP #84 and #85 were **unclosable forever**, not because the fixes failed but
+
+  because their `--fix` values were **prose** ("Patch docs/PROGRESS.md lines 155-158: ...").
+
+  `verify_fix` runs that through bash, so it exited 1 and 2 — and `close_slap` read a non-zero
+
+  exit as a failed fix and **escalated the offender** (level 2 writes the rule into SOUL.md,
+
+  level 3 freezes the lane). The apparatus was about to punish a bot for a broken instrument.
+
+- **Fixed in `tools/studio/slap.py`:** `looks_like_command()` detects prose (12/12 test strings
+
+  classified correctly, including env-prefixed and quoted-Windows-path commands); a malformed
+
+  command is marked NOT VERIFIABLE with **no escalation**; new `--reissue-fix` replaces a bad
+
+  command; new `--void N --reason` closes an unverifiable entry with a permanent note; and
+
+  issuing a slap with a non-command now prints a loud warning at issue time.
+
+- **Verified:** both entries kept `level=1` and an empty `soul_note` after the close attempt —
+
+  proving the escalation path no longer fires on a malformed instrument.
+
+- **#84 and #85 voided with reasons** (not deleted): #84's fix is already landed and recorded
+
+  in PROGRESS.md; #85's target artefact `BUILD-2026-09-14.md` no longer exists, so the specific
+
+  defect is moot while its general rule stays enforced by `verify_gate`.
+
+- **Report:** `runs/reports/BUILD-2026-09-14-r40.md`.
+
+
+
 ## 2026-09-14 — SLAP #94 Fix: remove stale duplicate R-04 entry from PROGRESS.md (Forge) — DONE
 
 - **Defect:** PROGRESS.md had a duplicate, self-contradicting R-04 entry: lines 1-11 said 'BUG FOUND AND FIXED' (flicker fix already applied), lines 21-31 still said 'BUG FOUND' with 'Files to fix' listed — the stale entry misled the reviewer about whether the fix was landed. SLAP #94 (P3, level 3 — frozen lane).
