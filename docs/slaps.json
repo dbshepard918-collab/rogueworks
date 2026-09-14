@@ -1634,9 +1634,9 @@
       "reply_rc": 0,
       "reply": "PENDING - dispatched as pid 8448, receipt runs/slaps/slap-forge-20260914-030205.log",
       "fix_command": "cd /c/Users/dbshe/rogueworks && MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m tools.qa.regression --seeds 0 1 2 --turns 300",
-      "fix_exit": 0,
-      "fix_output": "  + stair reach seed 0                           floor=1 biome=catacombs stairs=(2, 22) reachable from spawn=(2, 2) map=48x34 rooms=6\n  + stair reach seed 1                           floor=1 biome=catacombs stairs=(2, 22) reachable from spawn=(2, 2) map=48x34 rooms=6\n  + stair reach seed 2                           floor=1 biome=catacombs stairs=(2, 22) reachable from spawn=(2, 2) map=48x32 rooms=6\n  + balance items                                no strictly-dominant item found at any tier (compared on damage/armor/crit/speed)\n------------------------------------------------------------------------\nVERDICT: PASS - all 7 check(s) green",
-      "status": "CLEAN - fix verified"
+      "fix_exit": 1,
+      "fix_output": "  File \"C:\\Users\\dbshe\\rogueworks\\game\\systems\\rng.py\", line 3\n    def random(self):\nIndentation\n  + balance items                                no strictly-dominant item found at any tier (compared on armor/crit/damage/luck/max_hp/speed)\n------------------------------------------------------------------------\nVERDICT: FAIL - 4 check(s) red",
+      "status": "STILL OPEN - fix did not verify"
     },
     {
       "n": 87,
