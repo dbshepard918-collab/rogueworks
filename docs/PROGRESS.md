@@ -1,3 +1,22 @@
+## 2026-09-16 — r41: P0.8 Balance Dominance Fix (Forge)
+
+- **P0.8 fixed** — `python -m tools.qa.regression --no-golden --no-stairs` → PASS (0 strictly-dominant items, was 11). Bumped `value` on 8 items (salt_helm_a 12→13, lucky_coin 14→15, small_health_draught 10→12, small_shell_p 9→10, shell_cap_a 13→15, iron_mace 40→46, coral_vest_a 210→229, kraken_elixir_c 205→211) so each dominating item now costs more than the item it dominates. 11 pairs resolved. `game/data/items.json` 150 items.
+- **Gates:** `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green (was 6/7). `tools.selftest` → 21/21 (was 20/21 — golden-seed-regression was red). `python -m game.main --headless --turns 300 --seed 0..2` → exit 0, violations=[] for all seeds. `tools.validate_data` → 0 errors, 0 warnings. `tools.art.verify` → 0 off-palette. `audit_sprites --fallback` → 0 unresolved.
+- **M-04 also resolved** — `tools.qa.deep_floors` confirms sunken_ossuary floor 16 spawns 24 monsters (was 0). The biomes.json/rooms.json biome-correct fix from r40 took effect.
+- **Next:** P0.7 (content-schema: ossuary_toxic modifier) and P0.5b (36 near-identical monster silhouettes).
+
+## 2026-09-14 — r38: SLAP #89 fix — 4th biome added to biomes.json; rooms.json biome refs corrected (Forge)
+
+- **SLAP #89 (P1) FIXED.** `rooms.json` had 40 rooms referencing biome `"ossuary"` but `biomes.json` defined only 3 entries (catacombs, ember_warrens, drowned_vaults). `validate_data` returned 40 errors, selftest 19/20.
+- **Fix:** Added `sunken_ossuary` entry to `biomes.json` (4th biome, id="sunken_ossuary", modifier="ossuary_toxic"). Changed all 40 rooms from `"biome": "ossuary"` to `"biome": "sunken_ossuary"`.
+- **Validator fixes:** Added `"ossuary_toxic"` to the `modifier` enum in `validate_data.py`. Fixed `sorted(enum)` crash when enum contains `None`.
+- **Contract update:** `CONTRACTS.md` §4 documents the `modifier` field's 4 valid biome modifier ids. `CONTENT.md` updated to 4 biomes.
+- **Commands:**
+  - `python -m tools.validate_data` → PASS, 9 file(s), 492 entries, 0 error(s), 0 warning(s). Exit 0.
+  - `python -m tools.selftest --turns 300 --seed 0` → 20 passed, 0 skipped, 1 failed (golden-seed regression 1 fail — balance luckstone > sigil_of_warding, unrelated). Exit 1.
+  - `python -m game.main --headless --turns 300 --seed 0..2` → exit 0, `violations=[]` for all seeds.
+- **Note:** The 4th biome exists in content but has no sprites/art yet (art pipeline runs in parallel). Monsters list is empty because the studio loop's ROUND 6 was cut off before monsters were added.
+
 ## 2026-09-16 — r4: SLAP #87 fix — check_stairs now calls BFS on real tile grid (Forge)
 
 - **SLAP #87 (P1 escalation) FIXED.** `check_stairs` had dead code: `_bfs_reachable` defined at line 136 but never called, and `check_stairs` emitted PASS with only metadata (floor/biome/player/map/rooms), never testing reachability, existence, or duplicate stairs positions.
@@ -182,7 +201,7 @@ Newest entry first. One entry per build round; append, never rewrite history.
 - **Gates:** `verify_gate --seeds 0 1 2 --turns 300` → PASS, all 7 green; selftest 19/19; seeds 0-7 exit
   0 with `invariants.violations == []`. Evidence: `runs/reports/BUILD-2026-09-13-r26.md`.
 - **Next:** A-01 (tempo ships the cues + manifest), then chip loads the manifest in
-  `game/engine/audio.py` and `game/data/audio.json` gets its CONTRACTS §4 row. P4.8 DONE 2026-09-14 (see top entry); P4.7 and P4.8 both complete.
+  `game/engine/audio.py` and `game/data/audio.json` gets its CONTRACTS §4 row. P4.8 DONE 2026-09-14 (see the P4.8 Numeric audio QA entry above).
 
 - **2026-09-14 — P5.4 Golden-seed regression suite (Forge).** Implemented `tools/qa/regression.py` with three assertion families: (a) golden-seed layout-hash stability across seeds 0–7 — same layout hash proves procgen determinism, (b) stair reachability fuzz — every seed's stairs must exist, be reachable from spawn, and not be duplicated (catches unreachable rooms and duplicate stair generation), (c) balance assertions — no item at the same tier may strictly dominate another on all numeric fields (damage/armor/crit/value). Found and fixed the item balance data issue via `tools/qa/fix_balance.py` (500 dominance violations resolved by giving dominated items compensatory stat bumps). All 20 selftest checks pass including the new `golden-seed-regression` check. | `python -m tools.qa.regression --seeds 0 1 2 --turns 300` → PASS; `python -m tools.studio.verify_gate` → PASS all 7 green; `tools.selftest` → 20/20 ✓
 

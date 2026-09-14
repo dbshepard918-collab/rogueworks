@@ -4,7 +4,7 @@
   "meta": {
     "tile": 32,
     "palette_version": 1,
-    "generated_by": "pixel"
+    "generated_by": "rogueworks"
   },
   "frames": {
     "monster_abyss_lamprey": [
@@ -400,6 +400,234 @@
     "monster_wax_wisp": [
       64,
       224,
+      32,
+      32
+    ],
+    "monster_abyssal_beacon": [
+      96,
+      224,
+      32,
+      32
+    ],
+    "monster_abyssal_splitter": [
+      128,
+      224,
+      32,
+      32
+    ],
+    "monster_bone_husk": [
+      160,
+      224,
+      32,
+      32
+    ],
+    "monster_bone_marrow": [
+      192,
+      224,
+      32,
+      32
+    ],
+    "monster_brine_juggernaut": [
+      224,
+      224,
+      32,
+      32
+    ],
+    "monster_brine_slinger": [
+      256,
+      224,
+      32,
+      32
+    ],
+    "monster_coral_guardian": [
+      0,
+      256,
+      32,
+      32
+    ],
+    "monster_coral_leviathan": [
+      32,
+      256,
+      32,
+      32
+    ],
+    "monster_deep_sentinels": [
+      64,
+      256,
+      32,
+      32
+    ],
+    "monster_deep_tide": [
+      96,
+      256,
+      32,
+      32
+    ],
+    "monster_drift_shell": [
+      128,
+      256,
+      32,
+      32
+    ],
+    "monster_kelp_witch": [
+      160,
+      256,
+      32,
+      32
+    ],
+    "monster_mire_lurker": [
+      192,
+      256,
+      32,
+      32
+    ],
+    "monster_mud_brute": [
+      224,
+      256,
+      32,
+      32
+    ],
+    "monster_ossuary_charger": [
+      256,
+      256,
+      32,
+      32
+    ],
+    "monster_ossuary_kraken": [
+      0,
+      288,
+      32,
+      32
+    ],
+    "monster_ossuary_summoner": [
+      32,
+      288,
+      32,
+      32
+    ],
+    "monster_ossuary_wraith": [
+      64,
+      288,
+      32,
+      32
+    ],
+    "monster_rot_spore": [
+      96,
+      288,
+      32,
+      32
+    ],
+    "monster_silt_crawler": [
+      128,
+      288,
+      32,
+      32
+    ],
+    "monster_sunken_runner": [
+      160,
+      288,
+      32,
+      32
+    ],
+    "monster_swamp_drifter": [
+      192,
+      288,
+      32,
+      32
+    ],
+    "monster_tide_hunter": [
+      224,
+      288,
+      32,
+      32
+    ],
+    "monster_tide_moth": [
+      256,
+      288,
+      32,
+      32
+    ],
+    "monster_toxic_bloom": [
+      0,
+      320,
+      32,
+      32
+    ],
+    "monster_toxic_priest": [
+      32,
+      320,
+      32,
+      32
+    ],
+    "vfx_boss_enrage": [
+      64,
+      320,
+      32,
+      32
+    ],
+    "vfx_boss_fire": [
+      96,
+      320,
+      32,
+      32
+    ],
+    "vfx_boss_phase_glow": [
+      128,
+      320,
+      32,
+      32
+    ],
+    "vfx_boss_water_geyser": [
+      160,
+      320,
+      32,
+      32
+    ],
+    "vfx_ember": [
+      192,
+      320,
+      32,
+      32
+    ],
+    "vfx_leap_slam": [
+      224,
+      320,
+      32,
+      32
+    ],
+    "vfx_shield": [
+      256,
+      320,
+      32,
+      32
+    ],
+    "vfx_shockwave": [
+      0,
+      352,
+      32,
+      32
+    ],
+    "vfx_smoke": [
+      32,
+      352,
+      32,
+      32
+    ],
+    "vfx_soul_wisp": [
+      64,
+      352,
+      32,
+      32
+    ],
+    "vfx_sparkle": [
+      96,
+      352,
+      32,
+      32
+    ],
+    "vfx_splash": [
+      128,
+      352,
       32,
       32
     ]

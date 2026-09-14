@@ -4,7 +4,7 @@
   "meta": {
     "tile": 32,
     "palette_version": 1,
-    "generated_by": "pixel"
+    "generated_by": "rogueworks"
   },
   "frames": {
     "boss_drowned_leviathan": [
@@ -20,8 +20,32 @@
       32
     ],
     "boss_skull_overlord": [
+      64,
       0,
       32,
+      32
+    ],
+    "boss_coral_leviathan": [
+      96,
+      0,
+      32,
+      32
+    ],
+    "boss_ossuary_kraken": [
+      128,
+      0,
+      32,
+      32
+    ],
+    "boss_tide_hunter": [
+      160,
+      0,
+      32,
+      32
+    ],
+    "boss_abyssal_beacon": [
+      192,
+      0,
       32,
       32
     ]

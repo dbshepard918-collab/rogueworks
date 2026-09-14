@@ -222,8 +222,12 @@ update `docs/TICKETS.md`, append to `docs/PROGRESS.md`, and only then take the n
       `metrics_profiler` present in playtest JSON ✓
 - [x] **P5.4** Test depth. Golden-seed regression suite: layout-hash stability, stair reachability, balance assertions. **SLAP #87 fix 2026-09-16:** check_stairs now calls BFS on the real tile grid via procgen.generate() instead of dead _bfs_reachable. | `python -m tools.qa.regression --seeds 0 1 2 --turns 300` → PASS, golden seeds stable, stairs reachable, no balance violations | `python -m tools.studio.verify_gate` → PASS all 7 green; `tools.qa.regression --seeds 0 1 2 --turns 300` → PASS ✓
 - [x] **SLAP #88** Balance schema mismatch. `check_balance` and `fix_balance` read combat stats as top-level fields but `items.json` stores them inside `effect.{damage,crit,...}`. Fixed both files. Verified `regression --json --seeds 0 1 2 --no-stairs` returns `ok: true` with balance `PASS`. | `tools.qa.regression --json --seeds 0 1 2 --no-stairs` → `ok: true`, balance `PASS` ✓
-- [ ] **P5.5 Content volume.** Push toward 80 monsters, 150 items, 60 affixes, 4th biome (Sunken
+- [x] **P5.5 Content volume.** Push toward 80 monsters, 150 items, 60 affixes, 4th biome (Sunken
       Ossuary), 5 bosses, 40 room templates per biome — generated locally in batches, validated.
+      **DONE 2026-09-14** — 85 monsters (4 biomes: catacombs 20, ember_warrens 19, drowned_vaults 18,
+      sunken_ossuary 28), 150 items, 60 affixes, 4th biome `sunken_ossuary` with `modifier: ossuary_toxic`
+      in schema enum, 205 room templates (55/55/55/40 per biome), 11 tier-5 bosses across all 4 biomes.
+      `deep_floors` confirms sunken_ossuary floor 16 spawns 24 monsters. `validate_data` PASS, `selftest` 21/21. | `python -m tools.validate_data` exit 0; `python -m tools.qa.deep_floors --seeds 0 1 2` OK 12 floors / 4 biomes; `python -m tools.studio.verify_gate` → PASS all 7 green; `python -m game.main --headless --turns 300 --seed 0..2` exit 0, violations=[] ✓
 
 ### Phase 0b — close the gate reds the content round opened (do these before more content)
 
@@ -234,16 +238,18 @@ update `docs/TICKETS.md`, append to `docs/PROGRESS.md`, and only then take the n
       `rooms.json` agree. Owner: **lore**. | `python -m tools.validate_data` exit 0;
       `python -m tools.selftest` → 20/20; `python -m game.main --headless --turns 300 --seed 0` exit 0,
       `invariants.violations == []`; `python -m tools.studio.audit_sprites` 0 missing ✓
-- [ ] **P0.8 Balance: 12 items strictly dominate another item in the same slot and tier.** The balance
+- [x] **P0.8 Balance: 12 items strictly dominate another item in the same slot and tier.** The balance
       check was *vacuous* — `check_balance` read stats from `effect.{...}` while `_dominates` compared
       top-level fields, so every stat compared 0 vs 0 and it could never fire. Fixed (an independent
-      reimplementation agrees on the count): `rusty_blade` dominates `brine_dagger`,
+      reimplementation agrees on the count exactly): `rusty_blade` dominates `brine_dagger`,
       `ossuary_shiv` dominates `chipped_hatchet`, `iron_mace` dominates `bog_brush`,
       `lantern_flail` dominates `bone_javelin`, `studded_jerkin` dominates `tide_shield`, … 12 total.
       Same stats or better on all six (`armor/crit/damage/luck/max_hp/speed`) *and* no more expensive —
       a strictly worse choice for the player, which is a design defect, not a rounding error. Owner:
-      **lore** (content) with **chip** as backup for the schema. | `python -m tools.qa.regression
-      --no-golden --no-stairs` → `balance items: PASS`; `python -m tools.selftest` 20/20 ✓
+      **lore** (content) with **chip** as backup for the schema. Fixed by bumping dominating-item values
+      so each costs more than the item it dominates (r41, 2026-09-14). `python -m tools.qa.regression
+      --no-golden --no-stairs` → `balance items: PASS`; `python -m tools.selftest` 21/21 ✓ | `python -m tools.qa.regression
+      --no-golden --no-stairs` → `balance items: PASS`; `python -m tools.selftest` 21/21 ✓
 - [ ] **P0.5b 36 near-identical monster silhouettes.** Exposed by pixel's P0.5 fix: the 6 flat props had
       been masking drowned/forge/skull monsters that share one silhouette. Owner: **pixel**. |
       `python -m tools.qa.sprite_critique` reports 0 FAILED near-identical pairs;

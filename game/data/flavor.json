@@ -325,6 +325,146 @@
       "id": "boss_11",
       "context": "boss",
       "text": "One of its arms ends in the last Keeper's lantern, still lit."
+    },
+    {
+      "id": "monster_bone_marrow",
+      "context": "item",
+      "text": "Bone Marrow dwells in the sunken ossuary, a forgotten tomb beneath the waves."
+    },
+    {
+      "id": "monster_silt_crawler",
+      "context": "item",
+      "text": "Silt Crawler dwells in the sunken ossuary, a forgotten tomb beneath the waves."
+    },
+    {
+      "id": "monster_tide_moth",
+      "context": "item",
+      "text": "Tide Moth dwells in the sunken ossuary, a forgotten tomb beneath the waves."
+    },
+    {
+      "id": "monster_rot_spore",
+      "context": "item",
+      "text": "Rot Spore dwells in the sunken ossuary, a forgotten tomb beneath the waves."
+    },
+    {
+      "id": "monster_mire_lurker",
+      "context": "item",
+      "text": "Mire Lurker dwells in the sunken ossuary, a forgotten tomb beneath the waves."
+    },
+    {
+      "id": "monster_drift_shell",
+      "context": "item",
+      "text": "Drift Shell dwells in the sunken ossuary, a forgotten tomb beneath the waves."
+    },
+    {
+      "id": "monster_ossuary_wraith",
+      "context": "item",
+      "text": "Ossuary Wraith dwells in the sunken ossuary, a forgotten tomb beneath the waves."
+    },
+    {
+      "id": "monster_brine_slinger",
+      "context": "item",
+      "text": "Brine Slinger dwells in the sunken ossuary, a forgotten tomb beneath the waves."
+    },
+    {
+      "id": "monster_deep_tide",
+      "context": "item",
+      "text": "Deep Tide dwells in the sunken ossuary, a forgotten tomb beneath the waves."
+    },
+    {
+      "id": "monster_coral_guardian",
+      "context": "item",
+      "text": "Coral Guardian dwells in the sunken ossuary, a forgotten tomb beneath the waves."
+    },
+    {
+      "id": "monster_toxic_bloom",
+      "context": "item",
+      "text": "Toxic Bloom dwells in the sunken ossuary, a forgotten tomb beneath the waves."
+    },
+    {
+      "id": "monster_sunken_runner",
+      "context": "item",
+      "text": "Sunken Runner dwells in the sunken ossuary, a forgotten tomb beneath the waves."
+    },
+    {
+      "id": "monster_ossuary_charger",
+      "context": "item",
+      "text": "Ossuary Charger dwells in the sunken ossuary, a forgotten tomb beneath the waves."
+    },
+    {
+      "id": "monster_deep_sentinels",
+      "context": "item",
+      "text": "Deep Sentinel dwells in the sunken ossuary, a forgotten tomb beneath the waves."
+    },
+    {
+      "id": "monster_tide_hunter",
+      "context": "item",
+      "text": "Tide Hunter dwells in the sunken ossuary, a forgotten tomb beneath the waves."
+    },
+    {
+      "id": "monster_abyssal_splitter",
+      "context": "item",
+      "text": "Abyssal Splitter dwells in the sunken ossuary, a forgotten tomb beneath the waves."
+    },
+    {
+      "id": "monster_ossuary_summoner",
+      "context": "item",
+      "text": "Ossuary Summoner dwells in the sunken ossuary, a forgotten tomb beneath the waves."
+    },
+    {
+      "id": "monster_kelp_witch",
+      "context": "item",
+      "text": "Kelp Witch dwells in the sunken ossuary, a forgotten tomb beneath the waves."
+    },
+    {
+      "id": "monster_brine_juggernaut",
+      "context": "item",
+      "text": "Brine Juggernaut dwells in the sunken ossuary, a forgotten tomb beneath the waves."
+    },
+    {
+      "id": "monster_ossuary_kraken",
+      "context": "boss",
+      "text": "Ossuary Kraken dwells in the sunken ossuary, a forgotten tomb beneath the waves."
+    },
+    {
+      "id": "monster_coral_leviathan",
+      "context": "boss",
+      "text": "Coral Leviathan dwells in the sunken ossuary, a forgotten tomb beneath the waves."
+    },
+    {
+      "id": "boss_ossuary_kraken",
+      "context": "boss",
+      "text": "The kraken of the deep has claimed this tomb. Its tentacles curl through the corridors like roots through soil."
+    },
+    {
+      "id": "boss_coral_leviathan",
+      "context": "boss",
+      "text": "Coral grows where the leviathan rests. The thing that wears the reef is patient beyond reckoning."
+    },
+    {
+      "id": "flavor_tidal_reaver",
+      "context": "item",
+      "text": "It whispers of tides that have long since receded."
+    },
+    {
+      "id": "flavor_leviathan_jaw",
+      "context": "item",
+      "text": "The bite that swallowed the city still hungers."
+    },
+    {
+      "id": "flavor_crown_of_the_deep",
+      "context": "item",
+      "text": "The ocean's sovereignty made manifest."
+    },
+    {
+      "id": "flavor_kraken_essence",
+      "context": "item",
+      "text": "Concentrated fury in a glass vial."
+    },
+    {
+      "id": "flavor_leviathan_core",
+      "context": "item",
+      "text": "The heart that never stopped beating."
     }
   ]
 }

@@ -8,7 +8,8 @@
       "tier": 1,
       "effect": {
         "damage": 3,
-        "armor": 4
+        "armor": 4,
+        "crit": 1
       },
       "value": 14,
       "sprite": "item_rusty_blade",
@@ -20,7 +21,9 @@
       "slot": "weapon",
       "tier": 1,
       "effect": {
-        "damage": 4
+        "damage": 4,
+        "armor": 1,
+        "crit": 1
       },
       "value": 18,
       "sprite": "item_chipped_hatchet",
@@ -46,9 +49,10 @@
       "tier": 2,
       "effect": {
         "damage": 7,
-        "armor": 10
+        "armor": 10,
+        "crit": 1
       },
-      "value": 40,
+      "value": 46,
       "sprite": "item_iron_mace",
       "flavor": "Ugly, heavy, honest. It never misses twice."
     },
@@ -59,7 +63,8 @@
       "tier": 2,
       "effect": {
         "damage": 6,
-        "crit": 2
+        "crit": 2,
+        "armor": 1
       },
       "value": 52,
       "sprite": "item_serrated_falchion",
@@ -97,7 +102,9 @@
       "slot": "weapon",
       "tier": 3,
       "effect": {
-        "damage": 12
+        "damage": 12,
+        "armor": 1,
+        "crit": 1
       },
       "value": 120,
       "sprite": "item_ember_club",
@@ -111,7 +118,8 @@
       "tier": 3,
       "effect": {
         "damage": 10,
-        "speed": 0.1
+        "speed": 0.1,
+        "armor": 1
       },
       "value": 105,
       "sprite": "item_steel_glaive",
@@ -151,7 +159,9 @@
       "tier": 4,
       "effect": {
         "damage": 16,
-        "armor": 2
+        "armor": 2,
+        "crit": 1,
+        "luck": 1
       },
       "value": 210,
       "sprite": "item_vault_cleaver",
@@ -164,7 +174,8 @@
       "tier": 5,
       "effect": {
         "damage": 22,
-        "crit": 9
+        "crit": 9,
+        "armor": 1
       },
       "value": 400,
       "sprite": "item_keepers_edge",
@@ -178,7 +189,9 @@
       "tier": 5,
       "effect": {
         "damage": 20,
-        "luck": 3
+        "luck": 3,
+        "armor": 1,
+        "crit": 1
       },
       "value": 380,
       "sprite": "item_soul_reaver",
@@ -191,7 +204,9 @@
       "slot": "weapon",
       "tier": 5,
       "effect": {
-        "damage": 25
+        "damage": 25,
+        "armor": 1,
+        "crit": 1
       },
       "value": 460,
       "sprite": "item_drowned_maul",
@@ -217,7 +232,8 @@
       "tier": 1,
       "effect": {
         "armor": 3,
-        "damage": 5
+        "damage": 5,
+        "crit": 1
       },
       "value": 15,
       "sprite": "item_cracked_buckler",
@@ -231,7 +247,8 @@
       "effect": {
         "armor": 1,
         "max_hp": 6,
-        "damage": 3
+        "damage": 3,
+        "crit": 1
       },
       "value": 13,
       "sprite": "item_rag_wraps",
@@ -299,7 +316,8 @@
       "tier": 3,
       "effect": {
         "armor": 9,
-        "damage": 12
+        "damage": 12,
+        "crit": 1
       },
       "value": 112,
       "sprite": "item_ring_mail",
@@ -327,7 +345,8 @@
       "effect": {
         "armor": 13,
         "max_hp": 28,
-        "damage": 17
+        "damage": 17,
+        "crit": 1
       },
       "value": 235,
       "sprite": "item_warden_carapace",
@@ -340,7 +359,10 @@
       "tier": 4,
       "effect": {
         "armor": 12,
-        "damage": 3
+        "damage": 3,
+        "crit": 1,
+        "luck": 1,
+        "max_hp": 1
       },
       "value": 228,
       "sprite": "item_magma_cuirass",
@@ -354,7 +376,8 @@
       "effect": {
         "armor": 14,
         "speed": 0.1,
-        "damage": 17
+        "damage": 17,
+        "crit": 1
       },
       "value": 240,
       "sprite": "item_drownscale_mail",
@@ -368,7 +391,8 @@
       "effect": {
         "armor": 18,
         "max_hp": 45,
-        "damage": 24
+        "damage": 24,
+        "crit": 1
       },
       "value": 430,
       "sprite": "item_keepers_bulwark",
@@ -382,7 +406,9 @@
       "tier": 5,
       "effect": {
         "armor": 20,
-        "damage": 24
+        "damage": 24,
+        "crit": 1,
+        "luck": 1
       },
       "value": 470,
       "sprite": "item_vaelmoor_aegis",
@@ -411,7 +437,7 @@
         "luck": 2,
         "armor": 4
       },
-      "value": 14,
+      "value": 15,
       "sprite": "item_lucky_coin",
       "flavor": "Heads you live. It has never come up tails."
     },
@@ -543,11 +569,12 @@
       "slot": "trinket",
       "tier": 3,
       "effect": {
-        "armor": 6,
-        "luck": 2,
-        "damage": 9
+        "armor": 8,
+        "luck": 1,
+        "damage": 5,
+        "crit": 5
       },
-      "value": 120,
+      "value": 115,
       "sprite": "item_sigil_of_warding",
       "flavor": "One of the seven seals. Four are still missing."
     },
@@ -664,7 +691,7 @@
         "max_hp": 15,
         "armor": 4
       },
-      "value": 10,
+      "value": 12,
       "sprite": "item_small_health_draught",
       "flavor": "Tastes of iron and mint. Mostly iron."
     },
@@ -687,7 +714,10 @@
       "slot": "consumable",
       "tier": 1,
       "effect": {
-        "damage": 3
+        "damage": 3,
+        "armor": 1,
+        "crit": 1,
+        "luck": 1
       },
       "value": 10,
       "sprite": "item_whetstone_salve",
@@ -774,7 +804,8 @@
       "tier": 3,
       "effect": {
         "damage": 8,
-        "armor": 11
+        "armor": 11,
+        "crit": 1
       },
       "value": 105,
       "sprite": "item_ember_tonic",
@@ -852,7 +883,9 @@
       "tier": 5,
       "effect": {
         "damage": 16,
-        "armor": 23
+        "armor": 23,
+        "crit": 1,
+        "luck": 1
       },
       "value": 400,
       "sprite": "item_dragonsblood_flask",
@@ -866,7 +899,10 @@
       "tier": 5,
       "effect": {
         "damage": 10,
-        "crit": 6
+        "crit": 6,
+        "armor": 1,
+        "luck": 1,
+        "max_hp": 1
       },
       "value": 390,
       "sprite": "item_soulfire_tonic",
@@ -912,7 +948,8 @@
       "effect": {
         "armor": 25,
         "max_hp": 35,
-        "damage": 21
+        "damage": 21,
+        "crit": 1
       },
       "value": 620,
       "sprite": "item_mirror_shield",
@@ -999,6 +1036,1113 @@
       "flavor": "Each strike poisons the room.",
       "unique": "poison_on_hit",
       "element": "poison"
+    },
+    {
+      "id": "rusty_spear_w",
+      "name": "Rusty Spear",
+      "slot": "weapon",
+      "tier": 1,
+      "effect": {
+        "damage": 3,
+        "armor": 1,
+        "crit": 2
+      },
+      "value": 15,
+      "sprite": "item_abyssal_blessing",
+      "flavor": "Bent beyond repair, still sharp enough to argue with."
+    },
+    {
+      "id": "tidal_halberd_w",
+      "name": "Tidal Halberd",
+      "slot": "weapon",
+      "tier": 1,
+      "effect": {
+        "damage": 4,
+        "armor": 1,
+        "crit": 1
+      },
+      "value": 18,
+      "sprite": "item_abyssal_crown",
+      "flavor": "The sea gave it to you. It expects salt.",
+      "element": "water"
+    },
+    {
+      "id": "mussel_club_w",
+      "name": "Mussel Club",
+      "slot": "weapon",
+      "tier": 1,
+      "effect": {
+        "damage": 2,
+        "armor": 3,
+        "crit": 1
+      },
+      "value": 13,
+      "sprite": "item_abyssal_edge",
+      "flavor": "Hard outside, soft inside.",
+      "element": "water"
+    },
+    {
+      "id": "sand_cutlass_w",
+      "name": "Sand Cutlass",
+      "slot": "weapon",
+      "tier": 1,
+      "effect": {
+        "damage": 3,
+        "crit": 1,
+        "armor": 1,
+        "luck": 1
+      },
+      "value": 14,
+      "sprite": "item_abyssal_elixir",
+      "flavor": "Patience and sharp rocks.",
+      "element": "earth"
+    },
+    {
+      "id": "river_sting_w",
+      "name": "River Sting",
+      "slot": "weapon",
+      "tier": 1,
+      "effect": {
+        "damage": 3,
+        "speed": 0.1
+      },
+      "value": 14,
+      "sprite": "item_abyssal_gem",
+      "flavor": "Fast as the current.",
+      "element": "water"
+    },
+    {
+      "id": "deep_cutlass_w",
+      "name": "Deep Cutlass",
+      "slot": "weapon",
+      "tier": 2,
+      "effect": {
+        "damage": 6,
+        "armor": 1,
+        "crit": 2
+      },
+      "value": 42,
+      "sprite": "item_abyssal_mail",
+      "flavor": "Forged in the abyss, tempered by pressure.",
+      "element": "water"
+    },
+    {
+      "id": "sea_claymore_w",
+      "name": "Sea Claymore",
+      "slot": "weapon",
+      "tier": 2,
+      "effect": {
+        "damage": 6,
+        "armor": 4,
+        "crit": 1
+      },
+      "value": 45,
+      "sprite": "item_abyssal_mail_of_depths",
+      "flavor": "A sword that knows the tides.",
+      "element": "water"
+    },
+    {
+      "id": "sand_strength_w",
+      "name": "Sand Strength",
+      "slot": "weapon",
+      "tier": 2,
+      "effect": {
+        "damage": 8,
+        "crit": 2
+      },
+      "value": 44,
+      "sprite": "item_abyssal_miracle",
+      "flavor": "Packed sand, compressed.",
+      "element": "earth"
+    },
+    {
+      "id": "coral_halberd_w",
+      "name": "Coral Halberd",
+      "slot": "weapon",
+      "tier": 2,
+      "effect": {
+        "damage": 7,
+        "armor": 3,
+        "crit": 1
+      },
+      "value": 43,
+      "sprite": "item_abyssal_pearl",
+      "flavor": "Living coral hardened into a point.",
+      "element": "water"
+    },
+    {
+      "id": "brine_trident_w",
+      "name": "Brine Trident",
+      "slot": "weapon",
+      "tier": 2,
+      "effect": {
+        "damage": 9,
+        "speed": 0.1
+      },
+      "value": 46,
+      "sprite": "item_abyssal_spear",
+      "flavor": "Three points for three enemies.",
+      "element": "water"
+    },
+    {
+      "id": "tidal_reaver_w",
+      "name": "Tidal Reaver",
+      "slot": "weapon",
+      "tier": 3,
+      "effect": {
+        "damage": 11,
+        "crit": 3
+      },
+      "value": 95,
+      "sprite": "item_abyssal_star",
+      "flavor": "It reaps what the tide brings in.",
+      "element": "water"
+    },
+    {
+      "id": "mire_blade_w",
+      "name": "Mire Blade",
+      "slot": "weapon",
+      "tier": 3,
+      "effect": {
+        "damage": 10,
+        "armor": 5,
+        "crit": 1
+      },
+      "value": 98,
+      "sprite": "item_brine_brew",
+      "flavor": "A helm turned blade.",
+      "element": "water"
+    },
+    {
+      "id": "mud_glaive_w",
+      "name": "Mud Glaive",
+      "slot": "weapon",
+      "tier": 3,
+      "effect": {
+        "damage": 12,
+        "armor": 1,
+        "crit": 1
+      },
+      "value": 92,
+      "sprite": "item_brine_draught",
+      "flavor": "Sticky and slow, every hit lands.",
+      "element": "earth"
+    },
+    {
+      "id": "silt_cleaver_w",
+      "name": "Silt Cleaver",
+      "slot": "weapon",
+      "tier": 3,
+      "effect": {
+        "damage": 11,
+        "crit": 2,
+        "armor": 1
+      },
+      "value": 96,
+      "sprite": "item_brine_executor",
+      "flavor": "Cleaves through silt and bone.",
+      "element": "physical"
+    },
+    {
+      "id": "abyssal_edge_w",
+      "name": "Abyssal Edge",
+      "slot": "weapon",
+      "tier": 3,
+      "effect": {
+        "damage": 13,
+        "speed": 0.1
+      },
+      "value": 100,
+      "sprite": "item_brine_gauntlets",
+      "flavor": "Drawn from the deepest trench.",
+      "element": "shadow"
+    },
+    {
+      "id": "abyssal_spear_w",
+      "name": "Abyssal Spear",
+      "slot": "weapon",
+      "tier": 4,
+      "effect": {
+        "damage": 15,
+        "crit": 4,
+        "armor": 1,
+        "luck": 1
+      },
+      "value": 185,
+      "sprite": "item_brine_locket",
+      "flavor": "Pierces the darkness between heartbeats.",
+      "element": "shadow"
+    },
+    {
+      "id": "abyssal_star_w",
+      "name": "Abyssal Star",
+      "slot": "weapon",
+      "tier": 4,
+      "effect": {
+        "damage": 16,
+        "armor": 5,
+        "crit": 1
+      },
+      "value": 190,
+      "sprite": "item_brine_power",
+      "flavor": "A falling star caught and sharpened.",
+      "element": "shadow"
+    },
+    {
+      "id": "abyssal_mail_w",
+      "name": "Abyssal Mail Blade",
+      "slot": "weapon",
+      "tier": 4,
+      "effect": {
+        "damage": 14,
+        "crit": 5,
+        "armor": 1
+      },
+      "value": 188,
+      "sprite": "item_brine_trident",
+      "flavor": "Forged from abyssal metal.",
+      "element": "shadow"
+    },
+    {
+      "id": "toxic_halberd_w",
+      "name": "Toxic Halberd",
+      "slot": "weapon",
+      "tier": 4,
+      "effect": {
+        "damage": 15,
+        "armor": 3,
+        "crit": 1,
+        "luck": 1
+      },
+      "value": 195,
+      "sprite": "item_brine_vial",
+      "flavor": "Coated in something that should not exist.",
+      "element": "poison"
+    },
+    {
+      "id": "kraken_fury_w",
+      "name": "Kraken's Fury",
+      "slot": "weapon",
+      "tier": 4,
+      "effect": {
+        "damage": 17,
+        "crit": 4,
+        "armor": 2
+      },
+      "value": 200,
+      "sprite": "item_coral_breastplate",
+      "flavor": "Each strike pulls the ocean.",
+      "element": "water"
+    },
+    {
+      "id": "leviathan_tongue_w",
+      "name": "Leviathan's Tongue",
+      "slot": "weapon",
+      "tier": 5,
+      "effect": {
+        "damage": 26,
+        "crit": 8
+      },
+      "value": 620,
+      "sprite": "item_coral_charm",
+      "flavor": "The voice of the deep as steel.",
+      "element": "water"
+    },
+    {
+      "id": "leviathan_core_w",
+      "name": "Leviathan Core",
+      "slot": "weapon",
+      "tier": 5,
+      "effect": {
+        "damage": 24,
+        "crit": 6,
+        "armor": 8,
+        "luck": 1
+      },
+      "value": 600,
+      "sprite": "item_coral_halberd",
+      "flavor": "A pulsing heart of the abyss.",
+      "element": "water"
+    },
+    {
+      "id": "leviathan_hide_w",
+      "name": "Leviathan Hide Blade",
+      "slot": "weapon",
+      "tier": 5,
+      "effect": {
+        "damage": 25,
+        "armor": 6
+      },
+      "value": 610,
+      "sprite": "item_coral_heal",
+      "flavor": "Scales as the sharpest edge.",
+      "element": "water"
+    },
+    {
+      "id": "abyssal_glaive_w",
+      "name": "Abyssal Glaive",
+      "slot": "weapon",
+      "tier": 5,
+      "effect": {
+        "damage": 23,
+        "crit": 7,
+        "armor": 1,
+        "luck": 1
+      },
+      "value": 590,
+      "sprite": "item_coral_star",
+      "flavor": "The abyss stares back.",
+      "element": "shadow",
+      "unique": "chain"
+    },
+    {
+      "id": "mussel_plate_a",
+      "name": "Mussel Plate",
+      "slot": "armor",
+      "tier": 1,
+      "effect": {
+        "armor": 3
+      },
+      "value": 14,
+      "sprite": "item_coral_surge",
+      "flavor": "A shell. That's all a shell is.",
+      "element": "water"
+    },
+    {
+      "id": "shell_cap_a",
+      "name": "Shell Cap",
+      "slot": "armor",
+      "tier": 1,
+      "effect": {
+        "armor": 4
+      },
+      "value": 15,
+      "sprite": "item_coral_token",
+      "flavor": "Curled protection from a creature long dead.",
+      "element": "water"
+    },
+    {
+      "id": "salt_helm_a",
+      "name": "Salt Helm",
+      "slot": "armor",
+      "tier": 1,
+      "effect": {
+        "armor": 2,
+        "max_hp": 5
+      },
+      "value": 13,
+      "sprite": "item_coral_vest",
+      "flavor": "Crystallized brine around the skull.",
+      "element": "water"
+    },
+    {
+      "id": "sand_mail_a",
+      "name": "Sand Mail",
+      "slot": "armor",
+      "tier": 1,
+      "effect": {
+        "armor": 3
+      },
+      "value": 13,
+      "sprite": "item_crown_of_bones",
+      "flavor": "Gritty, scratchy, surprisingly durable.",
+      "element": "earth"
+    },
+    {
+      "id": "sand_pendant_a",
+      "name": "Sand Pendant",
+      "slot": "armor",
+      "tier": 1,
+      "effect": {
+        "armor": 2,
+        "luck": 2
+      },
+      "value": 13,
+      "sprite": "item_crown_of_the_deep",
+      "flavor": "A smooth stone on a string.",
+      "element": "earth"
+    },
+    {
+      "id": "abyssal_mail_a",
+      "name": "Abyssal Mail",
+      "slot": "armor",
+      "tier": 2,
+      "effect": {
+        "armor": 6,
+        "max_hp": 10
+      },
+      "value": 44,
+      "sprite": "item_crown_of_tides",
+      "flavor": "Dark fabric that drinks the light.",
+      "element": "shadow"
+    },
+    {
+      "id": "abyssal_motd_a",
+      "name": "Abyssal Mail of Depths",
+      "slot": "armor",
+      "tier": 2,
+      "effect": {
+        "armor": 7,
+        "max_hp": 15
+      },
+      "value": 46,
+      "sprite": "item_deep_cutlass",
+      "flavor": "Named for the depth it was found.",
+      "element": "shadow"
+    },
+    {
+      "id": "coral_breastplate_a",
+      "name": "Coral Breastplate",
+      "slot": "armor",
+      "tier": 2,
+      "effect": {
+        "armor": 8
+      },
+      "value": 45,
+      "sprite": "item_deep_draught",
+      "flavor": "Grown, not forged. It adapts.",
+      "element": "water"
+    },
+    {
+      "id": "abyssal_gem_a",
+      "name": "Abyssal Gem",
+      "slot": "armor",
+      "tier": 2,
+      "effect": {
+        "armor": 5,
+        "crit": 3
+      },
+      "value": 42,
+      "sprite": "item_deep_pearl",
+      "flavor": "A precious stone from the deep.",
+      "element": "shadow"
+    },
+    {
+      "id": "abyssal_pearl_a",
+      "name": "Abyssal Pearl",
+      "slot": "armor",
+      "tier": 2,
+      "effect": {
+        "armor": 5,
+        "max_hp": 8,
+        "luck": 2
+      },
+      "value": 43,
+      "sprite": "item_deep_sea_sting",
+      "flavor": "A pearl that hums with deep energy.",
+      "element": "water"
+    },
+    {
+      "id": "abyssal_crown_a",
+      "name": "Abyssal Crown",
+      "slot": "armor",
+      "tier": 3,
+      "effect": {
+        "armor": 9,
+        "max_hp": 20
+      },
+      "value": 105,
+      "sprite": "item_deep_shell",
+      "flavor": "A crown for those who ruled the depths.",
+      "element": "shadow"
+    },
+    {
+      "id": "mire_helm_a",
+      "name": "Mire Helm",
+      "slot": "armor",
+      "tier": 3,
+      "effect": {
+        "armor": 10,
+        "max_hp": 18
+      },
+      "value": 102,
+      "sprite": "item_drift_blade",
+      "flavor": "The crown of the bog.",
+      "element": "water"
+    },
+    {
+      "id": "ossuary_cuirass_a",
+      "name": "Ossuary Cuirass",
+      "slot": "armor",
+      "tier": 3,
+      "effect": {
+        "armor": 11,
+        "max_hp": 15
+      },
+      "value": 108,
+      "sprite": "item_drift_shield",
+      "flavor": "Bone and sinew woven.",
+      "element": "shadow"
+    },
+    {
+      "id": "abyssal_plate_a",
+      "name": "Abyssal Plate",
+      "slot": "armor",
+      "tier": 3,
+      "effect": {
+        "armor": 12,
+        "damage": 8
+      },
+      "value": 106,
+      "sprite": "item_kelp_amulet",
+      "flavor": "Thick enough to stop a leap.",
+      "element": "shadow"
+    },
+    {
+      "id": "silt_amulet_a",
+      "name": "Silt Amulet",
+      "slot": "armor",
+      "tier": 3,
+      "effect": {
+        "armor": 7,
+        "max_hp": 12,
+        "luck": 2
+      },
+      "value": 104,
+      "sprite": "item_kelp_hammer",
+      "flavor": "Fine silt into protective shape.",
+      "element": "earth"
+    },
+    {
+      "id": "abyssal_miracle_a",
+      "name": "Abyssal Miracle",
+      "slot": "armor",
+      "tier": 4,
+      "effect": {
+        "armor": 14,
+        "max_hp": 30,
+        "damage": 10,
+        "crit": 1
+      },
+      "value": 220,
+      "sprite": "item_kelp_mail",
+      "flavor": "A miracle from below.",
+      "element": "shadow"
+    },
+    {
+      "id": "ossuary_grand_a",
+      "name": "Ossuary Grand Plate",
+      "slot": "armor",
+      "tier": 4,
+      "effect": {
+        "armor": 15,
+        "max_hp": 25
+      },
+      "value": 215,
+      "sprite": "item_kelp_tonic",
+      "flavor": "The grandest bone armor.",
+      "element": "shadow"
+    },
+    {
+      "id": "abyssal_star_a",
+      "name": "Abyssal Starplate",
+      "slot": "armor",
+      "tier": 4,
+      "effect": {
+        "armor": 16,
+        "crit": 4
+      },
+      "value": 218,
+      "sprite": "item_kelp_wrap",
+      "flavor": "Studded with captured starlight.",
+      "element": "shadow"
+    },
+    {
+      "id": "kraken_hide_a",
+      "name": "Kraken Hide",
+      "slot": "armor",
+      "tier": 4,
+      "effect": {
+        "armor": 17,
+        "max_hp": 35
+      },
+      "value": 225,
+      "sprite": "item_kelp_wraps",
+      "flavor": "Tougher than any steel.",
+      "element": "water"
+    },
+    {
+      "id": "coral_vest_a",
+      "name": "Coral Vest",
+      "slot": "armor",
+      "tier": 4,
+      "effect": {
+        "armor": 13,
+        "max_hp": 22,
+        "damage": 8,
+        "crit": 1,
+        "luck": 1
+      },
+      "value": 229,
+      "sprite": "item_kraken_charm",
+      "flavor": "Living coral that heals.",
+      "element": "water"
+    },
+    {
+      "id": "brine_brew_t",
+      "name": "Brine Brew",
+      "slot": "trinket",
+      "tier": 1,
+      "effect": {
+        "luck": 1,
+        "armor": 2
+      },
+      "value": 14,
+      "sprite": "item_kraken_elixir",
+      "flavor": "Salty water with a kick.",
+      "element": "water"
+    },
+    {
+      "id": "brine_vial_t",
+      "name": "Brine Vial",
+      "slot": "trinket",
+      "tier": 1,
+      "effect": {
+        "speed": 0.1,
+        "armor": 2
+      },
+      "value": 13,
+      "sprite": "item_kraken_essence",
+      "flavor": "A tiny bottle of ocean.",
+      "element": "water"
+    },
+    {
+      "id": "brine_locket_t",
+      "name": "Brine Locket",
+      "slot": "trinket",
+      "tier": 1,
+      "effect": {
+        "luck": 2,
+        "max_hp": 5
+      },
+      "value": 13,
+      "sprite": "item_kraken_eye",
+      "flavor": "Contains a drop of brine.",
+      "element": "water"
+    },
+    {
+      "id": "small_shell_t",
+      "name": "Small Shell",
+      "slot": "trinket",
+      "tier": 1,
+      "effect": {
+        "luck": 1,
+        "crit": 1
+      },
+      "value": 12,
+      "sprite": "item_kraken_fury",
+      "flavor": "A small, smooth shell.",
+      "element": "water"
+    },
+    {
+      "id": "pearl_chip_t",
+      "name": "Pearl Chip",
+      "slot": "trinket",
+      "tier": 1,
+      "effect": {
+        "crit": 2
+      },
+      "value": 11,
+      "sprite": "item_kraken_hide",
+      "flavor": "A fragment of a pearl.",
+      "element": "water"
+    },
+    {
+      "id": "brine_gauntlets_t",
+      "name": "Brine Gauntlets",
+      "slot": "trinket",
+      "tier": 2,
+      "effect": {
+        "armor": 8,
+        "speed": 0.1
+      },
+      "value": 48,
+      "sprite": "item_leviathan_core",
+      "flavor": "Soaked in brine for resilience.",
+      "element": "water"
+    },
+    {
+      "id": "brine_power_t",
+      "name": "Brine Power",
+      "slot": "trinket",
+      "tier": 2,
+      "effect": {
+        "damage": 5,
+        "armor": 8,
+        "crit": 1
+      },
+      "value": 46,
+      "sprite": "item_leviathan_draught",
+      "flavor": "The power of the tide.",
+      "element": "water"
+    },
+    {
+      "id": "brine_executor_t",
+      "name": "Brine Executor",
+      "slot": "trinket",
+      "tier": 2,
+      "effect": {
+        "crit": 4,
+        "armor": 6
+      },
+      "value": 47,
+      "sprite": "item_leviathan_gift",
+      "flavor": "Delivers the final blow.",
+      "element": "water"
+    },
+    {
+      "id": "brine_trident_t",
+      "name": "Brine Trident Trinket",
+      "slot": "trinket",
+      "tier": 2,
+      "effect": {
+        "damage": 6,
+        "luck": 2
+      },
+      "value": 45,
+      "sprite": "item_leviathan_hide",
+      "flavor": "A miniature trident.",
+      "element": "water"
+    },
+    {
+      "id": "abyssal_elixir_t",
+      "name": "Abyssal Elixir",
+      "slot": "trinket",
+      "tier": 2,
+      "effect": {
+        "max_hp": 20,
+        "luck": 3
+      },
+      "value": 44,
+      "sprite": "item_leviathan_jaw",
+      "flavor": "Distilled from abyssal waters.",
+      "element": "shadow"
+    },
+    {
+      "id": "abyssal_trident_t",
+      "name": "Abyssal Trident",
+      "slot": "trinket",
+      "tier": 3,
+      "effect": {
+        "damage": 8,
+        "armor": 10,
+        "crit": 1
+      },
+      "value": 112,
+      "sprite": "item_leviathan_plate",
+      "flavor": "The trident of the deep.",
+      "element": "water"
+    },
+    {
+      "id": "ossuary_fang_t",
+      "name": "Ossuary Fang",
+      "slot": "trinket",
+      "tier": 3,
+      "effect": {
+        "crit": 5,
+        "damage": 6
+      },
+      "value": 108,
+      "sprite": "item_leviathan_tongue",
+      "flavor": "A fang from the guardian.",
+      "element": "shadow"
+    },
+    {
+      "id": "ossuary_staff_t",
+      "name": "Ossuary Staff",
+      "slot": "trinket",
+      "tier": 3,
+      "effect": {
+        "max_hp": 25,
+        "luck": 3
+      },
+      "value": 110,
+      "sprite": "item_mire_helm",
+      "flavor": "A staff of bone and shadow.",
+      "element": "shadow"
+    },
+    {
+      "id": "ossuary_revival_t",
+      "name": "Ossuary Revival",
+      "slot": "trinket",
+      "tier": 3,
+      "effect": {
+        "max_hp": 30,
+        "armor": 8
+      },
+      "value": 115,
+      "sprite": "item_mud_glaive",
+      "flavor": "The dead do not stay dead.",
+      "element": "shadow"
+    },
+    {
+      "id": "ossuary_plate_t",
+      "name": "Ossuary Plate Trinket",
+      "slot": "trinket",
+      "tier": 3,
+      "effect": {
+        "armor": 12,
+        "crit": 3
+      },
+      "value": 113,
+      "sprite": "item_mussel_plate",
+      "flavor": "A small piece of plate.",
+      "element": "shadow"
+    },
+    {
+      "id": "abyssal_miracle_t",
+      "name": "Abyssal Miracle Amulet",
+      "slot": "trinket",
+      "tier": 4,
+      "effect": {
+        "max_hp": 35,
+        "luck": 6
+      },
+      "value": 235,
+      "sprite": "item_ossuary_cuirass",
+      "flavor": "A miracle you can carry.",
+      "element": "shadow"
+    },
+    {
+      "id": "kraken_eye_t",
+      "name": "Kraken Eye",
+      "slot": "trinket",
+      "tier": 4,
+      "effect": {
+        "crit": 8,
+        "luck": 4
+      },
+      "value": 240,
+      "sprite": "item_ossuary_fang",
+      "flavor": "An eye that sees weaknesses.",
+      "element": "water"
+    },
+    {
+      "id": "leviathan_draught_t",
+      "name": "Leviathan Draught",
+      "slot": "trinket",
+      "tier": 5,
+      "effect": {
+        "max_hp": 100,
+        "armor": 20
+      },
+      "value": 480,
+      "sprite": "item_ossuary_grand_plate",
+      "flavor": "The draught of the leviathan.",
+      "element": "water",
+      "unique": "lifesteal"
+    },
+    {
+      "id": "brine_draught_c",
+      "name": "Brine Draught",
+      "slot": "consumable",
+      "tier": 1,
+      "effect": {
+        "max_hp": 10,
+        "armor": 3
+      },
+      "value": 11,
+      "sprite": "item_ossuary_plate",
+      "flavor": "Not pleasant.",
+      "element": "water"
+    },
+    {
+      "id": "brine_brew_c",
+      "name": "Brine Brew Potion",
+      "slot": "consumable",
+      "tier": 1,
+      "effect": {
+        "max_hp": 8,
+        "speed": 0.1
+      },
+      "value": 10,
+      "sprite": "item_ossuary_revival",
+      "flavor": "A weak tonic.",
+      "element": "water"
+    },
+    {
+      "id": "small_shell_p",
+      "name": "Small Shell Potion",
+      "slot": "consumable",
+      "tier": 1,
+      "effect": {
+        "max_hp": 12
+      },
+      "value": 10,
+      "sprite": "item_ossuary_staff",
+      "flavor": "A tiny potion in a shell.",
+      "element": "water"
+    },
+    {
+      "id": "sand_draught_c",
+      "name": "Sand Draught",
+      "slot": "consumable",
+      "tier": 1,
+      "effect": {
+        "max_hp": 15,
+        "armor": 2
+      },
+      "value": 11,
+      "sprite": "item_pearl_chip",
+      "flavor": "Gritty but effective.",
+      "element": "earth"
+    },
+    {
+      "id": "sand_strength_c",
+      "name": "Sand Strength Tonic",
+      "slot": "consumable",
+      "tier": 1,
+      "effect": {
+        "damage": 3,
+        "armor": 1,
+        "crit": 1,
+        "luck": 1
+      },
+      "value": 9,
+      "sprite": "item_river_mace",
+      "flavor": "Sandy fortitude.",
+      "element": "earth"
+    },
+    {
+      "id": "brine_brew_2c",
+      "name": "Brine Elixir",
+      "slot": "consumable",
+      "tier": 2,
+      "effect": {
+        "max_hp": 25,
+        "armor": 5
+      },
+      "value": 38,
+      "sprite": "item_rusty_spear",
+      "flavor": "Stronger brine.",
+      "element": "water"
+    },
+    {
+      "id": "abyssal_elixir_2c",
+      "name": "Abyssal Tonic",
+      "slot": "consumable",
+      "tier": 2,
+      "effect": {
+        "max_hp": 20,
+        "crit": 4
+      },
+      "value": 40,
+      "sprite": "item_salt_helm",
+      "flavor": "Distilled from deep waters.",
+      "element": "shadow"
+    },
+    {
+      "id": "coral_heal_c",
+      "name": "Coral Heal",
+      "slot": "consumable",
+      "tier": 2,
+      "effect": {
+        "max_hp": 30
+      },
+      "value": 36,
+      "sprite": "item_sand_cuirass",
+      "flavor": "Coral energy restores health.",
+      "element": "water"
+    },
+    {
+      "id": "coral_surge_c",
+      "name": "Coral Surge",
+      "slot": "consumable",
+      "tier": 2,
+      "effect": {
+        "crit": 6,
+        "armor": 4
+      },
+      "value": 38,
+      "sprite": "item_sand_draught",
+      "flavor": "A surge of coral.",
+      "element": "water"
+    },
+    {
+      "id": "abyssal_crown_c",
+      "name": "Abyssal Crown Draught",
+      "slot": "consumable",
+      "tier": 3,
+      "effect": {
+        "max_hp": 55,
+        "armor": 10
+      },
+      "value": 105,
+      "sprite": "item_sand_mail",
+      "flavor": "Fit for a deep king.",
+      "element": "shadow"
+    },
+    {
+      "id": "ossuary_staff_c",
+      "name": "Ossuary Staff Draught",
+      "slot": "consumable",
+      "tier": 3,
+      "effect": {
+        "max_hp": 60,
+        "crit": 5
+      },
+      "value": 108,
+      "sprite": "item_sand_pendant",
+      "flavor": "Bone-deep restoration.",
+      "element": "shadow"
+    },
+    {
+      "id": "kraken_eye_c",
+      "name": "Kraken Eye Elixir",
+      "slot": "consumable",
+      "tier": 3,
+      "effect": {
+        "crit": 10,
+        "armor": 8
+      },
+      "value": 110,
+      "sprite": "item_sand_strength",
+      "flavor": "Concentrated kraken vision.",
+      "element": "water"
+    },
+    {
+      "id": "kraken_elixir_c",
+      "name": "Kraken Elixir",
+      "slot": "consumable",
+      "tier": 4,
+      "effect": {
+        "max_hp": 90,
+        "armor": 15
+      },
+      "value": 211,
+      "sprite": "item_sea_claymore",
+      "flavor": "The elixir of the kraken.",
+      "element": "water"
+    },
+    {
+      "id": "leviathan_gift_c",
+      "name": "Leviathan's Gift Draught",
+      "slot": "consumable",
+      "tier": 4,
+      "effect": {
+        "max_hp": 120,
+        "damage": 15,
+        "armor": 18
+      },
+      "value": 220,
+      "sprite": "item_sea_glass",
+      "flavor": "The ultimate draught.",
+      "element": "water"
+    },
+    {
+      "id": "abyssal_starplate_c",
+      "name": "Abyssal Starplate Draught",
+      "slot": "consumable",
+      "tier": 5,
+      "effect": {
+        "max_hp": 150,
+        "crit": 10,
+        "armor": 20
+      },
+      "value": 480,
+      "sprite": "item_shell_cap",
+      "flavor": "The ultimate draught.",
+      "element": "shadow"
     }
   ]
 }

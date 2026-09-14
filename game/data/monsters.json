@@ -1540,6 +1540,839 @@
       "telegraph_duration": 0.55,
       "telegraph_sprite": "vfx_shockwave",
       "element": "water"
+    },
+    {
+      "id": "bone_marrow",
+      "name": "Bone Marrow",
+      "biome": "sunken_ossuary",
+      "tier": 1,
+      "hp": 10,
+      "damage": 3,
+      "armor": 0,
+      "speed": 1.5,
+      "xp": 4,
+      "weight": 95,
+      "behavior": "chaser",
+      "sprite": "monster_bone_marrow",
+      "status_on_hit": null,
+      "telegraph_duration": 0.25,
+      "telegraph_sprite": "vfx_sparkle",
+      "element": "physical"
+    },
+    {
+      "id": "silt_crawler",
+      "name": "Silt Crawler",
+      "biome": "sunken_ossuary",
+      "tier": 1,
+      "hp": 14,
+      "damage": 4,
+      "armor": 1,
+      "speed": 1.1,
+      "xp": 5,
+      "weight": 85,
+      "behavior": "chaser",
+      "sprite": "monster_silt_crawler",
+      "status_on_hit": null,
+      "telegraph_duration": 0.25,
+      "telegraph_sprite": "vfx_sparkle",
+      "element": "physical"
+    },
+    {
+      "id": "tide_moth",
+      "name": "Tide Moth",
+      "biome": "sunken_ossuary",
+      "tier": 1,
+      "hp": 8,
+      "damage": 3,
+      "armor": 0,
+      "speed": 2.0,
+      "xp": 5,
+      "weight": 75,
+      "behavior": "ranged",
+      "sprite": "monster_tide_moth",
+      "status_on_hit": null,
+      "telegraph_duration": 0.35,
+      "telegraph_sprite": "vfx_soul_wisp",
+      "element": "water"
+    },
+    {
+      "id": "rot_spore",
+      "name": "Rot Spore",
+      "biome": "sunken_ossuary",
+      "tier": 1,
+      "hp": 6,
+      "damage": 2,
+      "armor": 0,
+      "speed": 2.2,
+      "xp": 3,
+      "weight": 60,
+      "behavior": "ranged",
+      "sprite": "monster_rot_spore",
+      "status_on_hit": "poison",
+      "telegraph_duration": 0.35,
+      "telegraph_sprite": "vfx_soul_wisp",
+      "element": "poison"
+    },
+    {
+      "id": "mire_lurker",
+      "name": "Mire Lurker",
+      "biome": "sunken_ossuary",
+      "tier": 2,
+      "hp": 24,
+      "damage": 7,
+      "armor": 2,
+      "speed": 1.3,
+      "xp": 9,
+      "weight": 80,
+      "behavior": "ambusher",
+      "sprite": "monster_mire_lurker",
+      "status_on_hit": null,
+      "telegraph_duration": 0.4,
+      "telegraph_sprite": "vfx_smoke",
+      "element": "water"
+    },
+    {
+      "id": "drift_shell",
+      "name": "Drift Shell",
+      "biome": "sunken_ossuary",
+      "tier": 2,
+      "hp": 28,
+      "damage": 5,
+      "armor": 4,
+      "speed": 0.9,
+      "xp": 8,
+      "weight": 90,
+      "behavior": "shielded",
+      "sprite": "monster_drift_shell",
+      "status_on_hit": null,
+      "telegraph_duration": 0.5,
+      "telegraph_sprite": "vfx_shield",
+      "shield_angle": 120.0,
+      "element": "water"
+    },
+    {
+      "id": "ossuary_wraith",
+      "name": "Ossuary Wraith",
+      "biome": "sunken_ossuary",
+      "tier": 2,
+      "hp": 20,
+      "damage": 8,
+      "armor": 1,
+      "speed": 2.4,
+      "xp": 10,
+      "weight": 50,
+      "behavior": "teleporter",
+      "sprite": "monster_ossuary_wraith",
+      "status_on_hit": null,
+      "telegraph_duration": 0.55,
+      "telegraph_sprite": "vfx_smoke",
+      "element": "shadow"
+    },
+    {
+      "id": "brine_slinger",
+      "name": "Brine Slinger",
+      "biome": "sunken_ossuary",
+      "tier": 2,
+      "hp": 22,
+      "damage": 9,
+      "armor": 1,
+      "speed": 1.1,
+      "xp": 10,
+      "weight": 55,
+      "behavior": "ranged",
+      "sprite": "monster_brine_slinger",
+      "status_on_hit": "slow",
+      "telegraph_duration": 0.35,
+      "telegraph_sprite": "vfx_soul_wisp",
+      "element": "water"
+    },
+    {
+      "id": "deep_tide",
+      "name": "Deep Tide",
+      "biome": "sunken_ossuary",
+      "tier": 3,
+      "hp": 50,
+      "damage": 12,
+      "armor": 5,
+      "speed": 1.0,
+      "xp": 16,
+      "weight": 60,
+      "behavior": "chaser",
+      "sprite": "monster_deep_tide",
+      "status_on_hit": null,
+      "telegraph_duration": 0.25,
+      "telegraph_sprite": "vfx_sparkle",
+      "element": "water"
+    },
+    {
+      "id": "coral_guardian",
+      "name": "Coral Guardian",
+      "biome": "sunken_ossuary",
+      "tier": 3,
+      "hp": 55,
+      "damage": 11,
+      "armor": 7,
+      "speed": 0.7,
+      "xp": 17,
+      "weight": 40,
+      "behavior": "shielded",
+      "sprite": "monster_coral_guardian",
+      "status_on_hit": null,
+      "telegraph_duration": 0.5,
+      "telegraph_sprite": "vfx_shield",
+      "shield_angle": 140.0,
+      "element": "water"
+    },
+    {
+      "id": "toxic_bloom",
+      "name": "Toxic Bloom",
+      "biome": "sunken_ossuary",
+      "tier": 3,
+      "hp": 35,
+      "damage": 10,
+      "armor": 2,
+      "speed": 1.8,
+      "xp": 14,
+      "weight": 45,
+      "behavior": "summoner",
+      "sprite": "monster_toxic_bloom",
+      "status_on_hit": "poison",
+      "telegraph_duration": 0.55,
+      "telegraph_sprite": "vfx_soul_wisp",
+      "summon_count": 2,
+      "element": "poison"
+    },
+    {
+      "id": "sunken_runner",
+      "name": "Sunken Runner",
+      "biome": "sunken_ossuary",
+      "tier": 3,
+      "hp": 30,
+      "damage": 9,
+      "armor": 2,
+      "speed": 2.8,
+      "xp": 13,
+      "weight": 35,
+      "behavior": "runner",
+      "sprite": "monster_sunken_runner",
+      "status_on_hit": "corrode",
+      "telegraph_duration": 0.35,
+      "telegraph_sprite": "vfx_soul_wisp",
+      "element": "water"
+    },
+    {
+      "id": "ossuary_charger",
+      "name": "Ossuary Charger",
+      "biome": "sunken_ossuary",
+      "tier": 3,
+      "hp": 58,
+      "damage": 13,
+      "armor": 4,
+      "speed": 1.4,
+      "xp": 15,
+      "weight": 38,
+      "behavior": "charger",
+      "sprite": "monster_ossuary_charger",
+      "status_on_hit": null,
+      "telegraph_duration": 0.55,
+      "telegraph_sprite": "vfx_shockwave",
+      "leap_range": 180.0,
+      "element": "physical"
+    },
+    {
+      "id": "deep_sentinels",
+      "name": "Deep Sentinel",
+      "biome": "sunken_ossuary",
+      "tier": 4,
+      "hp": 70,
+      "damage": 15,
+      "armor": 8,
+      "speed": 0.8,
+      "xp": 24,
+      "weight": 30,
+      "behavior": "shielded",
+      "sprite": "monster_deep_sentinels",
+      "status_on_hit": "stun",
+      "telegraph_duration": 0.5,
+      "telegraph_sprite": "vfx_shield",
+      "shield_angle": 150.0,
+      "element": "water"
+    },
+    {
+      "id": "tide_hunter",
+      "name": "Tide Hunter",
+      "biome": "sunken_ossuary",
+      "tier": 4,
+      "hp": 52,
+      "damage": 14,
+      "armor": 3,
+      "speed": 2.1,
+      "xp": 22,
+      "weight": 32,
+      "behavior": "ambusher",
+      "sprite": "monster_tide_hunter",
+      "status_on_hit": "bleed",
+      "telegraph_duration": 0.4,
+      "telegraph_sprite": "vfx_smoke",
+      "element": "water"
+    },
+    {
+      "id": "abyssal_splitter",
+      "name": "Abyssal Splitter",
+      "biome": "sunken_ossuary",
+      "tier": 4,
+      "hp": 22,
+      "damage": 7,
+      "armor": 1,
+      "speed": 2.0,
+      "xp": 11,
+      "weight": 38,
+      "behavior": "splitter",
+      "sprite": "monster_abyssal_splitter",
+      "status_on_hit": null,
+      "telegraph_duration": 0.25,
+      "telegraph_sprite": "vfx_sparkle",
+      "split_count": 2,
+      "element": "water"
+    },
+    {
+      "id": "ossuary_summoner",
+      "name": "Ossuary Summoner",
+      "biome": "sunken_ossuary",
+      "tier": 4,
+      "hp": 44,
+      "damage": 10,
+      "armor": 5,
+      "speed": 1.2,
+      "xp": 20,
+      "weight": 28,
+      "behavior": "summoner",
+      "sprite": "monster_ossuary_summoner",
+      "status_on_hit": "corrode",
+      "telegraph_duration": 0.55,
+      "telegraph_sprite": "vfx_soul_wisp",
+      "summon_count": 3,
+      "element": "shadow"
+    },
+    {
+      "id": "kelp_witch",
+      "name": "Kelp Witch",
+      "biome": "sunken_ossuary",
+      "tier": 4,
+      "hp": 48,
+      "damage": 13,
+      "armor": 3,
+      "speed": 1.5,
+      "xp": 21,
+      "weight": 30,
+      "behavior": "ranged",
+      "sprite": "monster_kelp_witch",
+      "status_on_hit": "slow",
+      "telegraph_duration": 0.35,
+      "telegraph_sprite": "vfx_soul_wisp",
+      "element": "water"
+    },
+    {
+      "id": "brine_juggernaut",
+      "name": "Brine Juggernaut",
+      "biome": "sunken_ossuary",
+      "tier": 4,
+      "hp": 95,
+      "damage": 17,
+      "armor": 9,
+      "speed": 0.55,
+      "xp": 30,
+      "weight": 20,
+      "behavior": "brute",
+      "sprite": "monster_brine_juggernaut",
+      "status_on_hit": null,
+      "telegraph_duration": 0.55,
+      "telegraph_sprite": "vfx_shockwave",
+      "element": "water"
+    },
+    {
+      "id": "ossuary_kraken",
+      "name": "Ossuary Kraken",
+      "biome": "sunken_ossuary",
+      "tier": 5,
+      "hp": 250,
+      "damage": 26,
+      "armor": 12,
+      "speed": 0.7,
+      "xp": 70,
+      "weight": 5,
+      "behavior": "brute",
+      "sprite": "monster_ossuary_kraken",
+      "status_on_hit": "chill",
+      "telegraph_duration": 0.55,
+      "telegraph_sprite": "vfx_shockwave",
+      "phases": [
+        {
+          "phase": 1,
+          "hp_threshold": 1.0,
+          "name": "Emergence",
+          "adds": [],
+          "hazards": [],
+          "telegraph_sprite": "vfx_splash"
+        },
+        {
+          "phase": 2,
+          "hp_threshold": 0.5,
+          "name": "Tidal Crush",
+          "adds": [
+            "deep_tide"
+          ],
+          "hazards": [
+            "water_geyser",
+            "whirlpool"
+          ],
+          "telegraph_sprite": "vfx_shockwave"
+        },
+        {
+          "phase": 3,
+          "hp_threshold": 0.25,
+          "name": "Leviathan's Grasp",
+          "adds": [
+            "deep_tide",
+            "sunken_runner"
+          ],
+          "hazards": [
+            "water_geyser",
+            "whirlpool",
+            "crushing_wave"
+          ],
+          "telegraph_sprite": "vfx_shockwave"
+        }
+      ],
+      "hazards": {
+        "water_geyser": {
+          "type": "knockback",
+          "damage": 8,
+          "knockback_force": 200,
+          "telegraph": 0.75,
+          "visual": "vfx_boss_water_geyser"
+        },
+        "whirlpool": {
+          "type": "pull",
+          "pull_radius": 120,
+          "damage": 4,
+          "telegraph": 1.0,
+          "visual": "vfx_boss_water_geyser"
+        },
+        "crushing_wave": {
+          "type": "knockback",
+          "damage": 15,
+          "knockback_force": 300,
+          "telegraph": 0.5,
+          "visual": "vfx_boss_phase_glow"
+        },
+        "soul_drain": {
+          "type": "debuff",
+          "status": "weaken",
+          "magnitude": 0.5,
+          "duration": 120,
+          "telegraph": 0.5,
+          "visual": "vfx_boss_phase_glow"
+        }
+      },
+      "minibosses": [
+        "deep_tide",
+        "sunken_runner",
+        "ossuary_summoner"
+      ],
+      "enrage": {
+        "trigger_hp": 0.2,
+        "damage_multiplier": 1.6,
+        "speed_multiplier": 1.3,
+        "vfx": "vfx_boss_enrage",
+        "duration": 500
+      },
+      "element": "water"
+    },
+    {
+      "id": "coral_leviathan",
+      "name": "Coral Leviathan",
+      "biome": "sunken_ossuary",
+      "tier": 5,
+      "hp": 280,
+      "damage": 28,
+      "armor": 14,
+      "speed": 0.65,
+      "xp": 75,
+      "weight": 4,
+      "behavior": "brute",
+      "sprite": "monster_coral_leviathan",
+      "status_on_hit": null,
+      "telegraph_duration": 0.55,
+      "telegraph_sprite": "vfx_shockwave",
+      "phases": [
+        {
+          "phase": 1,
+          "hp_threshold": 1.0,
+          "name": "Coral Awakening",
+          "adds": [],
+          "hazards": [],
+          "telegraph_sprite": "vfx_splash"
+        },
+        {
+          "phase": 2,
+          "hp_threshold": 0.5,
+          "name": "Bloom Surge",
+          "adds": [
+            "toxic_bloom",
+            "kelp_witch"
+          ],
+          "hazards": [
+            "acid_pool"
+          ],
+          "telegraph_sprite": "vfx_ember"
+        },
+        {
+          "phase": 3,
+          "hp_threshold": 0.25,
+          "name": "Thorn Dominion",
+          "adds": [
+            "toxic_bloom",
+            "kelp_witch",
+            "coral_guardian"
+          ],
+          "hazards": [
+            "acid_pool",
+            "spore_cloud"
+          ],
+          "telegraph_sprite": "vfx_shockwave"
+        }
+      ],
+      "hazards": {
+        "acid_pool": {
+          "type": "damage_zone",
+          "damage": 8,
+          "tick_interval": 0.5,
+          "duration": 4.0,
+          "visual": "vfx_boss_fire",
+          "telegraph": 0.5
+        },
+        "spore_cloud": {
+          "type": "debuff",
+          "status": "poison",
+          "magnitude": 3,
+          "duration": 180,
+          "telegraph": 0.5,
+          "visual": "vfx_boss_phase_glow"
+        },
+        "bone_shards": {
+          "type": "damage",
+          "damage": 12,
+          "count": 10,
+          "angle_spread": 45,
+          "telegraph": 0.3,
+          "visual": "vfx_boss_phase_glow"
+        },
+        "crushing_wave": {
+          "type": "knockback",
+          "damage": 18,
+          "knockback_force": 300,
+          "telegraph": 0.5,
+          "visual": "vfx_boss_phase_glow"
+        }
+      },
+      "minibosses": [
+        "toxic_bloom",
+        "kelp_witch",
+        "coral_guardian"
+      ],
+      "enrage": {
+        "trigger_hp": 0.2,
+        "damage_multiplier": 1.7,
+        "speed_multiplier": 1.4,
+        "vfx": "vfx_boss_enrage",
+        "duration": 450
+      },
+      "element": "water"
+    },
+    {
+      "id": "swamp_drifter",
+      "name": "Swamp Drifter",
+      "biome": "sunken_ossuary",
+      "tier": 3,
+      "hp": 38,
+      "damage": 10,
+      "armor": 3,
+      "speed": 1.6,
+      "xp": 14,
+      "weight": 40,
+      "behavior": "ranged",
+      "sprite": "monster_swamp_drifter",
+      "status_on_hit": "poison",
+      "telegraph_duration": 0.35,
+      "telegraph_sprite": "vfx_soul_wisp",
+      "element": "water"
+    },
+    {
+      "id": "mud_brute",
+      "name": "Mud Brute",
+      "biome": "sunken_ossuary",
+      "tier": 3,
+      "hp": 62,
+      "damage": 14,
+      "armor": 6,
+      "speed": 0.8,
+      "xp": 16,
+      "weight": 42,
+      "behavior": "brute",
+      "sprite": "monster_mud_brute",
+      "status_on_hit": null,
+      "telegraph_duration": 0.55,
+      "telegraph_sprite": "vfx_shockwave",
+      "element": "physical"
+    },
+    {
+      "id": "bone_husk",
+      "name": "Bone Husk",
+      "biome": "sunken_ossuary",
+      "tier": 4,
+      "hp": 78,
+      "damage": 16,
+      "armor": 7,
+      "speed": 0.75,
+      "xp": 23,
+      "weight": 28,
+      "behavior": "brute",
+      "sprite": "monster_bone_husk",
+      "status_on_hit": "stun",
+      "telegraph_duration": 0.5,
+      "telegraph_sprite": "vfx_shockwave",
+      "element": "shadow"
+    },
+    {
+      "id": "abyssal_beacon",
+      "name": "Abyssal Beacon",
+      "biome": "sunken_ossuary",
+      "tier": 4,
+      "hp": 36,
+      "damage": 8,
+      "armor": 3,
+      "speed": 1.3,
+      "xp": 18,
+      "weight": 25,
+      "behavior": "summoner",
+      "sprite": "monster_abyssal_beacon",
+      "status_on_hit": "weaken",
+      "telegraph_duration": 0.55,
+      "telegraph_sprite": "vfx_soul_wisp",
+      "summon_count": 2,
+      "element": "shadow"
+    },
+    {
+      "id": "toxic_priest",
+      "name": "Toxic Priest",
+      "biome": "sunken_ossuary",
+      "tier": 4,
+      "hp": 46,
+      "damage": 12,
+      "armor": 4,
+      "speed": 1.1,
+      "xp": 19,
+      "weight": 27,
+      "behavior": "ranged",
+      "sprite": "monster_toxic_priest",
+      "status_on_hit": "corrode",
+      "telegraph_duration": 0.35,
+      "telegraph_sprite": "vfx_soul_wisp",
+      "element": "poison"
+    },
+    {
+      "id": "abyssal_warden",
+      "name": "Abyssal Warden",
+      "biome": "sunken_ossuary",
+      "tier": 5,
+      "hp": 350,
+      "damage": 32,
+      "armor": 18,
+      "speed": 0.55,
+      "xp": 90,
+      "weight": 3,
+      "behavior": "brute",
+      "sprite": "monster_abyss_lamprey_elite",
+      "status_on_hit": "chill",
+      "telegraph_duration": 0.55,
+      "telegraph_sprite": "vfx_shockwave",
+      "phases": [
+        {
+          "phase": 1,
+          "hp_threshold": 1.0,
+          "name": "Deep Vigil",
+          "adds": [],
+          "hazards": [],
+          "telegraph_sprite": "vfx_shockwave"
+        },
+        {
+          "phase": 2,
+          "hp_threshold": 0.5,
+          "name": "Abyssal Surge",
+          "adds": [
+            "deep_tide"
+          ],
+          "hazards": [
+            "water_geyser",
+            "whirlpool"
+          ],
+          "telegraph_sprite": "vfx_splash"
+        },
+        {
+          "phase": 3,
+          "hp_threshold": 0.25,
+          "name": "Final Stand",
+          "adds": [
+            "deep_tide",
+            "ossuary_summoner"
+          ],
+          "hazards": [
+            "water_geyser",
+            "whirlpool",
+            "crushing_wave"
+          ],
+          "telegraph_sprite": "vfx_shockwave"
+        }
+      ],
+      "hazards": {
+        "water_geyser": {
+          "type": "knockback",
+          "damage": 8,
+          "knockback_force": 200,
+          "telegraph": 0.75,
+          "visual": "vfx_boss_water_geyser"
+        },
+        "whirlpool": {
+          "type": "pull",
+          "pull_radius": 120,
+          "damage": 4,
+          "telegraph": 1.0,
+          "visual": "vfx_boss_water_geyser"
+        },
+        "crushing_wave": {
+          "type": "knockback",
+          "damage": 15,
+          "knockback_force": 300,
+          "telegraph": 0.5,
+          "visual": "vfx_boss_phase_glow"
+        },
+        "soul_drain": {
+          "type": "debuff",
+          "status": "weaken",
+          "magnitude": 0.5,
+          "duration": 120,
+          "telegraph": 0.5,
+          "visual": "vfx_boss_phase_glow"
+        }
+      },
+      "minibosses": [
+        "deep_tide",
+        "ossuary_summoner"
+      ],
+      "enrage": {
+        "trigger_hp": 0.2,
+        "damage_multiplier": 1.6,
+        "speed_multiplier": 1.3,
+        "vfx": "vfx_boss_enrage",
+        "duration": 500
+      },
+      "element": "water"
+    },
+    {
+      "id": "toxic_sovereign",
+      "name": "Toxic Sovereign",
+      "biome": "sunken_ossuary",
+      "tier": 5,
+      "hp": 380,
+      "damage": 35,
+      "armor": 20,
+      "speed": 0.5,
+      "xp": 95,
+      "weight": 3,
+      "behavior": "brute",
+      "sprite": "monster_brine_juggernaut",
+      "status_on_hit": "poison",
+      "telegraph_duration": 0.55,
+      "telegraph_sprite": "vfx_shockwave",
+      "phases": [
+        {
+          "phase": 1,
+          "hp_threshold": 1.0,
+          "name": "Toxic Reign",
+          "adds": [
+            "toxic_bloom"
+          ],
+          "hazards": [],
+          "telegraph_sprite": "vfx_smoke"
+        },
+        {
+          "phase": 2,
+          "hp_threshold": 0.5,
+          "name": "Poison Cascade",
+          "adds": [
+            "toxic_bloom",
+            "kelp_witch"
+          ],
+          "hazards": [
+            "poison_cloud"
+          ],
+          "telegraph_sprite": "vfx_poison_cloud"
+        },
+        {
+          "phase": 3,
+          "hp_threshold": 0.25,
+          "name": "Death Blossom",
+          "adds": [
+            "toxic_bloom",
+            "kelp_witch",
+            "abyssal_splitter"
+          ],
+          "hazards": [
+            "poison_cloud",
+            "acid_burst"
+          ],
+          "telegraph_sprite": "vfx_shockwave"
+        }
+      ],
+      "hazards": {
+        "poison_cloud": {
+          "type": "damage_zone",
+          "damage": 6,
+          "tick_interval": 0.5,
+          "duration": 5.0,
+          "visual": "vfx_poison_cloud",
+          "telegraph": 0.5
+        },
+        "acid_burst": {
+          "type": "damage",
+          "damage": 12,
+          "count": 12,
+          "angle_spread": 60,
+          "telegraph": 0.4,
+          "visual": "vfx_boss_phase_glow"
+        },
+        "soul_drain": {
+          "type": "debuff",
+          "status": "weaken",
+          "magnitude": 0.6,
+          "duration": 120,
+          "telegraph": 0.5,
+          "visual": "vfx_boss_phase_glow"
+        }
+      },
+      "minibosses": [
+        "toxic_bloom",
+        "kelp_witch"
+      ],
+      "enrage": {
+        "trigger_hp": 0.2,
+        "damage_multiplier": 1.7,
+        "speed_multiplier": 1.2,
+        "vfx": "vfx_boss_enrage",
+        "duration": 450
+      },
+      "element": "poison"
     }
   ],
   "telegraph": {
