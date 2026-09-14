@@ -78,6 +78,27 @@ Do **not** draw index numbers on a contact sheet to make findings citable. Measu
 regurgitates `1, 2, 3, ... 188` instead of judging art — the labels become the task. Ask for
 "row R, column C" instead and resolve it with `cell_for_position()`.
 
+#### VLM claim ledger — every specific claim, tested
+
+A VLM is a **lead generator, not an authority**. Score it: run each concrete claim through a
+measurement before acting on it. Current tally on this project, all tests re-runnable:
+
+| VLM claim | Test that settled it | Verdict |
+|---|---|---|
+| "stray pixels in a few sprites" | connected components (`sprite_critique`) | ✅ **TRUE** — found 43 fragmented sprites / 241 debris px, invisible to every existing check |
+| "sprites are anti-aliased" | partial-alpha share | ❌ **FALSE** — 0.00% partial-alpha; the art is hard-edged by construction |
+| "add anti-aliasing / softer edges" | house rule vs `art.verify` | ❌ **FALSE** — would break the 26-colour hard-edge contract |
+| `monster_ember_imp_elite` ≈ `monster_flame_djinn` | silhouette IoU | ❌ **FALSE** — 0.649 (threshold 0.92) |
+| `monster_tide_caller` ≈ `monster_tide_shield` | silhouette IoU | ❌ **FALSE** — 0.447 |
+| `prop_chain` ≈ `prop_chains` | silhouette IoU | ❌ **FALSE** — 0.315 … **but the lead found a real orphan frame (P0.6)** |
+| R3C5 `monster_hive_splitter` reads as an unreadable blob | IoU vs the measured trio | ✅ **TRUE** — it is one of the 3 confirmed silhouette duplicates |
+| "nothing looks like a resized photo / gradient" | `art.verify` palette + partial-alpha | ✅ **TRUE** |
+| "9/10 — reads as deliberate game art" | objective defect count | ⚠️ **DISAGREES** — the same round measures 24 objective defects; self-scores are not evidence |
+
+Tally: **3 true, 4 false, 1 false claim whose lead found a real defect.** Verdicts on *its own*
+advice ("add anti-aliasing") are wrong far more often than its observations — never let it set the
+house rules, and always give it the house rules in the prompt.
+
 Note `qwen2.5-coder-14b` and `ui-tars-7b-dpo` were both recommended to the owner by an external
 advisor; both fail the first tool call with real tools attached.
 
