@@ -389,3 +389,102 @@ the slaps issued, and the single biggest risk to the project right now.
 [38;2;184;134;11m - **A slap issued with literal placeholder text for violation, rule, and acceptance command is not a valid correction order and must be voided.** (P2, added 2026-09-14 14:06 after a forge) — PROGRESS.md line 754: '## 2026-09-17 — Round SLAP #84/#85 Closure + M-01 ROADMAP tick (Forge) — DONE'. git show b698488 lists docs/PROGRESS.md and runs/reports/BUILD-2026-09-17-r3.md as changed. Commit 60f4974 has PROGRESS.md entries at the top of the file. The round is documented.[0m
   ┊ 💻 preparing terminal…
   ┊ 💻 $         git checkout -- docs/STANDARDS.md + 1 command  0.3s
+  ┊ ✍️ preparing write_file…
+  ┊ ✍️  write     C:/Users/dbshe/rogueworks/docs/STANDARDS.md  4.7s
+  ┊ review diff
+[38;2;218;165;32ma/docs\STANDARDS.md → b/docs\STANDARDS.md[0m
+[38;2;139;134;130m@@ -1,41 +1,28 @@[0m
+[38;2;184;134;11m # STANDARDS — the law of Rogueworks[0m
+[38;2;184;134;11m [0m
+[38;2;255;255;255;48;2;119;20;20m-Every bot reads this at the start of every round. WARDEN enforces it. Rules get appended here when[0m
+[38;2;255;255;255;48;2;119;20;20m-someone breaks one, and repeat offences end up inside the offender's own `SOUL.md`, which loads into[0m
+[38;2;255;255;255;48;2;119;20;20m-every session that bot ever has.[0m
+[38;2;255;255;255;48;2;19;87;20m+Every bot reads this at the start of every round. WARDEN enforces it. Rules get appended here when someone breaks one, and repeat offences end up inside the offender's own `SOUL.md`, which loads into every session that bot ever has.[0m
+[38;2;184;134;11m [0m
+[38;2;184;134;11m ## The five laws[0m
+[38;2;184;134;11m [0m
+[38;2;255;255;255;48;2;119;20;20m-1. **No claim without a command.** If you say something works, you paste the real output of the[0m
+[38;2;255;255;255;48;2;119;20;20m-   command that proves it, from this round. "Should work", "likely passes", "verified by design" are[0m
+[38;2;255;255;255;48;2;119;20;20m-   confessions, not evidence.[0m
+[38;2;255;255;255;48;2;119;20;20m-2. **Never break `main`.** `python -m game.main --headless --turns 300 --seed N` must exit 0 with[0m
+[38;2;255;255;255;48;2;119;20;20m-   `invariants.violations == []` before and after your change. A worse game that runs beats a better[0m
+[38;2;255;255;255;48;2;119;20;20m-   one that doesn't.[0m
+[38;2;255;255;255;48;2;119;20;20m-3. **The contracts are frozen.** `docs/CONTRACTS.md` defines the interfaces between bots. Changing a[0m
+[38;2;255;255;255;48;2;119;20;20m-   field, a path, a flag or a frame name without updating the contract in the same change is a P1.[0m
+[38;2;255;255;255;48;2;119;20;20m-4. **Stay in your lane.** Touching another bot's files is allowed only with a stated reason in your[0m
+[38;2;255;255;255;48;2;119;20;20m-   report. Silent cross-lane edits are a P1 — they are how parallel work corrupts itself.[0m
+[38;2;255;255;255;48;2;119;20;20m-5. **Cheap by default.** No paid model, ever. Local GPUs and free tiers first. Spending the owner's[0m
+[38;2;255;255;255;48;2;119;20;20m-   money to route around a rate limit is forbidden; switching models or going local is free.[0m
+[38;2;255;255;255;48;2;19;87;20m+1. **No claim without a command.** If you say something works, you paste the real output of the command that proves it, from this round. "Should work", "likely passes", "verified by design" are confessions, not evidence.[0m
+[38;2;255;255;255;48;2;19;87;20m+2. **Never break `main`.** `python -m game.main --headless --turns 300 --seed N` must exit 0 with `invariants.violations == []` before and after your change. A worse game that runs beats a better one that doesn't.[0m
+[38;2;255;255;255;48;2;19;87;20m+3. **The contracts are frozen.** `docs/CONTRACTS.md` defines the interfaces between bots. Changing a field, a path, a flag or a frame name without updating the contract in the same change is a P1.[0m
+[38;2;255;255;255;48;2;19;87;20m+4. **Stay in your lane.** Touching another bot's files is allowed only with a stated reason in your report. Silent cross-lane edits are a P1 — they are how parallel work corrupts itself.[0m
+[38;2;255;255;255;48;2;19;87;20m+5. **Cheap by default.** No paid model, ever. Local GPUs and free tiers first. Spending the owner's money to route around a rate limit is forbidden; switching models or going local is free.[0m
+[38;2;184;134;11m [0m
+[38;2;184;134;11m ## Review protocol[0m
+[38;2;184;134;11m [0m
+[38;2;255;255;255;48;2;119;20;20m-1. Every round ends by submitting to **WARDEN** (the editor). WARDEN reviews artifacts, not[0m
+[38;2;255;255;255;48;2;119;20;20m-   intentions: diffs, `runs/` output, atlases, data files, reports.[0m
+[38;2;255;255;255;48;2;19;87;20m+1. Every round ends by submitting to **WARDEN** (the editor). WARDEN reviews artifacts, not intentions: diffs, `runs/` output, atlases, data files, reports.[0m
+[38;2;184;134;11m 2. WARDEN either **APPROVES** (states what it verified and how) or **SLAPS**.[0m
+[38;2;184;134;11m 3. A slap is delivered by `python -m tools.studio.slap`, which:[0m
+[38;2;184;134;11m    - records the violation, the evidence and the rule in `docs/SLAPS.md` (permanent ledger),[0m
+[38;2;184;134;11m    - appends the rule to this file,[0m
+[38;2;255;255;255;48;2;119;20;20m-   - **dispatches a correction order into the offending bot's own chat**, so the bot takes a turn and[0m
+[38;2;255;255;255;48;2;119;20;20m-     has to fix the defect and answer for it with real output,[0m
+[38;2;255;255;255;48;2;19;87;20m+   - **dispatches a correction order into the offending bot's own chat**, so the bot takes a turn and has to fix the defect and answer for it with real output,[0m
+[38;2;184;134;11m    - re-runs the acceptance command and records whether the fix actually verified.[0m
+[38;2;184;134;11m 4. **Escalation ladder** (automatic, by repeat count of the same rule):[0m
+[38;2;184;134;11m    - **Level 1 — warning.** Fix it and reply with evidence.[0m
+[38;2;255;255;255;48;2;119;20;20m-   - **Level 2 — the rule is written into that bot's `SOUL.md`.** It now loads in every session that[0m
+[38;2;255;255;255;48;2;119;20;20m-     bot ever runs, forever. This is the part that stops repeat mistakes.[0m
+[38;2;255;255;255;48;2;119;20;20m-   - **Level 3 — the lane is frozen.** `forge` must reassign the work; the frozen bot may only run[0m
+[38;2;255;255;255;48;2;119;20;20m-     its fix until the acceptance command verifies.[0m
+[38;2;255;255;255;48;2;19;87;20m+   - **Level 2 — the rule is written into that bot's `SOUL.md`.** It now loads in every session that bot ever runs, forever. This is the part that stops repeat mistakes.[0m
+[38;2;255;255;255;48;2;19;87;20m+   - **Level 3 — the lane is frozen.** `forge` must reassign the work; the frozen bot may only run its fix until the acceptance command verifies.[0m
+[38;2;184;134;11m 5. A slap that cannot be verified as fixed does not close. It escalates next review.[0m
+[38;2;184;134;11m [0m
+[38;2;184;134;11m ## What earns a slap (with severity)[0m
+[38;2;139;134;130m@@ -51,13 +38,10 @@[0m
+[38;2;184;134;11m [0m
+[38;2;184;134;11m - Paste command output verbatim, trimmed to the meaningful lines, with the exit code.[0m
+[38;2;184;134;11m - Re-run the acceptance command *after* your last edit, not before it.[0m
+[38;2;255;255;255;48;2;119;20;20m-- When you measure something visual, also measure it numerically (pixel counts, alpha coverage,[0m
+[38;2;255;255;255;48;2;119;20;20m-  distinct colours). Vision models produce confident false positives on pixel art — this studio has[0m
+[38;2;255;255;255;48;2;119;20;20m-  been burned twice.[0m
+[38;2;255;255;255;48;2;19;87;20m+- When you measure something visual, also measure it numerically (pixel counts, alpha coverage, distinct colours). Vision models produce confident false positives on pixel art — this studio has been burned twice.[0m
+[38;2;184;134;11m - Audit individual frames and real in-game screenshots; contact sheets produce their own artefacts.[0m
+[38;2;184;134;11m - Name ids in `snake_case`, stable forever; saves reference them.[0m
+[38;2;255;255;255;48;2;119;20;20m-- Say "BLOCKED" loudly and early. A blocked bot that tells the truth is fine. A blocked bot that[0m
+[38;2;255;255;255;48;2;119;20;20m-  invents a pass is out.[0m
+[38;2;255;255;255;48;2;19;87;20m+- Say "BLOCKED" loudly and early. A blocked bot that tells the truth is fine. A blocked bot that invents a pass is out.[0m
+[38;2;184;134;11m [0m
+[38;2;184;134;11m ## Authorities[0m
+[38;2;184;134;11m [0m
+[38;2;139;134;130m@@ -76,39 +60,17 @@[0m
+[38;2;184;134;11m [0m
+[38;2;184;134;11m - **Law 2 — Never break main. game.main --headless --turns 300 --seed N must exit 0 with invariants.violations == [] before AND after your change. A round that ends with main broken is not OK.** (P0, added 2026-09-13 03:41 after a forge) — game/systems/spawn.py:162: _spawn_guardian_or_boss(world, floor, biome_id, difficulty) — 'difficulty' not defined in populate_floor scope. verify_gate output: 4 gates red (seed 0/1/2 + selftest), exit 1. Traceback: File game/systems/spawn.py line 162, NameError: name 'difficulty' is not defined[0m
+[38;2;184;134;11m [0m
+[38;2;255;255;255;48;2;119;20;20m-- **Round protocol (docs/ROADMAP.md §Round protocol, item 4): each round must PREPEND a dated entry to docs/PROGRESS.md, write runs/reports/BUILD-<date>.md, and tick the item in docs/ROADMAP.md + docs/TICKETS.md. An undocumented round did not happen.** (P2, added 2026-09-13 03:42 after a forge) — runs/reports/ contains only BUILD-2026-09-13.md (yesterday's round). docs/PROGRESS.md last entry is P4.0 from 2026-09-13. docs/ROADMAP.md line 19: '- [ ] **P1.1 Difficulty curve...**' still unchecked. docs/TICKETS.md: no P1.1 ticket exists, G-01/G-02 unchanged.[0m
+[38;2;255;255;255;48;2;119;20;20m-[0m
+[38;2;184;134;11m - **Law 2 — Never break main. game.main --headless --turns 300 --seed N must exit 0 with invariants.violations == [] before AND after your change. A round that ends with main broken is not OK. When patching, verify the patched file has real newlines, not literal \n escape sequences in a single physical line.** (P0, added 2026-09-13 04:32 after a forge) — renderer.py:302 repr: '# -- fog / light / vignette --------------------------------------\n        surface.blit(self.fog(world), (0, 0))\n        radius = _bm.lantern_radius(world)\n        _, halo = self.halo(radius)' — all on one physical line with literal backslash-n, not real newlines. game.main --headless --turns 300 --seed 0 exit 1: NameError: name 'radius' is not defined at renderer.py:303. tools.selftest exit 2: [FAIL] game-import — ModuleNotFoundError then [SKIP] headless-run.[0m
+[38;2;255;255;255;48;2;119;20;20m-[0m
+[38;2;255;255;255;48;2;119;20;20m-- **Never leave test fixtures in assets/, runs/ or game/ — write them under $LOCALAPPDATA/Temp and delete them, or make the tool clean up after itself.** (P2, added 2026-09-13 04:33 after a forge) — ls -la assets/raw/_local_test.png → 476670 bytes, 2026-09-13 02:27:07; Image.open: size=(512,512) mode=RGB — a test generation artifact, not shipped art[0m
+[38;2;255;255;255;48;2;119;20;20m-[0m
+[38;2;255;255;255;48;2;119;20;20m-- **Round protocol (docs/ROADMAP.md §Round protocol, item 4): each round must PREPEND a dated entry to docs/PROGRESS.md, write runs/reports/BUILD-<date>.md, and tick the item in docs/ROADMAP.md + docs/TICKETS.md. An undocumented round did not happen.** (P2, added 2026-09-13 04:34 after a forge) — runs/reports/ contains only BUILD-2026-09-13.md and BUILD-2026-09-13-round1.md (no round-2 report). docs/PROGRESS.md last entry is 'Round 1: P1.1' from 2026-09-13. docs/ROADMAP.md line 24: '- [ ] **P1.2 Biome modifiers...**' still unchecked. docs/TICKETS.md: no P1.2 ticket exists.[0m
+[38;2;139;134;130m… omitted 185 diff line(s) across 1 additional file(s)/section(s)[0m
+  ┊ 💻 preparing terminal…
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         tail -5 docs/STANDARDS.md  0.2s
+  ┊ 💻 $         git status --short  0.2s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         git checkout HEAD -- docs/PROGRESS.md + 1 command  0.2s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         git checkout HEAD -- runs/playtest-0.json runs/playtest-1.json runs/playtest-2.json runs/playtest-6.json runs/playtest-7.json runs/selftest-0.json + 1 command  0.2s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         git checkout HEAD -- runs/playtest-3.json runs/playtest-4.json runs/playtest-5.json runs/reports/BUILD-2026-09-17-r4.md + 2 commands  0.2s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         git checkout HEAD -- runs/playtest-6.json runs/playtest-7.json + 2 commands  0.2s
+  ┊ 💻 preparing terminal…
+  ┊ 💻 $         git status --short + 2 commands  0.2s [exit 2]
+  ┊ 💻 preparing terminal…
