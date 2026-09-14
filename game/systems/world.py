@@ -1498,7 +1498,7 @@ class World:
             counts = self.counts()
             metrics = {
                 "frames": self.frames_rendered,
-                "ms_per_tick": round(float(self.ms_per_tick), 4),
+                "ms_per_tick": float(self.ms_per_tick),
                 "fps_equiv": int(round(1000.0 / self.ms_per_tick)) if self.ms_per_tick > 0 else 0,
             }
             # P5.3: include profiler summary if available
