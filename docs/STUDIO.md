@@ -145,6 +145,39 @@ generated: they are synthesised procedurally in `game/engine/audio.py` from stdl
 wholly owned with zero third-party claim — no SFX model here is permissively licensed enough to beat
 that. That is a licence decision, not a technical one.
 
+## Recoverability and budgets (hardened 2026-09-13 after a real loss)
+
+A sibling cron agent overwrote `docs/PROGRESS.md` with `write_file` — 515 lines became 20. Nothing
+recovered it: the repo had **no commits** and the filesystem checkpoint store was **empty**. Three
+changes went in so that cannot repeat silently:
+
+1. **`docs/PROGRESS.md`, `TICKETS.md`, `ROADMAP.md`, `SLAPS.md` are append/prepend-only.** Read them,
+   then `patch`. Never `write_file` a shared log — that is how the history was lost.
+2. **Git is the first line of defence: commit every round.** The repo now has a history, so the next
+   overwrite is a one-line revert. `.gitignore` keeps venvs, saves, shot dirs and the ~2 GB of vendored
+   `tools/art/sd/bin` CUDA runtimes out of it.
+3. **Filesystem checkpoints are ON** for the default profile and all seven bots
+   (`hermes -p <bot> config set checkpoints.enabled true`). They snapshot the working directory once
+   per turn on the first `write_file`/`patch` and are restorable with `/rollback`. They ship **off** —
+   `hermes_cli/setup_quick.py` writes `checkpoints.enabled: false` — which is why the original loss had
+   no snapshot. Verified working, not assumed:
+
+   ```
+   $ hermes -p forge checkpoints status
+   Projects:        2
+     WORKDIR                            COMMITS  LAST TOUCH  STATE
+     C:\Users\dbshe\rogueworks                1   6s ago     live
+   ```
+
+4. **The session database is the last resort.** Every `read_file` result is a `messages` row in
+   `<HERMES_HOME>/state.db`, so a file that was read at least once is recoverable verbatim — that is
+   how the 515-line log came back, searched across *every* profile's database. The recipe is in the
+   studio skill, §10.
+
+**Memory budgets were raised at the owner's request** so lessons survive instead of being evicted:
+`memory.memory_char_limit` 2200 → **12000**, `memory.user_char_limit` 1375 → **4000**, set on the
+default profile and all seven bots. Each bot now has room to carry its own corrective rules.
+
 ## Play it
 
 ```bash
