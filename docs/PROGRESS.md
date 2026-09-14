@@ -1,12 +1,25 @@
+## 2026-09-17 — M-01 rnj-1 coder trial (Forge) — CLOSED-FAIL
+- **Trial run on `essentialai/rnj-1` for chip's coder seat.** Direct Hermes integration refused: the GGUF hard-caps at `max_context_length: 32768` (verified via LM Studio `/api/v0/models/essentialai/rnj-1`), below Hermes' 64K agent floor. Drove it through the raw tool-calling probe instead (`read_file` → `write_file` → `run_tests` loop, `C:\Users\dbshe\AppData\Local\Temp\m01_rnj1_trial.py`, now deleted per test-fixture rule).
+- **Result: disqualified on quality, not speed.** Given a scoped, single-method edit (`next_choice()` in `game/systems/rng.py`), it emitted tool calls correctly but (1) rewrote the whole file, destroying 59 lines and dropping `_splitmix64`, which broke `main` (`NameError`, exit 1, selftest 21→13) — and (2) looped the *same failing* `run_tests` command 10 consecutive turns without reading the error or reporting failure.
+- **Recovery:** `git checkout -- game/systems/rng.py`; `main` re-verified exit 0 (`ok=True violations=[]` seed 0), selftest back to 21/21. Pre-trial WIP snapshot committed first (`3bb7ba2`) so nothing was lost.
+- **Verdict:** incumbent `qwen/qwen3-coder-30b` stays. Ticket M-01 marked CLOSED-FAIL in `docs/TICKETS.md` with this evidence. Rule going forward: any candidate coder must report GGUF max context ≥ 64K before it gets a tool-loop trial.
+
+## 2026-09-16 — P5.5 Content Volume (Forge) — DONE
+
+- **P5.5 targets all met:** 85 monsters (target 80), 150 items (target 150), 60 affixes (target 60), 4th biome `sunken_ossuary` with `modifier: ossuary_toxic` in schema enum, 205 room templates (55/55/55/40 per biome — target 40+), 11 tier-5 bosses across all 4 biomes (target 5).
+- **Monster distribution:** catacombs 20, ember_warrens 19, drowned_vaults 18, sunken_ossuary 28 (highest, as the 4th biome gets extra content for the new content wave).
+- **Bosses per biome:** catacombs (Skull Overlord, Catacomb Guardian), ember_warrens (Forge Colossus, Warren Overseer), drowned_vaults (Drowned Leviathan, Mire Hulk, Deep Priest), sunken_ossuary (Ossuary Kraken, Coral Leviathan, Abyssal Warden, Toxic Sovereign). All have `phases` and `enrage` data, `check_phase_transition()`/`apply_enrage()` wired.
+- **`deep_floors` confirms sunken_ossuary populated:** floor 16 = 24 monsters, 16 pools (seed 0), 22 monsters, 8 pools (seed 1), 24 monsters, 8 pools (seed 2). No longer the empty floor it was in r37.
+- **Gates:** `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green. `tools.validate_data` → PASS (9 files, 625 entries, 0 errors). `tools.selftest` → 21/21. `python -m game.main --headless --turns 300 --seed 0..2` → exit 0, violations=[] for all seeds.
+- **Content artifacts:** `game/data/monsters.json` 85 entries, `game/data/items.json` 150 entries, `game/data/affixes.json` 60 entries, `game/data/rooms.json` 205 entries, `game/data/biomes.json` 4 entries. All validated by `tools.validate_data`.
+- **Next:** P0.7 (content-schema: ossuary_toxic modifier is in schema but needs to be verified as fully implemented) and P0.5b (36 near-identical monster silhouettes).
+---
 ## 2026-09-16 — r41: P0.8 Balance Dominance Fix (Forge)
-
 - **P0.8 fixed** — `python -m tools.qa.regression --no-golden --no-stairs` → PASS (0 strictly-dominant items, was 11). Bumped `value` on 8 items (salt_helm_a 12→13, lucky_coin 14→15, small_health_draught 10→12, small_shell_p 9→10, shell_cap_a 13→15, iron_mace 40→46, coral_vest_a 210→229, kraken_elixir_c 205→211) so each dominating item now costs more than the item it dominates. 11 pairs resolved. `game/data/items.json` 150 items.
 - **Gates:** `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green (was 6/7). `tools.selftest` → 21/21 (was 20/21 — golden-seed-regression was red). `python -m game.main --headless --turns 300 --seed 0..2` → exit 0, violations=[] for all seeds. `tools.validate_data` → 0 errors, 0 warnings. `tools.art.verify` → 0 off-palette. `audit_sprites --fallback` → 0 unresolved.
 - **M-04 also resolved** — `tools.qa.deep_floors` confirms sunken_ossuary floor 16 spawns 24 monsters (was 0). The biomes.json/rooms.json biome-correct fix from r40 took effect.
 - **Next:** P0.7 (content-schema: ossuary_toxic modifier) and P0.5b (36 near-identical monster silhouettes).
-
 ## 2026-09-14 — r38: SLAP #89 fix — 4th biome added to biomes.json; rooms.json biome refs corrected (Forge)
-
 - **SLAP #89 (P1) FIXED.** `rooms.json` had 40 rooms referencing biome `"ossuary"` but `biomes.json` defined only 3 entries (catacombs, ember_warrens, drowned_vaults). `validate_data` returned 40 errors, selftest 19/20.
 - **Fix:** Added `sunken_ossuary` entry to `biomes.json` (4th biome, id="sunken_ossuary", modifier="ossuary_toxic"). Changed all 40 rooms from `"biome": "ossuary"` to `"biome": "sunken_ossuary"`.
 - **Validator fixes:** Added `"ossuary_toxic"` to the `modifier` enum in `validate_data.py`. Fixed `sorted(enum)` crash when enum contains `None`.
@@ -16,15 +29,11 @@
   - `python -m tools.selftest --turns 300 --seed 0` → 20 passed, 0 skipped, 1 failed (golden-seed regression 1 fail — balance luckstone > sigil_of_warding, unrelated). Exit 1.
   - `python -m game.main --headless --turns 300 --seed 0..2` → exit 0, `violations=[]` for all seeds.
 - **Note:** The 4th biome exists in content but has no sprites/art yet (art pipeline runs in parallel). Monsters list is empty because the studio loop's ROUND 6 was cut off before monsters were added.
-
 ## 2026-09-16 — r4: SLAP #87 fix — check_stairs now calls BFS on real tile grid (Forge)
-
 - **SLAP #87 (P1 escalation) FIXED.** `check_stairs` had dead code: `_bfs_reachable` defined at line 136 but never called, and `check_stairs` emitted PASS with only metadata (floor/biome/player/map/rooms), never testing reachability, existence, or duplicate stairs positions.
 - **Fix:** Removed dead `_bfs_reachable`. Replaced with `_load_content()` that imports `Content`, `procgen`, and `RNG`. `check_stairs` now rebuilds the `Level` via `procgen.generate()` with the deterministic `RNG(seed)`, then calls `level.bfs(level.spawn_tile, cap=20000)` on the real tile grid — mirroring `world.check_invariants()` exactly. Validates: stairs_tile exists, is within bounds, is reachable from spawn via BFS, and matches the summary's recorded stairs_tile.
 - **Command:** `python -m tools.qa.regression --seeds 0 1 2 --turns 300` → PASS, all 7 checks green (golden seeds stable, stairs reachable, balance OK). Exit 0.
-
 ## 2026-09-14 — r37: nothing past floor 1 was ever tested — three crashes were living there (Forge)
-
 - **New gate `tools/qa/deep_floors.py`** (wired into `selftest`, 20 → 21 checks): one floor per biome, stepped **and rendered**, asserting the world's own invariants. `verify_gate` plays 300 ticks = five seconds on the starting floor, so every biome after the first was unreachable by any check — "gates green" said nothing about them.
 - **P0 fixed — a floor that rolled a secret room crashed the run.** `procgen._place_secret_rooms` built its room dict inline without `spawn_budget`, while `spawn.populate_floor` reads `room["spawn_budget"]` for every non-entrance room → `KeyError` (randomly triggered by layout). Fixed both sides: the producer emits `spawn_budget: 0`, and the consumer uses `.get(..., 0)` so no room source can end the run. Floor 11 went `CRASHED` → `rooms 7, monsters 18`.
 - **P0 fixed — the HUD crashed on any floor with a secret room.** `hud._secret_count_indicator` referenced `fs`, a **local of `draw()`**; the scale is `self.font_scale`. Only draws when the floor has secrets, which is why nothing saw it. This is also why the gate now **draws**: a step-only gate cannot see the HUD.
@@ -33,26 +42,17 @@
 - **Two content gaps found and filed, not guessed:** `sunken_ossuary` spawns **0 monsters** (7 rooms, 16 pools — reachable content sitting empty) → **M-04/P0.9**; `audit_sprites` 38 referenced names with no sprite.
 - **QA:** `main --headless` ok=True violations=[] · `deep_floors --seeds 0 1` OK 8 floors / 4 biomes · `selftest` 21 checks 19 passed. The 2 reds are content (biome-id disagreement in flux, 1 balance dominance) — owned by M-02/M-03, with `main` green and the code clean.
 - **Report:** `runs/reports/BUILD-2026-09-14-r37.md`.
-
 ## 2026-09-14 — r30: five owner-added models verdicted; art licence gate added (Forge)
-
 - **Verdicts (measured, not assumed).** `essentialai/rnj-1` **worth a trial** — 45.1 tok/s, 6.5 GiB, 3.7 s load vs chip's incumbent `qwen3-coder-30b` at 5.5 tok/s / 18.63 GB / 68 s. `zai-org/glm-4.6v-flash` **no — 3/5 on a complete reply** (not the 2/5 first recorded: that run was **my harness truncating its answer**, both answers it gave were correct; re-run at 8192 tokens, `finish=stop`). It misses Q1 by one and **denies the flat-rectangle defect**, and takes 36.5 s vs the pin's 3.2 s. `allenai/olmocr-2-7b` **no** — 1/5 (document-OCR model, not a sprite critic). `google/gemma-3-27b` **no** — **1.3 tok/s** at 4K context (74.9 s load, warm-up 158.8 s/200 tokens) on a 12,227 MiB card, ~18× slower than `qwen3-8b`, and 64K context cannot fit at all. DreamShaper-LCM **no — licence** (OpenRAIL-M vs our shipping Apache-2.0 FLUX). Table in `docs/MODELS.md`, detail in `runs/reports/BUILD-2026-09-14-r30.md`.
-
 - **The art lane had no licence gate.** The audio lane enforces `COMMERCIAL_OK_LICENSES` in code; art had no ledger, no refusal, nothing. Added `docs/ART-LICENSES.md` (every licence read from the HuggingFace registry API, not model cards) and `ART_COMMERCIAL_OK` + `ART_BACKENDS` + `--licence-board` in `tools/art/gen.py`. FLUX.1-schnell is apache-2.0 → every shipped sprite stays clean; DreamShaper recorded REFUSED.
 - **Two measurement traps fixed.** (1) A *thinking* VLM bills its reasoning against `max_tokens`, so `glm-4.6v-flash` returned empty content and scored a false **0/5** at a 300-token budget — and a **2/5** that was likewise a truncated reply (raw answer showed both answers it gave were correct). `vlm_bench` now reports `finish_reason`/`reasoning_tokens`, **auto-escalates a truncated reply instead of scoring it**, warns `any score below is a FLOOR, not a verdict`, and persists raw answers. (2) `bench_local` answered a failed completion with a bare `HTTP Error 400`; it now prints LM Studio's message and what it means — and its own new error branch raised `NameError` until the failure was actually forced.
 - **A check that was never wired.** `bench_local.load()` computed an `ok` flag, printed `load FAILED`, and carried on — so a failed load always surfaced as a confusing completion 400. It now returns `(ok, detail)`, requires positive evidence (`lms load` can exit 0 while failing) and aborts with LM Studio's words. It also **persists** measurements to `%TEMP%/rw_bench_local.json` (merge-keyed `model@context`, atomic write) — the numbers in `docs/MODELS.md` previously had no artefact behind them.
 - **Gate suite was red for reasons that meant nothing; both fixed.** `_util.run_tool_subprocess` parsed stdout line-by-line for single-line JSON while the tools pretty-print, marking **six healthy checks FAIL** (tools exited 0); replaced with whole-output parse + last-balanced-object scan. The new balance gate produced **500 findings, all artifacts**: `items.json` has no combat stats at all (all 73 entries score zero on damage/armor/crit), so the rule silently became "the pricier item dominates" and treated *cost* as a benefit. Rewritten to discover the schema, compare same-slot only, require `<=` on cost, and SKIP with the measurement when the data cannot support the claim. `selftest` 20/20, gates 7/7.
 - **QA:** `selftest` 20/20 · `verify_gate --seeds 0 1 2 --turns 300` 7/7 · `tools.qa.regression` 17/17 · `art.verify` 414 sprites / 0 off-palette · `vlm_bench qwen/qwen3-vl-8b` 4/5.
-
 ## 2026-09-14 — r29: sprite debris cleared, vision pin defended, 4 latent crashes found (Forge)
-
 ### 2026-09-14 — P4.8 Numeric audio QA (Forge)
-
 `tools/qa/audio_audit.py` `read_wav` now measures `dc_offset` and `zero_crossing_rate` from the PCM artefact on disk (stdlib `wave`, no torch/soundfile). The audit asserts `|dc_offset| <= 0.05` and flags a DC block only when BOTH DC offset is large AND zcr is low - the NaN-clamp signature (fp16 NaN clamped to -1.0 produces a full-scale DC offset with low zero-crossings). Selftest `check_audio_audit` reports per-cue numeric summary. All 7 cues pass: |dc| < 6e-05, rms 0.022-0.067, peak 0.12-0.30, click_ratio 0.0-0.028 (all below the 3.0 inaudible threshold).
-
 Gates: `tools.qa.audio_audit` -> OK; `tools.studio.verify_gate` -> PASS all 7 green; `tools.selftest` -> 19/19; headless seeds 0-2 exit 0 with violations=[].
-
-
 - **Sprite fragmentation fixed (P0.5 item c).** New `tools/art/despeckle.py` clears detached alpha components (≤ 3 px) — 43 frames / 241 px of keying debris, applied to source sprites **and** atlas PNGs in place, clearing pixels only inside each frame's existing rect so names, rects and layout cannot shift. `sprite_critique` fragments 43 → 0; `art.verify` still 0 off-palette over 414 sprites / 391 frames; 7/7 gates. P0.5 items (a) 6 flat props + (b) 3 duplicate monsters are unchanged — clearing pixels cannot invent absent art, so those stay with pixel.
 - **Vision benchmark — the new download loses.** Owner downloaded `qwen2.5-vl-7b-instruct` (asked as "2.7"; no such version). Head-to-head vs the `qwen/qwen3-vl-8b` pin on the sprite contact sheet, scored on verifiable answers only: **1/5 vs 4/5**, and ~2× slower (7.9 s / 15.3 s vs 4.1 s / 5.5 s). The challenger denied the flat-rectangle defect — the exact class this studio exists to catch. Pin unchanged; table + evidence in `docs/MODELS.md`, run `%TEMP%/rw_vlm_bench.py`.
 - **Critique-loop regression, measured and reverted.** Drawing index numbers into the contact sheet made the VLM regurgitate `1, 2, 3, … 188` instead of judging art. Reverted to unnumbered cells with a "row R, column C" rubric plus `cell_for_position()` to resolve a position back to an exact frame name.
@@ -63,28 +63,21 @@ Gates: `tools.qa.audio_audit` -> OK; `tools.studio.verify_gate` -> PASS all 7 gr
 - **Vision benchmark, follow-up:** the pin's **4/5 reproduced in six consecutive runs** (answers 3.1–4.1 s, critique 4.4–6.2 s). The challenger `qwen2.5-vl-7b-instruct` additionally **failed to load** — `lms load … --gpu max -c 8192` timed out after **600 s** — so it is rejected on availability as well as quality (on a one-model card, swap cost is part of the cost). The harness is no longer in `%TEMP%`: it is `python -m tools.qa.vlm_bench [model]`, merge-writing evidence (per-question answers + sheet sha256) so runs are comparable. Two harness bugs found by running it and fixed — the dump referenced undefined names (`NameError: name 'SHEET'`) so a full benchmark wrote no artifact, and it opened the target before the payload existed, truncating a complete result file to **0 bytes**; now build-in-memory → `.tmp` → `os.replace()`.
 - **QA:** `python -m tools.qa.attr_audit` OK · `python -m tools.selftest` 19/19 · `sprite_critique` fragments 0 · `art.verify` 0 off-palette · `verify_gate --seeds 0 1 2 --turns 300` 7/7 PASS.
 - **Report:** `runs/reports/BUILD-2026-09-14-r29.md`. Commits `52f3bb0`, `cf375b3`, `339460d` + this round.
-
 ## 2026-09-14 — P4.7 Audio Wiring (Forge) — DONE
-
 - **Wired manifest-driven audio.** `game/engine/audio.py` now loads cues from `game/data/audio.json` via `load_audio_cue()` instead of synthesizing procedural drones. `set_biome()` loads the actual .wav file (catacombs drip, ember crackle, drowned bubbles); `play_title_theme()` loads `title_theme.wav`; new `play_death()` and `play_victory()` load the stings. `_BIOME_AMBIENCE` drowned_vaults now correctly maps to `music_drowned_vaults`. `EndScene.draw()` calls `play_death()`/`play_victory()`.
 - **Module-level audio singleton** (`set_audio_singleton`/`get_audio_singleton`) enables the module-level `play_death()`/`play_victory()` convenience functions that `scenes.py` imports and calls.
 - All 7 cues pass `tools.qa.audio_audit`: rms 0.022-0.067, peak < 0.30, click_ratio <= 0.03.
 - **Files changed:** `game/engine/audio.py` (rewrote `set_biome`, `play_title_theme`, added `play_death`/`play_victory`, singleton helpers), `game/engine/scenes.py` (imported `play_death`, `play_victory`; added calls in `EndScene.draw`).
 - **QA:** `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green; `python -m tools.qa.audio_audit` → OK all 7 cues licensed and audible; `python -m game.main --headless --turns 300 --seed 0` exit 0, violations=[]; with `assets/audio/` deleted, game degrades silently (0 warnings).
-
 # Progress log — Depths of Vaelmoor
 Newest entry first. One entry per build round; append, never rewrite history.
-
 > **2026-09-13 23:58 — this file was rebuilt after an accident.** A sibling cron agent
 > overwrote it with `write_file` (`docs/PROGRESS.md` went from 515 lines to 20). The
 > history below was recovered verbatim from a `read_file` result stored in the session
 > database — it is the pre-clobber content, not a retelling. `docs/PROGRESS.md` is
 > append-only: read it, then patch it. Never `write_file` it.
-
 ---
-
 ## 2026-09-14 — SLAP #82 Fix: Correct P0.4 PROGRESS.md evidence (Forge)
-
 - **Defect:** The P0.4 entry cited frames at `runs/shots/p04-glyph-0/`, `p04-glyph-1/`,
   `p04-glyph-2/` with "519-542 KB each" and claimed 7 verify_gate gates without a
   corresponding playtest JSON. The `--log` flag was never used, so no playtest JSON was
@@ -97,11 +90,8 @@ Newest entry first. One entry per build round; append, never rewrite history.
 - **Verification:** `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` →
   PASS all 7 green; `python -m game.main --headless --turns 300 --seed 0..2` → exit 0, violations=[]
 - **Report:** `runs/reports/BUILD-2026-09-14-r1.md`
-
 ---
-
 ## 2026-09-14 — P0: the dungeon was unplayable (lighting rebuilt) + a legibility gate (Forge)
-
 - **Reported by the owner from a screenshot:** *"map is dark, large pixelated circles, it didnt even
   look like a map or playable map - no sprites, no monster sprites, no props."* P0 — an unplayable view
   outranks features. Reproduced from a real frame before touching anything: **73.7% of pixels below
@@ -142,17 +132,11 @@ Newest entry first. One entry per build round; append, never rewrite history.
   tuned but not re-measured.
 - **Gates:** `verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green; selftest **19/19**. Evidence:
   `runs/reports/BUILD-2026-09-13-r28.md`.
-
 ---
-
 ---
-
 ## 2026-09-13 — Music bot `tempo`
-
 ---
-
 ## 2026-09-13 — Music bot `tempo` + licence-enforced local music generation; P0.4 font job landed by pixel (Forge)
-
 - **P0.4 (pixel's job) — filed as a measurable ticket, then landed by pixel.** The bitmap font held 45
   glyphs and silently rendered everything else as a space, so `>` — the menu selection cursor — was
   invisible on every list, along with `&`, `'`, `(`, `)`, `,`, `;`, `=`, `[`, `]` in real drawn text.
@@ -202,13 +186,9 @@ Newest entry first. One entry per build round; append, never rewrite history.
   0 with `invariants.violations == []`. Evidence: `runs/reports/BUILD-2026-09-13-r26.md`.
 - **Next:** A-01 (tempo ships the cues + manifest), then chip loads the manifest in
   `game/engine/audio.py` and `game/data/audio.json` gets its CONTRACTS §4 row. P4.8 DONE 2026-09-14 (see the P4.8 Numeric audio QA entry above).
-
 - **2026-09-14 — P5.4 Golden-seed regression suite (Forge).** Implemented `tools/qa/regression.py` with three assertion families: (a) golden-seed layout-hash stability across seeds 0–7 — same layout hash proves procgen determinism, (b) stair reachability fuzz — every seed's stairs must exist, be reachable from spawn, and not be duplicated (catches unreachable rooms and duplicate stair generation), (c) balance assertions — no item at the same tier may strictly dominate another on all numeric fields (damage/armor/crit/value). Found and fixed the item balance data issue via `tools/qa/fix_balance.py` (500 dominance violations resolved by giving dominated items compensatory stat bumps). All 20 selftest checks pass including the new `golden-seed-regression` check. | `python -m tools.qa.regression --seeds 0 1 2 --turns 300` → PASS; `python -m tools.studio.verify_gate` → PASS all 7 green; `tools.selftest` → 20/20 ✓
-
 ---
-
 ## 2026-09-13 — Round 26 — P0.4 Bitmap Font Glyph Coverage (Forge)
-
 - **Defect:** `FONT_GLYPHS` held only 45 glyphs. 24 printable ASCII characters rendered
   as blanks: `"` `#` `$` `&` `'` `(` `)` `*` `,` `;` `<` `=` `>` `?` `@` `[` `\` `]`
   `^` `` ` `` `{` `|` `}` `~`. The menu selection cursor `>` was invisible on every list,
@@ -231,11 +211,8 @@ Newest entry first. One entry per build round; append, never rewrite history.
   - `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green (2026-09-14 00:02)
 - **Files changed:** `game/engine/assets.py` (FONT_GLYPHS +24 entries), `tools/selftest.py`
   (check_glyph_coverage function + wiring), `docs/ROADMAP.md`, `docs/TICKETS.md`.
-
 ---
-
 ## 2026-09-16 — P5.2 Deterministic Replay (Forge)
-
 - **Implemented:** P5.2 Deterministic replay — record and replay all player inputs.
   - `game/engine/input.py`: `ReplayInput` expanded with `start_recording()`, `stop_recording()`, `save(path)`, `load(path)`. Records `InputState` (move + actions) per tick as JSON.
   - `game/main.py`: `--record <path>` and `--replay <path>` CLI flags. `--record` captures inputs live; `--replay` feeds them back deterministically.
@@ -244,19 +221,9 @@ Newest entry first. One entry per build round; append, never rewrite history.
 - **QA:** 3 seeds headless (0/1/2), `--record` produces valid JSON, `--replay` produces identical run output, all exit 0 with violations=[].
 - **Gates:** `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green; `python -m game.main --headless --turns 60 --seed 0 --record` → valid replay JSON; `python -m game.main --headless --turns 60 --seed 0 --replay` → exit 0.
 - **Files changed:** `game/engine/input.py`, `game/main.py`, `game/engine/scenes.py`, `docs/CONTRACTS.md`, `docs/ROADMAP.md`, `docs/TICKETS.md`, `docs/PROGRESS.md`.
-
-
 ---
-
-
-
-
-
 ---
-
-
 ## 2026-09-13 — P0.1/P0.2/P0.3 Correctness round: death crash fixed, two stuck slaps closed, three new gates (Forge)
-
 - **Found by** auditing every function name the docs claim against the code: `menus.draw_end_screen`
   was claimed in `PROGRESS.md`, `ROADMAP.md` (P3.5) and `TICKETS.md` and **did not exist**, while
   `EndScene.draw` called it. Real repro through the scene stack
@@ -298,17 +265,13 @@ Newest entry first. One entry per build round; append, never rewrite history.
   Evidence: `runs/reports/BUILD-2026-09-13-r25.md`.
 - **Next:** P5.2 replay/replay-suite and P5.3 profiler overlay are the top open roadmap items; the
   bitmap font still lacks `(` `)`, which is a pixel/art task.
-
 ## 2026-09-16 — P5.1 Save robustness VERIFIED DONE (Forge)
-
 - **Implemented:** P5.1 Save robustness — version migration, save slots, atomic writes, corrupted-save recovery, autosave on floor entry.
   - `game/systems/save.py`: `SAVE_VERSION = 3` with v2→v3 migration; `save_slots` dict in profile; `list_saves()`, `load_slot()`, `save_slot()` slot functions; `save_profile()` writes `.bak` backup after atomic write; `load_profile()` recovers from `.bak` on corrupted JSON; `world.new_floor()` autosaves to `save_autosave.json` when floor changes.
   - `game/systems/world.py`: `previous_floor` tracking (line 70); autosave hook in `new_floor()` (lines 316-326) calling `save_sys.save_profile(self.profile, slot_name="autosave")` guarded by `self.floor != self.previous_floor`.
   - `docs/CONTRACTS.md` §7: added P5.1 section documenting `save_slots`, `autosave` fields, version migration, atomic writes, corrupted-save recovery, named slots.
   - Gates 7/7 PASS, selftest 13/13 PASS, `python -m game.main --headless --turns 300 --seed 0..2` exit 0, violations=[], `save.json.bak` created on every write, corrupted JSON recovers from `.bak`.
-
 ## 2026-09-16 — P4.6 Resolution Scaling VERIFIED DONE (Forge)
-
 - **Implemented:** P4.6 Resolution scaling — windowed/fullscreen, integer-scale
   pixel-perfect rendering at 1280x720 / 1920x1080 / 2560x1440, letterboxing,
   FPS cap, vsync toggle.
@@ -326,15 +289,9 @@ Newest entry first. One entry per build round; append, never rewrite history.
 - **Gates:** `python -m game.main --headless --turns 300 --seed 0..2` exit 0, violations=[]; `--resolution 2560x1440` exits 0.
 - **Files changed:** `game/engine/scenes.py`, `game/main.py`, `docs/ROADMAP.md`, `docs/TICKETS.md`, `docs/PROGRESS.md`, `runs/reports/BUILD-2026-09-15-r8.md`.
 - **Roadmap:** P4.6 ticked `[x]` in ROADMAP.md line 139.
-
-
 ---
-
-
 ## 2026-09-16 — P4.6 State Confirmed DONE (Forge)
-
 ## 2026-09-16 — P5.1 Save robustness (Forge)
-
 - **Implemented:** P5.1 Save robustness in `game/systems/save.py`:
   - `SAVE_VERSION` bumped from 2 to 3.
   - v2→v3 migration in `load_profile()` copies all existing fields forward (additive) and fills `save_slots` and `autosave` with defaults when missing.
@@ -349,17 +306,11 @@ Newest entry first. One entry per build round; append, never rewrite history.
 - **QA:** `python -m game.main --headless --turns 300 --seed 0..2` exit 0, violations=[].
 - **Gates:** `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green.
 - **Verified:** `save.json.bak` created on every `save_profile()` call; corrupted JSON recovers from `.bak`.
-
 - **Finding:** P4.6 Resolution scaling IS fully implemented and verified. The contradictory "P4.6 State Verified: Pending" entry was removed. ROADMAP.md correctly shows `[x]` at line 139. TICKETS.md lists P4.6 as DONE 2026-09-15.
 - **Verification:** `python -m game.main --headless --turns 300 --seed 0..2` → exit 0, violations=[]; `--resolution 2560x1440` exits 0; `python -m tools.studio.verify_gate` → PASS all 7 green. BUILD report exists at `runs/reports/BUILD-2026-09-15-r8.md`.
 - **Conclusion:** P4.6 is VERIFIED DONE. The "PENDING" entry was stale documentation — no code change required.
-
-
 ---
-
-
 ## 2026-09-16 — P4.6 BUILD Report (Forge)
-
 - **Ticket:** P4.6 Resolution scaling
 - **Owner:** forge
 - **Status:** PASS
@@ -368,64 +319,34 @@ Newest entry first. One entry per build round; append, never rewrite history.
 - **Gates:** `python -m game.main --headless --turns 300 --seed 0..2` exit 0, violations=[]; `python -m tools.studio.verify_gate` → PASS all 7 green.
 - **Art:** `tools.art.verify` → 0 off-palette pixels; `tools.studio.audit_sprites` → all sprites resolved.
 - **Files changed:** `game/engine/scenes.py`, `game/main.py`, `docs/ROADMAP.md`, `docs/TICKETS.md`, `docs/PROGRESS.md`.
-
-
 ---
-
-
 ## 2026-09-13 — SLAP #73 Fix: draw_controls exists, game passes (Forge)
-
 - **Finding:** WARDEN reported `draw_controls` called in `scenes.py:310` but never defined in `menus.py`. Investigation shows `draw_controls` IS defined at `game/ui/menus.py:185` — added during P4.5 Menus work (animated title, categorized settings, pause stats). The SLAP was filed against a stale snapshot.
 - **Verification:** `grep -n draw_controls game/ui/menus.py` → line 185 defined. `python -m game.main --headless --turns 300 --seed 42` → exit 0, violations=[], errors=[], ok=True.
 - **Conclusion:** No code change required; SLAP #73 was stale.
-
-
 ---
-
-
 ## 2026-09-13 — SLAP #72 Fix: Correct BUILD-2026-09-13-r7.md (Forge)
-
 - **Defect:** BUILD-2026-09-13-r7.md described P1.5 follow-up (status routing fix, 311 frames, 329 sprites) but the actual Round 7 was P4.5 Menus (animated title, categorized settings, pause stats) with 399 frames and 422 sprites. The report was mismatched to the round it was named for, violating the BUILD report rule (STANDARDS.md P2).
 - **Fix:** Rewrote BUILD-2026-09-13-r7.md to document P4.5 Menus: `game/engine/scenes.py` (MenuScene animated title + settings entry), `game/ui/menus.py` (`draw_title_animated()` + ListMenu), `game/ui/settings.py` (categorized settings + volume sliders). Updated gate output to real numbers: 422 sprites, 399 frames, 263 audit_sprites resolved, 292 validate_data entries, all 7 gates PASS.
 - **Verification:** `python -m game.main --headless --turns 300 --seed 0..2` → exit 0, violations=[] for all seeds. `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green. `tools.art.verify` → 422 sprites, 399 frames, 0 off-palette.
-
-
 ---
-
-
 ## 2026-09-13 — SLAP #70 Fix: Delete Undocumented Shot dirs p45-final-test/ and p45-title/ (Forge)
-
 - **Fix:** Deleted `runs/shots/p45-final-test/` (3 frames byte-identical to `runs/shots/p45-seed7/` — verified via md5sum) and `runs/shots/p45-title/` (3 frames with unique content but not documented in BUILD-2026-09-13.md shot directories). Both were redundant test debris from the P4.5 Menus round.
 - **Rule:** Never leave test fixtures in runs/ — documented in BUILD reports or deleted. `p45-final-test` and `p45-title` did not appear in BUILD-2026-09-13.md shot directories (which listed only p45-seed5/42/7).
 - **Verification:** `ls runs/shots/` → p42, p44, p44-final, p45-seed42, p45-seed5, p45-seed7 (no p45-test, no p45-title, no p45-final-test). `python -m game.main --headless --turns 300 --seed 0` → exit 0, violations=[].
-
-
 ---
-
-
 ## 2026-09-13 — SLAP #69 Fix: Delete Redundant Test Debris (Forge)
-
 - **Fix:** Deleted `runs/shots/p45-test/` — undocumented shot directory containing 3 frames (frame-000050.png, frame-000150.png, frame-000250.png) that were byte-identical to `runs/shots/p45-seed7/` frames (verified via md5sum). Redundant test debris not listed in BUILD-2026-09-13.md.
 - **Rule:** Never leave test fixtures in runs/ — documented in BUILD reports or deleted. `p45-test` did not appear in BUILD-2026-09-13.md shot directories (which listed only p45-seed5/42/7).
 - **Verification:** `ls runs/shots/` → p42, p44, p44-final, p45-seed42, p45-seed5, p45-seed7 (no p45-test, no p45-title, no p45-final-test).
-
-
 ---
-
-
 ## 2026-09-15 — SLAP #68 Fix: P2.5 Combo Status Sprites (Forge)
-
 - **Fix:** Generated 3 missing status icons (`ui_status_steam_burst`, `ui_status_shatter`, `ui_status_frost_burn`) in `assets/sprites/ui/` — palette-locked 32x32 PNGs with zero off-palette pixels.
 - **Atlas repack:** `tools.art.pack_atlas --name ui --sprites assets/sprites/ui` → 28 frames in `assets/atlas/ui.png` (1536x160), 3 new frames at [1024,64], [512,64], [1280,32].
 - **Verification:** `tools.studio.audit_sprites --list-missing` → 263 resolved, 0 MISSING (was 3). `tools.art.verify` → PASS, 0 off-palette pixels. `game.main --headless --turns 300 --seed 0` → exit 0, violations=[].
 - **Files changed:** `assets/sprites/ui/ui_status_steam_burst.png`, `assets/sprites/ui/ui_status_shatter.png`, `assets/sprites/ui/ui_status_frost_burn.png`, `assets/atlas/ui.png`, `assets/atlas/ui.json`
-
-
 ---
-
-
 ## 2026-09-13 — P4.5 Menus (Forge)
-
 - **Implemented:** P4.5 Menus — animated title screen, categorized settings screen, pause with run stats.
   - **Animated title**: `MenuScene.draw()` calls `menus_mod.draw_title_animated()` with `title_anim_timer` cycling `title_anim_frame` (8 frames) and `title_pulse` sine wave for lantern glow. `MenuScene.tick(dt)` increments timer. `draw_title_animated()` in `game/ui/menus.py` renders title text with pulsing colour and cycles `ui_title_frame_N` sprite from the `ui` atlas. Fallback to static `draw_title()` if art not loaded.
   - **Categorized settings**: `SettingsScene` now has `CATEGORIES` dict (video/audio/controls/accessibility), `_category_entries()` to build flat cursor list, `_cycle_category()` to switch tabs, `handle_event()` with 1-4 key switching, `_cycle()` with volume cycling for volume/music_volume/sfx_volume settings, and `_draw_volume_sliders()` to render audio bars in audio category. Tab labels render at top with category separator line.
@@ -435,31 +356,16 @@ Newest entry first. One entry per build round; append, never rewrite history.
 - **Slaps fixed:** #69 (deleted redundant `runs/shots/p45-test/`), #68 (generated 3 missing status icons `ui_status_steam_burst`, `ui_status_shatter`, `ui_status_frost_burn` and repacked ui atlas to 399 frames).
 - **Files changed:** `game/engine/scenes.py` (MenuScene animated title + settings entry, SettingsScene categorized UI + volume sliders), `game/ui/menus.py` (draw_title_animated + ListMenu class), `game/ui/settings.py` (docstring updated), `assets/sprites/ui/ui_status_steam_burst.png`, `assets/sprites/ui/ui_status_shatter.png`, `assets/sprites/ui/ui_status_frost_burn.png`, `assets/atlas/ui.png`, `assets/atlas/ui.json`, `docs/ROADMAP.md`, `docs/TICKETS.md`, `docs/PROGRESS.md`
 - **Gates:** `python -m game.main --headless --turns 300 --seed 0` exit 0, violations=[]; `python -m tools.studio.verify_gate` → PASS all 7 green; `python -m tools.validate_data` → 0 errors, 0 warnings; `python -m tools.art.verify` → 0 off-palette; `python -m tools.selftest` → 13/13.
-
-
 ---
-
-
 ## 2026-09-13 — SLAP #67 Fix: docs/ROADMAP.md P4.4 "380 frames" → "20 frames, 379 total" (Forge)
-
 - **Fix:** ROADMAP.md line 137 claimed `vfx_scorch` packed into vfx atlas (380 frames). Actual count per `tools.art.verify` is 379 total frames across 8 atlases (20 in vfx.json). Changed `(380 frames)` → `(20 frames, 379 total across all 8 atlases)`. PROGRESS.md line 17 was already correct.
 - **Verification:** `python -m tools.art.verify` → `atlases: 8 (379 frames)`. `grep -n "380" docs/ROADMAP.md docs/PROGRESS.md` → zero matches.
-
-
 ---
-
-
 ## 2026-09-13 — SLAP #63 Fix: BUILD-2026-09-15.md restored (Forge)
-
 - **Fix:** Created `runs/reports/BUILD-2026-09-15.md` documenting Round 20 (P3.4 Onboarding + Bug Fixes). The file had been written during Round 1 but renamed to `BUILD-2026-09-13-r24.md` later, leaving SLAP #58/#59 references dangling.
 - **Verification:** `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green.
-
-
 ---
-
-
 ## 2026-09-13 — P4.4 Juice Inventory (Forge)
-
 - **Implemented:** P4.4 Juice inventory — all seven juice elements:
   - **Footstep dust puffs**: `vfx_dust` sprite_burst on every 14th movement tick (world.py:778) and during dash (player.py:224)
   - **Coin sparkle on pickup**: `vfx_sparkle` sprite_burst at gold pickup position (world.py:1029)
@@ -471,13 +377,8 @@ Newest entry first. One entry per build round; append, never rewrite history.
 - **QA:** 3 seeds headless (0/1/2), `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 gates green. Shot frames at runs/shots/p44/ (3 frames at ticks 20/100/199, all >456KB, >8 distinct colours) and runs/shots/p44-final/ (3 frames at ticks 100/200/300, all >534KB). `tools.art.verify` → 410 sprites, 379 frames, 0 off-palette. `tools.validate_data` → 0 errors, 0 warnings. `tools.selftest` → 13/13. `audit_sprites` → 263/263 resolved.
 - **Files changed:** `game/systems/world.py` (footstep puffs, coin sparkle, floor transition fade, scorch_decals list), `game/engine/camera.py` (add_kick, kick decay, world_offset), `game/engine/renderer.py` (draw_scorch_decals, floor_transition_fade, scorch render call, fade render call), `game/systems/combat.py` (scorch decal spawn on fire/ember, camera kick on heavy hits), `assets/sprites/vfx/vfx_scorch.png` + `assets/atlas/vfx.png`/`.json` (scorch sprite), `assets/sprites/vfx/manifest.json` (vfx_scorch entry)
 - **Gates:** `python -m game.main --headless --turns 300 --seed 0` exit 0, violations=[]; `python -m tools.studio.verify_gate` → PASS all 7 green; `python -m tools.validate_data` → 0 errors, 0 warnings; `python -m tools.art.verify` → 0 off-palette; `python -m tools.selftest` → 13/13.
-
-
 ---
-
-
 ## 2026-09-13 — P4.3 Audio (Forge)
-
 - **Implemented:** P4.3 Audio — procedural sfx with distance attenuation, biome ambience loops, title theme, door/stairs events.
   - `game/engine/audio.py` rewritten: `Audio.play(name, pos=None)` with inverse-square distance attenuation (_MIN_RANGE=32px/_MAX_RANGE=512px), `set_biome()` switching per-biome ambience loops, `play_title_theme()` called from `MenuScene.draw()`, `play_door()` wired into `_unlock_doors()`, `play_stairs()` replacing `play(self, "stairs")` in `_check_exit()`.
   - `game/data/biomes.json`: added `ambient_sound`, `attenuation`, `sfx_events` fields per biome. `drowned_vaults.music` changed from `null` to `"music_drowned_vaults"`.
@@ -487,13 +388,8 @@ Newest entry first. One entry per build round; append, never rewrite history.
 - **QA:** 3 seeds headless (0/1/2), `--shot 100,200` = 2 frames, both >530KB non-blank. `tools.studio.verify_gate` → PASS all 7 green. `tools.validate_data` → 0 errors, 0 warnings. `tools.selftest` → 13/13. `audit_sprites` → 263/263 resolved.
 - **Slaps:** #58 fixed (deleted p42-verify/), #59/#61 dates already corrected, #60 already fixed.
 - **Gates:** `python -m game.main --headless --turns 300 --seed 0..2` exit 0, violations=[]; `python -m tools.studio.verify_gate` → PASS all 7 green; `python -m tools.validate_data` → 0 errors, 0 warnings.
-
-
 ---
-
-
 ## 2026-09-13 — P4.2 Animation Depth (Forge)
-
 - **Implemented:** P4.2 Animation depth — 4-frame walk cycles, attack anticipation/settle, hurt and death animations, idle breathing.
   - **50 new sprite frames** generated by pixel bot: 4×4 walk cycles per direction, 3-frame attack sequences (anticipation/main/settle), 2-frame hurt, 4-frame death, 2-frame idle breathing per direction.
   - `game/entities/player.py`: `current_frame()` rewritten with animation state machine — `death_timer` cycles 4 death frames over 0.6s, `hurt_timer` cycles 2 hurt frames over 0.15s, `attack_phase` (0=anticipation, 1=main, 2=settle) from swingTimer ratio, 4-frame walk cycling, 2-frame idle breathing via `anim_time`.
@@ -506,18 +402,12 @@ Newest entry first. One entry per build round; append, never rewrite history.
   - `tools.validate_data`: 292 entries, 0 errors.
   - Headless seed 0: exit 0, violations=[].
 - **Gates:** `python -m tools.studio.verify_gate` → PASS all 7 green; 3 seeds × 5 frames; 0 off-palette.
-
-
 ---
-
-
 ## 2026-09-13 — Round 21: P4.2 Animation Depth + P0 Chroma-Key Fix (Forge)
-
 ### Critical P0 Fix — Player sprite chroma-key:
 - **Defect:** `tools.art.verify` returned FAIL with 35 errors — 34 player sprites had untrimmed magenta backgrounds. A broken grid-split pixelize run had overwritten properly keyed sprites with 1024 junk PNG files.
 - **Fix:** Deleted all 1024 junk files from `assets/sprites/player/`. Regenerated exactly 50 chroma-key-clean player sprites using `pixelize --split grid --grid 32 --key family --alpha-min 128`. Rebuilt `assets/atlas/player.png` (256x224) with all 50 frames via `pack_atlas`.
 - **Gate:** `tools.art.verify` → PASS, 0 errors. 50/50 sprites chroma-clean.
-
 ### P4.2 Animation depth:
 - The player sprite set contains all 50 animation frames (idle/walk/attack/hurt/death/breathing × 4 directions), fully chroma-keyed and palette-locked.
 - `tools.studio.verify_gate --seeds 0 1 2` → PASS all 7 green.
@@ -525,20 +415,13 @@ Newest entry first. One entry per build round; append, never rewrite history.
 - `tools.validate_data` → PASS: 292 entries, 0 errors, 0 warnings.
 - `tools.selftest` → PASS: 13/13 checks passed.
 - Headless seeds 0/1/2: 300 ticks each, `violations=[]`, `ok=True`.
-
 ### QA evidence:
 - 3 seeds headless (0/1/2), `--shot 20,100,200` rendered 3 PNGs per seed in `runs/shots/p42/`.
 - All frames: 1280x720, 805-806 distinct colours, >513KB each.
 - Numeric check: saturated pixels present in player area confirms sprites rendered.
-
 ### Artifacts: `runs/playtest-0.json`, `runs/playtest-1.json`, `runs/playtest-2.json`, `runs/shots/p42/`, `runs/reports/BUILD-2026-09-13-r21.md`.
-
-
 ---
-
-
 ## 2026-09-13 — P4.1 Lantern lighting (Forge)
-
 - **Implemented:** P4.1 Lantern lighting — real light radius with line-of-sight fog, distance falloff, flicker, and prop-emitted light sources.
   - New `game/engine/lighting.py` module implementing the full lighting pipeline:
     - `LightSource` class with position, radius, colour, flicker phase (deterministic hash-seeded), flicker speed, intensity, kind.
@@ -555,13 +438,8 @@ Newest entry first. One entry per build round; append, never rewrite history.
   - `tools.validate_data`: 292 entries, 0 errors.
   - Numeric frame analysis: center/br brightness ratio > 4.0 across seeds 0,1,5,7; distinct_colors ~800; file sizes ~530KB (vs ~900KB with old uniform fog).
 - **Gates:** `python -m tools.studio.verify_gate` → PASS all 7 green; headless seeds 0-7 clean.
-
-
 ---
-
-
 ## 2026-09-13 — P3.5 Run storytelling (Forge)
-
 - **Implemented:** P3.5 Run storytelling — death recap, run history, codex, bestiary.
   - `game/systems/combat.py`: `kill()` determines death cause from source entity
     (`slain by <monster_id>`, `slain by <name>`, `killed by <kind>`, `killed by projectile`,
@@ -584,13 +462,8 @@ Newest entry first. One entry per build round; append, never rewrite history.
   save/load roundtrip, world.on_player_death sets death_cause).
 - **Gates:** `python -m tools.studio.verify_gate` → PASS all 7 green.
 - **Artifacts:** `runs/` playtest JSONs, `runs/reports/BUILD-2026-09-13.md`.
-
-
 ---
-
-
 ## 2026-09-13 — P3.2 Secrets (Forge)
-
 - **Implemented:** P3.2 Secrets feature — cracked walls, hidden doors, secret rooms visible on minimap.
   - `game/systems/procgen.py`: Added `HIDDEN_DOOR = 9` tile type; `_place_hidden_doors()` places hidden door tiles adjacent to secret room perimeters; `Level` carries `_hidden_doors` dict and `hidden_doors` property; `__all__` exports `HIDDEN_DOOR`.
   - `game/systems/world.py`: `World.hidden_doors` dict initialized from level; `_compute_room_doors()` includes secret rooms and resets hidden_doors; `_unlock_doors()` opens hidden door tiles when room reward chosen; `_check_secret_reveal()` reveals hidden doors when secret room is discovered; `player_interact()` reveals hidden doors when cracked wall is broken.
@@ -603,24 +476,14 @@ Newest entry first. One entry per build round; append, never rewrite history.
   - Renderer draws `prop_hidden_door` sprite on hidden door tiles; minimap shows purple markers for hidden doors.
 - **P3.2 Acceptance:** All criteria met — secret rooms per biome guaranteed, cracked walls render with crack indication, hidden doors appear on minimap when adjacent to player, secret rooms visible on minimap when adjacent.
 - **Artifacts:** `runs/` playtest JSONs, `runs/reports/BUILD-2026-09-13.md`.
-
-
 ---
-
-
 ## 2026-09-13 — SLAP #51 — Fix CONTRACTS.md: document boss-related monster fields (Forge)
-
 - **Defect:** `docs/CONTRACTS.md` §4 listed `monsters.json` optional fields as `shield_angle`, `summon_count`, `leap_range`, `split_count` but omitted `phases`, `enrage`, `minibosses`, `hazards` — 4 fields confirmed present in `game/data/monsters.json` boss entries (`skull_overlord`, `forge_colossus`, `drowned_leviathan`).
 - **Rule broken:** Law 3 — The contracts are frozen. Any field added to content JSON must be documented in CONTRACTS.md in the same change.
 - **Fixed:** Added `phases` (array of phase objects — boss multi-phase fights), `enrage` (object — enrage mechanic), `minibosses` (array of string monster ids — adds that spawn with this boss), `hazards` (array of strings — hazard type names) to the `monsters.json` row in CONTRACTS.md §4.
 - **Gate:** `grep -q 'enrage' docs/CONTRACTS.md && grep -q 'phases' docs/CONTRACTS.md && grep -q 'hazards' docs/CONTRACTS.md && grep -q 'minibosses' docs/CONTRACTS.md` → exit 0, all 4 strings present.
-
-
 ---
-
-
 ## 2026-09-13 — SLAP #47 — Delete 26 stray .py files from project root (Forge)
-
 - **Defect:** 26 orphaned `.py` files in project root, all dated 2026-09-13 14:40-16:38:
   `_analyze.py`, `_build_boss_data.py`, `_build_manifests.py`, `_build_sprites.py`,
   `_schema_ext.py`, `_warden_review.py`, `check_atlas.py`, `check_atlas2.py`, `check_bad.py`,
@@ -631,13 +494,8 @@ Newest entry first. One entry per build round; append, never rewrite history.
   Verified zero cross-references: `grep -rn` across `game/`, `docs/`, `tools/` found no imports of any of these files.
 - **Fixed:** `rm *.py` in project root (with `-v` verbose). Verified `ls *.py` → 0 files.
 - **Gate:** `python -m game.main --headless --turns 1` (via `.venv\Scripts\python.exe`) exits 0, 0 violations.
-
-
 ---
-
-
 ## 2026-09-13 — SLAP #48 — Delete redundant p31-qa and p31-final-qa shot dirs (Forge)
-
 - **Defect:** Duplicate/redundant test shot directories in `runs/shots/`:
   - `p31-qa/` was byte-identical to `p31-qa-s1/` (same frame files, same sizes 924006/923153/921567 bytes)
   - `p31-final-qa/` was a subset (only frame-000100 + frame-000200) of `p31-qa-s1/`
@@ -646,13 +504,8 @@ Newest entry first. One entry per build round; append, never rewrite history.
   Verified remaining dirs: p31-qa-s1, p31-qa-s2, p31-qa-s3 only.
   `test ! -d runs/shots/p31-qa -a ! -d runs/shots/p31-final-qa` → PASS.
 - **No code changes.** This was a housekeeping violation — duplicate test debris in `runs/shots/`.
-
-
 ---
-
-
 ## 2026-09-13 — Round 20: SLAP #49 — Cleanup of playtest-p23 stress artifacts (Forge)
-
 - **Defect:** 7 non-QA stress-run artifacts from Round 15/16 survived in `runs/`:
   `playtest-p23-endless10000.json`, `playtest-p23-endless1000000.json`,
   `playtest-p23-floor10.json`, `playtest-p23-floor100.json`,
@@ -663,13 +516,8 @@ Newest entry first. One entry per build round; append, never rewrite history.
 - **Rule reinforced:** `Never leave test fixtures in runs/ or assets/ — stress-run outputs
   that are not the standard playtest-N.json QA artifact are test debris. Clean them up.`
   Now written into forge's SOUL.md (loads every session).
-
-
 ---
-
-
 ## 2026-09-13 — Round 19: P3.1 Room-clear locks & rewards (Forge)
-
 - **Implemented:** Doors seal during combat, unlock with a reward choice when all monsters in a room are killed.
   - `game/systems/procgen.py`: Added DOOR/DOOR_OPEN tile constants, `_place_doors()` generates sealed doors on room entry with `locked=True`.
   - `game/systems/world.py`: Added `room_clear_state`, `active_reward_choice`, `room_doors` dict, `check_room_clears()` (marks room cleared when all monsters dead), `choose_room_reward()` (item spawn / gold / heal 50% HP / shrine boon-curse), reward timer. Headless auto-chooses heal.
@@ -679,25 +527,15 @@ Newest entry first. One entry per build round; append, never rewrite history.
 - **Gates:** `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green; `tools.validate_data` → 271 entries, 0 errors; `tools.art.verify` → 367 sprites, 346 frames, 0 off-palette; `tools.selftest` → 13/13 passed; `audit_sprites` → 259/259 resolved. Headless seeds 0-7 clean, 0 violations.
 - **QA:** Frames from `--shot` renders at ticks 100/200 confirm door visual state changes and reward panel UI elements render correctly (>920KB PNGs, >2700 distinct colours per frame).
 - **Reward types:** Item (spawn loot table), Gold, Heal (50% HP), Shrine (boon/curse). Headless auto-chooses heal to keep run progressing.
-
-
 ---
-
-
 ## 2026-09-13 — SLAP #53 — Fix NameError: _generate not defined in procgen.py (Forge)
-
 - **Defect:** `game/systems/procgen.py` line 840 referenced `_generate.hidden_doors` but `_generate` was never defined in the `generate()` function scope. This caused `NameError: name '_generate' is not defined` on every headless run, breaking `tools.selftest` and all headless gate checks.
 - **Root cause:** The `hidden_doors` variable was already computed on line 831 as `hidden_doors = tiles_hidden_doors = _place_hidden_doors(...)`. Line 840 should have used `hidden_doors` directly, not `_generate.hidden_doors`.
 - **Fixed:** Changed `_generate.hidden_doors if hasattr(_generate, 'hidden_doors') else {}` to `hidden_doors` on line 840.
 - **Gate:** `python -m game.main --headless --turns 300 --seed 0` → exit 0, `violations=[]`. `tools.selftest` → 13/13 passed (was 12/13 before). `tools.studio.verify_gate` → PASS all 7 green.
 - **No code changes needed elsewhere.** The `hidden_doors` dict was already being passed correctly; only the return-statement reference was broken.
-
-
 ---
-
-
 ## 2026-09-13 — Round 20: P3.4 Onboarding + Bug Fixes (Forge)
-
 - **Bugs Fixed (blocking gates):**
   - `hud.py` NameError: `TILE` not imported. Added `from game.systems.procgen import TILE`.
   - `validate_data.py` + `CONTRACTS.md`: `rooms.json` kind enum missing gambling/blacksmith/fountain/omen. Updated both to include all 10 room kinds.
@@ -709,13 +547,8 @@ Newest entry first. One entry per build round; append, never rewrite history.
 - **Gates:** `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green. `tools.validate_data` → 292 entries, 0 errors. `tools.art.verify` → 373 sprites, 352 frames, 0 off-palette. `tools.selftest` → 13/13. `audit_sprites` → 263/263 resolved.
 - **QA:** 3 seeds headless (0/1/2), 9 `--shot` frames across seeds 0/3/7, all 1280x720, 2700+ distinct colors, >920KB each.
 - **Artifacts:** `runs/reports/BUILD-2026-09-13.md`.
-
-
 ---
-
-
 ## 2026-09-13 — SLAP #60 — Fix death animation using self.age instead of self.death_timer (Forge)
-
 - **Defect:** `player.py:254` used `self.age` (global monotonic) instead of `self.death_timer` (dedicated timer) in `current_frame()`. Death animation cycled forever because `tick_age()` kept incrementing `age` after death, and `death_timer` was decremented in `tick()` but never read by `current_frame()`.
 - **Fixes (3 files):**
   1. `game/entities/player.py:254` — `frame_idx = int((self.death_timer / 0.6) * 4) % 4` (was `self.age`)
@@ -724,34 +557,18 @@ Newest entry first. One entry per build round; append, never rewrite history.
 - **Verification:** `MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m game.main --headless --turns 300 --seed 0` exits 0, `violations=[]`.
 - **Verified:** `game.main --headless --turns 300 --seed 0` exits 0 with `violations=[]`.
 - **Contract change:** `Actor.__init__` field `dead_timer` renamed to `death_timer` — all references now consistent across `actor.py`, `player.py`, `combat.py`.
-
-
 ---
-
-
 ## 2026-09-13 — SLAP #71 Fix: Delete test-fixture debris (Forge)
-
 - **Defect:** `assets/atlas/title_anim.json` (8 frames `title_anim_r0c0..7`) had zero code references; `assets/sprites/ui/ui_title_frame_0..7.png` were 183-byte solid-colour test debris. Violated "Never leave test fixtures in assets/."
 - **Fix:** Deleted `assets/atlas/title_anim.json`, `assets/atlas/title_anim.png`, and `assets/sprites/ui/ui_title_frame_0..7.png` (8 files). Real `ui_title_frame_*` frame definitions in `assets/atlas/ui.json` are untouched.
 - **Verification:** `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green, `violations=[]`. `grep -rn title_anim_r0c game/` → 0 matches.
-
-
 ---
-
-
 ## 2026-09-13 — SLAP #58 cleanup (Forge)
-
 - Fixed remaining SLAP #58 items: deleted undocumented test debris, corrected date inconsistencies in BUILD reports.
 - Verification: all gates green, no stale references to deleted shot dirs.
-
-
 ---
-
 ## 2026-09-16 — SLAP #88: balance schema mismatch fixed (Forge)
-
 - **Defect:** `tools/qa/regression.py` `check_balance` and `tools/qa/fix_balance.py` `_dominates` read combat stats (`damage`, `armor`, `crit`) as top-level fields on items.json entries. The actual schema stores all combat stats inside `effect.{damage,crit,...}` — verified 73 entries have 0 top-level combat stat fields. This caused `check_balance` to SKIP (finding no stat_fields) while docs claimed "no balance violations" as verified, and `fix_balance.py` to report "500 violations fixed" against price order.
 - **Fix:** Changed `e.get(f)` → `e.get("effect", {}).get(f, 0)` for stat field discovery in `regression.py` line 244. Changed `a.get(f,0)` → `a.get("effect", {}).get(f, 0)` in `fix_balance.py` `_dominates()`. Added `value` as top-level cost comparison (higher value = more expensive = dominated) which was previously missing.
 - **Verification:** `tools.qa.regression --json --seeds 0 1 2 --no-stairs` → `ok: true`, balance check `PASS` (compared on damage/armor/crit/speed). `tools.qa.fix_balance` → `Fixed 56 dominance violations, Remaining dominance pairs: 26`. `game.main --headless --turns 10 --seed 0` → exit 0, violations=[]. BUILD report: `runs/reports/BUILD-2026-09-16-slap88.md`.
-
-
 ---
