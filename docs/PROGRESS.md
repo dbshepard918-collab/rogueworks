@@ -1,3 +1,16 @@
+## 2026-09-17 — P0.7 Content Schema Close + SLAP #84/#85 Doc Debt (Forge) — DONE
+
+- **P0.7 is DONE** — `sunken_ossuary` fully landed. `ossuary_toxic` was already added to the `validate_data.py` modifier enum in r38; `_step_ossuary` implemented in `biome_mods.py`; 40 rooms reference biome `"sunken_ossuary"`; `deep_floors` confirms floor 16 spawns 24 monsters, 16 pools. Gates: 7/7 green, selftest 21/21, validate_data 0 errors.
+- **SLAP #84 CLOSED** — `docs/PROGRESS.md` line 198 updated from "A-01 (tempo ships cues + manifest)" to "P4.7 is DONE (manifest-driven audio, above)" — stale "stay open" contradiction resolved.
+- **SLAP #85 CLOSED** — Gate-count correction documented; `verify_gate` consistently reports 7 gates with all PASS.
+- **P4.7 marked DONE** in `docs/TICKETS.md` (was OPEN).
+
+**Gates:** `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green; `tools.validate_data` → PASS 0 errors; `tools.selftest` → 21/21; `game.main --headless --turns 300 --seed 0..2` → exit 0 violations=[]; `deep_floors --seeds 0` → sunken_ossuary floor 16 = 24 monsters, 0 violations.
+
+**QA:** 3 seeds headless; 9 `--shot` frames rendered (>1 MB each); vision-audited individual frames — all render player, walls, monsters, HUD, minimap; grid-aligned, readable, no blank frames.
+
+**Files changed:** `docs/ROADMAP.md`, `docs/TICKETS.md`, `docs/PROGRESS.md`, `docs/SLAPS.md`, `runs/reports/BUILD-2026-09-17-r3.md`. No code changes.
+
 ## 2026-09-17 — P0.5b monster silhouettes (Forge) — CLOSED
 - **Task:** Fix 36 near-identical monster silhouettes across 9 monster types (drowned_grunt/horror/tidal, forge_protector/spark/spitter, skull_archer/brute/wraith).
 - **Approach:** Generated 9 unique palette-locked sprite PNGs programmatically using PIL/numpy with shapes distinct enough to pass sprite_critique IoU < 0.92 threshold. All sprites use colors from assets/palette.json (0 off-palette).

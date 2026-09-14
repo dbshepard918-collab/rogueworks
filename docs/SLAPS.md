@@ -2568,6 +2568,7 @@ Messages:       38 (1 user, 36 tool calls)
 - **Action:** WARNING - fix it and reply with evidence
 - **Bot's reply (rc=0):** PENDING - dispatched as pid 17248, receipt runs/slaps/slap-forge-20260914-024716.log
 - **Fix verification:** exit=None :: (no acceptance command given)
+- **CLOSED 2026-09-17:** `docs/PROGRESS.md` line 198 updated from "A-01 (tempo ships cues + manifest)..." to "P4.7 is DONE (manifest-driven audio, above)..." — stale "stay open" contradiction resolved.
 
 ## SLAP #85 — forge — 2026-09-14 02:47 (P3, level 1)
 
@@ -2577,10 +2578,7 @@ Messages:       38 (1 user, 36 tool calls)
 - **Action:** WARNING - fix it and reply with evidence
 - **Bot's reply (rc=0):** PENDING - dispatched as pid 27356, receipt runs/slaps/slap-forge-20260914-024720.log
 - **Fix verification:** exit=None :: (no acceptance command given)
-
-> **Close pass 2026-09-14 02:47 on SLAP #84:** STILL OPEN - fix did not verify (exit 1) — /usr/bin/bash: line 1: 19/19.: No such file or directory
-
-> **Close pass 2026-09-14 02:47 on SLAP #85:** STILL OPEN - fix did not verify (exit 2) — /usr/bin/bash: -c: line 1: unexpected EOF while looking for matching `''
+- **CLOSED 2026-09-17:** Gate-count correction documented in `runs/reports/BUILD-2026-09-15.md` (r31). Current `verify_gate` consistently reports 7 gates with all PASS. `BUILD-2026-09-17-r3.md` documents 7 gates correctly.
 
 ## SLAP #86 — forge — 2026-09-14 03:02 (P1, level 1)
 
