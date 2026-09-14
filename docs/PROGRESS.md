@@ -3,9 +3,13 @@
 - **Result: disqualified on quality, not speed.** Given a scoped, single-method edit (`next_choice()` in `game/systems/rng.py`), it emitted tool calls correctly but (1) rewrote the whole file, destroying 59 lines and dropping `_splitmix64`, which broke `main` (`NameError`, exit 1, selftest 21→13) — and (2) looped the *same failing* `run_tests` command 10 consecutive turns without reading the error or reporting failure.
 - **Recovery:** `git checkout -- game/systems/rng.py`; `main` re-verified exit 0 (`ok=True violations=[]` seed 0), selftest back to 21/21. Pre-trial WIP snapshot committed first (`3bb7ba2`) so nothing was lost.
 - **Verdict:** incumbent `qwen/qwen3-coder-30b` stays. Ticket M-01 marked CLOSED-FAIL in `docs/TICKETS.md` with this evidence. Rule going forward: any candidate coder must report GGUF max context ≥ 64K before it gets a tool-loop trial.
-
-## 2026-09-16 — P5.5 Content Volume (Forge) — DONE
-
+- **Follow-up trial same day — `prism-ml/bonsai-27b` (owner-downloaded): PASSES the context gate (GGUF `max_context_length: 262144`, verified via `/api/v0/models`), 35.5 tok/s avg at 11.7 GB VRAM (Q1_0 quant), tool-loop runs — but **FAILS the same scoped edit**. It too rewrote `rng.py` wholesale (76 deletions vs the 8-line scoped change requested) and left an `IndentationError` (broken file), then kept re-writing without reading the failure. Reverted via `git checkout`; `main` re-verified exit 0. **Two candidates, same failure class: both treat a scoped single-method edit as a licence to rewrite the file and cannot self-diagnose.** The bottleneck for chip's seat is not context or speed — it is edit discipline. A candidate must pass a *minimal-diff* test (only the requested lines change, byte-identical elsewhere) before any pin discussion.
+
+
+## 2026-09-16 — P5.5 Content Volume (Forge) — DONE
+
+
+
 - **P5.5 targets all met:** 85 monsters (target 80), 150 items (target 150), 60 affixes (target 60), 4th biome `sunken_ossuary` with `modifier: ossuary_toxic` in schema enum, 205 room templates (55/55/55/40 per biome — target 40+), 11 tier-5 bosses across all 4 biomes (target 5).
 - **Monster distribution:** catacombs 20, ember_warrens 19, drowned_vaults 18, sunken_ossuary 28 (highest, as the 4th biome gets extra content for the new content wave).
 - **Bosses per biome:** catacombs (Skull Overlord, Catacomb Guardian), ember_warrens (Forge Colossus, Warren Overseer), drowned_vaults (Drowned Leviathan, Mire Hulk, Deep Priest), sunken_ossuary (Ossuary Kraken, Coral Leviathan, Abyssal Warden, Toxic Sovereign). All have `phases` and `enrage` data, `check_phase_transition()`/`apply_enrage()` wired.
