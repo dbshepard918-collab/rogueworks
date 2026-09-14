@@ -116,12 +116,30 @@ good it sounds.
 | `musicgen` | `facebook/musicgen-medium` | `cc-by-nc-4.0` | `False` | **BLOCKED — non-commercial weights.** Its 15 GB cache was deleted so it cannot silently render unshippable audio. |
 | `stable_audio_open` | `stabilityai/stable-audio-open-1.0` | `stable-audio-community` | `auto` | **BLOCKED —** gated (`401` on first fetch) *and* non-permissive. |
 
-### The 12 GB numbers for audio (measured, not assumed)
+### The 12 GB numbers for audio (each measured on the run it is attributed to)
 
-| Mode | Peak VRAM | Note |
-|---|---|---|
-| GPU-resident (`--dtype bfloat16`) | **11,118 MiB** (probe) / **12,732 MiB** (full 31 s cue) | The full-length figure is *over* the card's 12,227 MiB, so it leans on shared memory. It works, but it is the first thing to move if a render ever dies. |
-| `--offload` (`enable_model_cpu_offload`) | **8,026 MiB** | Streams each component to the GPU only while it runs. Slower, and the only mode with real headroom on this box. |
+| Mode | dtype | Duration | Peak VRAM | Elapsed |
+|---|---|---|---|---|
+| GPU-resident | float16 | 31 s | **12,732 MiB** | 136 s |
+| GPU-resident | float16 | 5 s (probe) | 11,118 MiB | 1.5 s |
+| `--offload` | float16 | 5 s (probe) | 8,026 MiB | 14.8 s |
+| `--offload` | bfloat16 | 31 s | **8,092 MiB** | 369 s |
+| GPU-resident | bfloat16 | 31 s | *not measured* | ~136 s |
+
+Read it carefully, because an earlier version of this table attributed the 12,732 MiB figure to
+bfloat16 and that was wrong — it is the **float16** resident run (the one that produced NaN). The peaks
+that matter:
+
+- The only **float16** full-length run peaked *over* the card's 12,227 MiB and was garbage anyway.
+- The delivered cue is **bfloat16 + `--offload`: 8,092 MiB**, comfortably inside the card.
+- **Offload costs ~2.7x wall-clock** (369 s vs ~136 s) and buys ~4.6 GB of headroom. For an asset
+  build that is a trade worth defaulting to when a cue is long or another process wants the GPU.
+- An unmeasured cell is left blank on purpose. **Do not fill it in from the neighbouring row.**
+
+**`--offload` does not change the artefact.** Same seed, same prompt, same dtype, rendered resident
+and offloaded, are **byte-identical** — SHA-256 `49bf4c25ac3bdfd9fbfab8e4693486e592277f24c8fa52239da68f8140bd839`
+both times. So the memory mode is a pure speed/VRAM knob, never a reproducibility factor: a cue
+rendered under `--offload` is the same asset a resident run would have produced.
 
 `--dtype float16` produced **all-NaN** output on this checkpoint in *both* modes (probe: `min=nan max=nan mean=nan std=nan` on the raw `audios` tensor, shape `(1, 2, 240000)`), so the NaN is a dtype problem, not a memory problem — `bfloat16` is the default. A NaN buffer written as PCM-16 becomes a full-scale DC block that passes a naive loudness check, which is why the tool now refuses non-finite output before writing.
 

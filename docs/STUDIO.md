@@ -139,11 +139,13 @@ Every rendered cue must be **free to ship**, so the backend's weights must be pe
 | `musicgen` | `facebook/musicgen-medium` | **CC-BY-NC-4.0** | **BLOCKED — non-commercial.** Every cue it renders is unusable in a shipping game. |
 | `stable_audio_open` | `stabilityai/stable-audio-open-1.0` | community (gated) | **BLOCKED — gated repo + bespoke commercial terms.** Needs an account and an acceptance step. |
 
-**Memory on a 12 GB card:** the turbo checkpoint peaks at **12,732 MiB** resident for a 31 s cue —
-over the card's 12,227 MiB, so it leans on shared memory. `--offload` drops that to **8,026 MiB** and
-is the mode with real headroom. `--dtype` defaults to **bfloat16**: float16 returns all-NaN on this
-checkpoint regardless of memory mode (measured, both ways), and the tool refuses non-finite output
-before it can reach the disk.
+**Memory on a 12 GB card, measured per run (dtype matters — the numbers are not interchangeable):**
+the **float16** resident run peaked at **12,732 MiB** for a 31 s cue, over the card's 12,227 MiB, and
+produced garbage anyway. The delivered cue — **bfloat16 + `--offload`** — peaks at **8,092 MiB** and
+takes ~2.7× longer (369 s vs ~136 s). `--dtype` defaults to **bfloat16** because float16 returns
+all-NaN on this checkpoint in *both* memory modes (measured), and the tool refuses non-finite output
+before it can reach the disk. `--offload` is a pure speed/VRAM knob: the same seed, prompt and dtype
+render **byte-identical** either way, so it never changes what ships.
 
 Shipping allowlist: `apache-2.0`, `mit`, `cc0-1.0`, `bsd-3-clause`, `unlicense`.
 Provenance and the per-asset ledger live in `docs/AUDIO-LICENSES.md`. Sound effects are **not** model-
