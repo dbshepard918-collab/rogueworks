@@ -4,7 +4,7 @@ docs/CONTRACTS.md section 2: every random draw goes through RNG(seed) exposing
 randint/random/choice/shuffle/weighted so that ``--seed N`` reproduces layout,
 spawns, loot and level-ups exactly.
 
-Implementation is xorshift64* seeded through SplitMix64.  Pure integer maths,
+Implementation is xorshift64 seeded through SplitMix64.  Pure integer maths,
 so it is bit-identical on every platform and Python build.  The stdlib
 ``random`` module is never imported anywhere inside ``game/``.
 """
@@ -48,8 +48,8 @@ class RNG:
     def _next(self):
         x = self.state
         x ^= (x >> 12) & MASK64
-        x = (x ^ (x << 25) & MASK64) ^ (x << 25) & MASK64
-        x = (x ^ (x >> 27) & MASK64) ^ (x >> 27) & MASK64
+        x ^= (x << 25) & MASK64
+        x ^= (x >> 27) & MASK64
         self.state = x & MASK64
         self.calls += 1
         return self.state
