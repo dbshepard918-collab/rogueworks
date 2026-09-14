@@ -78,7 +78,7 @@ def load_script(path):
 
 
 class KeyboardInput:
-    """WASD/arrows + SPACE (ranged) + SHIFT (dash) + TAB (inventory) + E (interact).
+    """WASD/arrows + SPACE (attack) + J (ranged) + SHIFT (dash) + TAB (inventory) + E (interact).
     
     P2.6: supports remappable keys via settings.key_map.  Falls back to defaults
     when a key is missing from the map.  Also supports hold-to-attack mode:
@@ -115,7 +115,7 @@ class KeyboardInput:
         # edge-triggered actions are drained by the scene which owns the key state
         for key, action in ((km.get("attack", pygame.K_SPACE), "attack"),
                             (km.get("dash", pygame.K_LSHIFT), "dash"),
-                            (km.get("ranged", pygame.K_SPACE), "ranged"),
+                            (km.get("ranged", pygame.K_j), "ranged"),
                             (pygame.K_RSHIFT, "dash"),
                             (km.get("interact", pygame.K_e), "interact"),
                             (km.get("inventory", pygame.K_TAB), "inventory"),

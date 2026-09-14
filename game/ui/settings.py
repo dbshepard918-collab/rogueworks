@@ -45,7 +45,7 @@ DEFAULT_KEY_MAP = {
     "move_right": pygame.K_d,
     "attack": pygame.K_SPACE,
     "dash": pygame.K_LSHIFT,
-    "ranged": pygame.K_SPACE,
+    "ranged": pygame.K_j,
     "interact": pygame.K_e,
     "inventory": pygame.K_TAB,
     "pause": pygame.K_ESCAPE,
