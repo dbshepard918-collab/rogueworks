@@ -801,3 +801,9 @@ Newest entry first. One entry per build round; append, never rewrite history.
 - **SLAP #97 voided** — confirmed and committed (issued with placeholder text).
 - **Gates:** `python -m game.main --headless --turns 300 --seed 0` → exit 0, violations=[]; `python -m tools.studio.verify_gate` → PASS all 7 green.
 - **Files changed:** `docs/STANDARDS.md` (placeholder rule removed), `docs/slaps.json` (SLAP #102 voided), `runs/reports/BUILD-2026-09-17-r6.md`.
+
+## 2026-09-17 — SLAP #96 Close Pass: CONTRACTS.md element field verified (Forge) — DONE
+
+- **SLAP #96 CLOSED** — Law 3 violation was that `element` field was missing from CONTRACTS.md monsters schema (line 113). The fix is already landed: CONTRACTS.md line 113 documents `optional element` in the monsters schema AND line 114 documents `optional element` in the items schema. `game/data/monsters.json` has 85 entries with `element` field including `bone_rat` with `element: "physical"`.
+- **Acceptance command:** `grep -n 'element' docs/CONTRACTS.md` -> lines 113 and 114 both have `optional element`. `python -m game.main --headless --turns 300 --seed 0` -> exit 0, violations=[]. `python -m tools.validate_data` -> PASS (0 errors).
+- **Files changed:** docs/SLAPS.md (SLAP #96 close pass with real evidence), docs/PROGRESS.md (this entry).
