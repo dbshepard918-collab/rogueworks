@@ -71,6 +71,18 @@ the second numbers below were taken while other agents were queued on the same e
 | **score** | **1/5** (its only successful run) | **4/5, reproduced in 6 separate runs** |
 | answer / critique latency | 7.9 s / 15.3 s | 3.2–4.1 s / 4.4–6.2 s |
 
+**2026-09-14 addition — `google/gemma-4-e4b`, first vision trial.** Asked by the owner
+whether gemma-4-e4b (which has vision capability) had been tested against the pin: it had
+not — its only prior trial was the M-01 coder gate, which says nothing about vision.
+`lms load google/gemma-4-e4b -y --context-length 32768` → 5.89 GiB, loaded in 30.3 s
+(note: 19 GiB was once requested for this model — always check `lms ps` first and load
+with an explicit context). `python -m tools.qa.vlm_bench google/gemma-4-e4b` →
+**3/5**: Q3 plate colour ✓, Q4 duplicates ✓, Q5 flat rectangles ✓ (the defect class the
+rejected 7B missed); Q1/Q2 sprite counts ✗ (the miscount failure class). 11.4 s answers
+(1501 tokens, finish=stop, 877 reasoning tokens), 10.6 s critique. Verdict: **the pin
+stays** — the e4b misses nothing that mattered, but it counts sprites as badly as the
+qwen2.5-vl-7b did, and it shares the card with the runtime models.
+
 **It also does not reliably load.** On the retry `lms load qwen2.5-vl-7b-instruct --gpu max -c 8192`
 timed out after **600 s**. On a box that holds one model at a time, swap cost *is* part of the model's
 cost — a model that cannot be loaded cannot serve as a fallback, regardless of quality.
