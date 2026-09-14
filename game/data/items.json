@@ -1,0 +1,955 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "id": "rusty_blade",
+      "name": "Rusty Blade",
+      "slot": "weapon",
+      "tier": 1,
+      "effect": {
+        "damage": 3
+      },
+      "value": 14,
+      "sprite": "item_rusty_blade",
+      "flavor": "It has opened more graves than throats."
+    },
+    {
+      "id": "chipped_hatchet",
+      "name": "Chipped Hatchet",
+      "slot": "weapon",
+      "tier": 1,
+      "effect": {
+        "damage": 4
+      },
+      "value": 18,
+      "sprite": "item_chipped_hatchet",
+      "flavor": "Someone split firewood with it until the wood fought back."
+    },
+    {
+      "id": "bone_shiv",
+      "name": "Bone Shiv",
+      "slot": "weapon",
+      "tier": 1,
+      "effect": {
+        "damage": 2,
+        "crit": 3
+      },
+      "value": 16,
+      "sprite": "item_bone_shiv",
+      "flavor": "Ground from a femur, aimed at the same."
+    },
+    {
+      "id": "iron_mace",
+      "name": "Iron Mace",
+      "slot": "weapon",
+      "tier": 2,
+      "effect": {
+        "damage": 7
+      },
+      "value": 40,
+      "sprite": "item_iron_mace",
+      "flavor": "Ugly, heavy, honest. It never misses twice."
+    },
+    {
+      "id": "serrated_falchion",
+      "name": "Serrated Falchion",
+      "slot": "weapon",
+      "tier": 2,
+      "effect": {
+        "damage": 6,
+        "crit": 2
+      },
+      "value": 52,
+      "sprite": "item_serrated_falchion",
+      "flavor": "Every notch is a signature."
+    },
+    {
+      "id": "lantern_flail",
+      "name": "Lantern Flail",
+      "slot": "weapon",
+      "tier": 2,
+      "effect": {
+        "damage": 8
+      },
+      "value": 46,
+      "sprite": "item_lantern_flail",
+      "flavor": "The keeper's light, rehung as a morning star."
+    },
+    {
+      "id": "venom_dirk",
+      "name": "Venom Dirk",
+      "slot": "weapon",
+      "tier": 3,
+      "effect": {
+        "damage": 9,
+        "crit": 4
+      },
+      "value": 110,
+      "sprite": "item_venom_dirk",
+      "flavor": "That green on the edge is not rust."
+    },
+    {
+      "id": "ember_club",
+      "name": "Ember Club",
+      "slot": "weapon",
+      "tier": 3,
+      "effect": {
+        "damage": 12
+      },
+      "value": 120,
+      "sprite": "item_ember_club",
+      "flavor": "The Warrens cook their dead with this first.",
+      "element": "fire"
+    },
+    {
+      "id": "steel_glaive",
+      "name": "Steel Glaive",
+      "slot": "weapon",
+      "tier": 3,
+      "effect": {
+        "damage": 10,
+        "speed": 0.1
+      },
+      "value": 105,
+      "sprite": "item_steel_glaive",
+      "flavor": "Reach is its own kind of armour."
+    },
+    {
+      "id": "wraithfang",
+      "name": "Wraithfang",
+      "slot": "weapon",
+      "tier": 4,
+      "effect": {
+        "damage": 15,
+        "crit": 6
+      },
+      "value": 220,
+      "sprite": "item_wraithfang",
+      "flavor": "Cold enough to drink the warmth from a wound.",
+      "element": "ice"
+    },
+    {
+      "id": "magma_warhammer",
+      "name": "Magma Warhammer",
+      "slot": "weapon",
+      "tier": 4,
+      "effect": {
+        "damage": 19
+      },
+      "value": 245,
+      "sprite": "item_magma_warhammer",
+      "flavor": "Still warm. Nobody remembers who quenched it.",
+      "element": "fire"
+    },
+    {
+      "id": "vault_cleaver",
+      "name": "Vault Cleaver",
+      "slot": "weapon",
+      "tier": 4,
+      "effect": {
+        "damage": 16,
+        "armor": 2
+      },
+      "value": 210,
+      "sprite": "item_vault_cleaver",
+      "flavor": "Built to open waterlogged doors, and things behind them."
+    },
+    {
+      "id": "keepers_edge",
+      "name": "Keeper's Edge",
+      "slot": "weapon",
+      "tier": 5,
+      "effect": {
+        "damage": 22,
+        "crit": 9
+      },
+      "value": 400,
+      "sprite": "item_keepers_edge",
+      "flavor": "The Lantern-Keepers forged it to end what they sealed.",
+      "element": "holy"
+    },
+    {
+      "id": "soul_reaver",
+      "name": "Soul Reaver",
+      "slot": "weapon",
+      "tier": 5,
+      "effect": {
+        "damage": 20,
+        "luck": 3
+      },
+      "value": 380,
+      "sprite": "item_soul_reaver",
+      "flavor": "It takes a little of everything it kills.",
+      "element": "shadow"
+    },
+    {
+      "id": "drowned_maul",
+      "name": "Drowned Maul",
+      "slot": "weapon",
+      "tier": 5,
+      "effect": {
+        "damage": 25
+      },
+      "value": 460,
+      "sprite": "item_drowned_maul",
+      "flavor": "Pulled from the Vaults, bleeding brine that never dries.",
+      "element": "water"
+    },
+    {
+      "id": "torn_leather_cap",
+      "name": "Torn Leather Cap",
+      "slot": "armor",
+      "tier": 1,
+      "effect": {
+        "armor": 2
+      },
+      "value": 12,
+      "sprite": "item_torn_leather_cap",
+      "flavor": "Better than a bare skull. Barely."
+    },
+    {
+      "id": "cracked_buckler",
+      "name": "Cracked Buckler",
+      "slot": "armor",
+      "tier": 1,
+      "effect": {
+        "armor": 3
+      },
+      "value": 15,
+      "sprite": "item_cracked_buckler",
+      "flavor": "It has already taken the hit it was made for."
+    },
+    {
+      "id": "rag_wraps",
+      "name": "Rag Wraps",
+      "slot": "armor",
+      "tier": 1,
+      "effect": {
+        "armor": 1,
+        "max_hp": 6
+      },
+      "value": 13,
+      "sprite": "item_rag_wraps",
+      "flavor": "Somebody's burial clothes, doing a second shift."
+    },
+    {
+      "id": "iron_helm",
+      "name": "Iron Helm",
+      "slot": "armor",
+      "tier": 2,
+      "effect": {
+        "armor": 5
+      },
+      "value": 42,
+      "sprite": "item_iron_helm",
+      "flavor": "Standard issue for the city that drowned."
+    },
+    {
+      "id": "studded_jerkin",
+      "name": "Studded Jerkin",
+      "slot": "armor",
+      "tier": 2,
+      "effect": {
+        "armor": 4,
+        "max_hp": 10
+      },
+      "value": 48,
+      "sprite": "item_studded_jerkin",
+      "flavor": "The studs are old nails. The nails are older than the jacket."
+    },
+    {
+      "id": "oak_shield",
+      "name": "Oak Shield",
+      "slot": "armor",
+      "tier": 2,
+      "effect": {
+        "armor": 6,
+        "speed": -0.1
+      },
+      "value": 45,
+      "sprite": "item_oak_shield",
+      "flavor": "Solid as a headstone, and about as quick."
+    },
+    {
+      "id": "bone_plate",
+      "name": "Bone Plate",
+      "slot": "armor",
+      "tier": 3,
+      "effect": {
+        "armor": 8,
+        "max_hp": 16
+      },
+      "value": 118,
+      "sprite": "item_bone_plate",
+      "flavor": "Wearing the catacombs, so they cannot wear you."
+    },
+    {
+      "id": "ring_mail",
+      "name": "Ring Mail",
+      "slot": "armor",
+      "tier": 3,
+      "effect": {
+        "armor": 9
+      },
+      "value": 112,
+      "sprite": "item_ring_mail",
+      "flavor": "A thousand little rings, each one a promise."
+    },
+    {
+      "id": "ember_visor",
+      "name": "Ember Visor",
+      "slot": "armor",
+      "tier": 3,
+      "effect": {
+        "armor": 7,
+        "crit": 3
+      },
+      "value": 108,
+      "sprite": "item_ember_visor",
+      "flavor": "The glass is blackened, which is how you know it works.",
+      "element": "fire"
+    },
+    {
+      "id": "warden_carapace",
+      "name": "Warden Carapace",
+      "slot": "armor",
+      "tier": 4,
+      "effect": {
+        "armor": 13,
+        "max_hp": 28
+      },
+      "value": 235,
+      "sprite": "item_warden_carapace",
+      "flavor": "Grown, not forged. The Warden no longer needed it."
+    },
+    {
+      "id": "magma_cuirass",
+      "name": "Magma Cuirass",
+      "slot": "armor",
+      "tier": 4,
+      "effect": {
+        "armor": 12,
+        "damage": 3
+      },
+      "value": 228,
+      "sprite": "item_magma_cuirass",
+      "flavor": "Warm against the chest, like a second heartbeat."
+    },
+    {
+      "id": "drownscale_mail",
+      "name": "Drownscale Mail",
+      "slot": "armor",
+      "tier": 4,
+      "effect": {
+        "armor": 14,
+        "speed": 0.1
+      },
+      "value": 240,
+      "sprite": "item_drownscale_mail",
+      "flavor": "The scales still remember swimming."
+    },
+    {
+      "id": "keepers_bulwark",
+      "name": "Keeper's Bulwark",
+      "slot": "armor",
+      "tier": 5,
+      "effect": {
+        "armor": 18,
+        "max_hp": 45
+      },
+      "value": 430,
+      "sprite": "item_keepers_bulwark",
+      "flavor": "The last Keeper died standing behind it.",
+      "element": "holy"
+    },
+    {
+      "id": "vaelmoor_aegis",
+      "name": "Vaelmoor Aegis",
+      "slot": "armor",
+      "tier": 5,
+      "effect": {
+        "armor": 20
+      },
+      "value": 470,
+      "sprite": "item_vaelmoor_aegis",
+      "flavor": "The city itself, folded down to something a body can wear.",
+      "element": "holy"
+    },
+    {
+      "id": "soulforged_plate",
+      "name": "Soulforged Plate",
+      "slot": "armor",
+      "tier": 5,
+      "effect": {
+        "armor": 16,
+        "crit": 5
+      },
+      "value": 405,
+      "sprite": "item_soulforged_plate",
+      "flavor": "The souls in it lean toward a fight."
+    },
+    {
+      "id": "lucky_coin",
+      "name": "Lucky Coin",
+      "slot": "trinket",
+      "tier": 1,
+      "effect": {
+        "luck": 2
+      },
+      "value": 14,
+      "sprite": "item_lucky_coin",
+      "flavor": "Heads you live. It has never come up tails."
+    },
+    {
+      "id": "tin_ring",
+      "name": "Tin Ring",
+      "slot": "trinket",
+      "tier": 1,
+      "effect": {
+        "crit": 2
+      },
+      "value": 12,
+      "sprite": "item_tin_ring",
+      "flavor": "A promise ring, from someone who did not come back."
+    },
+    {
+      "id": "rat_tooth_charm",
+      "name": "Rat Tooth Charm",
+      "slot": "trinket",
+      "tier": 1,
+      "effect": {
+        "damage": 1,
+        "luck": 1
+      },
+      "value": 16,
+      "sprite": "item_rat_tooth_charm",
+      "flavor": "Smells of the warrens. Keeps the small things away."
+    },
+    {
+      "id": "garnet_ring",
+      "name": "Garnet Ring",
+      "slot": "trinket",
+      "tier": 2,
+      "effect": {
+        "crit": 4
+      },
+      "value": 44,
+      "sprite": "item_garnet_ring",
+      "flavor": "The stone is set badly and worth more than the hand."
+    },
+    {
+      "id": "etched_amulet",
+      "name": "Etched Amulet",
+      "slot": "trinket",
+      "tier": 2,
+      "effect": {
+        "luck": 3
+      },
+      "value": 40,
+      "sprite": "item_etched_amulet",
+      "flavor": "The etching is a prayer, or a warning, or both."
+    },
+    {
+      "id": "hunters_token",
+      "name": "Hunter's Token",
+      "slot": "trinket",
+      "tier": 2,
+      "effect": {
+        "crit": 3,
+        "speed": 0.1
+      },
+      "value": 50,
+      "sprite": "item_hunters_token",
+      "flavor": "Given to those who go first into the dark."
+    },
+    {
+      "id": "rusted_censer",
+      "name": "Rusted Censer",
+      "slot": "trinket",
+      "tier": 2,
+      "effect": {
+        "max_hp": 14,
+        "luck": 2
+      },
+      "value": 46,
+      "sprite": "item_rusted_censer",
+      "flavor": "It still smokes, though nothing has burned in it for years."
+    },
+    {
+      "id": "luckstone",
+      "name": "Luckstone",
+      "slot": "trinket",
+      "tier": 3,
+      "effect": {
+        "luck": 6
+      },
+      "value": 115,
+      "sprite": "item_luckstone",
+      "flavor": "Warm in the pocket, heavier than it should be."
+    },
+    {
+      "id": "cinder_talisman",
+      "name": "Cinder Talisman",
+      "slot": "trinket",
+      "tier": 3,
+      "effect": {
+        "damage": 4,
+        "crit": 3
+      },
+      "value": 122,
+      "sprite": "item_cinder_talisman",
+      "flavor": "The Warrens give it to their young before the first descent.",
+      "element": "fire"
+    },
+    {
+      "id": "seers_lens",
+      "name": "Seer's Lens",
+      "slot": "trinket",
+      "tier": 3,
+      "effect": {
+        "crit": 6,
+        "luck": 2
+      },
+      "value": 118,
+      "sprite": "item_seers_lens",
+      "flavor": "Look through it and the weak points glow."
+    },
+    {
+      "id": "sigil_of_warding",
+      "name": "Sigil of Warding",
+      "slot": "trinket",
+      "tier": 3,
+      "effect": {
+        "armor": 6,
+        "luck": 2
+      },
+      "value": 120,
+      "sprite": "item_sigil_of_warding",
+      "flavor": "One of the seven seals. Four are still missing."
+    },
+    {
+      "id": "abyssal_band",
+      "name": "Abyssal Band",
+      "slot": "trinket",
+      "tier": 4,
+      "effect": {
+        "luck": 8
+      },
+      "value": 232,
+      "sprite": "item_abyssal_band",
+      "flavor": "Cold, always cold, no matter whose finger it is on.",
+      "element": "shadow"
+    },
+    {
+      "id": "phoenix_feather",
+      "name": "Phoenix Feather",
+      "slot": "trinket",
+      "tier": 4,
+      "effect": {
+        "max_hp": 30,
+        "speed": 0.15
+      },
+      "value": 250,
+      "sprite": "item_phoenix_feather",
+      "flavor": "No phoenix was harmed. It fell off.",
+      "element": "fire"
+    },
+    {
+      "id": "void_lantern",
+      "name": "Void Lantern",
+      "slot": "trinket",
+      "tier": 4,
+      "effect": {
+        "luck": 5,
+        "crit": 5
+      },
+      "value": 238,
+      "sprite": "item_void_lantern",
+      "flavor": "It lights nothing, and everything nearby is easier to find.",
+      "element": "shadow"
+    },
+    {
+      "id": "crown_of_depths",
+      "name": "Crown of Depths",
+      "slot": "trinket",
+      "tier": 5,
+      "effect": {
+        "luck": 12,
+        "crit": 6
+      },
+      "value": 450,
+      "sprite": "item_crown_of_depths",
+      "flavor": "The drowned king still wears the original.",
+      "element": "water"
+    },
+    {
+      "id": "soul_prism",
+      "name": "Soul Prism",
+      "slot": "trinket",
+      "tier": 5,
+      "effect": {
+        "max_hp": 60,
+        "luck": 4
+      },
+      "value": 480,
+      "sprite": "item_soul_prism",
+      "flavor": "Death passes through it and comes out thinner."
+    },
+    {
+      "id": "keepers_signet",
+      "name": "Keeper's Signet",
+      "slot": "trinket",
+      "tier": 5,
+      "effect": {
+        "damage": 5,
+        "luck": 8
+      },
+      "value": 420,
+      "sprite": "item_keepers_signet",
+      "flavor": "Press the seal to a door and the door remembers who you are.",
+      "element": "holy"
+    },
+    {
+      "id": "health_vial",
+      "name": "Health Vial",
+      "slot": "consumable",
+      "tier": 1,
+      "effect": {
+        "max_hp": 40
+      },
+      "value": 25,
+      "sprite": "prop_potion_health",
+      "flavor": "Cracked glass, thicker blood. Drink before the next room decides."
+    },
+    {
+      "id": "small_health_draught",
+      "name": "Small Health Draught",
+      "slot": "consumable",
+      "tier": 1,
+      "effect": {
+        "max_hp": 15
+      },
+      "value": 10,
+      "sprite": "item_small_health_draught",
+      "flavor": "Tastes of iron and mint. Mostly iron."
+    },
+    {
+      "id": "swift_tonic",
+      "name": "Swift Tonic",
+      "slot": "consumable",
+      "tier": 1,
+      "effect": {
+        "speed": 0.3
+      },
+      "value": 11,
+      "sprite": "item_swift_tonic",
+      "flavor": "Your knees will complain later. Later."
+    },
+    {
+      "id": "whetstone_salve",
+      "name": "Whetstone Salve",
+      "slot": "consumable",
+      "tier": 1,
+      "effect": {
+        "damage": 3
+      },
+      "value": 10,
+      "sprite": "item_whetstone_salve",
+      "flavor": "Whet your edge, or someone else's opinion of it."
+    },
+    {
+      "id": "pilgrim_bandage",
+      "name": "Pilgrim Bandage",
+      "slot": "consumable",
+      "tier": 1,
+      "effect": {
+        "max_hp": 8
+      },
+      "value": 9,
+      "sprite": "item_pilgrim_bandage",
+      "flavor": "Already used twice. Folded carefully anyway."
+    },
+    {
+      "id": "lantern_oil",
+      "name": "Lantern Oil",
+      "slot": "consumable",
+      "tier": 1,
+      "effect": {
+        "speed": 0.15
+      },
+      "value": 9,
+      "sprite": "item_lantern_oil",
+      "flavor": "A mouthful of it and the world moves faster."
+    },
+    {
+      "id": "health_draught",
+      "name": "Health Draught",
+      "slot": "consumable",
+      "tier": 2,
+      "effect": {
+        "max_hp": 30
+      },
+      "value": 38,
+      "sprite": "item_health_draught",
+      "flavor": "Standard Keeper ration, cut with something sweeter."
+    },
+    {
+      "id": "iron_skin_brew",
+      "name": "Iron Skin Brew",
+      "slot": "consumable",
+      "tier": 2,
+      "effect": {
+        "armor": 5
+      },
+      "value": 40,
+      "sprite": "item_iron_skin_brew",
+      "flavor": "Your skin hardens. Your joints file a complaint."
+    },
+    {
+      "id": "focus_tea",
+      "name": "Focus Tea",
+      "slot": "consumable",
+      "tier": 2,
+      "effect": {
+        "crit": 6
+      },
+      "value": 36,
+      "sprite": "item_focus_tea",
+      "flavor": "Brewed from the roots that grow where nobody walks."
+    },
+    {
+      "id": "greater_draught",
+      "name": "Greater Draught",
+      "slot": "consumable",
+      "tier": 3,
+      "effect": {
+        "max_hp": 55
+      },
+      "value": 100,
+      "sprite": "item_greater_draught",
+      "flavor": "Thick as tar, and it works like it."
+    },
+    {
+      "id": "ember_tonic",
+      "name": "Ember Tonic",
+      "slot": "consumable",
+      "tier": 3,
+      "effect": {
+        "damage": 8
+      },
+      "value": 105,
+      "sprite": "item_ember_tonic",
+      "flavor": "Bottled fire, with the lid still on."
+    },
+    {
+      "id": "hunters_elixir",
+      "name": "Hunter's Elixir",
+      "slot": "consumable",
+      "tier": 3,
+      "effect": {
+        "luck": 5
+      },
+      "value": 95,
+      "sprite": "item_hunters_elixir",
+      "flavor": "Everything looks like loot for a little while."
+    },
+    {
+      "id": "vault_elixir",
+      "name": "Vault Elixir",
+      "slot": "consumable",
+      "tier": 4,
+      "effect": {
+        "max_hp": 90
+      },
+      "value": 200,
+      "sprite": "item_vault_elixir",
+      "flavor": "Distilled from water that has drowned better people."
+    },
+    {
+      "id": "lava_ward_potion",
+      "name": "Lava Ward Potion",
+      "slot": "consumable",
+      "tier": 4,
+      "effect": {
+        "armor": 10
+      },
+      "value": 210,
+      "sprite": "item_lava_ward_potion",
+      "flavor": "Drink before the Warrens, never inside them.",
+      "element": "fire"
+    },
+    {
+      "id": "assassin_draught",
+      "name": "Assassin Draught",
+      "slot": "consumable",
+      "tier": 4,
+      "effect": {
+        "crit": 12,
+        "speed": 0.2
+      },
+      "value": 220,
+      "sprite": "item_assassin_draught",
+      "flavor": "One breath. One window. That is the whole recipe.",
+      "element": "shadow"
+    },
+    {
+      "id": "keepers_draught",
+      "name": "Keeper's Draught",
+      "slot": "consumable",
+      "tier": 5,
+      "effect": {
+        "max_hp": 150
+      },
+      "value": 380,
+      "sprite": "item_keepers_draught",
+      "flavor": "The last thing the last Keeper drank. It did not save him.",
+      "element": "holy"
+    },
+    {
+      "id": "dragonsblood_flask",
+      "name": "Dragonsblood Flask",
+      "slot": "consumable",
+      "tier": 5,
+      "effect": {
+        "damage": 16
+      },
+      "value": 400,
+      "sprite": "item_dragonsblood_flask",
+      "flavor": "No dragon was consulted.",
+      "element": "fire"
+    },
+    {
+      "id": "soulfire_tonic",
+      "name": "Soulfire Tonic",
+      "slot": "consumable",
+      "tier": 5,
+      "effect": {
+        "damage": 10,
+        "crit": 6
+      },
+      "value": 390,
+      "sprite": "item_soulfire_tonic",
+      "flavor": "It burns going down and keeps burning after.",
+      "element": "fire"
+    },
+    {
+      "id": "whisper_dagger",
+      "name": "Whisper Dagger",
+      "slot": "weapon",
+      "tier": 5,
+      "effect": {
+        "damage": 24,
+        "crit": 10
+      },
+      "value": 600,
+      "sprite": "item_whisper_dagger",
+      "flavor": "It never announces itself. Neither does the wound.",
+      "unique": "pierce",
+      "element": "shadow"
+    },
+    {
+      "id": "chain_reaver",
+      "name": "Chain Reaver",
+      "slot": "weapon",
+      "tier": 5,
+      "effect": {
+        "damage": 22,
+        "crit": 8
+      },
+      "value": 580,
+      "sprite": "item_chain_reaver",
+      "flavor": "Every kill pulls the next one into reach.",
+      "unique": "chain",
+      "element": "lightning"
+    },
+    {
+      "id": "mirror_shield",
+      "name": "Mirror Shield",
+      "slot": "armor",
+      "tier": 5,
+      "effect": {
+        "armor": 18,
+        "max_hp": 35
+      },
+      "value": 620,
+      "sprite": "item_mirror_shield",
+      "flavor": "It shows attackers exactly what they deserve.",
+      "unique": "reflect"
+    },
+    {
+      "id": "bloodletter",
+      "name": "Bloodletter",
+      "slot": "weapon",
+      "tier": 5,
+      "effect": {
+        "damage": 23,
+        "crit": 7
+      },
+      "value": 590,
+      "sprite": "item_bloodletter",
+      "flavor": "Every enemy bleeds out your losses.",
+      "unique": "lifesteal",
+      "element": "shadow"
+    },
+    {
+      "id": "death_spark",
+      "name": "Death Spark",
+      "slot": "trinket",
+      "tier": 5,
+      "effect": {
+        "crit": 10,
+        "luck": 6
+      },
+      "value": 550,
+      "sprite": "item_death_spark",
+      "flavor": "When something falls, everything around it burns.",
+      "unique": "death_spark",
+      "element": "fire"
+    },
+    {
+      "id": "purifier",
+      "name": "Purifier",
+      "slot": "trinket",
+      "tier": 5,
+      "effect": {
+        "max_hp": 40,
+        "luck": 5
+      },
+      "value": 570,
+      "sprite": "item_purifier",
+      "flavor": "Poison becomes power. Burn becomes breath.",
+      "unique": "purifier",
+      "element": "poison"
+    },
+    {
+      "id": "ember_dancer_crystal",
+      "name": "Ember Dancer Crystal",
+      "slot": "trinket",
+      "tier": 5,
+      "effect": {
+        "speed": 0.4,
+        "crit": 5
+      },
+      "value": 560,
+      "sprite": "item_ember_dancer_crystal",
+      "flavor": "You leave fire where you have been, not where you are.",
+      "unique": "dash_fire",
+      "element": "fire"
+    },
+    {
+      "id": "venom_tongue",
+      "name": "Venom Tongue",
+      "slot": "weapon",
+      "tier": 5,
+      "effect": {
+        "damage": 21,
+        "crit": 8
+      },
+      "value": 580,
+      "sprite": "item_venom_tongue",
+      "flavor": "Each strike poisons the room.",
+      "unique": "poison_on_hit",
+      "element": "poison"
+    }
+  ]
+}

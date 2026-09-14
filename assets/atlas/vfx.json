@@ -1,0 +1,131 @@
+{
+  "version": 1,
+  "image": "assets/atlas/vfx.png",
+  "meta": {
+    "tile": 32,
+    "palette_version": 1,
+    "generated_by": "pixel"
+  },
+  "frames": {
+    "vfx_blood": [
+      0,
+      0,
+      32,
+      32
+    ],
+    "vfx_debris": [
+      32,
+      0,
+      32,
+      32
+    ],
+    "vfx_dust": [
+      64,
+      0,
+      32,
+      32
+    ],
+    "vfx_ember": [
+      96,
+      0,
+      32,
+      32
+    ],
+    "vfx_guardian_shield": [
+      128,
+      0,
+      32,
+      32
+    ],
+    "vfx_impact": [
+      0,
+      32,
+      32,
+      32
+    ],
+    "vfx_leap_slam": [
+      32,
+      32,
+      32,
+      32
+    ],
+    "vfx_levelup": [
+      64,
+      32,
+      32,
+      32
+    ],
+    "vfx_magic_bolt": [
+      96,
+      32,
+      32,
+      32
+    ],
+    "vfx_poison_cloud": [
+      128,
+      32,
+      32,
+      32
+    ],
+    "vfx_scorch": [
+      0,
+      64,
+      32,
+      32
+    ],
+    "vfx_shield": [
+      32,
+      64,
+      32,
+      32
+    ],
+    "vfx_shockwave": [
+      64,
+      64,
+      32,
+      32
+    ],
+    "vfx_slash": [
+      96,
+      64,
+      32,
+      32
+    ],
+    "vfx_slash_alt": [
+      128,
+      64,
+      32,
+      32
+    ],
+    "vfx_smoke": [
+      0,
+      96,
+      32,
+      32
+    ],
+    "vfx_soul_wisp": [
+      32,
+      96,
+      32,
+      32
+    ],
+    "vfx_sparkle": [
+      64,
+      96,
+      32,
+      32
+    ],
+    "vfx_splash": [
+      96,
+      96,
+      32,
+      32
+    ],
+    "vfx_teleport_effect": [
+      128,
+      96,
+      32,
+      32
+    ]
+  }
+}

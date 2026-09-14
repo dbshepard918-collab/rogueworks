@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "note": "Meta-progression tree for Depths of Vaelmoor (P1.3). Five branches, four tiers each, within-branch prerequisites. Stat bonuses feed save.meta_stat_totals(); non-stat perks feed save.meta_special_effects() and are consumed by world/combat/player/biome_mods/statuses/procgen.",
+  "respec_cost": 180,
+  "branches": [
+    {
+      "id": "vitality",
+      "name": "Vitality",
+      "color": [121, 176, 74],
+      "tiers": [
+        {"level": 1, "label": "Sturdy Frame", "stat": "max_hp", "bonus": 10, "cost": 40, "desc": "+10 max HP"},
+        {"level": 2, "label": "Deep Chest", "stat": "max_hp", "bonus": 12, "cost": 80, "prereq": "vitality:1", "desc": "+12 max HP"},
+        {"level": 3, "label": "Stone Blood", "stat": "max_hp", "bonus": 15, "cost": 160, "prereq": "vitality:2", "desc": "+15 max HP; +8% max HP healed on every floor transition"},
+        {"level": 4, "label": "Catacomb Heart", "stat": "max_hp", "bonus": 20, "cost": 320, "prereq": "vitality:3", "desc": "+20 max HP; +15% max HP healed on floor transition; +1 armor"}
+      ]
+    },
+    {
+      "id": "might",
+      "name": "Might",
+      "color": [232, 178, 60],
+      "tiers": [
+        {"level": 1, "label": "Harder Hands", "stat": "damage", "bonus": 1.5, "cost": 55, "desc": "+1.5 damage"},
+        {"level": 2, "label": "Brutal Edge", "stat": "damage", "bonus": 2.0, "cost": 110, "prereq": "might:1", "desc": "+2 damage; +1% crit"},
+        {"level": 3, "label": "Smashing Blow", "stat": "damage", "bonus": 3.0, "cost": 220, "prereq": "might:2", "desc": "+3 damage; +2% crit; +20% melee knockback"},
+        {"level": 4, "label": "Demolisher", "stat": "damage", "bonus": 4.0, "cost": 440, "prereq": "might:3", "desc": "+4 damage; +3% crit; +40% melee knockback"}
+      ]
+    },
+    {
+      "id": "agility",
+      "name": "Agility",
+      "color": [31, 95, 128],
+      "tiers": [
+        {"level": 1, "label": "Quick Feet", "stat": "speed", "bonus": 0.20, "cost": 60, "desc": "+0.20 speed"},
+        {"level": 2, "label": "Dash Artist", "stat": "speed", "bonus": 0.20, "cost": 120, "prereq": "agility:1", "desc": "+0.20 speed; dash cooldown -0.08 s"},
+        {"level": 3, "label": "Ghost Step", "stat": "speed", "bonus": 0.25, "cost": 240, "prereq": "agility:2", "desc": "+0.25 speed; dash cooldown -0.12 s; dash i-frames +0.03 s"},
+        {"level": 4, "label": "Phantom", "stat": "speed", "bonus": 0.30, "cost": 480, "prereq": "agility:3", "desc": "+0.30 speed; dash cooldown -0.16 s; dash i-frames +0.05 s"}
+      ]
+    },
+    {
+      "id": "fortune",
+      "name": "Fortune",
+      "color": [123, 79, 209],
+      "tiers": [
+        {"level": 1, "label": "Lucky Eye", "stat": "luck", "bonus": 2, "cost": 45, "desc": "+2 luck"},
+        {"level": 2, "label": "Golden Touch", "stat": "luck", "bonus": 2, "cost": 90, "prereq": "fortune:1", "desc": "+2 luck; essence drops +25%"},
+        {"level": 3, "label": "Gambler's Boon", "stat": "luck", "bonus": 3, "cost": 180, "prereq": "fortune:2", "desc": "+3 luck; essence drops +50%; shop prices -12%"},
+        {"level": 4, "label": "Fate's Favourite", "stat": "luck", "bonus": 3, "cost": 360, "prereq": "fortune:3", "desc": "+3 luck; essence drops +75%; shop prices -18%"}
+      ]
+    },
+    {
+      "id": "lantern",
+      "name": "Lantern",
+      "color": [246, 242, 232],
+      "tiers": [
+        {"level": 1, "label": "Brighter Wick", "stat": "lantern", "bonus": 25, "cost": 70, "desc": "Lantern radius +25 px"},
+        {"level": 2, "label": "Polished Lens", "stat": "lantern", "bonus": 30, "cost": 140, "prereq": "lantern:1", "desc": "Lantern radius +30 px; fog reveal +1 tile"},
+        {"level": 3, "label": "Hallowed Flame", "stat": "lantern", "bonus": 35, "cost": 280, "prereq": "lantern:2", "desc": "Lantern radius +35 px; burning-tile DOT -20%"},
+        {"level": 4, "label": "Vaelmoor's Light", "stat": "lantern", "bonus": 40, "cost": 560, "prereq": "lantern:3", "desc": "Lantern radius +40 px; all DOTs -15%"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,287 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "id": "sharp",
+      "name": "Sharp",
+      "effect": {
+        "damage": 3
+      },
+      "tier_min": 1,
+      "tier_max": 3,
+      "weight": 100
+    },
+    {
+      "id": "cruel",
+      "name": "Cruel",
+      "effect": {
+        "damage": 6
+      },
+      "tier_min": 2,
+      "tier_max": 4,
+      "weight": 70
+    },
+    {
+      "id": "brutal",
+      "name": "Brutal",
+      "effect": {
+        "damage": 11
+      },
+      "tier_min": 3,
+      "tier_max": 5,
+      "weight": 35
+    },
+    {
+      "id": "venomous",
+      "name": "Venomous",
+      "effect": {
+        "damage": 4
+      },
+      "tier_min": 2,
+      "tier_max": 4,
+      "weight": 50
+    },
+    {
+      "id": "sturdy",
+      "name": "Sturdy",
+      "effect": {
+        "armor": 2
+      },
+      "tier_min": 1,
+      "tier_max": 3,
+      "weight": 100
+    },
+    {
+      "id": "ironclad",
+      "name": "Ironclad",
+      "effect": {
+        "armor": 5
+      },
+      "tier_min": 2,
+      "tier_max": 4,
+      "weight": 65
+    },
+    {
+      "id": "bulwark",
+      "name": "Bulwark",
+      "effect": {
+        "armor": 9
+      },
+      "tier_min": 3,
+      "tier_max": 5,
+      "weight": 30
+    },
+    {
+      "id": "vital",
+      "name": "Vital",
+      "effect": {
+        "max_hp": 12
+      },
+      "tier_min": 1,
+      "tier_max": 3,
+      "weight": 90
+    },
+    {
+      "id": "hearty",
+      "name": "Hearty",
+      "effect": {
+        "max_hp": 26
+      },
+      "tier_min": 2,
+      "tier_max": 4,
+      "weight": 55
+    },
+    {
+      "id": "swift",
+      "name": "Swift",
+      "effect": {
+        "speed": 0.15
+      },
+      "tier_min": 1,
+      "tier_max": 3,
+      "weight": 85
+    },
+    {
+      "id": "fleet",
+      "name": "Fleet",
+      "effect": {
+        "speed": 0.3
+      },
+      "tier_min": 2,
+      "tier_max": 4,
+      "weight": 45
+    },
+    {
+      "id": "lucky",
+      "name": "Lucky",
+      "effect": {
+        "luck": 2
+      },
+      "tier_min": 1,
+      "tier_max": 3,
+      "weight": 80
+    },
+    {
+      "id": "fortunate",
+      "name": "Fortunate",
+      "effect": {
+        "luck": 4
+      },
+      "tier_min": 2,
+      "tier_max": 5,
+      "weight": 40
+    },
+    {
+      "id": "keen",
+      "name": "Keen",
+      "effect": {
+        "crit": 4
+      },
+      "tier_min": 1,
+      "tier_max": 3,
+      "weight": 75
+    },
+    {
+      "id": "deadly",
+      "name": "Deadly",
+      "effect": {
+        "crit": 9
+      },
+      "tier_min": 3,
+      "tier_max": 5,
+      "weight": 30
+    },
+    {
+      "id": "of_stone",
+      "name": "of Stone",
+      "effect": {
+        "armor": 3
+      },
+      "tier_min": 1,
+      "tier_max": 4,
+      "weight": 90
+    },
+    {
+      "id": "of_embers",
+      "name": "of Embers",
+      "effect": {
+        "damage": 4
+      },
+      "tier_min": 2,
+      "tier_max": 4,
+      "weight": 60
+    },
+    {
+      "id": "of_the_grave",
+      "name": "of the Grave",
+      "effect": {
+        "max_hp": 18
+      },
+      "tier_min": 1,
+      "tier_max": 4,
+      "weight": 70
+    },
+    {
+      "id": "of_haste",
+      "name": "of Haste",
+      "effect": {
+        "speed": 0.22
+      },
+      "tier_min": 2,
+      "tier_max": 5,
+      "weight": 45
+    },
+    {
+      "id": "of_fortune",
+      "name": "of Fortune",
+      "effect": {
+        "luck": 3
+      },
+      "tier_min": 1,
+      "tier_max": 5,
+      "weight": 65
+    },
+    {
+      "id": "of_ruin",
+      "name": "of Ruin",
+      "effect": {
+        "damage": 8
+      },
+      "tier_min": 3,
+      "tier_max": 5,
+      "weight": 35
+    },
+    {
+      "id": "of_the_warden",
+      "name": "of the Warden",
+      "effect": {
+        "armor": 7
+      },
+      "tier_min": 3,
+      "tier_max": 5,
+      "weight": 30
+    },
+    {
+      "id": "of_vitality",
+      "name": "of Vitality",
+      "effect": {
+        "max_hp": 34
+      },
+      "tier_min": 3,
+      "tier_max": 5,
+      "weight": 28
+    },
+    {
+      "id": "of_the_viper",
+      "name": "of the Viper",
+      "effect": {
+        "crit": 6
+      },
+      "tier_min": 2,
+      "tier_max": 5,
+      "weight": 40
+    },
+    {
+      "id": "of_the_lantern",
+      "name": "of the Lantern",
+      "effect": {
+        "luck": 5
+      },
+      "tier_min": 3,
+      "tier_max": 5,
+      "weight": 25
+    },
+    {
+      "id": "of_drowning",
+      "name": "of Drowning",
+      "effect": {
+        "speed": 0.4
+      },
+      "tier_min": 3,
+      "tier_max": 5,
+      "weight": 22
+    },
+    {
+      "id": "of_the_king",
+      "name": "of the King",
+      "effect": {
+        "damage": 6,
+        "max_hp": 20
+      },
+      "tier_min": 4,
+      "tier_max": 5,
+      "weight": 12
+    },
+    {
+      "id": "of_the_void",
+      "name": "of the Void",
+      "effect": {
+        "crit": 7,
+        "luck": 4
+      },
+      "tier_min": 4,
+      "tier_max": 5,
+      "weight": 10
+    }
+  ]
+}

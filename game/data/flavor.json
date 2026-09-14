@@ -1,0 +1,330 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "id": "death_01",
+      "context": "death",
+      "text": "The lantern gutters. Vaelmoor keeps what you found."
+    },
+    {
+      "id": "death_02",
+      "context": "death",
+      "text": "The water closes over your light without a sound."
+    },
+    {
+      "id": "death_03",
+      "context": "death",
+      "text": "You were the fourth Keeper this season. The others are still down here."
+    },
+    {
+      "id": "death_04",
+      "context": "death",
+      "text": "Somewhere far above, a bell rings once for you."
+    },
+    {
+      "id": "death_05",
+      "context": "death",
+      "text": "The catacombs rearrange themselves around your body, politely."
+    },
+    {
+      "id": "death_06",
+      "context": "death",
+      "text": "Your gear is already being catalogued by something with too many hands."
+    },
+    {
+      "id": "death_07",
+      "context": "death",
+      "text": "Essence leaks out of you and into the stone. It will be spent well."
+    },
+    {
+      "id": "death_08",
+      "context": "death",
+      "text": "The dark does not gloat. It simply resumes."
+    },
+    {
+      "id": "death_09",
+      "context": "death",
+      "text": "You died the way you lived: slightly too deep, slightly too late."
+    },
+    {
+      "id": "death_10",
+      "context": "death",
+      "text": "The lantern was the last thing to go. It always is."
+    },
+    {
+      "id": "death_11",
+      "context": "death",
+      "text": "A warden pokes you once with a spear, to be sure."
+    },
+    {
+      "id": "death_12",
+      "context": "death",
+      "text": "The floor's guardian returns to its post. The post is you, now."
+    },
+    {
+      "id": "death_13",
+      "context": "death",
+      "text": "Depth 4 of 5. So close that the failure will echo for a while."
+    },
+    {
+      "id": "death_14",
+      "context": "death",
+      "text": "Something down here has been waiting a very long time for a Keeper to fall."
+    },
+    {
+      "id": "levelup_01",
+      "context": "levelup",
+      "text": "The lantern burns brighter, and so do you."
+    },
+    {
+      "id": "levelup_02",
+      "context": "levelup",
+      "text": "Essence knits into muscle and nerve."
+    },
+    {
+      "id": "levelup_03",
+      "context": "levelup",
+      "text": "You understand the descent a little better than the descent understands you."
+    },
+    {
+      "id": "levelup_04",
+      "context": "levelup",
+      "text": "The Keeper's training returns to your hands, unbidden."
+    },
+    {
+      "id": "levelup_05",
+      "context": "levelup",
+      "text": "You feel, for one breath, like the sort of person who survives this."
+    },
+    {
+      "id": "levelup_06",
+      "context": "levelup",
+      "text": "Something old nods approvingly and says nothing."
+    },
+    {
+      "id": "levelup_07",
+      "context": "levelup",
+      "text": "Your wounds close. The lesson does not."
+    },
+    {
+      "id": "levelup_08",
+      "context": "levelup",
+      "text": "Vaelmoor feeds you just enough to keep the game interesting."
+    },
+    {
+      "id": "levelup_09",
+      "context": "levelup",
+      "text": "You pick up the rhythm of the place. It is a marching rhythm."
+    },
+    {
+      "id": "levelup_10",
+      "context": "levelup",
+      "text": "Power arrives quietly, like a tide under a door."
+    },
+    {
+      "id": "levelup_11",
+      "context": "levelup",
+      "text": "Another notch on a belt nobody will ever count."
+    },
+    {
+      "id": "levelup_12",
+      "context": "levelup",
+      "text": "The dungeon measures you again, and adjusts its bet."
+    },
+    {
+      "id": "item_01",
+      "context": "item",
+      "text": "The blade is pitted, but it wants to be used."
+    },
+    {
+      "id": "item_02",
+      "context": "item",
+      "text": "This belonged to someone who stopped needing it."
+    },
+    {
+      "id": "item_03",
+      "context": "item",
+      "text": "Gold still warm from a pocket that is not here."
+    },
+    {
+      "id": "item_04",
+      "context": "item",
+      "text": "It fits your hand as though it were made twice."
+    },
+    {
+      "id": "item_05",
+      "context": "item",
+      "text": "The Warrens do not give gifts. They give delays."
+    },
+    {
+      "id": "item_06",
+      "context": "item",
+      "text": "A Keeper's mark, stamped small in the leather."
+    },
+    {
+      "id": "item_07",
+      "context": "item",
+      "text": "Whatever killed the last owner, it did not take this."
+    },
+    {
+      "id": "item_08",
+      "context": "item",
+      "text": "The metal hums very faintly, the way the deep water does."
+    },
+    {
+      "id": "item_09",
+      "context": "item",
+      "text": "Ugly. Functional. Available. Choose two."
+    },
+    {
+      "id": "item_10",
+      "context": "item",
+      "text": "Someone has scratched a tally on it. The tally is long."
+    },
+    {
+      "id": "item_11",
+      "context": "item",
+      "text": "It smells of lamp oil and old rain."
+    },
+    {
+      "id": "item_12",
+      "context": "item",
+      "text": "The gem is cracked, and the crack is the interesting part."
+    },
+    {
+      "id": "item_13",
+      "context": "item",
+      "text": "This is the sort of thing you find where nobody was buried properly."
+    },
+    {
+      "id": "item_14",
+      "context": "item",
+      "text": "Take it. The dark has no use for it and you do."
+    },
+    {
+      "id": "item_15",
+      "context": "item",
+      "text": "Heavier than it looks, and it looks heavy."
+    },
+    {
+      "id": "item_16",
+      "context": "item",
+      "text": "A fine thing to owe your life to, if it comes to that."
+    },
+    {
+      "id": "shrine_01",
+      "context": "shrine",
+      "text": "A stone face with no eyes waits patiently for your offering."
+    },
+    {
+      "id": "shrine_02",
+      "context": "shrine",
+      "text": "The candles have burned for a hundred years on no wax at all."
+    },
+    {
+      "id": "shrine_03",
+      "context": "shrine",
+      "text": "Place your hand on the idol. It is warmer than stone should be."
+    },
+    {
+      "id": "shrine_04",
+      "context": "shrine",
+      "text": "The prayer is written in a script that hurts to follow."
+    },
+    {
+      "id": "shrine_05",
+      "context": "shrine",
+      "text": "Something grants your wish and immediately takes its fee."
+    },
+    {
+      "id": "shrine_06",
+      "context": "shrine",
+      "text": "The shrine drinks your essence and smiles with no mouth."
+    },
+    {
+      "id": "shrine_07",
+      "context": "shrine",
+      "text": "A Keeper knelt here once. The groove in the floor remembers his knees."
+    },
+    {
+      "id": "shrine_08",
+      "context": "shrine",
+      "text": "Every offering makes the shrine a little more awake."
+    },
+    {
+      "id": "shrine_09",
+      "context": "shrine",
+      "text": "The god of this place is small, local, and very much at home."
+    },
+    {
+      "id": "shrine_10",
+      "context": "shrine",
+      "text": "You feel watched by something that has no eyes but excellent ears."
+    },
+    {
+      "id": "shrine_11",
+      "context": "shrine",
+      "text": "The blessing settles over you like a wet coat."
+    },
+    {
+      "id": "shrine_12",
+      "context": "shrine",
+      "text": "The idol turns its head a fraction. It was not facing you before."
+    },
+    {
+      "id": "boss_01",
+      "context": "boss",
+      "text": "The stairs are held, and the thing holding them has been told about you."
+    },
+    {
+      "id": "boss_02",
+      "context": "boss",
+      "text": "It was a person once. The Vaults finish what the city started."
+    },
+    {
+      "id": "boss_03",
+      "context": "boss",
+      "text": "The floor stops moving. This is never a good sign."
+    },
+    {
+      "id": "boss_04",
+      "context": "boss",
+      "text": "A guardian wakes, and the whole level feels it stand up."
+    },
+    {
+      "id": "boss_05",
+      "context": "boss",
+      "text": "Three of its ribs are doorframes from a chapel it ate."
+    },
+    {
+      "id": "boss_06",
+      "context": "boss",
+      "text": "It speaks in the voice of everyone who died on this floor."
+    },
+    {
+      "id": "boss_07",
+      "context": "boss",
+      "text": "The key hangs at its waist, and the waist is forty feet of coil."
+    },
+    {
+      "id": "boss_08",
+      "context": "boss",
+      "text": "Behind it, the staircase down. It knows exactly what that means to you."
+    },
+    {
+      "id": "boss_09",
+      "context": "boss",
+      "text": "The air goes heavy, as before a storm that never breaks."
+    },
+    {
+      "id": "boss_10",
+      "context": "boss",
+      "text": "It has guarded these stairs for longer than the city has had a name."
+    },
+    {
+      "id": "boss_11",
+      "context": "boss",
+      "text": "One of its arms ends in the last Keeper's lantern, still lit."
+    }
+  ]
+}

@@ -1,0 +1,551 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "id": "catacombs_entrance",
+      "biome": "catacombs",
+      "kind": "entrance",
+      "w": 14,
+      "h": 12,
+      "spawn_budget": 0,
+      "props": [
+        "prop_brazier",
+        "prop_sarcophagus"
+      ]
+    },
+    {
+      "id": "catacombs_combat_small",
+      "biome": "catacombs",
+      "kind": "combat",
+      "w": 10,
+      "h": 8,
+      "spawn_budget": 4,
+      "props": [
+        "prop_bones",
+        "prop_rubble"
+      ]
+    },
+    {
+      "id": "catacombs_combat_hall",
+      "biome": "catacombs",
+      "kind": "combat",
+      "w": 18,
+      "h": 14,
+      "spawn_budget": 10,
+      "props": [
+        "prop_pillar",
+        "prop_brazier"
+      ]
+    },
+    {
+      "id": "catacombs_combat_cross",
+      "biome": "catacombs",
+      "kind": "combat",
+      "w": 16,
+      "h": 16,
+      "spawn_budget": 9,
+      "props": [
+        "prop_pillar",
+        "prop_bones",
+        "prop_urn"
+      ]
+    },
+    {
+      "id": "catacombs_treasure_vault",
+      "biome": "catacombs",
+      "kind": "treasure",
+      "w": 9,
+      "h": 8,
+      "spawn_budget": 2,
+      "props": [
+        "prop_chest",
+        "prop_gold_pile"
+      ]
+    },
+    {
+      "id": "catacombs_shrine",
+      "biome": "catacombs",
+      "kind": "shrine",
+      "w": 8,
+      "h": 8,
+      "spawn_budget": 1,
+      "props": [
+        "prop_shrine",
+        "prop_candles"
+      ]
+    },
+    {
+      "id": "catacombs_shop",
+      "biome": "catacombs",
+      "kind": "shop",
+      "w": 7,
+      "h": 6,
+      "spawn_budget": 0,
+      "props": [
+        "prop_shop_stall"
+      ]
+    },
+    {
+      "id": "catacombs_boss_ossuary",
+      "biome": "catacombs",
+      "kind": "boss",
+      "w": 22,
+      "h": 18,
+      "spawn_budget": 1,
+      "props": [
+        "prop_altar",
+        "prop_bones",
+        "prop_brazier"
+      ]
+    },
+    {
+      "id": "catacombs_secret_1",
+      "biome": "catacombs",
+      "kind": "secret",
+      "w": 6,
+      "h": 6,
+      "spawn_budget": 0,
+      "props": [
+        "prop_sarcophagus",
+        "prop_bones"
+      ],
+      "secret_wall": "north"
+    },
+    {
+      "id": "catacombs_secret_2",
+      "biome": "catacombs",
+      "kind": "secret",
+      "w": 5,
+      "h": 5,
+      "spawn_budget": 0,
+      "props": [
+        "prop_chest",
+        "prop_rubble"
+      ],
+      "secret_wall": "east"
+    },
+    {
+      "id": "catacombs_secret_3",
+      "biome": "catacombs",
+      "kind": "secret",
+      "w": 7,
+      "h": 5,
+      "spawn_budget": 0,
+      "props": [
+        "prop_gold_pile",
+        "prop_candles"
+      ],
+      "secret_wall": "south"
+    },
+    {
+      "id": "ember_warrens_entrance",
+      "biome": "ember_warrens",
+      "kind": "entrance",
+      "w": 12,
+      "h": 10,
+      "spawn_budget": 0,
+      "props": [
+        "prop_lava_vent",
+        "prop_chain"
+      ]
+    },
+    {
+      "id": "ember_warrens_combat_small",
+      "biome": "ember_warrens",
+      "kind": "combat",
+      "w": 9,
+      "h": 8,
+      "spawn_budget": 5,
+      "props": [
+        "prop_rubble",
+        "prop_pipes"
+      ]
+    },
+    {
+      "id": "ember_warrens_combat_forge",
+      "biome": "ember_warrens",
+      "kind": "combat",
+      "w": 17,
+      "h": 13,
+      "spawn_budget": 11,
+      "props": [
+        "prop_forge",
+        "prop_anvil",
+        "prop_lava_vent"
+      ]
+    },
+    {
+      "id": "ember_warrens_combat_bridge",
+      "biome": "ember_warrens",
+      "kind": "combat",
+      "w": 20,
+      "h": 10,
+      "spawn_budget": 8,
+      "props": [
+        "prop_pipes",
+        "prop_rubble"
+      ]
+    },
+    {
+      "id": "ember_warrens_treasure_cache",
+      "biome": "ember_warrens",
+      "kind": "treasure",
+      "w": 8,
+      "h": 8,
+      "spawn_budget": 2,
+      "props": [
+        "prop_chest",
+        "prop_anvil"
+      ]
+    },
+    {
+      "id": "ember_warrens_shrine",
+      "biome": "ember_warrens",
+      "kind": "shrine",
+      "w": 9,
+      "h": 9,
+      "spawn_budget": 1,
+      "props": [
+        "prop_shrine",
+        "prop_lava_vent"
+      ]
+    },
+    {
+      "id": "ember_warrens_shop",
+      "biome": "ember_warrens",
+      "kind": "shop",
+      "w": 7,
+      "h": 7,
+      "spawn_budget": 0,
+      "props": [
+        "prop_shop_stall"
+      ]
+    },
+    {
+      "id": "ember_warrens_boss_foundry",
+      "biome": "ember_warrens",
+      "kind": "boss",
+      "w": 24,
+      "h": 18,
+      "spawn_budget": 1,
+      "props": [
+        "prop_forge",
+        "prop_altar",
+        "prop_lava_vent"
+      ]
+    },
+    {
+      "id": "ember_warrens_secret_1",
+      "biome": "ember_warrens",
+      "kind": "secret",
+      "w": 6,
+      "h": 6,
+      "spawn_budget": 0,
+      "props": [
+        "prop_forge",
+        "prop_anvil"
+      ],
+      "secret_wall": "west"
+    },
+    {
+      "id": "ember_warrens_secret_2",
+      "biome": "ember_warrens",
+      "kind": "secret",
+      "w": 5,
+      "h": 5,
+      "spawn_budget": 0,
+      "props": [
+        "prop_chest",
+        "prop_lava_vent"
+      ],
+      "secret_wall": "north"
+    },
+    {
+      "id": "ember_warrens_secret_3",
+      "biome": "ember_warrens",
+      "kind": "secret",
+      "w": 7,
+      "h": 5,
+      "spawn_budget": 0,
+      "props": [
+        "prop_gold_pile",
+        "prop_rubble"
+      ],
+      "secret_wall": "south"
+    },
+    {
+      "id": "drowned_vaults_entrance",
+      "biome": "drowned_vaults",
+      "kind": "entrance",
+      "w": 13,
+      "h": 11,
+      "spawn_budget": 0,
+      "props": [
+        "prop_water_pool",
+        "prop_roots"
+      ]
+    },
+    {
+      "id": "drowned_vaults_combat_small",
+      "biome": "drowned_vaults",
+      "kind": "combat",
+      "w": 10,
+      "h": 9,
+      "spawn_budget": 5,
+      "props": [
+        "prop_water_pool",
+        "prop_kelp"
+      ]
+    },
+    {
+      "id": "drowned_vaults_combat_hall",
+      "biome": "drowned_vaults",
+      "kind": "combat",
+      "w": 18,
+      "h": 15,
+      "spawn_budget": 11,
+      "props": [
+        "prop_pillar_drowned",
+        "prop_water_pool"
+      ]
+    },
+    {
+      "id": "drowned_vaults_combat_platform",
+      "biome": "drowned_vaults",
+      "kind": "combat",
+      "w": 16,
+      "h": 16,
+      "spawn_budget": 10,
+      "props": [
+        "prop_water_pool",
+        "prop_crystal"
+      ]
+    },
+    {
+      "id": "drowned_vaults_treasure_sunken",
+      "biome": "drowned_vaults",
+      "kind": "treasure",
+      "w": 9,
+      "h": 9,
+      "spawn_budget": 3,
+      "props": [
+        "prop_chest",
+        "prop_gold_pile",
+        "prop_water_pool"
+      ]
+    },
+    {
+      "id": "drowned_vaults_shrine",
+      "biome": "drowned_vaults",
+      "kind": "shrine",
+      "w": 8,
+      "h": 9,
+      "spawn_budget": 1,
+      "props": [
+        "prop_shrine_drowned",
+        "prop_crystal"
+      ]
+    },
+    {
+      "id": "drowned_vaults_shop",
+      "biome": "drowned_vaults",
+      "kind": "shop",
+      "w": 8,
+      "h": 7,
+      "spawn_budget": 0,
+      "props": [
+        "prop_shop_stall"
+      ]
+    },
+    {
+      "id": "drowned_vaults_boss_sanctum",
+      "biome": "drowned_vaults",
+      "kind": "boss",
+      "w": 24,
+      "h": 20,
+      "spawn_budget": 1,
+      "props": [
+        "prop_altar",
+        "prop_crystal",
+        "prop_water_pool"
+      ]
+    },
+    {
+      "id": "drowned_vaults_secret_1",
+      "biome": "drowned_vaults",
+      "kind": "secret",
+      "w": 6,
+      "h": 6,
+      "spawn_budget": 0,
+      "props": [
+        "prop_crystal",
+        "prop_water_pool"
+      ],
+      "secret_wall": "east"
+    },
+    {
+      "id": "drowned_vaults_secret_2",
+      "biome": "drowned_vaults",
+      "kind": "secret",
+      "w": 5,
+      "h": 5,
+      "spawn_budget": 0,
+      "props": [
+        "prop_chest",
+        "prop_gold_pile"
+      ],
+      "secret_wall": "west"
+    },
+    {
+      "id": "drowned_vaults_secret_3",
+      "biome": "drowned_vaults",
+      "kind": "secret",
+      "w": 7,
+      "h": 5,
+      "spawn_budget": 0,
+      "props": [
+        "prop_crystal",
+        "prop_rubble"
+      ],
+      "secret_wall": "north"
+    },
+    {
+      "id": "catacombs_gambling",
+      "biome": "catacombs",
+      "kind": "gambling",
+      "w": 8,
+      "h": 7,
+      "spawn_budget": 0,
+      "props": [
+        "prop_coffer",
+        "prop_gold_pile"
+      ]
+    },
+    {
+      "id": "catacombs_blacksmith",
+      "biome": "catacombs",
+      "kind": "blacksmith",
+      "w": 9,
+      "h": 8,
+      "spawn_budget": 0,
+      "props": [
+        "prop_anvil",
+        "prop_hammer"
+      ]
+    },
+    {
+      "id": "catacombs_fountain",
+      "biome": "catacombs",
+      "kind": "fountain",
+      "w": 7,
+      "h": 7,
+      "spawn_budget": 0,
+      "props": [
+        "prop_fountain"
+      ]
+    },
+    {
+      "id": "catacombs_omen",
+      "biome": "catacombs",
+      "kind": "omen",
+      "w": 7,
+      "h": 7,
+      "spawn_budget": 0,
+      "props": [
+        "prop_eye"
+      ]
+    },
+    {
+      "id": "ember_warrens_gambling",
+      "biome": "ember_warrens",
+      "kind": "gambling",
+      "w": 8,
+      "h": 7,
+      "spawn_budget": 0,
+      "props": [
+        "prop_coffer",
+        "prop_gold_pile"
+      ]
+    },
+    {
+      "id": "ember_warrens_blacksmith",
+      "biome": "ember_warrens",
+      "kind": "blacksmith",
+      "w": 9,
+      "h": 8,
+      "spawn_budget": 0,
+      "props": [
+        "prop_anvil",
+        "prop_hammer"
+      ]
+    },
+    {
+      "id": "ember_warrens_fountain",
+      "biome": "ember_warrens",
+      "kind": "fountain",
+      "w": 7,
+      "h": 7,
+      "spawn_budget": 0,
+      "props": [
+        "prop_fountain"
+      ]
+    },
+    {
+      "id": "ember_warrens_omen",
+      "biome": "ember_warrens",
+      "kind": "omen",
+      "w": 7,
+      "h": 7,
+      "spawn_budget": 0,
+      "props": [
+        "prop_eye"
+      ]
+    },
+    {
+      "id": "drowned_vaults_gambling",
+      "biome": "drowned_vaults",
+      "kind": "gambling",
+      "w": 8,
+      "h": 7,
+      "spawn_budget": 0,
+      "props": [
+        "prop_coffer",
+        "prop_gold_pile"
+      ]
+    },
+    {
+      "id": "drowned_vaults_blacksmith",
+      "biome": "drowned_vaults",
+      "kind": "blacksmith",
+      "w": 9,
+      "h": 8,
+      "spawn_budget": 0,
+      "props": [
+        "prop_anvil",
+        "prop_hammer"
+      ]
+    },
+    {
+      "id": "drowned_vaults_fountain",
+      "biome": "drowned_vaults",
+      "kind": "fountain",
+      "w": 7,
+      "h": 7,
+      "spawn_budget": 0,
+      "props": [
+        "prop_fountain"
+      ]
+    },
+    {
+      "id": "drowned_vaults_omen",
+      "biome": "drowned_vaults",
+      "kind": "omen",
+      "w": 7,
+      "h": 7,
+      "spawn_budget": 0,
+      "props": [
+        "prop_eye"
+      ]
+    }
+  ]
+}

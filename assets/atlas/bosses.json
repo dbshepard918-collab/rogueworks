@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "image": "assets/atlas/bosses.png",
+  "meta": {
+    "tile": 32,
+    "palette_version": 1,
+    "generated_by": "pixel"
+  },
+  "frames": {
+    "boss_drowned_leviathan": [
+      0,
+      0,
+      32,
+      32
+    ],
+    "boss_forge_colossus": [
+      32,
+      0,
+      32,
+      32
+    ],
+    "boss_skull_overlord": [
+      0,
+      32,
+      32,
+      32
+    ]
+  }
+}

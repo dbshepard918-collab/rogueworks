@@ -1,0 +1,42 @@
+{
+  "biome": "catacombs",
+  "curses": [],
+  "endless": false,
+  "errors": [],
+  "floor": 1,
+  "invariants": {
+    "violations": []
+  },
+  "metrics": {
+    "fps_equiv": 263,
+    "frames": 300,
+    "ms_per_tick": 3.8064
+  },
+  "ok": true,
+  "player": {
+    "essence": 0,
+    "gold": 0,
+    "hp": 90,
+    "items": [],
+    "kills": 0,
+    "level": 1,
+    "max_hp": 90,
+    "pos": [
+      2,
+      2
+    ],
+    "statuses": [],
+    "xp": 0
+  },
+  "seed": 13,
+  "ticks": 300,
+  "world": {
+    "entities": 15,
+    "level_h": 32,
+    "level_w": 48,
+    "monsters": 11,
+    "pickups": 3,
+    "projectiles": 0,
+    "rooms": 6
+  }
+}

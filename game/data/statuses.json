@@ -1,0 +1,194 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "id": "poison",
+      "name": "Poison",
+      "kind": "dot",
+      "magnitude": 2,
+      "duration": 180,
+      "tick_every": 30,
+      "icon": "ui_status_poison"
+    },
+    {
+      "id": "burn",
+      "name": "Burn",
+      "kind": "dot",
+      "magnitude": 3,
+      "duration": 240,
+      "tick_every": 40,
+      "icon": "ui_status_burn"
+    },
+    {
+      "id": "bleed",
+      "name": "Bleed",
+      "kind": "dot",
+      "magnitude": 4,
+      "duration": 300,
+      "tick_every": 60,
+      "icon": "ui_status_bleed"
+    },
+    {
+      "id": "acid_burn",
+      "name": "Acid Burn",
+      "kind": "dot",
+      "magnitude": 2,
+      "duration": 180,
+      "tick_every": 30,
+      "icon": "ui_status_acid_burn"
+    },
+    {
+      "id": "soul_rot",
+      "name": "Soul Rot",
+      "kind": "dot",
+      "magnitude": 5,
+      "duration": 360,
+      "tick_every": 60,
+      "icon": "ui_status_soul_rot"
+    },
+    {
+      "id": "ember_scorch",
+      "name": "Ember Scorch",
+      "kind": "dot",
+      "magnitude": 4,
+      "duration": 300,
+      "tick_every": 30,
+      "icon": "ui_status_ember_scorch"
+    },
+    {
+      "id": "slow",
+      "name": "Slowed",
+      "kind": "debuff",
+      "magnitude": 0.5,
+      "duration": 180,
+      "tick_every": 60,
+      "icon": "ui_status_slow"
+    },
+    {
+      "id": "stun",
+      "name": "Stunned",
+      "kind": "debuff",
+      "magnitude": 1.0,
+      "duration": 60,
+      "tick_every": 60,
+      "icon": "ui_status_stun"
+    },
+    {
+      "id": "weaken",
+      "name": "Weakened",
+      "kind": "debuff",
+      "magnitude": 0.75,
+      "duration": 240,
+      "tick_every": 60,
+      "icon": "ui_status_weaken"
+    },
+    {
+      "id": "corrode",
+      "name": "Corroded",
+      "kind": "debuff",
+      "magnitude": 0.7,
+      "duration": 300,
+      "tick_every": 60,
+      "icon": "ui_status_corrode"
+    },
+    {
+      "id": "chill",
+      "name": "Chilled",
+      "kind": "debuff",
+      "magnitude": 0.6,
+      "duration": 300,
+      "tick_every": 60,
+      "icon": "ui_status_chill"
+    },
+    {
+      "id": "doom_mark",
+      "name": "Doom Mark",
+      "kind": "debuff",
+      "magnitude": 0.25,
+      "duration": 600,
+      "tick_every": 60,
+      "icon": "ui_status_doom_mark"
+    },
+    {
+      "id": "fortify",
+      "name": "Fortified",
+      "kind": "buff",
+      "magnitude": 0.5,
+      "duration": 300,
+      "tick_every": 60,
+      "icon": "ui_status_fortify"
+    },
+    {
+      "id": "rage",
+      "name": "Rage",
+      "kind": "buff",
+      "magnitude": 0.35,
+      "duration": 360,
+      "tick_every": 60,
+      "icon": "ui_status_rage"
+    },
+    {
+      "id": "haste",
+      "name": "Haste",
+      "kind": "buff",
+      "magnitude": 0.3,
+      "duration": 180,
+      "tick_every": 60,
+      "icon": "ui_status_haste"
+    },
+    {
+      "id": "regeneration",
+      "name": "Regeneration",
+      "kind": "buff",
+      "magnitude": 3,
+      "duration": 300,
+      "tick_every": 60,
+      "icon": "ui_status_regeneration"
+    },
+    {
+      "id": "luck_ward",
+      "name": "Luck Ward",
+      "kind": "buff",
+      "magnitude": 2,
+      "duration": 300,
+      "tick_every": 60,
+      "icon": "ui_status_luck_ward"
+    },
+    {
+      "id": "lantern_glow",
+      "name": "Lantern Glow",
+      "kind": "buff",
+      "magnitude": 1.0,
+      "duration": 600,
+      "tick_every": 60,
+      "icon": "ui_status_lantern_glow"
+    },
+    {
+      "id": "steam_burst",
+      "name": "Steam Burst",
+      "kind": "dot",
+      "magnitude": 8,
+      "duration": 90,
+      "tick_every": 20,
+      "icon": "ui_status_steam_burst"
+    },
+    {
+      "id": "shatter",
+      "name": "Shatter",
+      "kind": "debuff",
+      "magnitude": 1.0,
+      "duration": 30,
+      "tick_every": 30,
+      "icon": "ui_status_shatter"
+    },
+    {
+      "id": "frost_burn",
+      "name": "Frost Burn",
+      "kind": "dot",
+      "magnitude": 5,
+      "duration": 120,
+      "tick_every": 30,
+      "icon": "ui_status_frost_burn"
+    }
+  ]
+}

@@ -1,0 +1,261 @@
+[03:33:31] continuous loop starting (cooldown 20s, turn timeout 3600s)
+[03:33:31] ROUND 1 - running pre-flight gates
+[03:33:34] ROUND 1 item: P1.1 Difficulty curve & run length. Per-floor scaling tables for hp/damage/count, elite
+[03:36:08] ROUND 1 builder: OK (38 tool calls, 154s)
+[03:43:57] ROUND 1 review: OK (38 tool calls, 469s)
+[03:44:08]   SLAP #2 (chip): STILL OPEN
+[03:44:08]   SLAP #4 (forge): CLEAN
+[03:44:08]   SLAP #5 (forge): CLEAN
+[03:44:28]   in-flight work detected (14972 chat -q, You are forge. Your work was reviewed and rejected., VIOLATION: Round 1 is undocumented. No runs/reports/BUILD-*.md written for this round. No docs/PROGRESS.md entry prepended for P1.1. docs/ROADMAP.md still shows P1.1 as unchecked '[ ]'. docs/TICKETS.md unchanged. A round with no report, no progress entry, and no roadmap/ticket update did not happen — the reviewer cannot verify what was built.) - waiting for it to finish
+[03:46:09] ROUND 2 - running pre-flight gates
+[03:46:12] ROUND 2 item: P1.2 Biome modifiers. Each biome changes rules, not just art: Ember (burning floor tiles,
+[04:46:12] ROUND 2 builder: TIMEOUT (0 tool calls, 3600s)
+[04:46:13]   SLAP #2 (chip): CLEAN
+[04:46:33] ROUND 3 - running pre-flight gates
+[04:46:36] ROUND 3 item: P1.3 Meta-progression tree. Replace flat essence upgrades with a small tree: branches for
+[05:46:36] ROUND 3 builder: TIMEOUT (0 tool calls, 3600s)
+[05:46:56] ROUND 4 - running pre-flight gates
+[05:46:58] ROUND 4 item: P1.3 Meta-progression tree. Replace flat essence upgrades with a small tree: branches for
+[06:46:58] ROUND 4 builder: TIMEOUT (0 tool calls, 3600s)
+[06:47:18] ROUND 5 - running pre-flight gates
+[06:47:28] ROUND 5 item: P1.3 Meta-progression tree. Replace flat essence upgrades with a small tree: branches for
+[07:32:11] ROUND 5 builder: OK (278 tool calls, 2683s)
+[07:37:12] ROUND 5 review: OK (278 tool calls, 301s)
+[07:37:32] ROUND 6 - running pre-flight gates
+[07:37:43] ROUND 6 item: P1.5 Shrines, curses and blessings. Risk/reward shrines: gain a boon, take a curse.
+[08:37:43] ROUND 6 builder: TIMEOUT (0 tool calls, 3600s)
+[08:38:03] ROUND 7 - running pre-flight gates
+[08:38:13] ROUND 7 item: P1.5 Shrines, curses and blessings. Risk/reward shrines: gain a boon, take a curse.
+[09:21:16] ROUND 7 builder: OK (116 tool calls, 2583s)
+[10:03:34] ROUND 7 review: OK (116 tool calls, 2538s)
+[10:03:35]   SLAP #15 (forge): CLEAN
+[10:03:35]   SLAP #16 (forge): STILL OPEN
+[10:03:35]   SLAP #17 (forge): STILL OPEN
+[10:03:35]   SLAP #18 (forge): STILL OPEN
+[10:03:56]   in-flight work detected (3968 chat -q, You are forge. Your work was reviewed and rejected., VIOLATION: Test debris left in runs/ and project root — 89 playtest-findshrine-*.json, 5 qa-shrine-*.json, 4 playtest-shrine-*.json, 5 runs/scripts/*.py, 4 stray .py files in project root (analyze_shrine.py, qa_shrine_long.py, qa_shrine_multi.py, _shrine_integ.py)) - waiting for it to finish
+[10:14:45] ROUND 8 - running pre-flight gates
+[10:14:56] ROUND 8 item: P1.6 Build-defining loot. Legendary items that change play, not just numbers: pierce,
+[10:39:58] ROUND 8 builder: OK (69 tool calls, 1502s)
+[10:46:03] ROUND 8 review: OK (69 tool calls, 365s)
+[10:46:04]   SLAP #16 (forge): STILL OPEN
+[10:46:04]   SLAP #17 (forge): STILL OPEN
+[10:46:04]   SLAP #18 (forge): STILL OPEN
+[10:46:24] ROUND 9 - running pre-flight gates
+[10:46:26] ROUND 9 item: P1.7 Economy. Gold sinks worth caring about (reroll chest, heal, shop discounts), lock/key
+[11:08:35] ROUND 9 builder: OK (96 tool calls, 1328s)
+[11:18:27] ROUND 9 review: OK (96 tool calls, 592s)
+[11:18:29]   SLAP #16 (forge): STILL OPEN
+[11:18:29]   SLAP #17 (forge): STILL OPEN
+[11:18:29]   SLAP #18 (forge): STILL OPEN
+[11:18:29]   SLAP #19 (forge): STILL OPEN
+[11:18:29]   SLAP #20 (forge): STILL OPEN
+[11:18:29]   SLAP #21 (forge): STILL OPEN
+[11:18:29]   SLAP #22 (forge): STILL OPEN
+[11:18:29]   SLAP #23 (forge): STILL OPEN
+[11:18:29]   SLAP #24 (forge): STILL OPEN
+[11:18:29]   SLAP #25 (forge): STILL OPEN
+[11:18:49]   in-flight work detected (26580 chat -q, You are forge. Your work was reviewed and rejected., VIOLATION: Round 9 undocumented: no docs/PROGRESS.md entry, no runs/reports/BUILD-*.md, P1.7 not ticked in ROADMAP.md, no P1.7 ticket in TICKETS.md) - waiting for it to finish
+[11:27:39] ROUND 10 - running pre-flight gates
+[11:27:42] ROUND 10 item: P1.8 Run variants. Daily seeded run, "cursed run" modifier list at run start, endless mode
+[11:46:53] ROUND 10 builder: OK (279 tool calls, 1151s)
+[11:52:29] ROUND 10 review: OK (279 tool calls, 335s)
+[11:52:35]   SLAP #16 (forge): STILL OPEN
+[11:52:35]   SLAP #17 (forge): STILL OPEN
+[11:52:35]   SLAP #18 (forge): STILL OPEN
+[11:52:35]   SLAP #19 (forge): STILL OPEN
+[11:52:35]   SLAP #20 (forge): STILL OPEN
+[11:52:35]   SLAP #21 (forge): STILL OPEN
+[11:52:35]   SLAP #23 (forge): STILL OPEN
+[11:52:35]   SLAP #24 (forge): STILL OPEN
+[11:52:35]   SLAP #25 (forge): STILL OPEN
+[11:52:35]   SLAP #26 (forge): CLEAN
+[11:52:56]   in-flight work detected (32336 chat -q, You are forge. Your work was reviewed and rejected., VIOLATION: PROGRESS.md Round 10 entry contradicts itself on contract changes: first contract bullet says 'No contract changes needed (flags were already documented in CONTRACTS.md §3)' but the same entry documents adding the unique field to CONTRACTS.md §4 and updating §3/§3.1 with CLI flags and run summary keys. The second contract bullet correctly lists all changes; the first should be removed.) - waiting for it to finish
+[11:53:36] ROUND 11 - running pre-flight gates
+[11:53:39] ROUND 11 item: P2.1 Hit feel. Hit-stop frames, knockback curves, hit flash, screen shake with a settings
+[12:02:40] taking over a stale lock (pid 27944 is gone)
+[12:02:40] continuous loop starting (cooldown 20s, turn timeout 3600s)
+[12:02:40] ROUND 1 - running pre-flight gates
+[12:02:43] ROUND 1 item: P2.1 Hit feel. Hit-stop frames, knockback curves, hit flash, screen shake with a settings
+[12:10:50] taking over a stale lock (pid 31468 is gone)
+[12:10:50] continuous loop starting (cooldown 20s, turn timeout 3600s)
+[12:10:50] ROUND 1 - running pre-flight gates
+[12:10:52] ROUND 1 item: P2.1 Hit feel. Hit-stop frames, knockback curves, hit flash, screen shake with a settings toggle, damage numbe
+[12:17:40] taking over a stale lock (pid 19760 is gone)
+[12:17:40] continuous loop starting (cooldown 20s, turn timeout 3600s)
+[12:17:40] ROUND 1 - running pre-flight gates
+[12:32:41] taking over a stale lock (pid 6552 is gone)
+[12:32:41] continuous loop starting (cooldown 20s, turn timeout 3600s)
+[12:32:41] ROUND 1 - running pre-flight gates
+[12:32:45] ROUND 1 item: P2.1 Hit feel. Hit-stop frames, knockback curves, hit flash, screen shake with a settings toggle, damage numbe
+[12:47:44] taking over a stale lock (pid 32756 is gone)
+[12:47:44] continuous loop starting (cooldown 20s, turn timeout 3600s)
+[12:47:45] ROUND 1 - running pre-flight gates
+[12:47:48] ROUND 1 item: P2.1 Hit feel. Hit-stop frames, knockback curves, hit flash, screen shake with a settings toggle, damage numbe
+[12:50:10] taking over a stale lock (pid 29248 is gone)
+[12:50:10] continuous loop starting (cooldown 20s, turn timeout 3600s)
+[12:50:10] ROUND 1 - running pre-flight gates
+[13:05:42] taking over a stale lock (pid 18280 is gone)
+[13:05:42] continuous loop starting (cooldown 20s, turn timeout 3600s)
+[13:05:43] ROUND 1 - running pre-flight gates
+[13:05:45] ROUND 1 item: P2.1 Hit feel. Hit-stop frames, knockback curves, hit flash, screen shake with a settings toggle, damage numbe
+[13:11:31] ROUND 1 builder: OK (177 tool calls, 346s)
+[13:14:46] ROUND 1 review: OK (177 tool calls, 195s)
+[13:15:11]   SLAP #27 (forge): CLEAN
+[13:15:11]   SLAP #28 (forge): CLEAN
+[13:15:11]   SLAP #29 (forge): CLEAN
+[13:15:11]   SLAP #30 (forge): CLEAN
+[13:15:11]   SLAP #31 (forge): CLEAN
+[13:15:31]   in-flight work detected (20304 chat -q, You are forge. Your work was reviewed and rejected., VIOLATION: left test fixture tools/studio/rmdir.py in the project (created then deleted then recreated, then deleted again — ends as a dead .py file)) - waiting for it to finish
+[13:20:42] taking over a stale lock (pid 20784 is gone)
+[13:20:42] continuous loop starting (cooldown 20s, turn timeout 3600s)
+[13:20:43]   in-flight work detected (20304 chat -q, You are forge. Your work was reviewed and rejected., VIOLATION: left test fixture tools/studio/rmdir.py in the project (created then deleted then recreated, then deleted again - ends as a dead .py file)) - waiting for it to finish
+[13:36:35] ROUND 1 - running pre-flight gates
+[13:36:37] ROUND 1 item: P2.2 Telegraphs. Every enemy attack gets a windup animation/indicator before it lands.
+[13:44:58] ROUND 1 builder: OK (202 tool calls, 500s)
+[13:49:24] ROUND 1 review: OK (202 tool calls, 267s)
+[13:49:34]   SLAP #32 (forge): CLEAN
+[13:49:34]   SLAP #33 (forge): CLEAN
+[13:49:55]   in-flight work detected (8576 chat -q, You are forge. Your work was reviewed and rejected., VIOLATION: Report claims 20 rendered frames across seeds 0,3,5,7 but only 8 frames exist on disk: runs/shots/p22-qa/ has 5 frames (ticks 100-500), runs/shots/p22/ has 3 frames. No frames from seeds 5 or 7 exist anywhere.) - waiting for it to finish
+[14:00:03] ROUND 2 - running pre-flight gates
+[14:00:05] ROUND 2 item: P2.3 Enemy behaviour breadth. Add: summoner, shielded (directional), teleporter, charger
+[14:23:39] ROUND 2 builder: OK (481 tool calls, 1414s)
+[14:26:13] ROUND 2 review: OK (481 tool calls, 154s)
+[14:26:34] ROUND 3 - running pre-flight gates
+[14:26:37] ROUND 3 item: P2.3 Enemy behaviour breadth. Add: summoner, shielded (directional), teleporter, charger (leaps), splitter, an
+[14:30:26] ROUND 3 builder: OK (110 tool calls, 229s)
+[14:34:13] ROUND 3 review: OK (110 tool calls, 227s)
+[14:34:19]   SLAP #40 (forge): CLEAN
+[14:34:19]   SLAP #41 (forge): CLEAN
+[14:34:19]   SLAP #42 (forge): CLEAN
+[14:34:39]   in-flight work detected (12920 chat -q, You are forge. Your work was reviewed and rejected., VIOLATION: Extended stress runs documented in BUILD-2026-09-14.md but playtest JSON never written — floor 5/10/15/25/100 and endless floor 10000/1000000 have no corresponding runs/playtest-*.json artifact. Claims with no command output backing them.) - waiting for it to finish
+[14:38:43] ROUND 4 - running pre-flight gates
+[14:38:46] ROUND 4 item: P2.4 Boss design. 3-act boss fights (phases with arena hazards, adds, and a final enrage),
+[15:24:51] ROUND 4 builder: OK (555 tool calls, 2765s)
+[15:26:48] ROUND 4 review: OK (555 tool calls, 116s)
+[15:27:08] ROUND 5 - running pre-flight gates
+[15:27:11] ROUND 5 item: P2.5 Status interplay. Elemental combinations (wet + ember = steam burst, chilled + fire =
+[15:48:06] ROUND 5 builder: OK (187 tool calls, 1255s)
+[15:49:56] ROUND 5 review: OK (187 tool calls, 110s)
+[15:50:02]   SLAP #43 (forge): CLEAN
+[15:50:02]   SLAP #44 (forge): CLEAN
+[15:50:22]   in-flight work detected (25776 chat -q, You are forge. Your work was reviewed and rejected., VIOLATION: playtest-p25-seed*.json artifacts written then deleted mid-round; vision claim has no numeric check (VLM analysis failed, no pixel count fallback)) - waiting for it to finish
+[15:56:47] taking over a stale lock (pid 13500 is gone)
+[15:56:47] continuous loop starting (cooldown 20s, turn timeout 3600s)
+[15:56:47] ROUND 1 - running pre-flight gates
+[15:56:50] ROUND 1 item: P2.6 Controls & accessibility. Gamepad support, remappable keys, toggle for screen shake /
+[16:07:30] ROUND 1 builder: OK (164 tool calls, 640s)
+[16:09:36] ROUND 1 review: OK (164 tool calls, 126s)
+[16:09:38]   SLAP #45 (chip): CLEAN
+[16:09:58] ROUND 2 - running pre-flight gates
+[16:10:01] ROUND 2 item: P3.1 Room-clear locks & rewards. Doors seal during combat, unlock with a reward choice
+[16:28:43] ROUND 2 builder: OK (227 tool calls, 1122s)
+[16:31:50] ROUND 2 review: OK (227 tool calls, 188s)
+[16:31:56]   SLAP #46 (forge): CLEAN
+[16:32:16]   in-flight work detected (17848 chat -q, You are forge. Your work was reviewed and rejected., VIOLATION: Overwrote runs/reports/BUILD-2026-09-13.md (the P2.6 Round 18 report) instead of writing a new file per round protocol) - waiting for it to finish
+[16:33:17] ROUND 3 - running pre-flight gates
+[16:33:20] ROUND 3 item: P3.2 Secrets. Cracked walls, hidden doors, secret rooms visible only on the minimap when
+[16:35:22] ROUND 3 builder: OK (81 tool calls, 123s)
+[16:37:12] ROUND 3 review: OK (81 tool calls, 109s)
+[16:37:32] ROUND 4 - running pre-flight gates
+[16:37:35] ROUND 4 item: P3.2 Secrets. Cracked walls, hidden doors, secret rooms visible only on the minimap when
+[17:26:46] ROUND 4 builder: OK (668 tool calls, 2952s)
+[17:30:09] ROUND 4 review: OK (668 tool calls, 203s)
+[17:30:31]   SLAP #52 (forge): CLEAN
+[17:30:31]   SLAP #53 (lore): CLEAN
+[17:30:31]   SLAP #54 (chip): STILL OPEN
+[17:30:31]   SLAP #55 (chip): STILL OPEN
+[17:30:31]   SLAP #56 (forge): CLEAN
+[17:30:52]   in-flight work detected (25316 chat -q, You are forge. Your work was reviewed and rejected., VIOLATION: BUILD report claims hidden doors visible on minimap when adjacent to player, but no hidden-door rendering, tracking, or detection exists anywhere in game/ (minimap.py/world.py/renderer.py have zero hidden_door references); prop_hidden_door.png sprite is never wired) - waiting for it to finish
+[17:49:54] ROUND 5 - running pre-flight gates
+[17:49:57] ROUND 5 item: P3.4 Onboarding. A first-run tutorial floor that teaches move/attack/dash/interact, with
+[18:05:50] taking over a stale lock (pid 11596 is gone)
+[18:05:50] continuous loop starting (cooldown 20s, turn timeout 3600s)
+[18:05:50] ROUND 1 - running pre-flight gates
+[18:05:53] ROUND 1 item: P3.4 Onboarding. A first-run tutorial floor that teaches move/attack/dash/interact, with
+[18:21:00] taking over a stale lock (pid 12104 is gone)
+[18:21:00] continuous loop starting (cooldown 20s, turn timeout 3600s)
+[18:21:00] ROUND 1 - running pre-flight gates
+[18:21:03] ROUND 1 item: P3.4 Onboarding. A first-run tutorial floor that teaches move/attack/dash/interact, with
+[18:38:55] ROUND 1 builder: OK (591 tool calls, 1072s)
+[18:40:57] ROUND 1 review: OK (591 tool calls, 123s)
+[18:40:58]   SLAP #54 (chip): STILL OPEN
+[18:40:58]   SLAP #55 (chip): STILL OPEN
+[18:40:58]   SLAP #57 (chip): STILL OPEN
+[18:41:18] ROUND 2 - running pre-flight gates
+[18:41:21] ROUND 2 item: P3.5 Run storytelling. Death recap (killed by X, floor Y, after N rooms), run history list,
+[19:41:21] ROUND 2 builder: TIMEOUT (0 tool calls, 3600s)
+[19:41:22]   SLAP #54 (chip): STILL OPEN
+[19:41:22]   SLAP #55 (chip): STILL OPEN
+[19:41:22]   SLAP #57 (chip): STILL OPEN
+[19:41:42] ROUND 3 - running pre-flight gates
+[19:41:53] ROUND 3 item: P4.1 Lantern lighting. Real light radius with line-of-sight fog, falling off with distance,
+[19:49:51] ROUND 3 builder: OK (191 tool calls, 478s)
+[20:00:29] ROUND 3 review: OK (191 tool calls, 638s)
+[20:00:29]   SLAP #58 (forge): STILL OPEN
+[20:00:29]   SLAP #59 (forge): STILL OPEN
+[20:00:50] ROUND 4 - running pre-flight gates
+[20:00:53] ROUND 4 item: P4.2 Animation depth. 4-frame walk cycles, attack anticipation/settle, hurt and death
+[20:25:38] ROUND 4 builder: OK (117 tool calls, 1486s)
+[20:29:17] ROUND 4 review: OK (117 tool calls, 219s)
+[20:29:18]   SLAP #58 (forge): STILL OPEN
+[20:29:18]   SLAP #59 (forge): STILL OPEN
+[20:29:18]   SLAP #60 (forge): STILL OPEN
+[20:29:18]   SLAP #61 (forge): CLEAN
+[20:29:38]   in-flight work detected (11224 chat -q, You are forge. Your work was reviewed and rejected., VIOLATION: Death animation uses self.age instead of self.death_timer — death frames cycle forever and never reset; death_timer is decremented in tick() but never started and never used in current_frame()) - waiting for it to finish
+[20:35:02] ROUND 5 - running pre-flight gates
+[20:35:05] ROUND 5 item: P4.3 Audio. Procedural sfx for hit/death/pickup/levelup/door/stairs with distance
+[20:46:29] ROUND 5 builder: OK (184 tool calls, 685s)
+[20:48:42] ROUND 5 review: OK (184 tool calls, 132s)
+[20:48:42]   SLAP #58 (forge): STILL OPEN
+[20:48:42]   SLAP #59 (forge): STILL OPEN
+[20:48:42]   SLAP #60 (forge): STILL OPEN
+[20:49:03] ROUND 6 - running pre-flight gates
+[20:49:06] ROUND 6 item: P4.4 Juice inventory. Decals (blood, scorch), dust on dash, footstep puffs, coin sparkle on
+[21:31:30] ROUND 6 builder: OK (912 tool calls, 2545s)
+[21:35:32] ROUND 6 review: OK (912 tool calls, 242s)
+[21:35:34]   SLAP #58 (forge): STILL OPEN
+[21:35:34]   SLAP #59 (forge): STILL OPEN
+[21:35:34]   SLAP #60 (forge): STILL OPEN
+[21:35:34]   SLAP #65 (forge): STILL OPEN
+[21:35:34]   SLAP #66 (forge): CLEAN
+[21:35:34]   SLAP #67 (forge): CLEAN
+[21:35:54]   in-flight work detected (22308 chat -q, You are forge. Your work was reviewed and rejected., VIOLATION: PROGRESS.md P4.4 entry claims vfx atlas has 380 frames; vfx.json has 20 frames (tools.art.verify reports 379 total across all 8 atlases)) - waiting for it to finish
+[21:36:15] ROUND 7 - running pre-flight gates
+[21:36:18] ROUND 7 item: P4.5 Menus. Animated title, settings screen (video/audio/controls/accessibility), pause
+[21:57:51] ROUND 7 builder: OK (552 tool calls, 1294s)
+[21:59:41] ROUND 7 review: OK (552 tool calls, 109s)
+[21:59:51]   SLAP #58 (forge): STILL OPEN
+[21:59:51]   SLAP #59 (forge): STILL OPEN
+[21:59:51]   SLAP #60 (forge): STILL OPEN
+[21:59:51]   SLAP #65 (forge): STILL OPEN
+[21:59:51]   SLAP #68 (forge): STILL OPEN
+[21:59:51]   SLAP #69 (forge): STILL OPEN
+[21:59:51]   SLAP #70 (forge): CLEAN
+[21:59:51]   SLAP #71 (forge): CLEAN
+[21:59:51]   SLAP #72 (forge): STILL OPEN
+[22:00:11]   in-flight work detected (20352 chat -q, You are forge. Your work was reviewed and rejected., VIOLATION: Undocumented shot dirs p45-final-test/ and p45-title/ in runs/shots/ not in BUILD report; p45-final-test frames are byte-identical to p45-seed7) - waiting for it to finish
+[22:03:34] ROUND 8 - running pre-flight gates
+[22:03:37] ROUND 8 item: P4.6 Resolution scaling. Windowed/fullscreen, integer-scale pixel-perfect rendering at
+[22:46:29] ROUND 8 builder: OK (424 tool calls, 2573s)
+[22:52:19] ROUND 8 review: OK (424 tool calls, 349s)
+[22:52:19]   SLAP #74 (forge): STILL OPEN
+[22:52:19]   SLAP #75 (forge): STILL OPEN
+[22:52:40]   in-flight work detected (25200 chat -q, You are forge. Your work was reviewed and rejected., VIOLATION: P4.6 Resolution scaling implemented but undocumented: no PROGRESS.md entry, no TICKETS.md ticket, ROADMAP.md not ticked [x], no BUILD report for round 8's P4.6 work) - waiting for it to finish
+[22:56:42] ROUND 9 - running pre-flight gates
+[22:56:46] ROUND 9 item: P5.1 Save robustness. Version migration for every save-format change, save slots, atomic
+[23:18:24] taking over a stale lock (pid 23720 is gone)
+[23:18:24] continuous loop starting (cooldown 20s, turn timeout 3600s)
+[23:18:24] ROUND 1 - running pre-flight gates
+[23:18:27] ROUND 1 item: P5.2 Deterministic replay. Record inputs per run and replay a seed frame-exactly; shareable
+[23:34:09] taking over a stale lock (pid 26288 is gone)
+[23:34:09] continuous loop starting (cooldown 20s, turn timeout 3600s)
+[23:34:09] ROUND 1 - running pre-flight gates
+[23:34:15] ROUND 1 item: P5.3 Profiler overlay. Entity count, tick ms, draw calls, particle budget, atlas memory at
+[23:43:00] ROUND 1 builder: OK (99 tool calls, 525s)
+[23:45:24] ROUND 1 review: OK (99 tool calls, 145s)
+[23:45:44]   SLAP #77 (forge): CLEAN
+[23:45:44]   SLAP #78 (forge): CLEAN
+[23:46:04]   in-flight work detected (3224 chat -q, You are forge. Your work was reviewed and rejected., VIOLATION: Profiler fps_equiv always 0.0 — never computed, dead metric in summary) - waiting for it to finish
+[23:47:45] ROUND 2 - running pre-flight gates
+[23:47:51] ROUND 2 item: P0.4 Bitmap font glyph coverage (owner: pixel). `FONT_GLYPHS` covers 45 glyphs; the UI
+[23:56:56] ROUND 2 builder: OK (314 tool calls, 545s)

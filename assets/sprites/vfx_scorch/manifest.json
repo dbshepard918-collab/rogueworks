@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "name": "vfx_scorch",
+  "grid": 32,
+  "palette_version": 1,
+  "palette": "assets/palette.json",
+  "colour_key": "#ff00ff",
+  "key_mode": "family",
+  "source": "assets/raw/staged/vfx_scorch_raw.png",
+  "generated_by": "pixel",
+  "frames": {
+    "vfx_scorch_r0c0": {
+      "size": [
+        32,
+        32
+      ]
+    }
+  }
+}

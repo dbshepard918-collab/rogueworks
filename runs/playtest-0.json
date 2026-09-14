@@ -1,0 +1,56 @@
+{
+  "biome": "catacombs",
+  "curses": [],
+  "endless": false,
+  "errors": [],
+  "floor": 1,
+  "invariants": {
+    "violations": []
+  },
+  "metrics": {
+    "fps_equiv": 247,
+    "frames": 300,
+    "ms_per_tick": 4.0443
+  },
+  "metrics_profiler": {
+    "atlas_mem_bytes": 2146304,
+    "atlas_mem_mb": 2.0,
+    "caps_violations": [],
+    "draw_calls": 969,
+    "entity_cap": 200,
+    "entity_count": 15,
+    "fps_equiv": 9174.3,
+    "particle_cap": 420,
+    "particle_count": 0,
+    "target_fps": 60,
+    "tick_ms": 0.11,
+    "tick_ms_smoothed": 0.1
+  },
+  "ok": true,
+  "player": {
+    "essence": 0,
+    "gold": 0,
+    "hp": 90,
+    "items": [],
+    "kills": 0,
+    "level": 1,
+    "max_hp": 90,
+    "pos": [
+      2,
+      2
+    ],
+    "statuses": [],
+    "xp": 0
+  },
+  "seed": 0,
+  "ticks": 300,
+  "world": {
+    "entities": 15,
+    "level_h": 34,
+    "level_w": 48,
+    "monsters": 11,
+    "pickups": 3,
+    "projectiles": 0,
+    "rooms": 6
+  }
+}

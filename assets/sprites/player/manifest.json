@@ -1,0 +1,313 @@
+{
+  "version": 1,
+  "name": "player",
+  "grid": 32,
+  "palette_version": 1,
+  "palette": "assets/palette.json",
+  "colour_key": "#ff00ff",
+  "key_mode": "family",
+  "source": "assets/raw/player.png",
+  "generated_by": "pixel",
+  "frames": {
+    "player_attack_down": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_attack_down_0": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_attack_down_1": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_attack_left": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_attack_left_0": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_attack_left_1": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_attack_right": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_attack_right_0": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_attack_right_1": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_attack_up": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_attack_up_0": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_attack_up_1": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_dash_right": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_death_0": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_death_1": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_death_2": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_death_3": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_hurt_left": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_hurt_left_0": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_hurt_left_1": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_idle_breath_down_0": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_idle_breath_down_1": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_idle_breath_left_0": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_idle_breath_left_1": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_idle_breath_right_0": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_idle_breath_right_1": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_idle_breath_up_0": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_idle_breath_up_1": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_idle_down": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_idle_left": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_idle_right": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_idle_up": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_walk_down_0": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_walk_down_1": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_walk_down_2": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_walk_down_3": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_walk_left": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_walk_left_0": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_walk_left_1": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_walk_left_2": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_walk_left_3": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_walk_right": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_walk_right_0": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_walk_right_1": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_walk_right_2": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_walk_right_3": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_walk_up_0": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_walk_up_1": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_walk_up_2": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player_walk_up_3": {
+      "size": [
+        32,
+        32
+      ]
+    }
+  }
+}

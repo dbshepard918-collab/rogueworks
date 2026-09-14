@@ -1,0 +1,443 @@
+{
+  "version": 1,
+  "image": "assets/atlas/items.png",
+  "meta": {
+    "tile": 32,
+    "palette_version": 1,
+    "generated_by": "pixel"
+  },
+  "frames": {
+    "item_abyssal_band": [
+      0,
+      0,
+      32,
+      32
+    ],
+    "item_assassin_draught": [
+      32,
+      0,
+      32,
+      32
+    ],
+    "item_bloodletter": [
+      64,
+      0,
+      32,
+      32
+    ],
+    "item_bone_plate": [
+      96,
+      0,
+      32,
+      32
+    ],
+    "item_bone_shiv": [
+      128,
+      0,
+      32,
+      32
+    ],
+    "item_chain_reaver": [
+      160,
+      0,
+      32,
+      32
+    ],
+    "item_chipped_hatchet": [
+      192,
+      0,
+      32,
+      32
+    ],
+    "item_cinder_talisman": [
+      224,
+      0,
+      32,
+      32
+    ],
+    "item_cracked_buckler": [
+      256,
+      0,
+      32,
+      32
+    ],
+    "item_crown_of_depths": [
+      0,
+      32,
+      32,
+      32
+    ],
+    "item_death_spark": [
+      32,
+      32,
+      32,
+      32
+    ],
+    "item_dragonsblood_flask": [
+      64,
+      32,
+      32,
+      32
+    ],
+    "item_drowned_maul": [
+      96,
+      32,
+      32,
+      32
+    ],
+    "item_drownscale_mail": [
+      128,
+      32,
+      32,
+      32
+    ],
+    "item_ember_club": [
+      160,
+      32,
+      32,
+      32
+    ],
+    "item_ember_dancer_crystal": [
+      192,
+      32,
+      32,
+      32
+    ],
+    "item_ember_tonic": [
+      224,
+      32,
+      32,
+      32
+    ],
+    "item_ember_visor": [
+      256,
+      32,
+      32,
+      32
+    ],
+    "item_etched_amulet": [
+      0,
+      64,
+      32,
+      32
+    ],
+    "item_focus_tea": [
+      32,
+      64,
+      32,
+      32
+    ],
+    "item_garnet_ring": [
+      64,
+      64,
+      32,
+      32
+    ],
+    "item_greater_draught": [
+      96,
+      64,
+      32,
+      32
+    ],
+    "item_health_draught": [
+      128,
+      64,
+      32,
+      32
+    ],
+    "item_hunters_elixir": [
+      160,
+      64,
+      32,
+      32
+    ],
+    "item_hunters_token": [
+      192,
+      64,
+      32,
+      32
+    ],
+    "item_iron_helm": [
+      224,
+      64,
+      32,
+      32
+    ],
+    "item_iron_mace": [
+      256,
+      64,
+      32,
+      32
+    ],
+    "item_iron_skin_brew": [
+      0,
+      96,
+      32,
+      32
+    ],
+    "item_keepers_bulwark": [
+      32,
+      96,
+      32,
+      32
+    ],
+    "item_keepers_draught": [
+      64,
+      96,
+      32,
+      32
+    ],
+    "item_keepers_edge": [
+      96,
+      96,
+      32,
+      32
+    ],
+    "item_keepers_signet": [
+      128,
+      96,
+      32,
+      32
+    ],
+    "item_lantern_flail": [
+      160,
+      96,
+      32,
+      32
+    ],
+    "item_lantern_oil": [
+      192,
+      96,
+      32,
+      32
+    ],
+    "item_lava_ward_potion": [
+      224,
+      96,
+      32,
+      32
+    ],
+    "item_luckstone": [
+      256,
+      96,
+      32,
+      32
+    ],
+    "item_lucky_coin": [
+      0,
+      128,
+      32,
+      32
+    ],
+    "item_magma_cuirass": [
+      32,
+      128,
+      32,
+      32
+    ],
+    "item_magma_warhammer": [
+      64,
+      128,
+      32,
+      32
+    ],
+    "item_mirror_shield": [
+      96,
+      128,
+      32,
+      32
+    ],
+    "item_oak_shield": [
+      128,
+      128,
+      32,
+      32
+    ],
+    "item_phoenix_feather": [
+      160,
+      128,
+      32,
+      32
+    ],
+    "item_pilgrim_bandage": [
+      192,
+      128,
+      32,
+      32
+    ],
+    "item_purifier": [
+      224,
+      128,
+      32,
+      32
+    ],
+    "item_rag_wraps": [
+      256,
+      128,
+      32,
+      32
+    ],
+    "item_rat_tooth_charm": [
+      0,
+      160,
+      32,
+      32
+    ],
+    "item_ring_mail": [
+      32,
+      160,
+      32,
+      32
+    ],
+    "item_rusted_censer": [
+      64,
+      160,
+      32,
+      32
+    ],
+    "item_rusty_blade": [
+      96,
+      160,
+      32,
+      32
+    ],
+    "item_seers_lens": [
+      128,
+      160,
+      32,
+      32
+    ],
+    "item_serrated_falchion": [
+      160,
+      160,
+      32,
+      32
+    ],
+    "item_sigil_of_warding": [
+      192,
+      160,
+      32,
+      32
+    ],
+    "item_small_health_draught": [
+      224,
+      160,
+      32,
+      32
+    ],
+    "item_soul_prism": [
+      256,
+      160,
+      32,
+      32
+    ],
+    "item_soul_reaver": [
+      0,
+      192,
+      32,
+      32
+    ],
+    "item_soulfire_tonic": [
+      32,
+      192,
+      32,
+      32
+    ],
+    "item_soulforged_plate": [
+      64,
+      192,
+      32,
+      32
+    ],
+    "item_steel_glaive": [
+      96,
+      192,
+      32,
+      32
+    ],
+    "item_studded_jerkin": [
+      128,
+      192,
+      32,
+      32
+    ],
+    "item_swift_tonic": [
+      160,
+      192,
+      32,
+      32
+    ],
+    "item_tin_ring": [
+      192,
+      192,
+      32,
+      32
+    ],
+    "item_torn_leather_cap": [
+      224,
+      192,
+      32,
+      32
+    ],
+    "item_vaelmoor_aegis": [
+      256,
+      192,
+      32,
+      32
+    ],
+    "item_vault_cleaver": [
+      0,
+      224,
+      32,
+      32
+    ],
+    "item_vault_elixir": [
+      32,
+      224,
+      32,
+      32
+    ],
+    "item_venom_dirk": [
+      64,
+      224,
+      32,
+      32
+    ],
+    "item_venom_tongue": [
+      96,
+      224,
+      32,
+      32
+    ],
+    "item_void_lantern": [
+      128,
+      224,
+      32,
+      32
+    ],
+    "item_warden_carapace": [
+      160,
+      224,
+      32,
+      32
+    ],
+    "item_whetstone_salve": [
+      192,
+      224,
+      32,
+      32
+    ],
+    "item_whisper_dagger": [
+      224,
+      224,
+      32,
+      32
+    ],
+    "item_wraithfang": [
+      256,
+      224,
+      32,
+      32
+    ]
+  }
+}

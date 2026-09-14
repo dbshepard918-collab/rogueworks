@@ -1,0 +1,163 @@
+{
+  "version": 1,
+  "name": "monsters",
+  "grid": 32,
+  "palette_version": 1,
+  "palette": "assets/palette.json",
+  "colour_key": "#ff00ff",
+  "key_mode": "family",
+  "source": "assets/raw/staged/monsters_drowned.png",
+  "generated_by": "pixel",
+  "frames": {
+    "monster_brine_thrall": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "monster_pale_diver": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "monster_abyss_lamprey": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "monster_drowned_soldier": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "monster_tide_caller": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "monster_coral_horror": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "monster_vault_sifter": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "monster_bog_lurker": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "monster_mire_hulk": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "monster_deep_priest": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "monster_waterlogged_husk": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "monster_drowned_leviathan": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "monster_brine_thrall_elite": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "monster_pale_diver_elite": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "monster_abyss_lamprey_elite": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "monster_drowned_soldier_elite": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "monster_skull_wraith": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "monster_skull_archer": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "monster_skull_brute": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "monster_forge_spark": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "monster_forge_spitter": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "monster_forge_protector": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "monster_drowned_grunt": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "monster_drowned_tidal": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "monster_drowned_horror": {
+      "size": [
+        32,
+        32
+      ]
+    }
+  }
+}

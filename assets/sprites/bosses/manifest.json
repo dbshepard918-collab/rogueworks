@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "name": "bosses",
+  "grid": 32,
+  "palette_version": 1,
+  "palette": "assets/palette.json",
+  "colour_key": "#ff00ff",
+  "key_mode": "family",
+  "source": "assets/raw/staged/bosses.png",
+  "generated_by": "pixel",
+  "frames": {
+    "boss_skull_overlord": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "boss_forge_colossus": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "boss_drowned_leviathan": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "boss_skull_wraith": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "boss_skull_archer": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "boss_skull_brute": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "boss_forge_spark": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "boss_forge_spitter": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "boss_forge_protector": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "boss_drowned_grunt": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "boss_drowned_tidal": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "boss_drowned_horror": {
+      "size": [
+        32,
+        32
+      ]
+    }
+  }
+}

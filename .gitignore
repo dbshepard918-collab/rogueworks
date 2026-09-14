@@ -1,0 +1,27 @@
+# Build and runtime artefacts that must never be committed.
+# 2026-09-13: the repo had no .gitignore, so every run left debris that looked
+# like a change.  Test fixtures belong in %TEMP% regardless — this file only stops
+# the machine-generated stuff from polluting `git status`.
+
+# environments (the game runs on .venv; torch lives in .venv-audio only)
+.venv/
+.venv-audio/
+__pycache__/
+*.pyc
+
+# runtime saves and their backups (the game writes these on every run)
+save.json
+save.json.bak
+save_autosave.json
+save_autosave.json.bak
+
+# generated content that is large or derived
+runs/shots/
+runs/slaps/*.log
+assets/raw/
+~$*
+
+# vendored local-inference binaries (~2 GB of CUDA runtimes for stable-diffusion.cpp,
+# re-obtained per docs/STUDIO.md - not source, not worth versioning)
+tools/art/sd/bin/
+*.zip

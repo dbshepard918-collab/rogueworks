@@ -1,0 +1,8 @@
+# CPU/GPU inference deps for Stable Audio Open 1.5 (via diffusers)
+torch>=2.3
+diffusers>=0.32.0
+transformers>=4.44.0
+accelerate>=0.34.0
+soundfile>=0.12.1
+numpy
+safetensors

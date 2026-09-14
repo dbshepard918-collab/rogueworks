@@ -1,0 +1,109 @@
+{
+  "version": 1,
+  "name": "items",
+  "grid": 32,
+  "palette_version": 1,
+  "palette": "assets/palette.json",
+  "colour_key": "#ff00ff",
+  "key_mode": "family",
+  "source": "assets/raw/staged/items_b.png",
+  "generated_by": "pixel",
+  "frames": {
+    "item_lucky_coin": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "item_tin_ring": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "item_rat_tooth_charm": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "item_garnet_ring": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "item_etched_amulet": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "item_hunters_token": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "item_rusted_censer": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "item_luckstone": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "item_cinder_talisman": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "item_seers_lens": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "item_sigil_of_warding": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "item_abyssal_band": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "item_small_health_draught": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "item_swift_tonic": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "item_whetstone_salve": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "item_pilgrim_bandage": {
+      "size": [
+        32,
+        32
+      ]
+    }
+  }
+}

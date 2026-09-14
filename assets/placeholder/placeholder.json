@@ -1,0 +1,134 @@
+{
+  "version": 1,
+  "generated_by": "pixel",
+  "palette_version": 1,
+  "note": "flat fallbacks; Atlas.load must return these instead of crashing on a missing frame",
+  "frames": {
+    "missing": {
+      "file": "assets/placeholder/missing.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    "player": {
+      "file": "assets/placeholder/player.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    "monster": {
+      "file": "assets/placeholder/monster.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    "boss": {
+      "file": "assets/placeholder/boss.png",
+      "size": [
+        64,
+        64
+      ]
+    },
+    "projectile": {
+      "file": "assets/placeholder/projectile.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    "pickup": {
+      "file": "assets/placeholder/pickup.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    "prop": {
+      "file": "assets/placeholder/prop.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile": {
+      "file": "assets/placeholder/tile.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_light": {
+      "file": "assets/placeholder/tile_light.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    "stairs": {
+      "file": "assets/placeholder/stairs.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    "chest": {
+      "file": "assets/placeholder/chest.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    "key": {
+      "file": "assets/placeholder/key.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    "orb_health": {
+      "file": "assets/placeholder/orb_health.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    "cursor": {
+      "file": "assets/placeholder/cursor.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    "ui_icon": {
+      "file": "assets/placeholder/ui_icon.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    "ui_frame": {
+      "file": "assets/placeholder/ui_frame.png",
+      "size": [
+        96,
+        96
+      ]
+    },
+    "ui_panel": {
+      "file": "assets/placeholder/ui_panel.png",
+      "size": [
+        128,
+        64
+      ]
+    },
+    "ui_bar": {
+      "file": "assets/placeholder/ui_bar.png",
+      "size": [
+        128,
+        32
+      ]
+    }
+  }
+}

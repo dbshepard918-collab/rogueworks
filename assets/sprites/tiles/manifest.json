@@ -1,0 +1,205 @@
+{
+  "version": 1,
+  "name": "tiles",
+  "grid": 32,
+  "palette_version": 1,
+  "palette": "assets/palette.json",
+  "colour_key": "#ff00ff",
+  "key_mode": "family",
+  "source": "assets/raw/staged/tiles_drowned.png",
+  "generated_by": "pixel",
+  "frames": {
+    "tile_drowned_floor": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_floor_alt": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_floor_alt2": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_floor_rubble": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_floor_cracked": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_wall": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_wall_alt": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_wall_torch": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_wall_corner": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_wall_decor": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_doorway": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_door": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_door_open": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_stairs_down": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_stairs_up": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_pillar": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_pool": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_pool_alt": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_grate": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_brazier": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_slab": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_gate": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_rune_floor": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_shrine_floor": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_treasure_floor": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_pit": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_barricade": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_wall_cracked": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_floor_blood": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_floor_bones": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_floor_coins": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "tile_drowned_wall_skull": {
+      "size": [
+        32,
+        32
+      ]
+    }
+  }
+}

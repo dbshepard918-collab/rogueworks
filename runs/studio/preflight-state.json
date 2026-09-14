@@ -1,0 +1,11 @@
+{
+  "reports": {
+    "runs/reports/BUILD-2026-09-13-r14.md": "43c24889ba5716af",
+    "runs/reports/BUILD-2026-09-13-r9.md": "3f4e0fb601f8b4fe"
+  },
+  "contract_hashes": {
+    "game/data/items.json": "a5338d955b09046e",
+    "tools/validate_data.py": "d183ced7ab3a6812",
+    "docs/CONTRACTS.md": "acc77fa799d5146d"
+  }
+}

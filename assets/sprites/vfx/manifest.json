@@ -1,0 +1,115 @@
+{
+  "version": 1,
+  "name": "vfx",
+  "grid": 32,
+  "palette_version": 1,
+  "palette": "assets/palette.json",
+  "colour_key": "#ff00ff",
+  "key_mode": "family",
+  "source": "assets/raw/staged/vfx.png",
+  "generated_by": "pixel",
+  "frames": {
+    "vfx_slash": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "vfx_slash_alt": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "vfx_impact": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "vfx_blood": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "vfx_ember": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "vfx_magic_bolt": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "vfx_soul_wisp": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "vfx_poison_cloud": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "vfx_splash": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "vfx_dust": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "vfx_smoke": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "vfx_debris": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "vfx_sparkle": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "vfx_levelup": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "vfx_shield": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "vfx_shockwave": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "vfx_scorch": {
+      "size": [
+        32,
+        32
+      ]
+    }
+  }
+}

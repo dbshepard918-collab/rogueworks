@@ -1,0 +1,10 @@
+# BOT
+
+something the human wrote
+
+## Correction rules (written by WARDEN — non-negotiable)
+
+- **left pipeline test debris in the shipped asset tree**
+- **Test debris left in runs/ and project root - 89 playtest-findshrine-*.json**
+- **Never leave test fixtures in runs/ or assets/ - write them under $LOCALAPPDATA/Temp**
+- **left test fixture tools/studio/rmdir.py in the project**

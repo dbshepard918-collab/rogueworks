@@ -1,0 +1,157 @@
+{
+  "version": 1,
+  "name": "ui",
+  "grid": 32,
+  "palette_version": 1,
+  "palette": "assets/palette.json",
+  "colour_key": "#ff00ff",
+  "key_mode": "family",
+  "source": "assets/raw/staged/ui_hud.png",
+  "generated_by": "pixel",
+  "frames": {
+    "ui_hp_frame": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "ui_hp_fill": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "ui_xp_frame": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "ui_xp_fill": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "ui_status_poison": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "ui_status_burn": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "ui_status_bleed": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "ui_status_slow": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "ui_status_stun": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "ui_status_fortify": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "ui_status_rage": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "ui_icon_sword": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "ui_icon_dash": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "ui_minimap_frame": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "ui_panel": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "ui_slot": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "ui_title_frame_0": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "ui_title_frame_1": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "ui_title_frame_2": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "ui_title_frame_3": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "ui_title_frame_4": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "ui_title_frame_5": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "ui_title_frame_6": {
+      "size": [
+        32,
+        32
+      ]
+    },
+    "ui_title_frame_7": {
+      "size": [
+        32,
+        32
+      ]
+    }
+  }
+}
