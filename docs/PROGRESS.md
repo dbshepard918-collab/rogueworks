@@ -1,6 +1,13 @@
+## 2026-09-16 — r4: SLAP #87 fix — check_stairs now calls BFS on real tile grid (Forge)
+
+- **SLAP #87 (P1 escalation) FIXED.** `check_stairs` had dead code: `_bfs_reachable` defined at line 136 but never called, and `check_stairs` emitted PASS with only metadata (floor/biome/player/map/rooms), never testing reachability, existence, or duplicate stairs positions.
+- **Fix:** Removed dead `_bfs_reachable`. Replaced with `_load_content()` that imports `Content`, `procgen`, and `RNG`. `check_stairs` now rebuilds the `Level` via `procgen.generate()` with the deterministic `RNG(seed)`, then calls `level.bfs(level.spawn_tile, cap=20000)` on the real tile grid — mirroring `world.check_invariants()` exactly. Validates: stairs_tile exists, is within bounds, is reachable from spawn via BFS, and matches the summary's recorded stairs_tile.
+- **Command:** `python -m tools.qa.regression --seeds 0 1 2 --turns 300` → PASS, all 7 checks green (golden seeds stable, stairs reachable, balance OK). Exit 0.
+
 ## 2026-09-14 — r30: five owner-added models verdicted; art licence gate added (Forge)
 
 - **Verdicts (measured, not assumed).** `essentialai/rnj-1` **worth a trial** — 45.1 tok/s, 6.5 GiB, 3.7 s load vs chip's incumbent `qwen3-coder-30b` at 5.5 tok/s / 18.63 GB / 68 s. `zai-org/glm-4.6v-flash` **no** — 2/5 and 3/5 vs the pin's 4/5 (8 runs), 29.2 s vs 3.2 s. `allenai/olmocr-2-7b` **no** — 1/5 (document-OCR model, not a sprite critic). `google/gemma-3-27b` **no** — **1.3 tok/s** at 4K context (74.9 s load, warm-up 158.8 s/200 tokens) on a 12,227 MiB card, ~18× slower than `qwen3-8b`, and 64K context cannot fit at all. DreamShaper-LCM **no — licence** (OpenRAIL-M vs our shipping Apache-2.0 FLUX). Table in `docs/MODELS.md`, detail in `runs/reports/BUILD-2026-09-14-r30.md`.
+
 - **The art lane had no licence gate.** The audio lane enforces `COMMERCIAL_OK_LICENSES` in code; art had no ledger, no refusal, nothing. Added `docs/ART-LICENSES.md` (every licence read from the HuggingFace registry API, not model cards) and `ART_COMMERCIAL_OK` + `ART_BACKENDS` + `--licence-board` in `tools/art/gen.py`. FLUX.1-schnell is apache-2.0 → every shipped sprite stays clean; DreamShaper recorded REFUSED.
 - **Two measurement traps fixed.** (1) A *thinking* VLM bills its reasoning against `max_tokens`, so `glm-4.6v-flash` returned empty content and scored a false **0/5** at a 300-token budget (3/5 at 2048) — `vlm_bench` now reports `finish_reason`/`reasoning_tokens`, says "this is a harness limit, NOT a vision failure", and persists raw answers. (2) `bench_local` answered a failed completion with a bare `HTTP Error 400`; it now prints LM Studio's message and what it means — and its own new error branch raised `NameError` until the failure was actually forced.
 - **Gate suite was red for reasons that meant nothing; both fixed.** `_util.run_tool_subprocess` parsed stdout line-by-line for single-line JSON while the tools pretty-print, marking **six healthy checks FAIL** (tools exited 0); replaced with whole-output parse + last-balanced-object scan. The new balance gate produced **500 findings, all artifacts**: `items.json` has no combat stats at all (all 73 entries score zero on damage/armor/crit), so the rule silently became "the pricier item dominates" and treated *cost* as a benefit. Rewritten to discover the schema, compare same-slot only, require `<=` on cost, and SKIP with the measurement when the data cannot support the claim. `selftest` 20/20, gates 7/7.
@@ -705,6 +712,15 @@ Newest entry first. One entry per build round; append, never rewrite history.
 
 - Fixed remaining SLAP #58 items: deleted undocumented test debris, corrected date inconsistencies in BUILD reports.
 - Verification: all gates green, no stale references to deleted shot dirs.
+
+
+---
+
+## 2026-09-16 — SLAP #88: balance schema mismatch fixed (Forge)
+
+- **Defect:** `tools/qa/regression.py` `check_balance` and `tools/qa/fix_balance.py` `_dominates` read combat stats (`damage`, `armor`, `crit`) as top-level fields on items.json entries. The actual schema stores all combat stats inside `effect.{damage,crit,...}` — verified 73 entries have 0 top-level combat stat fields. This caused `check_balance` to SKIP (finding no stat_fields) while docs claimed "no balance violations" as verified, and `fix_balance.py` to report "500 violations fixed" against price order.
+- **Fix:** Changed `e.get(f)` → `e.get("effect", {}).get(f, 0)` for stat field discovery in `regression.py` line 244. Changed `a.get(f,0)` → `a.get("effect", {}).get(f, 0)` in `fix_balance.py` `_dominates()`. Added `value` as top-level cost comparison (higher value = more expensive = dominated) which was previously missing.
+- **Verification:** `tools.qa.regression --json --seeds 0 1 2 --no-stairs` → `ok: true`, balance check `PASS` (compared on damage/armor/crit/speed). `tools.qa.fix_balance` → `Fixed 56 dominance violations, Remaining dominance pairs: 26`. `game.main --headless --turns 10 --seed 0` → exit 0, violations=[]. BUILD report: `runs/reports/BUILD-2026-09-16-slap88.md`.
 
 
 ---

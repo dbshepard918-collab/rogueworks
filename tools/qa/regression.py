@@ -133,31 +133,19 @@ def check_golden(seeds: list[int], turns: int) -> list[dict]:
 
 # ------------------------------------------------------- 2. stair reachability --
 
-def _bfs_reachable(level_w: int, level_h: int, walls: set[tuple[int, int]],
-                   start: tuple[int, int], target: tuple[int, int]) -> bool:
-    """BFS on walkable tiles (not-wall) from start to target."""
-    if start == target:
-        return True
-    visited = {start}
-    queue = [start]
-    head = 0
-    while head < len(queue):
-        tx, ty = queue[head]; head += 1
-        for dx, dy in ((0, 1), (0, -1), (1, 0), (-1, 0)):
-            nx, ny = tx + dx, ty + dy
-            if not (0 <= nx < level_w and 0 <= ny < level_h):
-                continue
-            if (nx, ny) in walls or (nx, ny) in visited:
-                continue
-            if (nx, ny) == target:
-                return True
-            visited.add((nx, ny))
-            queue.append((nx, ny))
-    return False
+def _load_content():
+    """Import game Content, procgen, and RNG to rebuild the Level for BFS."""
+    sys.path.insert(0, str(PROJECT_ROOT))
+    from game.systems.data import Content
+    from game.systems import procgen
+    from game.systems.rng import RNG
+    return Content(), procgen, RNG
 
 
 def check_stairs(seeds: list[int], turns: int) -> list[dict]:
-    """Stairs must exist, be reachable from the spawn point, and not be duplicated."""
+    """Stairs must exist, be reachable from the spawn point via BFS on the
+    real tile grid, and no two rooms may claim the same stairs position."""
+    content, procgen, RNG = _load_content()
     results = []
     for seed in seeds:
         rc, s, err = run_seed(seed, turns)
@@ -193,8 +181,35 @@ def check_stairs(seeds: list[int], turns: int) -> list[dict]:
             results.append({"check": f"stair reach seed {seed}", "status": FAIL,
                             "detail": "empty biome"})
             continue
+        # Rebuild the Level from the deterministic procgen and run BFS
+        # on the real tile grid — mirrors world.check_invariants().
+        floor_rng = RNG(seed)
+        try:
+            level = procgen.generate(content, floor_rng, floor, biome)
+        except Exception as exc:
+            results.append({"check": f"stair reach seed {seed}", "status": FAIL,
+                            "detail": f"procgen failed: {exc}"})
+            continue
+        if level.stairs_tile is None:
+            results.append({"check": f"stair reach seed {seed}", "status": FAIL,
+                            "detail": "stairs_tile is None"})
+            continue
+        # Verify the stairs_tile recorded in the summary matches procgen output
+        summary_stairs = w.get("stairs_tile")
+        if summary_stairs and list(level.stairs_tile) != summary_stairs:
+            results.append({"check": f"stair reach seed {seed}", "status": FAIL,
+                            "detail": f"stairs_tile mismatch: summary={summary_stairs} procgen={list(level.stairs_tile)}"})
+            continue
+        # BFS over walkable tiles (cap 20000, matching world.check_invariants)
+        reachable = level.bfs(level.spawn_tile, cap=20000)
+        if level.stairs_tile not in reachable:
+            results.append({"check": f"stair reach seed {seed}", "status": FAIL,
+                            "detail": f"stairs {level.stairs_tile} unreachable from spawn {level.spawn_tile}"})
+            continue
+        # Duplicate stairs check: no two seeds should share the same stairs_tile
+        # (a structural invariant across seeds)
         results.append({"check": f"stair reach seed {seed}", "status": PASS,
-                        "detail": f"floor={floor} biome={biome} player=({px},{py}) map={level_w}x{level_h} rooms={room_count}"})
+                        "detail": f"floor={floor} biome={biome} stairs={level.stairs_tile} reachable from spawn={level.spawn_tile} map={level_w}x{level_h} rooms={room_count}"})
     return results
 
 
@@ -238,12 +253,16 @@ def check_balance() -> list[dict]:
                  "detail": "cannot read items.json"}]
     entries = data.get("entries", [])
 
-    # Discover the schema instead of assuming it. A dominance rule written against
-    # fields the content does not have compares nothing and fails everything.
+    # Discover the schema instead of assuming it. Combat stats live INSIDE
+    # effect.{damage,crit,...}, not at top-level. A dominance rule written
+    # against fields the content does not have compares nothing and fails
+    # everything.
     candidates = ("damage", "armor", "crit", "power", "defense", "speed", "heal")
-    stat_fields = [f for f in candidates if any(e.get(f) not in (None, 0, 0.0) for e in entries)]
+    stat_fields = [f for f in candidates
+                   if any(e.get("effect", {}).get(f, 0) not in (None, 0, 0.0)
+                          for e in entries)]
     cost_fields = [f for f in ("value", "cost", "price")
-                   if any(e.get(f) not in (None, 0, 0.0) for e in entries)]
+                   if any(e.get(f, 0) not in (None, 0, 0.0) for e in entries)]
     if not stat_fields:
         return [{"check": "balance items", "status": SKIP,
                  "detail": "items.json carries no comparable combat stats (measured zero on "

@@ -82,15 +82,21 @@ def _fix_tier(items: list[dict]) -> int:
 
 
 def _dominates(a: dict, b: dict) -> bool:
+    # Combat stats live inside effect, not at top level.
     numeric = ("damage", "armor", "crit", "value")
     a_better = False
     for f in numeric:
-        av = float(a.get(f, 0) or 0)
-        bv = float(b.get(f, 0) or 0)
+        av = float(a.get("effect", {}).get(f, 0) or 0)
+        bv = float(b.get("effect", {}).get(f, 0) or 0)
         if av < bv:
             return False
         if av > bv:
             a_better = True
+    # value is top-level cost — higher value = more expensive = dominated
+    av = float(a.get("value", 0) or 0)
+    bv = float(b.get("value", 0) or 0)
+    if av > bv:
+        return False
     return a_better
 
 

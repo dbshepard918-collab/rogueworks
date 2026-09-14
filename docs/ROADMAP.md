@@ -221,6 +221,7 @@ update `docs/TICKETS.md`, append to `docs/PROGRESS.md`, and only then take the n
       `python -m game.main --headless --turns 300 --seed 0..2` exit 0, violations=[];
       `metrics_profiler` present in playtest JSON ✓
 - [x] **P5.4** Test depth. Golden-seed regression suite: layout-hash stability, stair reachability, balance assertions. | `python -m tools.qa.regression --seeds 0 1 2 --turns 300` → PASS, golden seeds stable, stairs reachable, no balance violations | `python -m tools.studio.verify_gate` → PASS all 7 green; `tools.qa.regression --seeds 0 1 2 --turns 300` → PASS ✓
+- [x] **SLAP #88** Balance schema mismatch. `check_balance` and `fix_balance` read combat stats as top-level fields but `items.json` stores them inside `effect.{damage,crit,...}`. Fixed both files. Verified `regression --json --seeds 0 1 2 --no-stairs` returns `ok: true` with balance `PASS`. | `tools.qa.regression --json --seeds 0 1 2 --no-stairs` → `ok: true`, balance `PASS` ✓
 - [ ] **P5.5 Content volume.** Push toward 80 monsters, 150 items, 60 affixes, 4th biome (Sunken
       Ossuary), 5 bosses, 40 room templates per biome — generated locally in batches, validated.
 - [ ] **P5.6 Modding-lite.** Everything data-driven already; expose `game/data/` overrides from a
