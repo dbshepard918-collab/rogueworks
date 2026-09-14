@@ -37,13 +37,13 @@ class World:
 
     def __init__(self, seed=0, content=None, profile=None, headless=True, start_floor=1,
                  audio=True, input_source=None, data_dir=None, warnings=None,
-                 settings=None):
+                 settings=None, mod_dir=None):
         self.seed = int(seed)
         self.headless = bool(headless)
         self.profile = profile
         self.warnings = warnings if warnings is not None else []
         self.errors = []
-        self.content = Content(warnings=self.warnings, data_dir=data_dir)
+        self.content = Content(warnings=self.warnings, data_dir=data_dir, mod_dir=mod_dir)
         self.rng = RNG(self.seed)
         self.audio = Audio(enabled=audio and not headless, warnings=self.warnings)
         self.settings = settings or {}

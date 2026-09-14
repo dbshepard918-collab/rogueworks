@@ -1807,9 +1807,9 @@
       "reply_rc": 0,
       "reply": "PENDING - dispatched as pid 13308, receipt runs/slaps/slap-forge-20260914-140542.log",
       "fix_command": "cd /c/Users/dbshe/rogueworks && git diff b698488^..b698488 -- tools/studio/slap.py | wc -l",
-      "fix_exit": null,
-      "fix_output": "",
-      "status": "PENDING - awaiting the bot's turn"
+      "fix_exit": 0,
+      "fix_output": "24",
+      "status": "CLEAN - fix verified"
     },
     {
       "n": 96,
@@ -1826,9 +1826,9 @@
       "reply_rc": 0,
       "reply": "PENDING - dispatched as pid 16916, receipt runs/slaps/slap-forge-20260914-140548.log",
       "fix_command": "cd /c/Users/dbshe/rogueworks && grep -c 'python -m' runs/reports/BUILD-2026-09-17-r4.md",
-      "fix_exit": null,
-      "fix_output": "",
-      "status": "PENDING - awaiting the bot's turn"
+      "fix_exit": 0,
+      "fix_output": "4",
+      "status": "CLEAN - fix verified"
     },
     {
       "n": 97,
@@ -1849,6 +1849,25 @@
       "fix_output": "",
       "status": "VOID - SLAP issued with literal placeholder text for violation, rule, and acceptance command. Not a valid correction order.",
       "voided": "2026-09-14 14:07"
+    },
+    {
+      "n": 98,
+      "at": "2026-09-14 15:25",
+      "bot": "forge",
+      "severity": "P2",
+      "violation": "P5.6 Modding-lite implemented in code but not documented: ROADMAP.md still unchecked, PROGRESS.md has no P5.6 entry, TICKETS.md still open, no BUILD report written, no commit. An undocumented round did not happen (STANDARDS round protocol item 4).",
+      "evidence": "ROADMAP.md line 261: '- [ ] P5.6 Modding-lite' still unchecked; docs/PROGRESS.md: zero P5.6 entries; TICKETS.md line 80: P5.6 in open section; no BUILD-2026-09-14 or BUILD-2026-09-15 report exists; git log shows no commit for P5.6 changes; round-r1-forge.log summary admits 'No commit yet \u2014 all changes are in working tree'",
+      "rule": "Each round must PREPEND a dated entry to docs/PROGRESS.md, write runs/reports/BUILD-<date>.md, tick ROADMAP.md + TICKETS.md. An undocumented round did not happen (STANDARDS P2).",
+      "rule_key": "each-round-must-prepend-a-dated-entry-to-docs-progress-md-wr",
+      "level": 1,
+      "action": "WARNING - fix it and reply with evidence",
+      "soul_note": "",
+      "reply_rc": 0,
+      "reply": "PENDING - dispatched as pid 12864, receipt runs/slaps/slap-forge-20260914-152553.log",
+      "fix_command": "cd /c/Users/dbshe/rogueworks && git add -A && git commit -m 'P5.6 Modding-lite: mod_dir support in data.py, scenes.py, main.py, validate_data.py' && python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300",
+      "fix_exit": null,
+      "fix_output": "",
+      "status": "PENDING - awaiting the bot's turn"
     }
   ]
 }

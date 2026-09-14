@@ -2798,3 +2798,16 @@ PASS: 452 sprite file(s), 569 frame(s), 0 off-palette pixel(s)
 - **Fix verification:** exit=0 :: Verify gate all 7 green. Evidence: git diff b698488..60f4974 -- docs/CONTRACTS.md is EMPTY. Element field was already documented from commit 3bb7ba2 (prior round). FALSE POSITIVE — WARDEN evidence disproves the violation.
 
 > **VOID 2026-09-14 14:07 on SLAP #97:** SLAP issued with literal placeholder text for violation, rule, and acceptance command. Not a valid correction order. - no escalation applied
+
+## SLAP #98 — forge — 2026-09-14 15:25 (P2, level 1)
+
+- **Violation:** P5.6 Modding-lite implemented in code but not documented: ROADMAP.md still unchecked, PROGRESS.md has no P5.6 entry, TICKETS.md still open, no BUILD report written, no commit. An undocumented round did not happen (STANDARDS round protocol item 4).
+- **Evidence:** ROADMAP.md line 261: '- [ ] P5.6 Modding-lite' still unchecked; docs/PROGRESS.md: zero P5.6 entries; TICKETS.md line 80: P5.6 in open section; no BUILD-2026-09-14 or BUILD-2026-09-15 report exists; git log shows no commit for P5.6 changes; round-r1-forge.log summary admits 'No commit yet — all changes are in working tree'
+- **Rule:** Each round must PREPEND a dated entry to docs/PROGRESS.md, write runs/reports/BUILD-<date>.md, tick ROADMAP.md + TICKETS.md. An undocumented round did not happen (STANDARDS P2).
+- **Action:** WARNING - fix it and reply with evidence
+- **Bot's reply (rc=0):** PENDING - dispatched as pid 12864, receipt runs/slaps/slap-forge-20260914-152553.log
+- **Fix verification:** exit=None :: (no acceptance command given)
+
+> **Close pass 2026-09-14 15:26 on SLAP #95:** CLEAN - fix verified (exit 0) — 24
+
+> **Close pass 2026-09-14 15:26 on SLAP #96:** CLEAN - fix verified (exit 0) — 4

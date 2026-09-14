@@ -48,7 +48,7 @@ class Scene:
 class RunScene(Scene):
     """The playable run: world stepping, HUD, minimap, inventory overlay."""
 
-    def __init__(self, game, seed=None, floor=1):
+    def __init__(self, game, seed=None, floor=1, data_dir=None, mod_dir=None):
         super().__init__(game)
         settings = (game.profile or {}).get("settings", {}) or {}
         self.world = world_mod.World(
@@ -59,6 +59,8 @@ class RunScene(Scene):
             audio=not game.headless,
             warnings=game.warnings,
             settings=settings,
+            data_dir=data_dir,
+            mod_dir=mod_dir,
         )
         # P1.8: endless mode and run curses from CLI args
         self.world.endless = bool(getattr(game.args, "endless", False))
@@ -961,6 +963,8 @@ class Game:
         self.warnings = warnings
         self.headless = headless
         self.save_path = save_path or save_sys.DEFAULT_SAVE_PATH
+        self.data_dir = getattr(args, "data_dir", None)
+        self.mod_dir = getattr(args, "mod_dir", None)
         # P4.6: resolution scaling from profile settings
         settings = profile.get("settings", {}) if profile else {}
         resolution = settings.get("resolution", "1280x720")
@@ -1005,7 +1009,9 @@ class Game:
         seed = self.args.seed if seed is None else seed
         if floor is None:
             floor = max(1, int(getattr(self.args, "floor", 1) or 1))
-        scene = RunScene(self, seed=seed, floor=floor)
+        scene = RunScene(self, seed=seed, floor=floor,
+                         data_dir=getattr(self, "data_dir", None),
+                         mod_dir=getattr(self, "mod_dir", None))
         self.scenes.replace(scene)
         self.last_world = scene.world
         return scene

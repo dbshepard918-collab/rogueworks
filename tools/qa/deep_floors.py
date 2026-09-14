@@ -54,6 +54,8 @@ def _build(seed: int, floor: int, ticks: int):
             self.fullscreen = False
             self.vsync = False
             self.fps = None
+            self.data_dir = None
+            self.mod_dir = None
 
     pygame.init()
     pygame.display.set_mode((1, 1))

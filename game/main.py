@@ -63,6 +63,10 @@ def build_parser():
                         help="enable vsync")
     parser.add_argument("--fps", type=int, default=None,
                         help="FPS cap (windowed mode)")
+    parser.add_argument("--data-dir", type=str, default=None,
+                        help="override game/data/ content dir (for modding)")
+    parser.add_argument("--mod-dir", type=str, default=None,
+                        help="mod override folder layered on top of game/data/")
     return parser
 
 

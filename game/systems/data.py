@@ -336,9 +336,10 @@ REQUIRED = {
 class Content:
     """Validated, tolerant content registry."""
 
-    def __init__(self, warnings=None, data_dir=None):
+    def __init__(self, warnings=None, data_dir=None, mod_dir=None):
         self.warnings = warnings if warnings is not None else []
         self.data_dir = Path(data_dir) if data_dir else DATA_DIR
+        self.mod_dir = Path(mod_dir) if mod_dir else None
         self.tables = {}
         self.by_id = {}
         self.sources = {}
@@ -347,11 +348,38 @@ class Content:
     # -- loading ---------------------------------------------------------
     def load_all(self):
         for name in ("monsters", "items", "affixes", "rooms", "biomes", "statuses", "flavor"):
-            entries, source = self._load_table(name)
+            entries, source = self._load_table_with_mod(name)
             self.tables[name] = entries
             self.by_id[name] = {e["id"]: e for e in entries}
             self.sources[name] = source
         self._repair_references()
+
+    def _load_table_with_mod(self, name):
+        entries, source = self._load_table(name)
+        if not self.mod_dir:
+            return entries, source
+        mod_path = self.mod_dir / ("%s.json" % name)
+        if not mod_path.exists():
+            return entries, source
+        try:
+            with open(mod_path, "r", encoding="utf-8") as fh:
+                raw = json.load(fh)
+        except (OSError, ValueError) as exc:
+            self.warnings.append("mod_dir/%s.json unreadable (%s) - skipping mod overrides"
+                                 % (name, type(exc).__name__))
+            return entries, source
+        mod_entries = raw.get("entries") if isinstance(raw, dict) else None
+        if not isinstance(mod_entries, list):
+            self.warnings.append("mod_dir/%s.json has no 'entries' list - skipping mod overrides"
+                                 % name)
+            return entries, source
+        mod_entries = [dict(e) for e in mod_entries]
+        entries = self._merge_table(name, entries, mod_entries)
+        if source == "fallback":
+            source = "mod-only"
+        else:
+            source = source + "+mod"
+        return entries, source
 
     def _load_table(self, name):
         path = self.data_dir / ("%s.json" % name)
@@ -402,6 +430,26 @@ class Content:
                                  % name)
             return [dict(e) for e in _FALLBACKS[name]], "fallback"
         return good, "data-file"
+
+    def _merge_table(self, name, base_entries, mod_entries):
+        """Merge mod_entries into base_entries, overlaying by id.
+
+        Entries with a matching id replace the base entry; new ids are appended.
+        Duplicate ids in mod warn but the mod entry wins.
+        """
+        merged = {e["id"]: dict(e) for e in base_entries}
+        for entry in mod_entries:
+            if not isinstance(entry, dict):
+                continue
+            eid = entry.get("id")
+            if not eid:
+                continue
+            if eid in merged:
+                self.warnings.append("mod_dir/%s.json: id %r overrides base entry"
+                                     % (name, eid))
+            merged[eid] = dict(entry)
+        result = list(merged.values())
+        return result
 
     def _repair_references(self):
         """Biomes referencing unknown monster ids get the unknown ids dropped."""

@@ -176,3 +176,7 @@
 {"event": "round-start", "round": 1, "item": "P5.5 Content volume. Push toward 80 monsters, 150 items, 60 affixes, 4th biome (Sunken", "at": "2026-09-14T08:46:03"}
 {"event": "round-end", "round": 3, "closed_slaps": ["SLAP #84 (forge): STILL OPEN", "SLAP #85 (forge): STILL OPEN", "SLAP #86 (forge): CLEAN", "SLAP #90 (forge): CLEAN", "SLAP #91 (forge): CLEAN", "SLAP #92 (forge): STILL OPEN", "SLAP #93 (forge): CLEAN"], "at": "2026-09-14T11:04:00"}
 {"event": "round-start", "round": 4, "item": "P0.6 Orphan art: `prop_chains` ships and nothing draws it. Packed in the props atlas, 0", "at": "2026-09-14T12:41:32"}
+{"event": "loop-start", "pid": 12608, "at": "2026-09-14T14:29:36"}
+{"event": "round-start", "round": 1, "item": "P5.6 Modding-lite. Everything data-driven already; expose `game/data/` overrides from a", "at": "2026-09-14T14:30:16"}
+{"event": "builder-turn", "round": 1, "bot": "forge", "tag": "r1", "status": "OK", "rc": 0, "seconds": 3073.6, "tool_calls": 453, "log": "runs/studio/round-r1-forge.log", "tail": "Title:          ROUND 1 of the continuous Rogueworks loop\u2026 #9\nDuration:       51m 11s\nMessages:       457 (3 user, 453 tool calls)", "at": "2026-09-14T15:21:30"}
+{"event": "review-turn", "round": 1, "bot": "warden", "tag": "r1", "status": "OK", "rc": 0, "seconds": 288.6, "tool_calls": 453, "log": "runs/studio/round-r1-warden.log", "tail": "Title:          Review ROUND 1 of the Rogueworks continuous\u2026 #7\nDuration:       4m 46s\nMessages:       94 (2 user, 90 tool calls)", "at": "2026-09-14T15:26:18"}

@@ -400,7 +400,7 @@ def _ids(entries) -> set[str]:
     return {e["id"] for e in entries if isinstance(e, dict) and isinstance(e.get("id"), str)}
 
 
-def validate_dir(data_dir: Path, atlas_dir: Path, project_root: Path) -> Report:
+def validate_dir(data_dir: Path, atlas_dir: Path, project_root: Path, mod_dir: Path | None = None) -> Report:
     report = Report()
     files = sorted(p for p in _util.iter_files(data_dir, (".json",)) if p.parent == data_dir)
     if not files:
@@ -422,6 +422,44 @@ def validate_dir(data_dir: Path, atlas_dir: Path, project_root: Path) -> Report:
             continue
         loaded[path.name] = data
 
+    # -- mod overlay loading and validation --
+    mod_loaded: dict[str, dict] = {}
+    if mod_dir and mod_dir.is_dir():
+        for mod_path in sorted(p for p in _util.iter_files(mod_dir, (".json",)) if p.parent == mod_dir):
+            if mod_path.name not in SCHEMAS:
+                report.warn(mod_path.name, "mod file unrecognised (not in contract section 4)")
+                continue
+            try:
+                mod_data = _util.load_json(mod_path)
+            except _util.ToolError as exc:
+                report.error(mod_path.name, str(exc))
+                continue
+            if not isinstance(mod_data, dict):
+                report.error(mod_path.name, f"top level must be a JSON object, got {describe(mod_data)}")
+                continue
+            version = mod_data.get("version")
+            if version != 1:
+                report.error(mod_path.name, f"top-level 'version' must be 1, got {version!r}")
+            entries = mod_data.get("entries")
+            if not isinstance(entries, list):
+                report.error(mod_path.name, f"'entries' must be an array, got {describe(entries)}")
+                continue
+            schema = SCHEMAS[mod_path.name]
+            if schema.get("_special"):
+                report.warn(mod_path.name, "skipping special file in mod_dir")
+                continue
+            # validate mod entries against the same schema
+            mod_ids_in_file: dict[str, int] = {}
+            for idx, entry in enumerate(entries):
+                entry_id = check_entry(mod_path.name, idx, entry, schema, refs, report)
+                if entry_id:
+                    if entry_id in mod_ids_in_file:
+                        report.error(f"{mod_path.name} [{idx}] {entry_id!r}",
+                                     f"duplicate id '{entry_id}' (first seen at entry {mod_ids_in_file[entry_id]})")
+                    else:
+                        mod_ids_in_file[entry_id] = idx
+            mod_loaded[mod_path.name] = mod_data
+
     atlas_frames, atlas_notes = collect_atlas_frames(atlas_dir)
     refs: dict[str, set[str] | None] = {
         "monsters": _ids(loaded.get("monsters.json", {}).get("entries", []) or []) or None,
@@ -429,6 +467,95 @@ def validate_dir(data_dir: Path, atlas_dir: Path, project_root: Path) -> Report:
         "statuses": _ids(loaded.get("statuses.json", {}).get("entries", []) or []) or None,
         "atlas": atlas_frames or None,
     }
+
+    # --- merge base+mod ids for cross-reference checking ---
+    merged_ids: dict[str, set[str] | None] = {}
+    for key in ("monsters", "biomes", "statuses"):
+        base_ids = refs.get(key)
+        if base_ids is None:
+            merged_ids[key] = None
+            continue
+        merged_set = set(base_ids)
+        for fname, mod_data in mod_loaded.items():
+            if fname.endswith(f"{key}.json"):
+                mod_entries = mod_data.get("entries", [])
+                for entry in mod_entries:
+                    if isinstance(entry, dict) and isinstance(entry.get("id"), str):
+                        merged_set.add(entry["id"])
+        merged_ids[key] = merged_set or None
+
+    # Override refs with merged sets for the main validation loop
+    refs["monsters"] = merged_ids["monsters"]
+    refs["biomes"] = merged_ids["biomes"]
+    refs["statuses"] = merged_ids["statuses"]
+
+    # --- cross-reference check: after merging base+mod, verify refs resolve ---
+    # Build a merged view of all entries by type to check refs
+    merged_entries_by_type: dict[str, list[dict]] = {}
+    for key in ("monsters", "biomes", "statuses", "items", "rooms", "affixes", "flavor"):
+        fname = f"{key}.json"
+        all_entries = []
+        base_data = loaded.get(fname)
+        if base_data and isinstance(base_data, dict):
+            base_entries = base_data.get("entries", [])
+            if isinstance(base_entries, list):
+                all_entries.extend(base_entries)
+        mod_data = mod_loaded.get(fname)
+        if mod_data and isinstance(mod_data, dict):
+            mod_entries = mod_data.get("entries", [])
+            if isinstance(mod_entries, list):
+                all_entries.extend(mod_entries)
+        merged_entries_by_type[key] = all_entries
+
+    # Check biomes reference valid monster ids after merge
+    for biome_entry in merged_entries_by_type.get("biomes", []):
+        if not isinstance(biome_entry, dict):
+            continue
+        biome_id = biome_entry.get("id", "?")
+        biome_monsters = biome_entry.get("monsters", [])
+        if not isinstance(biome_monsters, list):
+            continue
+        known_monster_ids = {e["id"] for e in merged_entries_by_type.get("monsters", []) if isinstance(e, dict) and isinstance(e.get("id"), str)}
+        for mon_id in biome_monsters:
+            if isinstance(mon_id, str) and mon_id not in known_monster_ids:
+                report.warn(f"biome {biome_id!r}", f"references unknown monster id {mon_id!r} after base+mod merge")
+
+    # Check monsters reference valid status ids after merge
+    known_status_ids = {e["id"] for e in merged_entries_by_type.get("statuses", []) if isinstance(e, dict) and isinstance(e.get("id"), str)}
+    for monster_entry in merged_entries_by_type.get("monsters", []):
+        if not isinstance(monster_entry, dict):
+            continue
+        monster_id = monster_entry.get("id", "?")
+        soh = monster_entry.get("status_on_hit")
+        if isinstance(soh, str) and soh not in known_status_ids:
+            report.warn(f"monster {monster_id!r}", f"status_on_hit {soh!r} does not resolve after base+mod merge")
+        if isinstance(monster_entry.get("biome"), str):
+            known_biome_ids = {e["id"] for e in merged_entries_by_type.get("biomes", []) if isinstance(e, dict) and isinstance(e.get("id"), str)}
+            if monster_entry["biome"] not in known_biome_ids:
+                report.warn(f"monster {monster_id!r}", f"biome {monster_entry['biome']!r} does not resolve after base+mod merge")
+
+    # Check rooms reference valid biome ids after merge
+    known_biome_ids = {e["id"] for e in merged_entries_by_type.get("biomes", []) if isinstance(e, dict) and isinstance(e.get("id"), str)}
+    for room_entry in merged_entries_by_type.get("rooms", []):
+        if not isinstance(room_entry, dict):
+            continue
+        room_id = room_entry.get("id", "?")
+        if isinstance(room_entry.get("biome"), str) and room_entry["biome"] not in known_biome_ids:
+            report.warn(f"room {room_id!r}", f"biome {room_entry['biome']!r} does not resolve after base+mod merge")
+
+    # Check items reference valid atlas frames after merge (sprite field)
+    atlas_frames_set = atlas_frames or set()
+    for item_entry in merged_entries_by_type.get("items", []):
+        if not isinstance(item_entry, dict):
+            continue
+        if isinstance(item_entry.get("sprite"), str) and item_entry["sprite"] not in atlas_frames_set:
+            report.warn(f"item {item_entry.get('id', '?')!r}", f"sprite {item_entry['sprite']!r} not found in atlas after base+mod merge")
+
+    for monster_entry in merged_entries_by_type.get("monsters", []):
+        if not isinstance(monster_entry, dict):
+            continue
+        if isinstance(monster_entry.get("sprite"), str) and monster_entry["sprite"] not in atlas_frames_set:
+            report.warn(f"monster {monster_entry.get('id', '?')!r}", f"sprite {monster_entry['sprite']!r} not found in atlas after base+mod merge")
 
     for fname, data in loaded.items():
         path = data_dir / fname
@@ -508,6 +635,7 @@ def main(argv=None) -> int:
         description="Validate game/data/*.json against the section-4 content contract.",
     )
     ap.add_argument("--data-dir", default="game/data", help="content dir (default game/data)")
+    ap.add_argument("--mod-dir", default=None, help="mod overlay dir (mod entries override base by id)")
     ap.add_argument("--atlas", default="assets/atlas", help="atlas dir for sprite cross-check")
     ap.add_argument("--palette", default=None, help="palette JSON (default assets/palette.json)")
     ap.add_argument("--json", action="store_true", dest="as_json", help="machine-readable report")
@@ -520,8 +648,11 @@ def main(argv=None) -> int:
 
     data_dir = Path(args.data_dir) if Path(args.data_dir).is_absolute() else root / args.data_dir
     atlas_dir = Path(args.atlas) if Path(args.atlas).is_absolute() else root / args.atlas
+    mod_dir = Path(args.mod_dir) if args.mod_dir else None
+    if mod_dir and not mod_dir.is_absolute():
+        mod_dir = root / mod_dir
 
-    report = validate_dir(data_dir, atlas_dir, root)
+    report = validate_dir(data_dir, atlas_dir, root, mod_dir)
     n_files = len(report.files)
     ok = not report.errors
 
