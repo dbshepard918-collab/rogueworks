@@ -258,19 +258,36 @@ class AutoPilotInput:
 
 class ReplayInput:
     """Feeds a recorded list of InputState, used by the selftest and
-    deterministic replay (P5.2).  Supports both playback and recording."""
+    deterministic replay (P5.2).  Supports both playback and recording.
 
-    def __init__(self, states=None):
+    When --record is active, sample() delegates to AutoPilotInput for
+    real gameplay input, captures each tick's state, and replays them
+    back verbatim on --replay.  Frame-exact: same seed + same replay ->
+    identical run.  """
+
+    def __init__(self, states=None, world=None):
         self.states = list(states) if states else []
         self.index = 0
         self.last = InputState.idle()
         self._recording = False
         self._recorded = []          # used when --record is active
+        self._auto_pilot = None      # wrapped AutoPilotInput during record
+        self._world_ref = world      # weak ref to pass to AutoPilotInput
 
     def sample(self, world=None, keys=None):
+        # P5.2: during recording, delegate to AutoPilotInput for real input
         if self._recording:
-            self._recorded.append(
-                InputState(self.last.move, tuple(sorted(self.last.actions))))
+            if self._auto_pilot is None and world is not None:
+                from game.engine.input import AutoPilotInput
+                self._auto_pilot = AutoPilotInput(world)
+            if self._auto_pilot is not None:
+                inp = self._auto_pilot.sample(world, keys)
+                self._recorded.append(
+                    InputState(inp.move, tuple(sorted(inp.actions))))
+                self.last = inp
+                return inp
+            # fallback: capture idle if no world
+            self._recorded.append(InputState(self.last.move, tuple(sorted(self.last.actions))))
         if self.index < len(self.states):
             self.last = self.states[self.index]
             self.index += 1
@@ -282,10 +299,12 @@ class ReplayInput:
         self._recorded = []
         self.index = 0
         self.last = InputState.idle()
+        self._auto_pilot = None
 
     def stop_recording(self):
         """Stop capturing and return the recorded list."""
         self._recording = False
+        self._auto_pilot = None
         return list(self._recorded)
 
     def save(self, path):

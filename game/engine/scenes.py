@@ -114,10 +114,10 @@ class RunScene(Scene):
                 self.world.settings = settings
             else:
                 self.input_source = None
-        # P5.2: wire replay input source if provided
-        if getattr(game, "replay", None) is not None:
-            self.world.input_source = game.replay
-            self.input_source = game.replay
+            # P5.2: wire replay input source if provided
+            if getattr(game, "replay", None) is not None:
+                self.world.input_source = game.replay
+                self.input_source = game.replay
         self.paused = False
         self._ended = False
         self.pause_menu = menus_mod.ListMenu([("resume", "Resume", True),

@@ -422,6 +422,14 @@ def validate_dir(data_dir: Path, atlas_dir: Path, project_root: Path, mod_dir: P
             continue
         loaded[path.name] = data
 
+    atlas_frames, atlas_notes = collect_atlas_frames(atlas_dir)
+    refs: dict[str, set[str] | None] = {
+        "monsters": _ids(loaded.get("monsters.json", {}).get("entries", []) or []) or None,
+        "biomes": _ids(loaded.get("biomes.json", {}).get("entries", []) or []) or None,
+        "statuses": _ids(loaded.get("statuses.json", {}).get("entries", []) or []) or None,
+        "atlas": atlas_frames or None,
+    }
+
     # -- mod overlay loading and validation --
     mod_loaded: dict[str, dict] = {}
     if mod_dir and mod_dir.is_dir():
@@ -448,7 +456,7 @@ def validate_dir(data_dir: Path, atlas_dir: Path, project_root: Path, mod_dir: P
             if schema.get("_special"):
                 report.warn(mod_path.name, "skipping special file in mod_dir")
                 continue
-            # validate mod entries against the same schema
+            # validate mod entries against the same schema, using base refs
             mod_ids_in_file: dict[str, int] = {}
             for idx, entry in enumerate(entries):
                 entry_id = check_entry(mod_path.name, idx, entry, schema, refs, report)
@@ -459,14 +467,6 @@ def validate_dir(data_dir: Path, atlas_dir: Path, project_root: Path, mod_dir: P
                     else:
                         mod_ids_in_file[entry_id] = idx
             mod_loaded[mod_path.name] = mod_data
-
-    atlas_frames, atlas_notes = collect_atlas_frames(atlas_dir)
-    refs: dict[str, set[str] | None] = {
-        "monsters": _ids(loaded.get("monsters.json", {}).get("entries", []) or []) or None,
-        "biomes": _ids(loaded.get("biomes.json", {}).get("entries", []) or []) or None,
-        "statuses": _ids(loaded.get("statuses.json", {}).get("entries", []) or []) or None,
-        "atlas": atlas_frames or None,
-    }
 
     # --- merge base+mod ids for cross-reference checking ---
     merged_ids: dict[str, set[str] | None] = {}
