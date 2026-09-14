@@ -248,10 +248,12 @@ update `docs/TICKETS.md`, append to `docs/PROGRESS.md`, and only then take the n
       been masking drowned/forge/skull monsters that share one silhouette. Owner: **pixel**. |
       `python -m tools.qa.sprite_critique` reports 0 FAILED near-identical pairs;
       `python -m tools.art.verify` 0 off-palette ✓
-- [ ] **P0.6 Orphan art: `prop_chains` ships and nothing draws it.** Packed in the props atlas, 0
-      references anywhere in `game/`; not a duplicate of `prop_chain` (silhouette IoU 0.315). Place it
-      in a room or delete it and drop the frame. Owners: **pixel + lore**. |
-      `python -m tools.qa.sprite_critique` no new defects + `tools.art.verify` 0 off-palette ✓
+- [x] **P0.6 Orphan art: `prop_chains` ships and nothing draws it.** Deleted the orphan
+      manifest entry — no `prop_chains.png` existed on disk, only a phantom entry in the
+      sprite/art manifests. `prop_chain` (singular) remains the working prop used in rooms.
+      Owners: **pixel + lore**. |
+      `python -m tools.qa.sprite_critique` no new defects + `tools.art.verify` 0 off-palette +
+      `python -m tools.studio.verify_gate` 7/7 ✓
 - [ ] **P0.9 The 4th biome spawns nothing.** `tools.qa.deep_floors` walks one floor per biome: floors
       1/6/11 populate (14-19 monsters); floor 16 `sunken_ossuary` gives **7 rooms, 16 pools, 0 monsters**
       on every seed tested. It generates and draws, but it is empty to walk through — and no gate could

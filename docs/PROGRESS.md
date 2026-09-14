@@ -1,3 +1,8 @@
+## 2026-09-17 — P0.6 Orphan Art Fix (Forge) — DONE
+- **P0.6 fixed** — `prop_chains` was a phantom manifest entry with no PNG file on disk. Only `prop_chain.png` (singular) existed and was used in `rooms.json` (17 refs). Removed `prop_chains` from `assets/sprites/props/manifest.json` and `assets/art_manifest.json`. `prop_chains` is now 0 references in `assets/` and `game/`.
+- **Gates:** `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green; `python -m tools.art.verify` → PASS (452 sprites, 569 frames, 0 off-palette); `python -m tools.validate_data` → PASS (9 files, 625 entries, 0 errors); `tools.selftest` → 21/21.
+- **Files changed:** `assets/sprites/props/manifest.json` (removed `prop_chains` frame entry), `assets/art_manifest.json` (removed `prop_chains` from props_dungeon sheet).
+
 ## 2026-09-17 — P0.7 Content Schema Close + SLAP #84/#85 Doc Debt (Forge) — DONE
 
 - **P0.7 is DONE** — `sunken_ossuary` fully landed. `ossuary_toxic` was already added to the `validate_data.py` modifier enum in r38; `_step_ossuary` implemented in `biome_mods.py`; 40 rooms reference biome `"sunken_ossuary"`; `deep_floors` confirms floor 16 spawns 24 monsters, 16 pools. Gates: 7/7 green, selftest 21/21, validate_data 0 errors.
