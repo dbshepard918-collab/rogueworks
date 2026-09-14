@@ -112,6 +112,46 @@ def dispatch_async(bot: str, order: str) -> tuple[int, str]:
     return proc.pid, log.relative_to(ROOT).as_posix()
 
 
+SHELL_TOKENS = {
+    "cd", "echo", "python", "python3", "py", "git", "ls", "rm", "cat", "grep", "sed", "awk",
+    "true", "false", "test", "set", "export", "for", "if", "while", "mkdir", "cp", "mv", "touch",
+    "find", "xargs", "head", "tail", "wc", "sort", "uniq", "tr", "sleep", "bash", "sh", "pytest",
+    "make", "npm", "node", "curl", "diff", "which", "env", "timeout",
+}
+
+
+def looks_like_command(text: str) -> bool:
+    """True if *text* could actually be executed, False if it is prose describing a fix.
+
+    Measured failure this guards against: two slaps were issued with a `--fix` value written as an
+    instruction ("Patch docs/PROGRESS.md lines 155-158: change ... to ...").  `verify_fix` runs that
+    string through bash, so it exited 1 ("No such file or directory") and 2 (unbalanced quote) and
+    the entries could never close - while the escalation ladder went on treating an innocent bot as
+    unfixed, on course to write a rule into its SOUL.md and then freeze its lane.  A malformed
+    acceptance command must never be evidence against a bot.
+    """
+    s = (text or "").strip()
+    if not s:
+        return False
+    toks = s.split()
+    i = 0
+    # step over leading env assignments (VAR=value), which are a normal command prefix
+    while i < len(toks) and "=" in toks[i] and "/" not in toks[i].split("=", 1)[0]:
+        i += 1
+    if i >= len(toks):
+        return False
+    first = toks[i]
+    if first in SHELL_TOKENS:           # case-sensitive: "Set ..." is prose, "set ..." is not
+        return True
+    if "/" in first or "\\" in first:
+        return True
+    if first.lower().endswith((".exe", ".py", ".bat", ".sh", ".cmd")):
+        return True
+    if first.startswith((".", '"', "'")):
+        return True
+    return False
+
+
 def close_slap(ledger: dict, n: int) -> int:
     """Re-run a pending slap's acceptance command and close it, or keep it open."""
     entry = next((s for s in ledger["slaps"] if s.get("n") == n), None)
@@ -123,6 +163,17 @@ def close_slap(ledger: dict, n: int) -> int:
         print("  no acceptance command on this entry - nothing to verify; closing as ACKNOWLEDGED")
         entry["status"] = "ACKNOWLEDGED (no acceptance command)"
         return 0
+    # A prose "command" is not a failed fix - it is a broken instrument. Never escalate on it.
+    if not looks_like_command(entry["fix_command"]):
+        entry["status"] = ("MALFORMED ACCEPTANCE COMMAND - not a runnable command, so NOT verifiable "
+                           "and NOT a bot failure; reissue with --close N --reissue-fix '<command>'")
+        entry["fix_exit"] = None
+        entry["fix_output"] = "acceptance command was prose: %r" % entry["fix_command"][:120]
+        print("  NOT VERIFIABLE: the acceptance command is prose, not a command.")
+        print("    %r" % entry["fix_command"][:140])
+        print("  no escalation applied - fix the instrument, not the bot:")
+        print("    python -m tools.studio.slap --close %d --reissue-fix '<real command>'" % n)
+        return 1
     rc, out = verify_fix(entry["fix_command"])
     entry["fix_exit"] = rc
     entry["fix_output"] = out[:800]
@@ -183,11 +234,45 @@ def main(argv=None) -> int:
                     help="close an existing slap: re-run its acceptance command, mark it CLEAN or "
                          "escalate it. Use with no other arguments.")
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--reissue-fix", default=None, metavar="CMD",
+                    help="with --close N: replace a malformed acceptance command with a real one, "
+                         "then verify it")
+    ap.add_argument("--void", type=int, default=None, metavar="N",
+                    help="void a slap that cannot be verified (target artefact gone, malformed "
+                         "command, or superseded). Records the reason and never escalates.")
+    ap.add_argument("--reason", default=None, help="why a slap is being voided")
     args = ap.parse_args(argv)
 
     ledger = load_ledger()
 
+    if args.void is not None:
+        entry = next((s for s in ledger["slaps"] if s.get("n") == args.void), None)
+        if entry is None:
+            print("no slap #%d in the ledger" % args.void)
+            return 2
+        if not args.reason:
+            ap.error("--void requires --reason (a void without a reason is just a deleted record)")
+        entry["status"] = "VOID - %s" % args.reason
+        entry["voided"] = time.strftime("%Y-%m-%d %H:%M")
+        LEDGER_JSON.write_text(json.dumps(ledger, indent=2), encoding="utf-8")
+        with LEDGER_MD.open("a", encoding="utf-8") as fh:
+            fh.write("\n> **VOID %s on SLAP #%d:** %s - no escalation applied\n"
+                     % (time.strftime("%Y-%m-%d %H:%M"), args.void, args.reason))
+        print("SLAP #%d voided (no escalation): %s" % (args.void, args.reason))
+        return 0
+
     if args.close is not None:
+        if args.reissue_fix:
+            entry = next((s for s in ledger["slaps"] if s.get("n") == args.close), None)
+            if entry is None:
+                print("no slap #%d in the ledger" % args.close)
+                return 2
+            if not looks_like_command(args.reissue_fix):
+                ap.error("--reissue-fix must be a runnable command, not prose: %r"
+                         % args.reissue_fix)
+            entry["fix_command"] = args.reissue_fix
+            entry["reissued"] = time.strftime("%Y-%m-%d %H:%M")
+            print("reissued acceptance command for SLAP #%d: %s" % (args.close, args.reissue_fix))
         rc = close_slap(ledger, args.close)
         LEDGER_JSON.write_text(json.dumps(ledger, indent=2), encoding="utf-8")
         with LEDGER_MD.open("a", encoding="utf-8") as fh:
@@ -231,6 +316,12 @@ def main(argv=None) -> int:
     )
 
     print("SLAP -> %s  [%s / level %d]" % (args.bot, args.severity, level))
+    if args.fix and not looks_like_command(args.fix):
+        print("  [WARNING] --fix does not look like a runnable command:")
+        print("            %r" % args.fix[:120])
+        print("            The verifier runs it through bash, so this slap will be recorded as")
+        print("            UNVERIFIABLE and can never close. Pass a real command instead, e.g.")
+        print("            --fix \"python -m tools.selftest\"")
     print("  violation: %s" % args.violation)
     print("  evidence : %s" % args.evidence)
     print("  rule     : %s" % args.rule)

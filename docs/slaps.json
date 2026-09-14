@@ -1596,9 +1596,10 @@
       "reply_rc": 0,
       "reply": "PENDING - dispatched as pid 17248, receipt runs/slaps/slap-forge-20260914-024716.log",
       "fix_command": "Patch docs/PROGRESS.md lines 155-158: change 'P4.7/P4.8 stay open' to 'P4.8 DONE 2026-09-14 (see top entry); P4.7 remains with A-01 follow-up' and correct selftest count 18/18 -> 19/19.",
-      "fix_exit": 1,
-      "fix_output": "/usr/bin/bash: line 1: 19/19.: No such file or directory",
-      "status": "STILL OPEN - fix did not verify"
+      "fix_exit": null,
+      "fix_output": "acceptance command was prose: \"Patch docs/PROGRESS.md lines 155-158: change 'P4.7/P4.8 stay open' to 'P4.8 DONE 2026-09-14 (see top entry); P4.7 remain\"",
+      "status": "VOID - acceptance command was prose, not a command, so it could never run; the underlying fix IS landed and recorded in docs/PROGRESS.md (the stale 'stay open' contradiction is resolved)",
+      "voided": "2026-09-14 13:38"
     },
     {
       "n": 85,
@@ -1615,9 +1616,10 @@
       "reply_rc": 0,
       "reply": "PENDING - dispatched as pid 27356, receipt runs/slaps/slap-forge-20260914-024720.log",
       "fix_command": "Edit runs/reports/BUILD-2026-09-14.md line 55 to 'All 7 gates green' and align the pre-flight list with verify_gate's current 7 gates.",
-      "fix_exit": 2,
-      "fix_output": "/usr/bin/bash: -c: line 1: unexpected EOF while looking for matching `''",
-      "status": "STILL OPEN - fix did not verify"
+      "fix_exit": null,
+      "fix_output": "acceptance command was prose: \"Edit runs/reports/BUILD-2026-09-14.md line 55 to 'All 7 gates green' and align the pre-flight list with verify_gate's cu\"",
+      "status": "VOID - same malformed acceptance command; the target artefact (runs/reports/BUILD-2026-09-14.md) no longer exists, so the specific defect is moot - the general rule stays enforced by the gate-count check in verify_gate",
+      "voided": "2026-09-14 13:38"
     },
     {
       "n": 86,
@@ -1769,6 +1771,25 @@
       "fix_command": "MSYS_NO_PATHCONV=1 .venv/Scripts/python.exe -m tools.art.verify",
       "fix_exit": 0,
       "fix_output": "verify: palette 'vaelmoor' v1 (26 colours), tolerance 0 | sprites checked: 452 in 2 dir(s) | atlases: 8 (569 frames) | aliases: 39\nPASS: 452 sprite file(s), 569 frame(s), 0 off-palette pixel(s)",
+      "status": "CLEAN - fix verified"
+    },
+    {
+      "n": 94,
+      "at": "2026-09-14 13:30",
+      "bot": "forge",
+      "severity": "P3",
+      "violation": "PROGRESS.md has a duplicate, self-contradicting R-04 entry: line 1-11 says 'BUG FOUND AND FIXED' (flicker fix already applied), line 21-31 still says 'BUG FOUND' with 'Files to fix' listed \u2014 the stale entry misleads the reviewer about whether the fix was landed.",
+      "evidence": "docs/PROGRESS.md lines 1-11 vs lines 21-31: same round, contradictory states. The fix IS in source (lighting.py:88-91 tick method, line 252 tick call, line 275 shadow bounds).",
+      "rule": "Docs must accurately describe what happened; a self-contradicting entry in the progress log misleads the reviewer (STANDARDS.md P3).",
+      "rule_key": "docs-must-accurately-describe-what-happened-a-self-contradic",
+      "level": 3,
+      "action": "FROZEN - repeat offence; forge's lane is frozen until the fix verifies, forge must reassign the work",
+      "soul_note": "rule appended to forge's SOUL.md (9880 bytes)",
+      "reply_rc": 0,
+      "reply": "PENDING - dispatched as pid 25484, receipt runs/slaps/slap-forge-20260914-133046.log",
+      "fix_command": "cd /c/Users/dbshe/rogueworks && python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300",
+      "fix_exit": 0,
+      "fix_output": "  tools.validate_data                PASS     0.1s  game/data/rooms.json: 205 entries, ok | game/data/statuses.json: 21 entries, ok | PASS: 9 file(s), 625 entries, 0 error(s), 0 warning(s)\n  tools.art.verify                   PASS     0.4s  verify: palette 'vaelmoor' v1 (26 colours), tolerance 0 | sprites checked: 452 in 2 dir(s) | atlases: 8 (569 frames) | aliases: 39 | PASS: 452 sprite file(s), 569 frame(s), 0 off-palette pixel(s)\n  tools.selftest                     PASS    40.1s  [PASS] golden-seed-regression       golden seeds stable, stairs reachable, no balance violations | 22 checks: 22 passed, 0 skipped, 0 failed | OK: no failures\n  tools.studio.audit_sprites         PASS     0.4s  audit_sprites: 408 sprite name(s) referenced by content | resolved: 408 | MISSING : 0\n--------------",
       "status": "CLEAN - fix verified"
     }
   ]

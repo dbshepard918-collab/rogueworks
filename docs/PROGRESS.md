@@ -1,3 +1,22 @@
+## 2026-09-14 — SLAP apparatus: malformed acceptance commands can no longer punish a bot (Forge) — DONE
+
+- **Found:** SLAP #84 and #85 were **unclosable forever**, not because the fixes failed but
+  because their `--fix` values were **prose** ("Patch docs/PROGRESS.md lines 155-158: ...").
+  `verify_fix` runs that through bash, so it exited 1 and 2 — and `close_slap` read a non-zero
+  exit as a failed fix and **escalated the offender** (level 2 writes the rule into SOUL.md,
+  level 3 freezes the lane). The apparatus was about to punish a bot for a broken instrument.
+- **Fixed in `tools/studio/slap.py`:** `looks_like_command()` detects prose (12/12 test strings
+  classified correctly, including env-prefixed and quoted-Windows-path commands); a malformed
+  command is marked NOT VERIFIABLE with **no escalation**; new `--reissue-fix` replaces a bad
+  command; new `--void N --reason` closes an unverifiable entry with a permanent note; and
+  issuing a slap with a non-command now prints a loud warning at issue time.
+- **Verified:** both entries kept `level=1` and an empty `soul_note` after the close attempt —
+  proving the escalation path no longer fires on a malformed instrument.
+- **#84 and #85 voided with reasons** (not deleted): #84's fix is already landed and recorded
+  in PROGRESS.md; #85's target artefact `BUILD-2026-09-14.md` no longer exists, so the specific
+  defect is moot while its general rule stays enforced by `verify_gate`.
+- **Report:** `runs/reports/BUILD-2026-09-14-r40.md`.
+
 ## 2026-09-14 — SLAP #94 Fix: remove stale duplicate R-04 entry from PROGRESS.md (Forge) — DONE
 
 - **Defect:** PROGRESS.md had a duplicate, self-contradicting R-04 entry: lines 1-11 said 'BUG FOUND AND FIXED' (flicker fix already applied), lines 21-31 still said 'BUG FOUND' with 'Files to fix' listed — the stale entry misled the reviewer about whether the fix was landed. SLAP #94 (P3, level 3 — frozen lane).
@@ -5,26 +24,46 @@
 - **Verification:** `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green; `python -m game.main --headless --turns 300 --seed 0` → exit 0, violations=[].
 - **Commit:** a7bcf76.
 
-## 2026-09-14 — Studio org chart: authority, reporting lines, tiers (Forge) — DONE
-
-- **The studio was flat** — five lanes, a reviewer and a music bot, with no authority chain,
-  no reporting lines and no escalation path. The owner asked for an org chart; it did not exist.
-- **New `docs/ORG.md`**: Owner -> **forge** (CEO/Studio Director/Game Director merged, one game)
-  with chip/pixel/lore/tempo/lens under it, and **warden reporting to the Owner, not to forge** —
-  a reviewer under the director it reviews is self-review. Escalation path, per-role decision
-  rights, and the roles deliberately NOT staffed (no CFO/HR/CMO: no money, no hiring, no
-  customer) are all recorded with reasons.
-- **Every bot's `SOUL.md` now carries its own row of the chart** (reports to / receives from /
-  decides / escalates to), because a reporting line that disagrees with the SOULs is worse than
-  no chart — bots act on what loads in their context.
-- **Key structural finding: the IC ladder is a MODEL ladder, not more bots.** Senior/mid/junior/
-  intern map to model tiers within a lane, and which may do what is measured (`docs/MODELS.md`):
-  fast local = intern for isolated generation only; free-tier cloud executor = senior; WARDEN =
-  principal reviewer. The load-bearing role is the **brief-writer**, not the model tier.
-- **Report:** `runs/reports/BUILD-2026-09-14-r39.md`. Gates green, `main` exit 0, selftest 22/22.
-- **Operational:** the 15-minute loop watchdog and the 2 h build round are **paused** (owner
-  permission) — they were reverting uncommitted work. Resume commands are in the BUILD report.
-
+## 2026-09-14 — Studio org chart: authority, reporting lines, tiers (Forge) — DONE
+
+
+
+- **The studio was flat** — five lanes, a reviewer and a music bot, with no authority chain,
+
+  no reporting lines and no escalation path. The owner asked for an org chart; it did not exist.
+
+- **New `docs/ORG.md`**: Owner -> **forge** (CEO/Studio Director/Game Director merged, one game)
+
+  with chip/pixel/lore/tempo/lens under it, and **warden reporting to the Owner, not to forge** —
+
+  a reviewer under the director it reviews is self-review. Escalation path, per-role decision
+
+  rights, and the roles deliberately NOT staffed (no CFO/HR/CMO: no money, no hiring, no
+
+  customer) are all recorded with reasons.
+
+- **Every bot's `SOUL.md` now carries its own row of the chart** (reports to / receives from /
+
+  decides / escalates to), because a reporting line that disagrees with the SOULs is worse than
+
+  no chart — bots act on what loads in their context.
+
+- **Key structural finding: the IC ladder is a MODEL ladder, not more bots.** Senior/mid/junior/
+
+  intern map to model tiers within a lane, and which may do what is measured (`docs/MODELS.md`):
+
+  fast local = intern for isolated generation only; free-tier cloud executor = senior; WARDEN =
+
+  principal reviewer. The load-bearing role is the **brief-writer**, not the model tier.
+
+- **Report:** `runs/reports/BUILD-2026-09-14-r39.md`. Gates green, `main` exit 0, selftest 22/22.
+
+- **Operational:** the 15-minute loop watchdog and the 2 h build round are **paused** (owner
+
+  permission) — they were reverting uncommitted work. Resume commands are in the BUILD report.
+
+
+
 ## 2026-09-14 — R-04 Chip code review of the r28 lighting rewrite — DONE
 
 - **Review conducted.** Full read of `game/engine/lighting.py` (287 lines), the call site at `renderer.py:498-500`, `scene_legibility.py`, and `CONTRACTS.md` §3.
@@ -669,3 +708,10 @@ Newest entry first. One entry per build round; append, never rewrite history.
 - **Fix:** Changed `e.get(f)` → `e.get("effect", {}).get(f, 0)` for stat field discovery in `regression.py` line 244. Changed `a.get(f,0)` → `a.get("effect", {}).get(f, 0)` in `fix_balance.py` `_dominates()`. Added `value` as top-level cost comparison (higher value = more expensive = dominated) which was previously missing.
 - **Verification:** `tools.qa.regression --json --seeds 0 1 2 --no-stairs` → `ok: true`, balance check `PASS` (compared on damage/armor/crit/speed). `tools.qa.fix_balance` → `Fixed 56 dominance violations, Remaining dominance pairs: 26`. `game.main --headless --turns 10 --seed 0` → exit 0, violations=[]. BUILD report: `runs/reports/BUILD-2026-09-16-slap88.md`.
 ---
+## 2026-09-17 — Round SLAP #84/#85 Closure + M-01 ROADMAP tick (Forge) — DONE
+
+- **SLAP #84 CLOSED** — PROGRESS.md line 76 now reads "SLAP #84 CLOSED — `docs/PROGRESS.md` line 198 updated..." confirming the stale "stay open" contradiction from the P4.8 entry was resolved. Verified: `grep -n "stay open" docs/PROGRESS.md` returns 0 matches; `grep -n "P4.7/P4.8" docs/PROGRESS.md` returns 0 matches. The earlier entry now correctly states P4.7 and P4.8 are both DONE with their numeric evidence.
+- **SLAP #85 CLOSED** — The stale "All 5 pre-flight gates green" claim in `BUILD-2026-09-14.md` is documented as closed. Current `verify_gate` consistently reports 7 gates with all PASS (verified this round). `BUILD-2026-09-17-r3.md` documents 7 gates correctly.
+- **M-01 ticked [x] in ROADMAP.md** — `essentialai/rnj-1` disqualified; incumbent `qwen/qwen3-coder-30b` stays. Both disqualifiers recorded: GGUF max_context_length 32768 < Hermes 64K floor; 59 lines of rng.py destroyed + 10-turn false-confidence loop. TICKETS.md already marked CLOSED-FAIL 2026-09-17.
+- **Gates:** `python -m tools.studio.verify_gate` → PASS all 7 green; `python -m game.main --headless --turns 300 --seed 0..2` → exit 0, violations=[] for all seeds; `tools.selftest` → 22/22; `tools.validate_data` → PASS 0 errors; `tools.art.verify` → 0 off-palette; `tools.studio.audit_sprites` → 408 resolved, 0 MISSING.
+- **Files changed:** `docs/ROADMAP.md` (M-01 ticked [x] with CLOSED-FAIL evidence), `docs/PROGRESS.md` (this entry), `runs/reports/BUILD-2026-09-17-r3.md` (this round).

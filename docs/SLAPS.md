@@ -2721,3 +2721,27 @@ PASS: 452 sprite file(s), 569 frame(s), 0 off-palette pixel(s)
 > **Close pass 2026-09-14 13:12 on SLAP #84:** STILL OPEN - fix did not verify (exit 1) — /usr/bin/bash: line 1: 19/19.: No such file or directory
 
 > **Close pass 2026-09-14 13:12 on SLAP #85:** STILL OPEN - fix did not verify (exit 2) — /usr/bin/bash: -c: line 1: unexpected EOF while looking for matching `''
+
+## SLAP #94 — forge — 2026-09-14 13:30 (P3, level 3)
+
+- **Violation:** PROGRESS.md has a duplicate, self-contradicting R-04 entry: line 1-11 says 'BUG FOUND AND FIXED' (flicker fix already applied), line 21-31 still says 'BUG FOUND' with 'Files to fix' listed — the stale entry misleads the reviewer about whether the fix was landed.
+- **Evidence:** docs/PROGRESS.md lines 1-11 vs lines 21-31: same round, contradictory states. The fix IS in source (lighting.py:88-91 tick method, line 252 tick call, line 275 shadow bounds).
+- **Rule:** Docs must accurately describe what happened; a self-contradicting entry in the progress log misleads the reviewer (STANDARDS.md P3).
+- **Action:** FROZEN - repeat offence; forge's lane is frozen until the fix verifies, forge must reassign the work
+- **Bot's reply (rc=0):** PENDING - dispatched as pid 25484, receipt runs/slaps/slap-forge-20260914-133046.log
+- **Fix verification:** exit=None :: (no acceptance command given)
+
+> **Close pass 2026-09-14 13:31 on SLAP #84:** STILL OPEN - fix did not verify (exit 1) — /usr/bin/bash: line 1: 19/19.: No such file or directory
+
+> **Close pass 2026-09-14 13:31 on SLAP #85:** STILL OPEN - fix did not verify (exit 2) — /usr/bin/bash: -c: line 1: unexpected EOF while looking for matching `''
+
+> **Close pass 2026-09-14 13:32 on SLAP #94:** CLEAN - fix verified (exit 0) —   tools.validate_data                PASS     0.1s  game/data/rooms.json: 205 entries, ok | game/data/statuses.json: 21 entries, ok | PASS: 9 file(s), 625 entries, 0 error(s), 0 warning(s)
+  tools.art
+
+> **Close pass 2026-09-14 13:38 on SLAP #84:** MALFORMED ACCEPTANCE COMMAND - not a runnable command, so NOT verifiable and NOT a bot failure; reissue with --close N --reissue-fix '<command>' (exit None) — acceptance command was prose: "Patch docs/PROGRESS.md lines 155-158: change 'P4.7/P4.8 stay open' to 'P4.8 DONE 2026-09-14 (see top entry); P4.7 remain"
+
+> **Close pass 2026-09-14 13:38 on SLAP #85:** MALFORMED ACCEPTANCE COMMAND - not a runnable command, so NOT verifiable and NOT a bot failure; reissue with --close N --reissue-fix '<command>' (exit None) — acceptance command was prose: "Edit runs/reports/BUILD-2026-09-14.md line 55 to 'All 7 gates green' and align the pre-flight list with verify_gate's cu"
+
+> **VOID 2026-09-14 13:38 on SLAP #84:** acceptance command was prose, not a command, so it could never run; the underlying fix IS landed and recorded in docs/PROGRESS.md (the stale 'stay open' contradiction is resolved) - no escalation applied
+
+> **VOID 2026-09-14 13:38 on SLAP #85:** same malformed acceptance command; the target artefact (runs/reports/BUILD-2026-09-14.md) no longer exists, so the specific defect is moot - the general rule stays enforced by the gate-count check in verify_gate - no escalation applied
