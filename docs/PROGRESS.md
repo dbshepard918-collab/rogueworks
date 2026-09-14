@@ -1,3 +1,11 @@
+## 2026-09-17 — SLAP #98: test debris left in runs/ (Forge) — FIXED
+
+- **Defect:** Round r5 report BUILD-2026-09-17-r5.md claimed "No test fixtures left in runs/, assets/, or game/" but `git diff HEAD -- runs/playtest-*.json` and `git diff HEAD -- runs/selftest-0.json` showed metric changes — runs/playtest-0..7.json and runs/selftest-0.json were modified by the round's work (different metrics than HEAD). Violation of STANDARDS P2: test fixtures must not be left/modified in runs/.
+- **Evidence:** git diff HEAD -- runs/playtest-3.json showed fps_equiv 311->269; git diff HEAD -- runs/selftest-0.json showed fps_equiv 251->242. 8 playtest files + 1 selftest file modified.
+- **Fix:** `git checkout HEAD -- runs/playtest-*.json runs/selftest-0.json` — restored all 9 files to HEAD state. Verified: `git diff HEAD -- runs/playtest-*.json runs/selftest-*.json` returns empty.
+- **New rule added to STANDARDS.md:** "Never leave test fixtures in runs/ or assets/ — write them under LOCALAPPDATA/Temp and delete them, or make the tool clean up after themselves" (P2). Also "Report artifacts must be committed before BUILD report; metrics may not be retroactively edited to green."
+- **Verification:** `ls -la runs/playtest-*.json runs/selftest-*.json` shows all files matching HEAD; `git diff HEAD -- runs/playtest-*.json runs/selftest-*.json` returns empty.
+
 ## 2026-09-17 — P0.6 Orphan Art Fix (Forge) — DONE
 
 - Removed phantom `prop_chains` manifest entry (no PNG on disk) from `assets/sprites/props/manifest.json` and `assets/art_manifest.json`. Verified: 0 references in assets/ and game/. art.verify: 452 sprites, 569 frames, 0 off-palette. verify_gate: 7/7 green.
