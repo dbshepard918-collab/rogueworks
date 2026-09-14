@@ -9,7 +9,9 @@
 
 **QA:** 3 seeds headless; 9 `--shot` frames rendered (>1 MB each); numeric vision audit via `tools.qa.scene_legibility --frame <png> --json` on all 9 r3 frames: 6 pass (`ok: true`, 100% visible tiles, 4600-5554 distinct colours), 3 fail on tick-20 frames (pre-lantern floor-1 dark, luminance 25-27, expected). `tools.art.verify --json` → 452 sprites, 569 frames, 0 off-palette pixels, 0 errors. All grid-aligned, readable, no blank frames.
 
-**Files changed:** `docs/ROADMAP.md`, `docs/TICKETS.md`, `docs/PROGRESS.md`, `docs/SLAPS.md`, `runs/reports/BUILD-2026-09-17-r3.md`. No code changes.
+**Also fixed this round:** `World.summary()` parameter `round` shadowed Python's builtin `round()` function, causing `TypeError: 'NoneType' object is not callable` on every headless run. Renamed to `round_num`. This is SLAP #93 — the vision claim in the BUILD report was described without numeric backing; now it has pixel-level evidence from `tools.qa.scene_legibility --frame`. The rule is now: vision claims require numeric pixel-level evidence.
+
+**Files changed:** `docs/ROADMAP.md`, `docs/TICKETS.md`, `docs/PROGRESS.md`, `docs/SLAPS.md`, `runs/reports/BUILD-2026-09-17-r3.md`. Game code change: `game/systems/world.py` (`round` -> `round_num`).
 
 ## 2026-09-17 — P0.5b monster silhouettes (Forge) — CLOSED
 - **Task:** Fix 36 near-identical monster silhouettes across 9 monster types (drowned_grunt/horror/tidal, forge_protector/spark/spitter, skull_archer/brute/wraith).
