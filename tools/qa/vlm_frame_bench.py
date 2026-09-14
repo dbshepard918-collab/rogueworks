@@ -137,9 +137,13 @@ def bench(model, frames):
     print("=" * 74)
     print("MODEL: %s" % model)
     lms("unload", "--all")
-    load = lms("load", model, "--gpu", "max", "-c", "8192")
-    if load is None or "Model loaded" not in ((load.stdout or "") + (load.stderr or "")):
-        detail = " | ".join(((load.stdout or "") + (load.stderr or "")).strip().splitlines()[-2:])
+    load = lms("load", model, "--gpu", "max", "-c", "8192", "-y")
+    # `lms()` returns None on a subprocess timeout, so this branch must not assume a
+    # CompletedProcess - it did, and a model that timed out while loading raised
+    # `AttributeError: 'NoneType' object has no attribute 'stdout'` instead of saying so.
+    output = ((load.stdout or "") + (load.stderr or "")) if load is not None else ""
+    if load is None or "Model loaded" not in output:
+        detail = "timed out while loading" if load is None else             " | ".join(output.strip().splitlines()[-2:])
         raise SystemExit("REFUSED: could not load %s at context=8192.\n  LM Studio said: %s\n"
                          "  Means: it does not fit at this context, or the id is wrong."
                          % (model, detail[:300]))
