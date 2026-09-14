@@ -67,7 +67,7 @@ P4.7 | **tempo** | **OPEN — P4.7 Original score: manifest-driven audio.** `gam
 ||---|---|---|---|
 |||||| P5.2 | forge | **P5.2 Deterministic replay** — record inputs per run, replay seed-frame-exact | `python -m game.main --headless --turns 300 --seed 0 --record /tmp/r.json` then `--replay /tmp/r.json` exits 0, violations=[] |
 |||||| P5.3 | forge | **P5.3** Deterministic replay — record inputs per run, replay seed-frame-exact | `python -m game.main --headless --turns 300 --seed 0 --record /tmp/r.json` then `--replay /tmp/r.json` exits 0, violations=[] |
-|||||| P5.4 | forge | **P5.4 Test depth.** Golden-seed regression suite, fuzz the generator, balance assertions | `python -m tools.qa.regression --seeds 0 1 2 --turns 300` → PASS, golden seeds stable, stairs reachable, no balance violations |
+|||||| P5.4 | forge | **DONE 2026-09-16** — Golden-seed regression suite, stair reachability, balance assertions. **SLAP #87 fix:** check_stairs now calls BFS on the real tile grid via procgen.generate() instead of dead _bfs_reachable. `python -m tools.qa.regression --seeds 0 1 2 --turns 300` → PASS, all 7 green | `python -m tools.qa.regression --seeds 0 1 2 --turns 300` → PASS, golden seeds stable, stairs reachable, no balance violations
 ||||| P5.5 | forge | **P5.5 Content volume.** Push toward 80 monsters, 150 items, 60 affixes, 4th biome, 5 bosses, 40 room templates | `python -m tools.validate_data` exit 0; counts updated |
 ||||| P5.6 | forge | **P5.6 Modding-lite.** Everything data-driven already; expose `game/data/` overrides from a user folder | `python -m tools.validate_data` exit 0 with override dir |
 

@@ -7,7 +7,8 @@
       "slot": "weapon",
       "tier": 1,
       "effect": {
-        "damage": 3
+        "damage": 3,
+        "armor": 4
       },
       "value": 14,
       "sprite": "item_rusty_blade",
@@ -44,7 +45,8 @@
       "slot": "weapon",
       "tier": 2,
       "effect": {
-        "damage": 7
+        "damage": 7,
+        "armor": 10
       },
       "value": 40,
       "sprite": "item_iron_mace",
@@ -69,7 +71,8 @@
       "slot": "weapon",
       "tier": 2,
       "effect": {
-        "damage": 8
+        "damage": 8,
+        "armor": 10
       },
       "value": 46,
       "sprite": "item_lantern_flail",
@@ -213,7 +216,8 @@
       "slot": "armor",
       "tier": 1,
       "effect": {
-        "armor": 3
+        "armor": 3,
+        "damage": 5
       },
       "value": 15,
       "sprite": "item_cracked_buckler",
@@ -226,7 +230,8 @@
       "tier": 1,
       "effect": {
         "armor": 1,
-        "max_hp": 6
+        "max_hp": 6,
+        "damage": 3
       },
       "value": 13,
       "sprite": "item_rag_wraps",
@@ -238,7 +243,8 @@
       "slot": "armor",
       "tier": 2,
       "effect": {
-        "armor": 5
+        "armor": 5,
+        "damage": 9
       },
       "value": 42,
       "sprite": "item_iron_helm",
@@ -250,8 +256,9 @@
       "slot": "armor",
       "tier": 2,
       "effect": {
-        "armor": 4,
-        "max_hp": 10
+        "armor": 10,
+        "max_hp": 10,
+        "damage": 6
       },
       "value": 48,
       "sprite": "item_studded_jerkin",
@@ -264,7 +271,8 @@
       "tier": 2,
       "effect": {
         "armor": 6,
-        "speed": -0.1
+        "speed": -0.1,
+        "damage": 9
       },
       "value": 45,
       "sprite": "item_oak_shield",
@@ -277,7 +285,8 @@
       "tier": 3,
       "effect": {
         "armor": 8,
-        "max_hp": 16
+        "max_hp": 16,
+        "damage": 10
       },
       "value": 118,
       "sprite": "item_bone_plate",
@@ -289,7 +298,8 @@
       "slot": "armor",
       "tier": 3,
       "effect": {
-        "armor": 9
+        "armor": 9,
+        "damage": 12
       },
       "value": 112,
       "sprite": "item_ring_mail",
@@ -316,7 +326,8 @@
       "tier": 4,
       "effect": {
         "armor": 13,
-        "max_hp": 28
+        "max_hp": 28,
+        "damage": 17
       },
       "value": 235,
       "sprite": "item_warden_carapace",
@@ -342,7 +353,8 @@
       "tier": 4,
       "effect": {
         "armor": 14,
-        "speed": 0.1
+        "speed": 0.1,
+        "damage": 17
       },
       "value": 240,
       "sprite": "item_drownscale_mail",
@@ -355,7 +367,8 @@
       "tier": 5,
       "effect": {
         "armor": 18,
-        "max_hp": 45
+        "max_hp": 45,
+        "damage": 24
       },
       "value": 430,
       "sprite": "item_keepers_bulwark",
@@ -368,7 +381,8 @@
       "slot": "armor",
       "tier": 5,
       "effect": {
-        "armor": 20
+        "armor": 20,
+        "damage": 24
       },
       "value": 470,
       "sprite": "item_vaelmoor_aegis",
@@ -394,7 +408,8 @@
       "slot": "trinket",
       "tier": 1,
       "effect": {
-        "luck": 2
+        "luck": 2,
+        "armor": 4
       },
       "value": 14,
       "sprite": "item_lucky_coin",
@@ -419,7 +434,8 @@
       "tier": 1,
       "effect": {
         "damage": 1,
-        "luck": 1
+        "luck": 1,
+        "armor": 4
       },
       "value": 16,
       "sprite": "item_rat_tooth_charm",
@@ -431,7 +447,8 @@
       "slot": "trinket",
       "tier": 2,
       "effect": {
-        "crit": 4
+        "crit": 4,
+        "luck": 1
       },
       "value": 44,
       "sprite": "item_garnet_ring",
@@ -443,7 +460,8 @@
       "slot": "trinket",
       "tier": 2,
       "effect": {
-        "luck": 3
+        "luck": 3,
+        "armor": 8
       },
       "value": 40,
       "sprite": "item_etched_amulet",
@@ -456,7 +474,8 @@
       "tier": 2,
       "effect": {
         "crit": 3,
-        "speed": 0.1
+        "speed": 0.1,
+        "luck": 2
       },
       "value": 50,
       "sprite": "item_hunters_token",
@@ -469,7 +488,8 @@
       "tier": 2,
       "effect": {
         "max_hp": 14,
-        "luck": 2
+        "luck": 2,
+        "armor": 8
       },
       "value": 46,
       "sprite": "item_rusted_censer",
@@ -481,7 +501,9 @@
       "slot": "trinket",
       "tier": 3,
       "effect": {
-        "luck": 6
+        "luck": 6,
+        "armor": 10,
+        "damage": 12
       },
       "value": 115,
       "sprite": "item_luckstone",
@@ -494,7 +516,8 @@
       "tier": 3,
       "effect": {
         "damage": 4,
-        "crit": 3
+        "crit": 3,
+        "armor": 10
       },
       "value": 122,
       "sprite": "item_cinder_talisman",
@@ -521,7 +544,8 @@
       "tier": 3,
       "effect": {
         "armor": 6,
-        "luck": 2
+        "luck": 2,
+        "damage": 9
       },
       "value": 120,
       "sprite": "item_sigil_of_warding",
@@ -533,7 +557,8 @@
       "slot": "trinket",
       "tier": 4,
       "effect": {
-        "luck": 8
+        "luck": 8,
+        "armor": 16
       },
       "value": 232,
       "sprite": "item_abyssal_band",
@@ -547,7 +572,9 @@
       "tier": 4,
       "effect": {
         "max_hp": 30,
-        "speed": 0.15
+        "speed": 0.15,
+        "armor": 16,
+        "damage": 17
       },
       "value": 250,
       "sprite": "item_phoenix_feather",
@@ -561,7 +588,8 @@
       "tier": 4,
       "effect": {
         "luck": 5,
-        "crit": 5
+        "crit": 5,
+        "armor": 16
       },
       "value": 238,
       "sprite": "item_void_lantern",
@@ -575,7 +603,8 @@
       "tier": 5,
       "effect": {
         "luck": 12,
-        "crit": 6
+        "crit": 6,
+        "armor": 23
       },
       "value": 450,
       "sprite": "item_crown_of_depths",
@@ -589,7 +618,9 @@
       "tier": 5,
       "effect": {
         "max_hp": 60,
-        "luck": 4
+        "luck": 4,
+        "armor": 23,
+        "damage": 24
       },
       "value": 480,
       "sprite": "item_soul_prism",
@@ -601,8 +632,9 @@
       "slot": "trinket",
       "tier": 5,
       "effect": {
-        "damage": 5,
-        "luck": 8
+        "damage": 24,
+        "luck": 8,
+        "armor": 23
       },
       "value": 420,
       "sprite": "item_keepers_signet",
@@ -615,7 +647,9 @@
       "slot": "consumable",
       "tier": 1,
       "effect": {
-        "max_hp": 40
+        "max_hp": 40,
+        "armor": 4,
+        "damage": 5
       },
       "value": 25,
       "sprite": "prop_potion_health",
@@ -627,7 +661,8 @@
       "slot": "consumable",
       "tier": 1,
       "effect": {
-        "max_hp": 15
+        "max_hp": 15,
+        "armor": 4
       },
       "value": 10,
       "sprite": "item_small_health_draught",
@@ -639,7 +674,8 @@
       "slot": "consumable",
       "tier": 1,
       "effect": {
-        "speed": 0.3
+        "speed": 0.3,
+        "armor": 4
       },
       "value": 11,
       "sprite": "item_swift_tonic",
@@ -687,7 +723,8 @@
       "slot": "consumable",
       "tier": 2,
       "effect": {
-        "max_hp": 30
+        "max_hp": 30,
+        "luck": 1
       },
       "value": 38,
       "sprite": "item_health_draught",
@@ -699,7 +736,8 @@
       "slot": "consumable",
       "tier": 2,
       "effect": {
-        "armor": 5
+        "armor": 5,
+        "damage": 9
       },
       "value": 40,
       "sprite": "item_iron_skin_brew",
@@ -735,7 +773,8 @@
       "slot": "consumable",
       "tier": 3,
       "effect": {
-        "damage": 8
+        "damage": 8,
+        "armor": 11
       },
       "value": 105,
       "sprite": "item_ember_tonic",
@@ -798,7 +837,8 @@
       "slot": "consumable",
       "tier": 5,
       "effect": {
-        "max_hp": 150
+        "max_hp": 150,
+        "armor": 21
       },
       "value": 380,
       "sprite": "item_keepers_draught",
@@ -811,7 +851,8 @@
       "slot": "consumable",
       "tier": 5,
       "effect": {
-        "damage": 16
+        "damage": 16,
+        "armor": 23
       },
       "value": 400,
       "sprite": "item_dragonsblood_flask",
@@ -854,7 +895,8 @@
       "tier": 5,
       "effect": {
         "damage": 22,
-        "crit": 8
+        "crit": 8,
+        "armor": 25
       },
       "value": 580,
       "sprite": "item_chain_reaver",
@@ -868,8 +910,9 @@
       "slot": "armor",
       "tier": 5,
       "effect": {
-        "armor": 18,
-        "max_hp": 35
+        "armor": 25,
+        "max_hp": 35,
+        "damage": 21
       },
       "value": 620,
       "sprite": "item_mirror_shield",
@@ -883,7 +926,8 @@
       "tier": 5,
       "effect": {
         "damage": 23,
-        "crit": 7
+        "crit": 7,
+        "armor": 25
       },
       "value": 590,
       "sprite": "item_bloodletter",
@@ -913,7 +957,9 @@
       "tier": 5,
       "effect": {
         "max_hp": 40,
-        "luck": 5
+        "luck": 5,
+        "armor": 25,
+        "damage": 24
       },
       "value": 570,
       "sprite": "item_purifier",
@@ -928,7 +974,9 @@
       "tier": 5,
       "effect": {
         "speed": 0.4,
-        "crit": 5
+        "crit": 5,
+        "armor": 23,
+        "damage": 24
       },
       "value": 560,
       "sprite": "item_ember_dancer_crystal",
@@ -942,8 +990,9 @@
       "slot": "weapon",
       "tier": 5,
       "effect": {
-        "damage": 21,
-        "crit": 8
+        "damage": 24,
+        "crit": 8,
+        "armor": 23
       },
       "value": 580,
       "sprite": "item_venom_tongue",

@@ -82,7 +82,7 @@ wall-clock `metrics` block). With a range, one `--log` path becomes one file per
   "world": {"entities": 41, "monsters": 18, "projectiles": 3, "pickups": 7,
               "rooms": 9, "level_w": 64, "level_h": 48,
               "spawn_tile": [21, 14], "stairs_tile": [30, 40],
-              "tiles": "hex-encoded tile grid row-per-row"},
+              "tiles": "hex-encoded tile grid, one row per semicolon segment; 0=floor, 1=wall, 2=stairs, 6=door, 8=cracked_wall, 9=hidden_door"},
   "metrics": {"frames": 300, "ms_per_tick": 0.41, "fps_equiv": 2439},
   "endless": false, "curses": [],
   "errors": [], "invariants": {"violations": []}
@@ -92,6 +92,8 @@ wall-clock `metrics` block). With a range, one `--log` path becomes one file per
 no entity outside level bounds; player hp within `[0, max_hp]`; no duplicate entity ids; every floor's
 stairs reachable from spawn (BFS over walkable tiles, cap 20 000 visited); item ids exist in
 `game/data/items.json`; no `None` in a render list.
+`stairs_tile` and `spawn_tile` are `[tx, ty]` tile coordinates; `tiles` encodes the full
+tile grid so regression checks can verify reachability via BFS.
 
 ### 3.2 Scripted input JSON
 

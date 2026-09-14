@@ -119,7 +119,7 @@ opinions; re-runnable with the commands given.
 
 | Model | Lane | Verdict | Measured |
 |---|---|---|---|
-| `essentialai/rnj-1` | coder (chip) | **trial it** | **45.1 tok/s**, 6.5 GiB VRAM, 3.7 s load @8K. Incumbent `qwen/qwen3-coder-30b`: 5.5 tok/s, 18.63 GB, 68 s load. 8× throughput and the card stays free — but speed is not code quality, so it needs one real edit before any pin moves. |
+| `essentialai/rnj-1` | coder (chip) | **trial it** | **40–45 tok/s** (40.1 avg @150 tokens, 45.1 best @200), ~6.6 GiB VRAM, 3.7 s load @8K. Incumbent `qwen/qwen3-coder-30b`: 5.5 tok/s, 18.63 GB, 68 s load. ~8× throughput and the card stays free — but speed is not code quality, so it needs one real edit before any pin moves. Evidence: `%TEMP%/rw_bench_local.json` |
 | `zai-org/glm-4.6v-flash` | vision | no | 2/5 and 3/5 across two runs vs the pin's 4/5 (8 runs); 29.2 s vs 3.2 s; 2035 reasoning tokens per answer; denies the flat-rectangle defect. |
 | `allenai/olmocr-2-7b` | vision | no | 1/5, generic critique. A document-OCR model — `qwen2vl` arch does not make it a sprite critic. |
 | `google/gemma-3-27b` | text | no — **1.3 tok/s** | At 4K context: 74.9 s load, warm-up **158.8 s for 200 tokens = 1.3 tok/s**, 3 runs all 1.3. `qwen/qwen3-8b` does 23.1 tok/s and `gemma-4-12b-qat` 20.0 — ~18× slower, before Hermes' required 64K context. **Two instruments disagree on its footprint:** `bench_local` reports 11,408 MiB after load (11,586 in the summary) against a 12,227 MiB card, while `lms load` reports 15.30 GiB — either way it has no room left for a second model, and 64K cannot fit. |
@@ -132,6 +132,10 @@ python -m tools.qa.vlm_bench <model>                    # vision, known-answer s
 python -m tools.studio.bench_local --model <m> --context 8192   # tok/s + VRAM + load
 python -m tools.art.gen --licence-board                 # which art models may ship
 ```
+
+`bench_local` writes every measurement to `%TEMP%/rw_bench_local.json` (merge-keyed by
+`model@context`), so a number quoted here can be re-read instead of re-argued. A rerun at a different
+`--tokens` gives a slightly different rate — quote the range, not one lucky run.
 
 ### Two traps these measurements set for the measurer
 
