@@ -20,6 +20,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import shutil
 import sys
 import tempfile
 import traceback
@@ -67,6 +68,18 @@ def _press(scene, pygame, name) -> None:
 def sweep(root: Path, seed: int) -> dict:
     import pygame
 
+    scratch = Path(tempfile.mkdtemp(prefix="rw_scene_sweep_"))
+    try:
+        return _sweep_all(root, seed, scratch)
+    finally:
+        # the scratch dir must go even when a surface raises, or a red gate
+        # leaves debris behind - which is exactly what happened before
+        shutil.rmtree(scratch, ignore_errors=True)
+
+
+def _sweep_all(root: Path, seed: int, scratch: Path) -> dict:
+    import pygame
+
     from game.engine import scenes as scenes_mod
     from game.systems import save as save_sys
     from game.ui import hud as hud_mod
@@ -74,7 +87,6 @@ def sweep(root: Path, seed: int) -> dict:
     from game.ui import minimap as minimap_mod
     from game.ui import tooltips as tooltips_mod
 
-    scratch = Path(tempfile.mkdtemp(prefix="rw_scene_sweep_"))
     surface = pygame.Surface(SIZE)
     results: list[dict] = []
 
@@ -150,8 +162,6 @@ def sweep(root: Path, seed: int) -> dict:
             drive(top)
         record("EndScene(%s)" % kind, end_path)
 
-    import shutil
-    shutil.rmtree(scratch, ignore_errors=True)
     return {"seed": seed, "surfaces": results,
             "failed": [r for r in results if not r["ok"]]}
 

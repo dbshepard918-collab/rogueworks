@@ -63,7 +63,7 @@ Newest entry first. One entry per build round; append, never rewrite history.
 
 ---
 
-## 2026-09-13 — P0.4 Bitmap Font Glyph Coverage (Forge)
+## 2026-09-13 — Round 26 — P0.4 Bitmap Font Glyph Coverage (Forge)
 
 - **Defect:** `FONT_GLYPHS` held only 45 glyphs. 24 printable ASCII characters rendered
   as blanks: `"` `#` `$` `&` `'` `(` `)` `*` `,` `;` `<` `=` `>` `?` `@` `[` `\` `]`
@@ -80,7 +80,11 @@ Newest entry first. One entry per build round; append, never rewrite history.
   - `python -m tools.selftest` → 18/18 PASS
   - `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green
   - `python -m game.main --headless --turns 300 --seed 0..2` → exit 0, violations=[]
-  - Frames at `runs/shots/p04-glyph-0/`, `p04-glyph-1/`, `p04-glyph-2/` (519-542 KB each, 1280x720)
+  - Frames at `runs/shots/p04-glyph-0/frame-000050.png` (541016 bytes),
+    `runs/shots/p04-glyph-1/frame-000050.png` (541954 bytes),
+    `runs/shots/p04-glyph-2/frame-000050.png` (519232 bytes), all 1280x720
+  - Playtest JSONs at `%TEMP%/playtest-p04-glyph-{0,1,2}.json` (exit 0, violations=[])
+  - `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green (2026-09-14 00:02)
 - **Files changed:** `game/engine/assets.py` (FONT_GLYPHS +24 entries), `tools/selftest.py`
   (check_glyph_coverage function + wiring), `docs/ROADMAP.md`, `docs/TICKETS.md`.
 

@@ -1539,9 +1539,9 @@
       "reply_rc": 0,
       "reply": "PENDING - dispatched as pid 12128, receipt runs/slaps/slap-pixel-20260914-000025.log",
       "fix_command": "python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300",
-      "fix_exit": null,
-      "fix_output": "",
-      "status": "PENDING - awaiting the bot's turn"
+      "fix_exit": 0,
+      "fix_output": "  tools.validate_data                PASS     0.1s  game/data/rooms.json: 45 entries, ok | game/data/statuses.json: 21 entries, ok | PASS: 8 file(s), 292 entries, 0 error(s), 0 warning(s)\n  tools.art.verify                   PASS     0.4s  verify: palette 'vaelmoor' v1 (26 colours), tolerance 0 | sprites checked: 414 in 2 dir(s) | atlases: 8 (391 frames) | aliases: 39 | PASS: 414 sprite file(s), 391 frame(s), 0 off-palette pixel(s)\n  tools.selftest                     PASS     4.4s  [PASS] glyph-coverage               69 glyph(s) defined, all renderable | 18 checks: 18 passed, 0 skipped, 0 failed | OK: no failures\n  tools.studio.audit_sprites         PASS     0.4s  audit_sprites: 263 sprite name(s) referenced by content | resolved: 263 | MISSING : 0\n----------------------------------------",
+      "status": "CLEAN - fix verified"
     },
     {
       "n": 82,
@@ -1558,9 +1558,9 @@
       "reply_rc": 0,
       "reply": "PENDING - dispatched as pid 22340, receipt runs/slaps/slap-forge-20260914-000030.log",
       "fix_command": "python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300",
-      "fix_exit": null,
-      "fix_output": "",
-      "status": "PENDING - awaiting the bot's turn"
+      "fix_exit": 0,
+      "fix_output": "  tools.validate_data                PASS     0.1s  game/data/rooms.json: 45 entries, ok | game/data/statuses.json: 21 entries, ok | PASS: 8 file(s), 292 entries, 0 error(s), 0 warning(s)\n  tools.art.verify                   PASS     0.4s  verify: palette 'vaelmoor' v1 (26 colours), tolerance 0 | sprites checked: 414 in 2 dir(s) | atlases: 8 (391 frames) | aliases: 39 | PASS: 414 sprite file(s), 391 frame(s), 0 off-palette pixel(s)\n  tools.selftest                     PASS     4.2s  [PASS] glyph-coverage               69 glyph(s) defined, all renderable | 18 checks: 18 passed, 0 skipped, 0 failed | OK: no failures\n  tools.studio.audit_sprites         PASS     0.4s  audit_sprites: 263 sprite name(s) referenced by content | resolved: 263 | MISSING : 0\n----------------------------------------",
+      "status": "CLEAN - fix verified"
     }
   ]
 }
