@@ -190,9 +190,12 @@ update `docs/TICKETS.md`, append to `docs/PROGRESS.md`, and only then take the n
       drones, and the whole feature degrades silently when the directory or the audio device is
       missing (GDD §8). Acceptance: every manifest cue resolves to a real file, `tools.validate_data`
       exits 0, and the game still runs headless clean with `assets/audio/` deleted.
-- [ ] **P4.8 Numeric audio QA.** A cue is not shipped on vibes: assert duration, RMS and peak from the
-      artefact on disk, and confirm the tail-to-head seam sits below the noise floor. Lens cannot hear
-      audio, so this gate is numeric (`rms`, `peak`, `loop_seam_delta`) instead of a vision audit.
+- [ ] **P4.8 Numeric audio QA.** A cue is not shipped on vibes: assert duration, RMS, peak and DC
+      offset from the artefact on disk, and confirm the tail-to-head seam sits below the noise floor.
+      Lens cannot hear audio, so this gate is numeric (`rms`, `peak`, `dc_offset`, `wrap_discontinuity`,
+      `click_ratio`) instead of a vision audit. `tools.qa.audio_audit` is that gate; `click_ratio` is
+      the wrap discontinuity as a multiple of the 95th percentile of internal sample deltas
+      (<= 3.0 is inaudible).
 
 ## Phase 5 — Tech and long tail
 
