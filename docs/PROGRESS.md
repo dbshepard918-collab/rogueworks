@@ -1,15 +1,27 @@
-## 2026-09-14 — escalation() no longer counts voided slaps (Forge) — DONE
-
-- **Same defect class as the prose `--fix`, one layer deeper.** `escalation()` counted every prior
-  entry with the same bot+rule_key, **including VOID records** — which are precisely the entries
-  established as *not the bot's failure*. Effect: the two slaps voided earlier today (#84/#85)
-  would have pushed forge's next genuine first offence on those rules straight to **level 2**,
-  writing the rule into its `SOUL.md` permanently, for something it never did.
-- **Fix:** `escalation()` skips entries whose status starts with `VOID`.
-- **Verified:** #84/#85 now score next-offence level **1** (a true first offence), while a control
-  entry that was legitimately closed still escalates **1 -> 2** — so voids are excluded without
-  weakening real escalation. A record that was never evidence must not be used as evidence.
-
+## 2026-09-14 — escalation() no longer counts voided slaps (Forge) — DONE
+
+
+
+- **Same defect class as the prose `--fix`, one layer deeper.** `escalation()` counted every prior
+
+  entry with the same bot+rule_key, **including VOID records** — which are precisely the entries
+
+  established as *not the bot's failure*. Effect: the two slaps voided earlier today (#84/#85)
+
+  would have pushed forge's next genuine first offence on those rules straight to **level 2**,
+
+  writing the rule into its `SOUL.md` permanently, for something it never did.
+
+- **Fix:** `escalation()` skips entries whose status starts with `VOID`.
+
+- **Verified:** #84/#85 now score next-offence level **1** (a true first offence), while a control
+
+  entry that was legitimately closed still escalates **1 -> 2** — so voids are excluded without
+
+  weakening real escalation. A record that was never evidence must not be used as evidence.
+
+
+
 ## 2026-09-14 — SLAP apparatus: malformed acceptance commands can no longer punish a bot (Forge) — DONE
 
 
@@ -746,3 +758,4 @@ Newest entry first. One entry per build round; append, never rewrite history.
 - **M-01 ticked [x] in ROADMAP.md** — `essentialai/rnj-1` disqualified; incumbent `qwen/qwen3-coder-30b` stays. Both disqualifiers recorded: GGUF max_context_length 32768 < Hermes 64K floor; 59 lines of rng.py destroyed + 10-turn false-confidence loop. TICKETS.md already marked CLOSED-FAIL 2026-09-17.
 - **Gates:** `python -m tools.studio.verify_gate` → PASS all 7 green; `python -m game.main --headless --turns 300 --seed 0..2` → exit 0, violations=[] for all seeds; `tools.selftest` → 22/22; `tools.validate_data` → PASS 0 errors; `tools.art.verify` → 0 off-palette; `tools.studio.audit_sprites` → 408 resolved, 0 MISSING.
 - **Files changed:** `docs/ROADMAP.md` (M-01 ticked [x] with CLOSED-FAIL evidence), `docs/PROGRESS.md` (this entry), `runs/reports/BUILD-2026-09-17-r3.md` (this round).
+- **Game-code change (cross-lane, stated reason per STANDARDS law 4):** `tools/studio/slap.py` — `escalation()` now excludes VOID entries from repeat-offence counting. Reason: SLAP #84/#85 involved voided slaps, and voided entries were incorrectly counting toward level-2 escalation (SOUL write). A voided slap is established as NOT the bot's failure, so it must not push the next first offence to level 2. Verified: `#84/#85 -> level 1` while a legitimately-closed control still escalates `1->2`.
