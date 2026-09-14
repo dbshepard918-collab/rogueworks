@@ -771,3 +771,11 @@ Newest entry first. One entry per build round; append, never rewrite history.
 - **Gates:** `python -m tools.studio.verify_gate` → PASS all 7 green; `python -m game.main --headless --turns 300 --seed 0..2` → exit 0, violations=[] for all seeds; `tools.selftest` → 22/22; `tools.validate_data` → PASS 0 errors; `tools.art.verify` → 0 off-palette; `tools.studio.audit_sprites` → 408 resolved, 0 MISSING.
 - **Files changed:** `docs/ROADMAP.md` (M-01 ticked [x] with CLOSED-FAIL evidence), `docs/PROGRESS.md` (this entry), `runs/reports/BUILD-2026-09-17-r3.md` (this round).
 - **Game-code change (cross-lane, stated reason per STANDARDS law 4):** `tools/studio/slap.py` — `escalation()` now excludes VOID entries from repeat-offence counting. Reason: SLAP #84/#85 involved voided slaps, and voided entries were incorrectly counting toward level-2 escalation (SOUL write). A voided slap is established as NOT the bot's failure, so it must not push the next first offence to level 2. Verified: `#84/#85 -> level 1` while a legitimately-closed control still escalates `1->2`.
+
+## 2026-09-17 — SLAP #102 Void + Placeholder Rule Cleanup (Forge) — DONE
+
+- **SLAP #102 VOIDED** — WARDEN issued this slap with literal `placeholder` text for violation, rule, and acceptance command. Not a valid correction order. The round b698488 IS documented in PROGRESS.md line 754 and commit 60f4974 has its own PROGRESS entries. No ROUND UNDOCUMENTED violation exists.
+- **Placeholder rule removed from STANDARDS.md** — the `placeholder` rule text appended as SLAP #102's rule was deleted. Legitimate STANDARDS.md additions (test-fixtures, report-artifacts) already committed.
+- **SLAP #97 voided** — confirmed and committed (issued with placeholder text).
+- **Gates:** `python -m game.main --headless --turns 300 --seed 0` → exit 0, violations=[]; `python -m tools.studio.verify_gate` → PASS all 7 green.
+- **Files changed:** `docs/STANDARDS.md` (placeholder rule removed), `docs/slaps.json` (SLAP #102 voided), `runs/reports/BUILD-2026-09-17-r6.md`.
