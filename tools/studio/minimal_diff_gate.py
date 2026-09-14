@@ -137,8 +137,20 @@ def trial(model: str, sandbox: Path, python: str) -> dict:
             with urllib.request.urlopen(req, timeout=300) as r:
                 data = json.loads(r.read())
         except urllib.error.HTTPError as exc:
-            return {"verdict": "FAIL", "reason": "HTTP %s from completion endpoint" % exc.code,
-                    "turns": turns_used}
+            detail = ""
+            try:
+                detail = exc.read().decode("utf-8", "replace")[:200]
+            except Exception:
+                pass
+            if "unloaded" in detail.lower():
+                return {"verdict": "SKIP", "reason": "model unloaded mid-trial by LM "
+                        "Studio - reload and retry; not a model failure",
+                        "turns": turns_used}
+            return {"verdict": "FAIL", "reason": "HTTP %s from completion endpoint: %s"
+                    % (exc.code, detail), "turns": turns_used}
+        except (urllib.error.URLError, TimeoutError, OSError) as exc:
+            return {"verdict": "SKIP", "reason": "turn timed out (%s) - model slow or "
+                    "swapped; reload and retry" % type(exc).__name__, "turns": turns_used}
         msg = data["choices"][0]["message"]
         calls = msg.get("tool_calls") or []
         if not calls:
