@@ -106,6 +106,15 @@ SINGLE_PROMPT = ("Pixel art of a single {subject}, drawn on a 32x32 pixel grid w
 # "chain" or "water_pool" without a concrete visual description. These give it something solid
 # to draw, while the frame name stays the data-bot's id.
 SUBJECT_OVERRIDES = {
+    "coffer": "ornate treasure coffer, a heavy wooden chest with iron bands and a rusted lock, glinting with gold coins spilling out",
+    "eye": "obsidian eye, a floating magical eye with a slit pupil and veins of dark energy radiating outward",
+    "fountain": "stone fountain, a weathered fountain with water trickling from a carved stone basin into a dark pool",
+    "hammer": "war hammer, a heavy iron war hammer with a cracked wooden grip and a spiked metal head",
+    "cracked_wall": "cracked wall, a stone wall with deep fissures, crumbling mortar and exposed dark rock beneath",
+    "hidden_door": "hidden door, a concealed stone door with faint seams and a handle barely visible in the wall",
+    "bog_teleporter": "bog teleporter, a grotesque amphibious creature with pulsating translucent skin, glowing eyes and webbed tentacles emerging from murky water",
+    "hive_splitter": "hive splitter, a chitinous insectoid horror with segmented limbs, a hive-like carapace and dripping mandibles",
+    "phantom_teleporter": "phantom teleporter, a spectral wraith with a flickering translucent body, trailing void energy and ragged edges",
     "altar": "stone altar, a dark stone sacrificial table with carved runes and a glowing rune on top",
     "anvil": "blacksmith anvil, heavy dark iron anvil with a flat top and horn, a few sparks",
     "bones": "pile of bones, a skull and ribs scattered in a small pile on the ground",

@@ -278,3 +278,11 @@
 [02:47:45]   SLAP #85 (forge): STILL OPEN
 [02:48:06] ROUND 5 - running pre-flight gates
 [02:48:14] ROUND 5 item: P5.4 Test depth. Golden-seed regression suite (a fixed set of seeds asserting layout
+[02:59:04] ROUND 5 builder: OK (195 tool calls, 650s)
+[03:05:35] ROUND 5 review: OK (195 tool calls, 390s)
+[03:06:19]   SLAP #84 (forge): STILL OPEN
+[03:06:19]   SLAP #85 (forge): STILL OPEN
+[03:06:19]   SLAP #86 (forge): CLEAN
+[03:06:19]   SLAP #87 (forge): CLEAN
+[03:06:19]   SLAP #88 (forge): CLEAN
+[03:06:39]   in-flight work detected (8448 chat -q, You are forge. Your work was reviewed and rejected., VIOLATION: check_stairs is dead code: _bfs_reachable defined but never called; stair check passes without verifying reachability, existence, or duplication) - waiting for it to finish

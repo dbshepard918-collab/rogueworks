@@ -1,1 +1,407 @@
-{"version": 1, "image": "assets/atlas/monsters.png", "meta": {"tile": 32, "palette_version": 1, "generated_by": "pixel"}, "frames": {"monster_abyss_lamprey": [0, 0, 32, 32], "monster_abyss_lamprey_elite": [32, 0, 32, 32], "monster_ash_skeleton": [64, 0, 32, 32], "monster_ash_skeleton_elite": [96, 0, 32, 32], "monster_ash_wraith": [128, 0, 32, 32], "monster_bellows_brute": [160, 0, 32, 32], "monster_bog_lurker": [192, 0, 32, 32], "monster_bog_teleporter": [224, 0, 32, 32], "monster_bone_rat": [0, 32, 32, 32], "monster_bone_rat_elite": [32, 32, 32, 32], "monster_bone_stalker": [64, 32, 32, 32], "monster_brine_thrall": [96, 32, 32, 32], "monster_brine_thrall_elite": [128, 32, 32, 32], "monster_catacomb_guardian": [160, 32, 32, 32], "monster_charger_brute": [192, 32, 32, 32], "monster_cinder_wretch": [224, 32, 32, 32], "monster_cinder_wretch_elite": [0, 64, 32, 32], "monster_coal_hound": [32, 64, 32, 32], "monster_coal_hound_elite": [64, 64, 32, 32], "monster_coral_horror": [96, 64, 32, 32], "monster_crypt_brute": [128, 64, 32, 32], "monster_crypt_crawler": [160, 64, 32, 32], "monster_deep_priest": [192, 64, 32, 32], "monster_deep_summoner": [224, 64, 32, 32], "monster_drowned_leviathan": [0, 96, 32, 32], "monster_drowned_soldier": [32, 96, 32, 32], "monster_drowned_soldier_elite": [64, 96, 32, 32], "monster_ember_imp": [96, 96, 32, 32], "monster_ember_imp_elite": [128, 96, 32, 32], "monster_flame_djinn": [160, 96, 32, 32], "monster_forge_husk": [192, 96, 32, 32], "monster_grave_moth": [224, 96, 32, 32], "monster_hive_splitter": [0, 128, 32, 32], "monster_magma_slinger": [32, 128, 32, 32], "monster_mire_hulk": [64, 128, 32, 32], "monster_molten_crawler": [96, 128, 32, 32], "monster_ossuary_archer": [128, 128, 32, 32], "monster_pale_diver": [160, 128, 32, 32], "monster_pale_diver_elite": [192, 128, 32, 32], "monster_phantom_teleporter": [224, 128, 32, 32], "monster_putrid_ghoul": [0, 160, 32, 32], "monster_putrid_ghoul_elite": [32, 160, 32, 32], "monster_rune_runner": [64, 160, 32, 32], "monster_shield_guardian": [96, 160, 32, 32], "monster_shroud_haunt": [128, 160, 32, 32], "monster_skull_warden": [160, 160, 32, 32], "monster_slag_drudge": [192, 160, 32, 32], "monster_spark_moth": [224, 160, 32, 32], "monster_spark_moth_elite": [0, 192, 32, 32], "monster_summon_skeleton": [32, 192, 32, 32], "monster_tide_caller": [64, 192, 32, 32], "monster_tide_shield": [96, 192, 32, 32], "monster_tomb_lurker": [128, 192, 32, 32], "monster_vault_sifter": [160, 192, 32, 32], "monster_warren_overseer": [192, 192, 32, 32], "monster_waterlogged_husk": [224, 192, 32, 32], "monster_wax_wisp": [0, 224, 32, 32], "monster_skull_wraith": [32, 224, 32, 32], "monster_skull_archer": [64, 224, 32, 32], "monster_skull_brute": [96, 224, 32, 32], "monster_forge_spark": [128, 224, 32, 32], "monster_forge_spitter": [160, 224, 32, 32], "monster_forge_protector": [192, 224, 32, 32], "monster_drowned_grunt": [224, 224, 32, 32]}}
+{
+  "version": 1,
+  "image": "assets/atlas/monsters.png",
+  "meta": {
+    "tile": 32,
+    "palette_version": 1,
+    "generated_by": "pixel"
+  },
+  "frames": {
+    "monster_abyss_lamprey": [
+      0,
+      0,
+      32,
+      32
+    ],
+    "monster_abyss_lamprey_elite": [
+      32,
+      0,
+      32,
+      32
+    ],
+    "monster_ash_skeleton": [
+      64,
+      0,
+      32,
+      32
+    ],
+    "monster_ash_skeleton_elite": [
+      96,
+      0,
+      32,
+      32
+    ],
+    "monster_ash_wraith": [
+      128,
+      0,
+      32,
+      32
+    ],
+    "monster_bellows_brute": [
+      160,
+      0,
+      32,
+      32
+    ],
+    "monster_bog_lurker": [
+      192,
+      0,
+      32,
+      32
+    ],
+    "monster_bog_teleporter": [
+      224,
+      0,
+      32,
+      32
+    ],
+    "monster_bone_rat": [
+      256,
+      0,
+      32,
+      32
+    ],
+    "monster_bone_rat_elite": [
+      0,
+      32,
+      32,
+      32
+    ],
+    "monster_bone_stalker": [
+      32,
+      32,
+      32,
+      32
+    ],
+    "monster_brine_thrall": [
+      64,
+      32,
+      32,
+      32
+    ],
+    "monster_brine_thrall_elite": [
+      96,
+      32,
+      32,
+      32
+    ],
+    "monster_catacomb_guardian": [
+      128,
+      32,
+      32,
+      32
+    ],
+    "monster_charger_brute": [
+      160,
+      32,
+      32,
+      32
+    ],
+    "monster_cinder_wretch": [
+      192,
+      32,
+      32,
+      32
+    ],
+    "monster_cinder_wretch_elite": [
+      224,
+      32,
+      32,
+      32
+    ],
+    "monster_coal_hound": [
+      256,
+      32,
+      32,
+      32
+    ],
+    "monster_coal_hound_elite": [
+      0,
+      64,
+      32,
+      32
+    ],
+    "monster_coral_horror": [
+      32,
+      64,
+      32,
+      32
+    ],
+    "monster_crypt_brute": [
+      64,
+      64,
+      32,
+      32
+    ],
+    "monster_crypt_crawler": [
+      96,
+      64,
+      32,
+      32
+    ],
+    "monster_deep_priest": [
+      128,
+      64,
+      32,
+      32
+    ],
+    "monster_deep_summoner": [
+      160,
+      64,
+      32,
+      32
+    ],
+    "monster_drowned_grunt": [
+      192,
+      64,
+      32,
+      32
+    ],
+    "monster_drowned_horror": [
+      224,
+      64,
+      32,
+      32
+    ],
+    "monster_drowned_leviathan": [
+      256,
+      64,
+      32,
+      32
+    ],
+    "monster_drowned_soldier": [
+      0,
+      96,
+      32,
+      32
+    ],
+    "monster_drowned_soldier_elite": [
+      32,
+      96,
+      32,
+      32
+    ],
+    "monster_drowned_tidal": [
+      64,
+      96,
+      32,
+      32
+    ],
+    "monster_ember_imp": [
+      96,
+      96,
+      32,
+      32
+    ],
+    "monster_ember_imp_elite": [
+      128,
+      96,
+      32,
+      32
+    ],
+    "monster_flame_djinn": [
+      160,
+      96,
+      32,
+      32
+    ],
+    "monster_forge_husk": [
+      192,
+      96,
+      32,
+      32
+    ],
+    "monster_forge_protector": [
+      224,
+      96,
+      32,
+      32
+    ],
+    "monster_forge_spark": [
+      256,
+      96,
+      32,
+      32
+    ],
+    "monster_forge_spitter": [
+      0,
+      128,
+      32,
+      32
+    ],
+    "monster_grave_moth": [
+      32,
+      128,
+      32,
+      32
+    ],
+    "monster_hive_splitter": [
+      64,
+      128,
+      32,
+      32
+    ],
+    "monster_magma_slinger": [
+      96,
+      128,
+      32,
+      32
+    ],
+    "monster_mire_hulk": [
+      128,
+      128,
+      32,
+      32
+    ],
+    "monster_molten_crawler": [
+      160,
+      128,
+      32,
+      32
+    ],
+    "monster_ossuary_archer": [
+      192,
+      128,
+      32,
+      32
+    ],
+    "monster_pale_diver": [
+      224,
+      128,
+      32,
+      32
+    ],
+    "monster_pale_diver_elite": [
+      256,
+      128,
+      32,
+      32
+    ],
+    "monster_phantom_teleporter": [
+      0,
+      160,
+      32,
+      32
+    ],
+    "monster_putrid_ghoul": [
+      32,
+      160,
+      32,
+      32
+    ],
+    "monster_putrid_ghoul_elite": [
+      64,
+      160,
+      32,
+      32
+    ],
+    "monster_rune_runner": [
+      96,
+      160,
+      32,
+      32
+    ],
+    "monster_shield_guardian": [
+      128,
+      160,
+      32,
+      32
+    ],
+    "monster_shroud_haunt": [
+      160,
+      160,
+      32,
+      32
+    ],
+    "monster_skull_archer": [
+      192,
+      160,
+      32,
+      32
+    ],
+    "monster_skull_brute": [
+      224,
+      160,
+      32,
+      32
+    ],
+    "monster_skull_warden": [
+      256,
+      160,
+      32,
+      32
+    ],
+    "monster_skull_wraith": [
+      0,
+      192,
+      32,
+      32
+    ],
+    "monster_slag_drudge": [
+      32,
+      192,
+      32,
+      32
+    ],
+    "monster_spark_moth": [
+      64,
+      192,
+      32,
+      32
+    ],
+    "monster_spark_moth_elite": [
+      96,
+      192,
+      32,
+      32
+    ],
+    "monster_summon_skeleton": [
+      128,
+      192,
+      32,
+      32
+    ],
+    "monster_tide_caller": [
+      160,
+      192,
+      32,
+      32
+    ],
+    "monster_tide_shield": [
+      192,
+      192,
+      32,
+      32
+    ],
+    "monster_tomb_lurker": [
+      224,
+      192,
+      32,
+      32
+    ],
+    "monster_vault_sifter": [
+      256,
+      192,
+      32,
+      32
+    ],
+    "monster_warren_overseer": [
+      0,
+      224,
+      32,
+      32
+    ],
+    "monster_waterlogged_husk": [
+      32,
+      224,
+      32,
+      32
+    ],
+    "monster_wax_wisp": [
+      64,
+      224,
+      32,
+      32
+    ]
+  }
+}

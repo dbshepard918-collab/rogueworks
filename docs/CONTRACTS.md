@@ -80,7 +80,9 @@ wall-clock `metrics` block). With a range, one `--log` path becomes one file per
              "kills": 27, "items": ["rusty_blade", "leather_cap"], "statuses": ["poison"],
              "pos": [21, 14]},
   "world": {"entities": 41, "monsters": 18, "projectiles": 3, "pickups": 7,
-            "rooms": 9, "level_w": 64, "level_h": 48},
+              "rooms": 9, "level_w": 64, "level_h": 48,
+              "spawn_tile": [21, 14], "stairs_tile": [30, 40],
+              "tiles": "hex-encoded tile grid row-per-row"},
   "metrics": {"frames": 300, "ms_per_tick": 0.41, "fps_equiv": 2439},
   "endless": false, "curses": [],
   "errors": [], "invariants": {"violations": []}

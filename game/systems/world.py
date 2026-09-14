@@ -1474,15 +1474,23 @@ class World:
 
     # -- reporting -------------------------------------------------------
     def counts(self):
-        return {
-            "entities": sum(1 for e in self.entities if e.alive),
-            "monsters": sum(1 for m in self.monsters if m.alive),
-            "projectiles": sum(1 for p in self.projectiles if p.alive),
-            "pickups": sum(1 for p in self.pickups if p.alive and not p.collected),
-            "rooms": len(self.level.rooms) if self.level else 0,
-            "level_w": self.level.w if self.level else 0,
-            "level_h": self.level.h if self.level else 0,
-        }
+            tiles = self.level.tiles if self.level else []
+            # Encode tiles as a compact hex string: each row is a hex byte per tile
+            tiles_hex = ";".join(
+                "".join(f"{t:02x}" for t in row) for row in tiles
+            ) if tiles else ""
+            return {
+                "entities": sum(1 for e in self.entities if e.alive),
+                "monsters": sum(1 for m in self.monsters if m.alive),
+                "projectiles": sum(1 for p in self.projectiles if p.alive),
+                "pickups": sum(1 for p in self.pickups if p.alive and not p.collected),
+                "rooms": len(self.level.rooms) if self.level else 0,
+                "level_w": self.level.w if self.level else 0,
+                "level_h": self.level.h if self.level else 0,
+                "spawn_tile": list(self.level.spawn_tile) if self.level else None,
+                "stairs_tile": list(self.level.stairs_tile) if self.level else None,
+                "tiles": tiles_hex,
+            }
 
     def summary(self, ok=None):
         player = self.player
