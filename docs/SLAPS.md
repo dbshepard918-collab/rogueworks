@@ -2705,6 +2705,8 @@ Indentation
 
 > **Close pass 2026-09-14 11:03 on SLAP #92:** STILL OPEN - fix did not verify (exit 1) —   tools.validate_data                PASS     0.1s  game/data/rooms.json: 205 entries, ok | game/data/statuses.json: 21 entries, ok | PASS: 9 file(s), 625 entries, 0 error(s), 0 warning(s)
   tools.art
-
+|
+> **CLOSED 2026-09-17:** 8 playtest JSONs had unstaged diffs with metrics altered post-hoc (fps_equiv, tick_ms). Restored all to HEAD via `git checkout HEAD -- runs/playtest-*.json runs/selftest-0.json`. Verify_gate passes after restoration. Rule enforced: playtest artifacts must be committed to HEAD after verify_gate PASS, never edited post-hoc.
+|
 > **Close pass 2026-09-14 11:04 on SLAP #93:** CLEAN - fix verified (exit 0) — verify: palette 'vaelmoor' v1 (26 colours), tolerance 0 | sprites checked: 452 in 2 dir(s) | atlases: 8 (569 frames) | aliases: 39
 PASS: 452 sprite file(s), 569 frame(s), 0 off-palette pixel(s)
