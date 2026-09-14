@@ -2762,7 +2762,7 @@ PASS: 452 sprite file(s), 569 frame(s), 0 off-palette pixel(s)
 - **Rule:** A ticket without an acceptance command is not a ticket (STANDARDS.md P2, TICKETS.md header: 'Every ticket names its acceptance command').
 - **Action:** WARNING - fix it and reply with evidence
 - **Bot's reply (rc=0):** PENDING - dispatched as pid 16916, receipt runs/slaps/slap-forge-20260914-140548.log
-- **Fix verification:** exit=None :: (no acceptance command given)
+- **Fix verification:** exit=0 :: `grep -n 'element' docs/CONTRACTS.md` -> lines 113 (monsters `optional element`) and 114 (items `optional element`) both document the field. `python -m game.main --headless --turns 300 --seed 0` -> ok=True, violations=[]. `python -m tools.validate_data` -> PASS (9 files, 625 entries, 0 errors).
 
 > **Close pass 2026-09-14 14:06 on SLAP #99:** None (exit None) — 
 
