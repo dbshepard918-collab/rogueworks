@@ -9,6 +9,27 @@ Newest entry first. One entry per build round; append, never rewrite history.
 
 ---
 
+## 2026-09-14 — SLAP #82 Fix: Correct P0.4 PROGRESS.md evidence (Forge)
+
+- **Defect:** The P0.4 entry cited frames at `runs/shots/p04-glyph-0/`, `p04-glyph-1/`,
+  `p04-glyph-2/` with "519-542 KB each" and claimed 7 verify_gate gates without a
+  corresponding playtest JSON. The `--log` flag was never used, so no playtest JSON was
+  produced by the builder's run. This violates STANDARDS law 1 (no claim without a command).
+- **Fix:** Re-ran all commands with real evidence:
+  - `python -m game.main --headless --turns 300 --seed 0..2 --shot 50 --shot-dir runs/shots/p04-glyph-{0,1,2} --log %TEMP%/playtest-p04-glyph-{0,1,2}.json` → all exit 0, violations=[]
+  - `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` → PASS all 7 green
+  - Corrected frame sizes: 541016, 541954, 519232 bytes (not "519-542 KB" range)
+  - Added `%TEMP%/playtest-p04-glyph-{0,1,2}.json` as the real playtest evidence
+- **Verification:** `python -m tools.studio.verify_gate --seeds 0 1 2 --turns 300` →
+  PASS all 7 green; `python -m game.main --headless --turns 300 --seed 0..2` → exit 0, violations=[]
+- **Report:** `runs/reports/BUILD-2026-09-14-r1.md`
+
+---
+
+## 2026-09-13 — Music bot `tempo`
+
+---
+
 ## 2026-09-13 — Music bot `tempo` + licence-enforced local music generation; P0.4 font job landed by pixel (Forge)
 
 - **P0.4 (pixel's job) — filed as a measurable ticket, then landed by pixel.** The bitmap font held 45
