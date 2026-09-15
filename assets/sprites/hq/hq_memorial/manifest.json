@@ -1,0 +1,109 @@
+{
+  "version": 1,
+  "name": "hq_memorial",
+  "grid": 128,
+  "palette_version": 1,
+  "palette": "assets/palette.json",
+  "colour_key": "#ff00ff",
+  "key_mode": "family",
+  "source": "assets/raw/hq/hq_memorial.png",
+  "generated_by": "pixel",
+  "frames": {
+    "hq_memorial_r0c0": {
+      "size": [
+        128,
+        128
+      ]
+    },
+    "hq_memorial_r0c1": {
+      "size": [
+        128,
+        128
+      ]
+    },
+    "hq_memorial_r0c2": {
+      "size": [
+        128,
+        128
+      ]
+    },
+    "hq_memorial_r0c3": {
+      "size": [
+        128,
+        128
+      ]
+    },
+    "hq_memorial_r1c0": {
+      "size": [
+        128,
+        128
+      ]
+    },
+    "hq_memorial_r1c1": {
+      "size": [
+        128,
+        128
+      ]
+    },
+    "hq_memorial_r1c2": {
+      "size": [
+        128,
+        128
+      ]
+    },
+    "hq_memorial_r1c3": {
+      "size": [
+        128,
+        128
+      ]
+    },
+    "hq_memorial_r2c0": {
+      "size": [
+        128,
+        128
+      ]
+    },
+    "hq_memorial_r2c1": {
+      "size": [
+        128,
+        128
+      ]
+    },
+    "hq_memorial_r2c2": {
+      "size": [
+        128,
+        128
+      ]
+    },
+    "hq_memorial_r2c3": {
+      "size": [
+        128,
+        128
+      ]
+    },
+    "hq_memorial_r3c0": {
+      "size": [
+        128,
+        128
+      ]
+    },
+    "hq_memorial_r3c1": {
+      "size": [
+        128,
+        128
+      ]
+    },
+    "hq_memorial_r3c2": {
+      "size": [
+        128,
+        128
+      ]
+    },
+    "hq_memorial_r3c3": {
+      "size": [
+        128,
+        128
+      ]
+    }
+  }
+}

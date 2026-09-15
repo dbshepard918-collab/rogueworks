@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import pygame
-from ..engine.assets import colour, draw_text, text_size
+from ..engine.assets import Atlas, colour, draw_text, text_size
 from ..systems import hq as hq_sys
 from ..systems.quest_tracker import QuestTracker
 from ..systems.dialogue import DialogueSystem
@@ -105,16 +105,43 @@ class HQScene:
         ry = room.get("y", 0) * 32 - self.camera_y
         rw = room.get("w", 8) * 32
         rh = room.get("h", 8) * 32
-        # Floor
+        room_id = room.get("id", "")
+        
+        # Draw floor tiles from HQ atlas
+        floor_frame = f"{room_id}_r0c0" if room_id else None
+        if floor_frame:
+            try:
+                atlas = Atlas.load("hq")
+                if atlas and floor_frame in atlas.frames:
+                    surf = atlas.frame(floor_frame)
+                    if surf:
+                        # Tile the floor across the room
+                        for ty in range(0, rh, 32):
+                            for tx in range(0, rw, 32):
+                                surface.blit(surf, (rx + tx, ry + ty))
+                        # Draw walls on top
+                        wall_col = (58, 52, 80)
+                        pygame.draw.rect(surface, wall_col, (rx, ry, rw, 4))
+                        pygame.draw.rect(surface, wall_col, (rx, ry + rh - 4, rw, 4))
+                        pygame.draw.rect(surface, wall_col, (rx, ry, 4, rh))
+                        pygame.draw.rect(surface, wall_col, (rx + rw - 4, ry, 4, rh))
+                        # Room name
+                        name = room.get("name", "")
+                        tw, th = text_size(name, 1)
+                        if tw > 0:
+                            draw_text(surface, name, (rx + rw // 2 - tw // 2, ry + 8), 1, colour=(217, 210, 197))
+                        return
+            except Exception:
+                pass
+        
+        # Fallback: colored rectangle
         floor_col = (40, 36, 52)
         pygame.draw.rect(surface, floor_col, (rx, ry, rw, rh))
-        # Walls (border)
         wall_col = (58, 52, 80)
         pygame.draw.rect(surface, wall_col, (rx, ry, rw, 4))
         pygame.draw.rect(surface, wall_col, (rx, ry + rh - 4, rw, 4))
         pygame.draw.rect(surface, wall_col, (rx, ry, 4, rh))
         pygame.draw.rect(surface, wall_col, (rx + rw - 4, ry, 4, rh))
-        # Room name
         name = room.get("name", "")
         tw, th = text_size(name, 1)
         if tw > 0:
@@ -123,14 +150,39 @@ class HQScene:
     def _draw_npc(self, surface, npc_state):
         nx = npc_state.x - self.camera_x
         ny = npc_state.y - self.camera_y
-        # Draw NPC as a colored rectangle (placeholder until sprites are painted)
-        npc_col = (121, 176, 74) if "keeper" in npc_state.definition.get("id", "") else \
-                  (232, 178, 60) if "forge" in npc_state.definition.get("id", "") else \
-                  (100, 180, 200) if "tide" in npc_state.definition.get("id", "") else \
-                  (180, 140, 240) if "raven" in npc_state.definition.get("id", "") else \
+        npc_id = npc_state.definition.get("id", "")
+        
+        # Draw NPC sprite from atlas
+        frame_name = f"{npc_id}_r0c0" if npc_id else None
+        if frame_name:
+            try:
+                atlas = Atlas.load("npcs")
+                if atlas and frame_name in atlas.frames:
+                    surf = atlas.frame(frame_name)
+                    if surf:
+                        # Center sprite on NPC position (32x32)
+                        surface.blit(surf, (nx - 16, ny - 16))
+                        # Name above head
+                        name = npc_state.definition.get("name", "")
+                        tw, th = text_size(name, 1)
+                        if tw > 0:
+                            draw_text(surface, name, (nx - tw // 2, ny - 28), 1, colour=(217, 210, 197))
+                        # Interact hint
+                        hint = "[E] Talk"
+                        hw, hh = text_size(hint, 1)
+                        if hw > 0:
+                            draw_text(surface, hint, (nx - hw // 2, ny + 20), 1, colour=(121, 176, 74))
+                        return
+            except Exception:
+                pass
+        
+        # Fallback: colored rectangle
+        npc_col = (121, 176, 74) if "keeper" in npc_id else \
+                  (232, 178, 60) if "forge" in npc_id else \
+                  (100, 180, 200) if "tide" in npc_id else \
+                  (180, 140, 240) if "raven" in npc_id else \
                   (196, 99, 95)
         pygame.draw.rect(surface, npc_col, (nx - 12, ny - 12, 24, 24))
-        # Name above head
         name = npc_state.definition.get("name", "")
         tw, th = text_size(name, 1)
         if tw > 0:
