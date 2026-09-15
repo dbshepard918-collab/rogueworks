@@ -2624,18 +2624,6 @@
       ]
     },
     {
-      "id": "ossuary_room_corridor_22",
-      "biome": "sunken_ossuary",
-      "kind": "corridor",
-      "w": 14,
-      "h": 11,
-      "spawn_budget": 4,
-      "props": [
-        "prop_crystal",
-        "prop_moss"
-      ]
-    },
-    {
       "id": "ossuary_room_blacksmith_23",
       "biome": "sunken_ossuary",
       "kind": "blacksmith",
@@ -2720,18 +2708,6 @@
       ]
     },
     {
-      "id": "ossuary_room_corridor_30",
-      "biome": "sunken_ossuary",
-      "kind": "corridor",
-      "w": 12,
-      "h": 10,
-      "spawn_budget": 3,
-      "props": [
-        "prop_crystal",
-        "prop_moss"
-      ]
-    },
-    {
       "id": "ossuary_room_blacksmith_31",
       "biome": "sunken_ossuary",
       "kind": "blacksmith",
@@ -2801,18 +2777,6 @@
       "props": [
         "prop_pillar",
         "prop_rubble"
-      ]
-    },
-    {
-      "id": "ossuary_room_corridor_37",
-      "biome": "sunken_ossuary",
-      "kind": "corridor",
-      "w": 14,
-      "h": 11,
-      "spawn_budget": 4,
-      "props": [
-        "prop_crystal",
-        "prop_moss"
       ]
     },
     {
@@ -2897,18 +2861,6 @@
       "props": [
         "prop_pillar",
         "prop_rubble"
-      ]
-    },
-    {
-      "id": "ossuary_room_corridor_45",
-      "biome": "sunken_ossuary",
-      "kind": "corridor",
-      "w": 12,
-      "h": 10,
-      "spawn_budget": 3,
-      "props": [
-        "prop_crystal",
-        "prop_moss"
       ]
     },
     {

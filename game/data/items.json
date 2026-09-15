@@ -2143,6 +2143,115 @@
       "sprite": "item_shell_cap",
       "flavor": "The ultimate draught.",
       "element": "shadow"
+    },
+    {
+      "id": "ember_dash_crystal",
+      "name": "Ember Dash Crystal",
+      "slot": "trinket",
+      "tier": 3,
+      "effect": {
+        "speed": 0.1
+      },
+      "value": 45,
+      "sprite": "prop_crystal",
+      "flavor": "Your dash leaves a trail of fire that burns enemies."
+    },
+    {
+      "id": "soul_reaper",
+      "name": "Soul Reaper Scythe",
+      "slot": "weapon",
+      "tier": 3,
+      "effect": {
+        "damage": 3
+      },
+      "value": 50,
+      "sprite": "prop_sword",
+      "flavor": "Killing an enemy spawns a temporary soul minion."
+    },
+    {
+      "id": "phase_cloak",
+      "name": "Phase Cloak",
+      "slot": "armor",
+      "tier": 2,
+      "effect": {
+        "armor": 2
+      },
+      "value": 40,
+      "sprite": "prop_shield",
+      "flavor": "Dodging grants brief invulnerability."
+    },
+    {
+      "id": "pierce_bolt",
+      "name": "Pierce Bolt",
+      "slot": "weapon",
+      "tier": 3,
+      "effect": {
+        "damage": 2,
+        "crit": 0.05
+      },
+      "value": 45,
+      "sprite": "vfx_magic_bolt",
+      "flavor": "Ranged shots pierce through enemies."
+    },
+    {
+      "id": "vampiric_blade",
+      "name": "Vampiric Blade",
+      "slot": "weapon",
+      "tier": 2,
+      "effect": {
+        "damage": 2
+      },
+      "value": 35,
+      "sprite": "prop_sword",
+      "flavor": "Melee kills heal you for a portion of damage dealt."
+    },
+    {
+      "id": "frost_orb",
+      "name": "Frost Orb",
+      "slot": "trinket",
+      "tier": 2,
+      "effect": {
+        "damage": 1
+      },
+      "value": 30,
+      "sprite": "prop_crystal",
+      "flavor": "Attacks have a chance to freeze enemies."
+    },
+    {
+      "id": "thunder_ring",
+      "name": "Thunder Ring",
+      "slot": "trinket",
+      "tier": 2,
+      "effect": {
+        "crit": 0.05
+      },
+      "value": 35,
+      "sprite": "prop_crystal",
+      "flavor": "Critical strikes chain lightning."
+    },
+    {
+      "id": "shadow_cloak",
+      "name": "Shadow Cloak",
+      "slot": "armor",
+      "tier": 2,
+      "effect": {
+        "speed": 0.5
+      },
+      "value": 30,
+      "sprite": "prop_shield",
+      "flavor": "Move faster in the shadows."
+    },
+    {
+      "id": "golden_idol",
+      "name": "Golden Idol",
+      "slot": "trinket",
+      "tier": 1,
+      "effect": {
+        "luck": 5
+      },
+      "value": 25,
+      "sprite": "prop_chest",
+      "flavor": "Increases gold drops from enemies."
     }
   ]
 }
