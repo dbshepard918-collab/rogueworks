@@ -1,3 +1,14 @@
+## 2026-09-15 (r49) — Title background + palette pipeline lesson (Forge + Pixel + Chip)
+
+- **Generated title background** — lone adventurer with lantern at the edge of a vast abyss, five descending arcane platforms, giant skull at the bottom, gothic arch composition. FLUX.1-schnell at 1024×576, resized to 1280×720.
+- **Created dedicated title atlas** — `assets/atlas/title.png` + `.json` (1280×720, single frame `background`). Avoids bloating the UI atlas.
+- **Integrated into MenuScene** — `draw()` now blits the title background instead of filling with void color. Falls back to void if atlas missing.
+- **Palette snap fix** — FLUX output has ~921K off-pixel pixels. Snapped to 26-color vaelmoor palette via numpy nearest-color (same fix as r48 NPC/HQ art).
+- **Lesson learned**: raw FLUX output is NOT palette-locked. Every generated image needs: `raw → pixelize (grid slice) → resize 32x32 → numpy snap to palette → pack atlas`. The snap step is mandatory.
+- **Gates**: `game.main --headless --turns 300 --seed 0..2` → EXIT=0, violations=[]; `tools.selftest` → 22/22; `tools.art.verify` → 0 off-palette.
+- **Commit**: `a29df02` r49: title background + palette pipeline lesson. Dedicated title atlas, 22/22 gates green.
+- **BUILD report**: `runs/reports/BUILD-2026-09-15-r49.md`
+
 ## 2026-09-15 (r48) — Narrative art pass: 5 NPC sprites, 6 HQ tile sets, atlased & integrated (Forge + Pixel + Chip)
 
 - **Generated 5 NPC sprites** — Eira (keeper), Brokk (forge-giant), Mira (tide cartographer), The Raven (skull-on-chain), Lena (sorrowful spirit) via FLUX.1-schnell at 512px sheet, sliced 4x4 into 16 walk frames each, downscaled to 32x32.
