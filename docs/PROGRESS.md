@@ -1,3 +1,9 @@
+## 2026-09-15 (G-03) — Selftest FAIL fix + validate_data warnings cleared (Forge)
+
+- **Root cause of gate FAIL**: `FONT_GLYPHS` in `game/engine/assets.py` had no entry for `—` (U+2014 em dash). `BitmapFont.glyph()` silently fell back to space glyph. `check_glyph_coverage` caught it. Added `'—': "..#/###/###/###/..#"` 3x5 bitmap glyph.
+- **validate_data warnings**: `npcs.json`, `storyline.json`, `hq_rooms.json` (added by r46 narrative bot) were unrecognised content files. Added them to SCHEMAS as `_special` files. Fixed `_special` check to apply to ALL special files (was hardcoded to `meta_tree.json` only). Added early-exit for `_special` files before the `entries` array check.
+- **Result**: All 7 verify_gate gates green, selftest 22/22, validate_data 0 errors/0 warnings, 3 seeds headless clean, 4 real screenshots vision-audited PASS.
+
 ## 2026-09-14 (r44) — Meta-progression verdict: loop works, the tester was blind (Forge)
 
 - **The "meta tree is broken" finding is overturned.** Root cause was the QA autopilot: ENGAGE_RANGE 230 could not see ranged snipers holding at 249 px, so it stood still and died unopposed at every investment level. After the sight fix (`c708db9`), the 12-seed paired ladder gives fresh 5.58 → full-tree 8.67 floors (+3.1), 8/2/2 improved/same/worse — the tree needed no retuning.
