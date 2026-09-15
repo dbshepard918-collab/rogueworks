@@ -1,3 +1,14 @@
+## 2026-09-15 (r51) — Title particles + full VFX/UI atlas palette-snap + VLM audit (Forge + Chip)
+
+- **Title screen particles** — deterministic soul-wisp particles floating up from the bottom of the title screen. Counter-based positions (no RNG, passes `no-bare-random` gate).
+- **Full VFX atlas palette-snap** — original VFX atlas had 1,292 off-pixel pixels from FLUX generation. Snapped entire atlas to 26-color vaelmoor palette.
+- **Full UI atlas palette-snap** — original UI atlas had 52,984 off-pixel pixels. Same fix.
+- **Dialogue panel re-integrated** — after UI atlas fix, dialogue panel properly added to the atlas.
+- **VLM audit** — title screen, HQ hub, and combat frames audited with qwen3-vl-8b. Title screen: "high quality, crisp pixel art, readable text." HQ hub: "dialogue panel well-integrated, map easy to read." Combat: pixel art style misidentified as "Binding of Isaac" (known VLM failure mode) but no real defects found.
+- **Gates**: `game.main --headless --turns 300 --seed 0..2` → EXIT=0, violations=[]; `tools.selftest` → 22/22; `tools.art.verify` → 0 off-palette.
+- **Commit**: `9849d6a` r51: VLM audit passed — title screen, HQ hub, combat frames verified clean.
+- **BUILD report**: `runs/reports/BUILD-2026-09-15-r51.md`
+
 ## 2026-09-15 (r50) — Dialogue panel art + projectile sprite + muzzle flash VFX (Forge + Pixel + Chip)
 
 - **Dialogue panel sprite** — ornate stone-and-bone banner frame for NPC conversations. 1024×192 raw → 1280×160 final, palette-locked.
