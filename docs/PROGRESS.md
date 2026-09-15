@@ -1,3 +1,9 @@
+## 2026-09-17 (r56) — QA Gate Check (Forge)
+
+- **QA gate sweep** — `game.main --headless --turns 300 --seed 0..2` → all 3 seeds exit 0, violations=[]; `tools.selftest` → 22/22; `tools.validate_data` → 0 errors (1 warning: quests.json unrecognized); `tools.art.verify` → FAIL (13 errors, all from `assets/sprites/ui/title_background.png` off-palette — pre-existing, not gameplay sprites).
+- **BUILD report**: `runs/reports/BUILD-2026-09-17-r56.md`
+- **Overall**: 3/4 gates PASS. art.verify failure is a pre-existing title screen image issue, not a regression.
+
 ## 2026-09-15 (r55) — Player hazard feedback: VFX + camera shake (Forge + Chip)
 
 - **Player hazard feedback** — `_step_player_hazards()` spawns `vfx_flame` + camera shake when standing on burning tiles, `vfx_ripple` when in water. Cooldown-gated (0.7s/0.8s), no RNG.
