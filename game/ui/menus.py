@@ -13,7 +13,7 @@ settings screen, pause with run stats.
 import math
 import pygame
 
-from ..engine.assets import draw_text, text_size, load_palette
+from ..engine.assets import Atlas, draw_text, text_size, load_palette
 from ..engine.renderer import Renderer
 
 BUTTON_W = 240

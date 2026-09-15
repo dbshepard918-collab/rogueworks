@@ -14,7 +14,7 @@ from ..ui import hud as hud_mod
 from ..ui import inventory as inventory_mod
 from ..ui import menus as menus_mod
 from ..ui import minimap as minimap_mod
-from ..engine.assets import colour, draw_text, text_size, load_palette
+from ..engine.assets import Atlas, colour, draw_text, text_size, load_palette
 from ..engine.input import KeyboardInput, ScriptedInput, ReplayInput
 from ..engine.gamepad import GamepadInput
 from ..engine.renderer import Renderer
@@ -306,7 +306,17 @@ class MenuScene(Scene):
         return None
 
     def draw(self, surface):
-        surface.fill(colour("void", (11, 10, 16)))
+        # r49: title background image
+        try:
+            atlas = Atlas.load("title")
+            if atlas and atlas.has("background"):
+                bg = atlas.frame("background")
+                if bg:
+                    surface.blit(bg, (0, 0))
+            else:
+                surface.fill(colour("void", (11, 10, 16)))
+        except Exception:
+            surface.fill(colour("void", (11, 10, 16)))
         # P4.5: animated title with pulsing lantern effect
         self.title_anim_timer += 0.016
         self.title_pulse = 0.5 + 0.5 * math.sin(self.title_anim_timer * 2.0)
