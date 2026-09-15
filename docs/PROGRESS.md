@@ -1,3 +1,10 @@
+## 2026-09-15 (r55) — Player hazard feedback: VFX + camera shake (Forge + Chip)
+
+- **Player hazard feedback** — `_step_player_hazards()` spawns `vfx_flame` + camera shake when standing on burning tiles, `vfx_ripple` when in water. Cooldown-gated (0.7s/0.8s), no RNG.
+- **Cosmetic only** — real DOT lives in `biome_mods.py`; this is visual response so the player sees *why* damage is happening.
+- **Gates**: `game.main --headless --turns 300 --seed 0..2` EXIT=0 violations=[]; `tools.selftest` 22/22; `tools.studio.verify_gate` 7/7 green.
+- **BUILD report**: `runs/reports/BUILD-2026-09-15-r55.md`
+
 ## 2026-09-15 (r54) — Animated environment: hazard tiles, prop ground glow, torch flicker (Forge + Chip)
 
 - **Animated tile frame cycling** — `Renderer._resolve_tile_frame()` cycles frames by phase, no RNG: `floor_burning` ↔ `floor_burning_alt` (0.25s), `floor_water` ↔ `floor_water_alt` (0.35s), `wall_torch` ↔ `wall_torch_bright` (0.18s). Wired into 3 tile-drawing sites in renderer.

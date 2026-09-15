@@ -88,6 +88,8 @@ class World:
         self.unknown_statuses = set()
         self.level_bonus = {}
         self.consumable_buffs = []
+        # r55: cooldown timer for player hazard feedback VFX
+        self._hazard_feedback_cd = 0.0
         self.shrine_temp_effects = []   # temp stat mods from shrines
         self.tutorial = None          # P3.4: onboarding tutorial system
         self.endless = False            # P1.8: endless mode (floor 16+)
@@ -753,6 +755,8 @@ class World:
         self.time += dt
         self.screen_flash = max(0.0, self.screen_flash - dt * 2.4)
         self.notice_timer = max(0.0, self.notice_timer - dt)
+        # r55: player hazard feedback — VFX + camera shake on hazard tiles
+        self._step_player_hazards(dt)
         # P4.4: floor transition fade timer
         if self.transition_fade_active:
             self.floor_transition_fade = max(0.0, self.floor_transition_fade - dt)
@@ -896,6 +900,32 @@ class World:
             self.player.stats.set_mod("buff:consumable", merged)
         else:
             self.player.stats.remove_mod("buff:consumable")
+
+    def _step_player_hazards(self, dt):
+        """r55: Spawn VFX + camera shake when the player is on hazard tiles.
+        Cosmetic — the real DOT lives in biome_mods."""
+        from . import biome_mods as _bm_r55
+        player = self.player
+        if player is None or not player.alive:
+            return
+        if self.level is None:
+            return
+        self._hazard_feedback_cd -= dt
+        if self._hazard_feedback_cd > 0.0:
+            return
+        tx, ty = player.tile_x, player.tile_y
+        on_burn = (tx, ty) in _bm_r55.burning_tiles(self.level)
+        in_water = (tx, ty) in _bm_r55.water_tiles(self.level)
+        if on_burn:
+            self._hazard_feedback_cd = 0.7
+            self.particles.sprite_burst(player.x, player.y - 6,
+                                        "vfx_flame", life=0.5, scale=1.2)
+            self.camera.add_shake(3.0)
+            player.hit_flash = 0.08
+        elif in_water:
+            self._hazard_feedback_cd = 0.8
+            self.particles.sprite_burst(player.x, player.y + 4,
+                                        "vfx_ripple", life=0.6, scale=1.0)
 
     def _separate_monsters(self):
         """Light deterministic separation so monsters do not stack up."""
