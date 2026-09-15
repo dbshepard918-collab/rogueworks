@@ -144,18 +144,17 @@ SCHEMAS: dict[str, dict[str, dict]] = {
         "text": STR,
     },
     "meta_tree.json": {
-            "_special": True,
-        },
+        "_special": True,
+    },
         "npcs.json": {
-            "_special": True,
-        },
+        "_special": True,
+    },
         "storyline.json": {
-            "_special": True,
-        },
+        "_special": True,
+    },
         "hq_rooms.json": {
-            "_special": True,
-        },
-        },
+        "_special": True,
+    },
     }
 
 TYPE_NAMES = {"str": "a string", "num": "a number", "int": "an integer", "bool": "a boolean",
