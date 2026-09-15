@@ -154,6 +154,9 @@ class AutoPilotInput:
         self.strafe_dir = 1         # r47: current strafe direction (1 or -1)
         self.strafe_tick = 0        # r47: ticks until next strafe flip
         self.last_threat = None     # r47: last monster that damaged us
+        self.recovery_mode = False  # r57: follow recovery path ignoring threats
+        self.recovery_target = None
+        self.stuck_recovery = 0
 
     def _nearest(self, world, player, max_range=1e9):
         best = None
@@ -166,6 +169,48 @@ class AutoPilotInput:
                 best = mon
                 best_dist = dist
         return best, best_dist
+
+    def _recovery_target(self, world, player):
+        """r57: pick a target tile when stuck - nearest walkable room center to stairs."""
+        px, py = player.tile_x, player.tile_y
+        stairs = world.objective_tile()
+        best = None
+        best_score = 1e9
+        for room in world.level.rooms:
+            rx = room.get("x", 0) + room.get("w", 8) // 2
+            ry = room.get("y", 0) + room.get("h", 8) // 2
+            if not world.level.walkable(rx, ry):
+                found = False
+                for dx in range(-3, 4):
+                    for dy in range(-3, 4):
+                        if world.level.walkable(rx + dx, ry + dy):
+                            rx, ry = rx + dx, ry + dy
+                            found = True
+                            break
+                    if found:
+                        break
+            if not world.level.walkable(rx, ry):
+                continue
+            dist_to_stairs = abs(rx - stairs[0]) + abs(ry - stairs[1])
+            dist_to_player = abs(rx - px) + abs(ry - py)
+            score = dist_to_stairs + dist_to_player * 0.5
+            if score < best_score:
+                best = (rx, ry)
+                best_score = score
+        if best is not None:
+            return best
+        return stairs
+
+    def _nearest_walkable(self, world, tx, ty, radius=5):
+        """r57: find nearest walkable tile to (tx, ty) within radius."""
+        for r in range(radius + 1):
+            for dx in range(-r, r + 1):
+                for dy in range(-r, r + 1):
+                    if abs(dx) + abs(dy) != r:
+                        continue
+                    if world.level.walkable(tx + dx, ty + dy):
+                        return (tx + dx, ty + dy)
+        return (tx, ty)
 
     def _ranged_threat(self, world, player, threat, threat_dist):
         """Detect a ranged monster holding beyond melee range but within gun range."""
@@ -187,7 +232,19 @@ class AutoPilotInput:
             return InputState.idle()
 
         actions = set()
-        threat, threat_dist = self._nearest(world, player, self.ENGAGE_RANGE)
+        # r57: in recovery mode, skip threat detection until we reach target
+        if self.recovery_mode and self.recovery_target is not None:
+            threat = None
+            threat_dist = 1e9
+            ranged_at = None
+            dist_to_recovery = abs(player.tile_x - self.recovery_target[0]) + abs(player.tile_y - self.recovery_target[1])
+            if dist_to_recovery <= 2:
+                self.recovery_mode = False
+                self.recovery_target = None
+                self.path = []
+                self.path_goal = None
+        else:
+            threat, threat_dist = self._nearest(world, player, self.ENGAGE_RANGE)
         ranged_at = None
         if threat is None:
             # r44: A ranged monster can hold beyond ENGAGE_RANGE and plink us.
@@ -202,18 +259,40 @@ class AutoPilotInput:
         if player.last_damage_taken > 0 and threat is not None:
             self.last_threat = threat.id
 
-        # stuck detection: if we are grinding against geometry, drop the target
+        # r57: stuck detection with recovery mode
         if self.stuck_ref is None:
             self.stuck_ref = (player.x, player.y)
             self.stuck_tick = world.tick
         elif world.tick - self.stuck_tick >= 45:
             moved = abs(player.x - self.stuck_ref[0]) + abs(player.y - self.stuck_ref[1])
             if moved < 4.0:
+                self.stuck_recovery += 1
                 if threat is not None:
                     self.avoid.add(threat.id)
                     threat = None
                 self.path = []
                 self.path_goal = None
+                recovery_target = self._recovery_target(world, player)
+                if recovery_target is not None:
+                    path = world.path_to(player.tile_x, player.tile_y,
+                                        recovery_target[0], recovery_target[1],
+                                        cap=4000)
+                    if path:
+                        self.path = path
+                        self.path_goal = recovery_target
+                        self.recovery_target = recovery_target
+                        self.recovery_mode = True
+                        self.repath_at = world.tick + 30
+                if self.stuck_recovery > 4:
+                    self.avoid.clear()
+                    self.stuck_recovery = 0
+            else:
+                if self.recovery_mode:
+                    self.recovery_mode = False
+                    self.recovery_target = None
+                    self.path = []
+                    self.path_goal = None
+                self.stuck_recovery = max(0, self.stuck_recovery - 1)
             self.stuck_ref = (player.x, player.y)
             self.stuck_tick = world.tick
         if len(self.avoid) > 8:
@@ -283,10 +362,12 @@ class AutoPilotInput:
             return InputState((dx / length, dy / length), actions)
 
         # 5. navigate (always pathfind: rooms and corridors need it)
-        if (self.path_goal != target or world.tick >= self.repath_at or not self.path):
-            self.path = world.path_to(player.tile_x, player.tile_y, target[0], target[1],
+        # r57: in recovery mode, use recovery target instead of objective
+        nav_target = self.recovery_target if (self.recovery_mode and self.recovery_target is not None) else target
+        if (self.path_goal != nav_target or world.tick >= self.repath_at or not self.path):
+            self.path = world.path_to(player.tile_x, player.tile_y, nav_target[0], nav_target[1],
                                       cap=4000) or []
-            self.path_goal = target
+            self.path_goal = nav_target
             self.repath_at = world.tick + 30
         while self.path and (self.path[0][0] - player.tile_x) ** 2 + \
                 (self.path[0][1] - player.tile_y) ** 2 <= 1:
