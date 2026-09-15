@@ -1136,7 +1136,7 @@ class World:
                 self.add_entity(key_pickup)
                 self.floating.add("Key - stall stock", color=(232, 178, 60), life=1.6)
             if self.rng.chance(0.20):
-                vial = self.content.item_by_id("health_vial")
+                vial = self.content.by_id.get("items", {}).get("health_vial")
                 if vial:
                     vp = Pickup(self.next_id(), pk.x - 8, pk.y + 24, "item",
                                 item=dict(vial), sprite=vial.get("sprite"))

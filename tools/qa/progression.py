@@ -155,6 +155,10 @@ def main(argv=None) -> int:
             "avg_max_hp": round(statistics.fmean([r["max_hp"] for r in runs]), 1),
             "deaths": sum(1 for r in runs if r["state"] == "dead"),
             "runs": len(runs),
+            # per-run rows: paired analysis across investment levels needs the seed
+            # key (a mean of 4-6 high-variance floors hides the pairing entirely).
+            "per_run": [{"seed": r["seed"], "floor": r["floor"], "state": r["state"],
+                         "kills": r["kills"], "steps": r["steps"]} for r in runs],
         })
     pygame.quit()
 
