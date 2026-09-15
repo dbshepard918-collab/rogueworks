@@ -329,9 +329,21 @@ class AutoPilotInput:
         # r59: stair-first logic — go for stairs, only fight blocking monsters
         very_low_hp = player.hp < player.stats.max_hp() * 0.3
 
-        # 1. emergency: dash away from the pack, hard
-        # r59: also flee when overwhelmed AND low hp
-        if threat is not None and (very_low_hp or (nearby_count > 3 and low_hp)) and player.dash_ready() and threat_dist < 120.0:
+
+
+        # r62: ranged thinning — when 3+ monsters nearby, use ranged to reduce numbers
+        if threat is not None and nearby_count >= 3 and player.ranged_ready() and self.RANGED_MIN < threat_dist < self.RANGED_MAX:
+            actions.add("ranged")
+            # Also dash away if very low hp
+            if very_low_hp and player.dash_ready():
+                actions.add("dash")
+                dx = player.x - threat.x
+                dy = player.y - threat.y
+                length = max(0.001, (dx * dx + dy * dy) ** 0.5)
+                return InputState((dx / length, dy / length), actions)
+
+        # r62: emergency escape — lower threshold (was 0.4, now 0.5) OR overwhelmed
+        if threat is not None and (low_hp or (nearby_count > 3 and low_hp)) and player.dash_ready() and threat_dist < 120.0:
             dx = player.x - threat.x
             dy = player.y - threat.y
             length = max(0.001, (dx * dx + dy * dy) ** 0.5)
