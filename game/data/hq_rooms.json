@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "note": "Headquarters hub rooms for Depths of Vaelmoor (r46). The HQ is where the player loads after death. Each room has a kind, position, size, and NPCs.",
+  "rooms": [
+    {
+      "id": "hq_hall",
+      "name": "The Keeper's Hall",
+      "kind": "hub",
+      "x": 0, "y": 0, "w": 20, "h": 14,
+      "description": "A vast stone hall lit by soul-lanterns. The meta-progression tree glows on the far wall.",
+      "npcs": ["keeper_eira"],
+      "exits": ["hq_forge", "hq_dock", "hq_omen_room", "hq_memorial", "depths_entrance"],
+      "floor_tile": "floor_hq_stone",
+      "wall_tile": "wall_hq_brick"
+    },
+    {
+      "id": "hq_forge",
+      "name": "Brokk's Forge",
+      "kind": "blacksmith",
+      "x": 22, "y": 0, "w": 12, "h": 10,
+      "description": "Heat shimmers off an anvil the size of a horse. Brokk works in silence, sparks flying.",
+      "npcs": ["forge_brokk"],
+      "exits": ["hq_hall"],
+      "floor_tile": "floor_hq_ember",
+      "wall_tile": "wall_hq_iron"
+    },
+    {
+      "id": "hq_dock",
+      "name": "The Drowned Dock",
+      "kind": "quest_hub",
+      "x": 0, "y": 16, "w": 14, "h": 10,
+      "description": "A wooden dock over black water. Mira's maps hang from the ceiling, dripping.",
+      "npcs": ["tide_mira"],
+      "exits": ["hq_hall"],
+      "floor_tile": "floor_hq_dock",
+      "wall_tile": "wall_hq_barnacle"
+    },
+    {
+      "id": "hq_omen_room",
+      "name": "The Raven's Perch",
+      "kind": "omen",
+      "x": 16, "y": 16, "w": 10, "h": 8,
+      "description": "A circular room with a single chain hanging from the dark. Something swings on it.",
+      "npcs": ["skull_raven"],
+      "exits": ["hq_hall"],
+      "floor_tile": "floor_hq_bone",
+      "wall_tile": "wall_hq_skull"
+    },
+    {
+      "id": "hq_memorial",
+      "name": "The Memorial",
+      "kind": "recap",
+      "x": 28, "y": 12, "w": 10, "h": 12,
+      "description": "Walls of names. Every run that ended here, remembered. Lena tends the stones.",
+      "npcs": ["sorrow_lena"],
+      "exits": ["hq_hall"],
+      "floor_tile": "floor_hq_marble",
+      "wall_tile": "wall_hq_ash"
+    },
+    {
+      "id": "depths_entrance",
+      "name": "The Descent",
+      "kind": "exit",
+      "x": 8, "y": 8, "w": 4, "h": 4,
+      "description": "A spiral stair into the dark. The only way out is down.",
+      "npcs": [],
+      "exits": ["hq_hall"],
+      "floor_tile": "floor_hq_stairs",
+      "wall_tile": "wall_hq_void"
+    }
+  ]
+}

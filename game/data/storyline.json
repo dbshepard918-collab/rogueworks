@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "note": "Main storyline beats for Depths of Vaelmoor (r46). The plot connects the four biomes into one coherent myth.",
+  "plot": {
+    "premise": "The Depths of Vaelmoor are not a dungeon — they are a wound. Something below is bleeding darkness upward, and the four biomes are the stages of an infection.",
+    "acts": [
+      {
+        "act": 1,
+        "name": "The Descent",
+        "biome": "catacombs",
+        "beat": "You enter the Catacombs seeking a missing expedition. The dead here do not rest — they remember. Eira the Keeper tells you the truth: the Depths are growing.",
+        "unlock_condition": "start_game"
+      },
+      {
+        "act": 2,
+        "name": "The Burning",
+        "biome": "ember_warrens",
+        "beat": "The Ember Warrens pulse with a heat that has no source. Brokk the forge-giant lost his hammer to something below. The fire is not destruction — it is a fever, the world fighting an infection.",
+        "unlock_condition": "reach_floor_6"
+      },
+      {
+        "act": 3,
+        "name": "The Drowning",
+        "biome": "drowned_vaults",
+        "beat": "Water rises where no water should be. Mira breathes it now. The drowned are not dead — they are changing. Something below is calling them home.",
+        "unlock_condition": "reach_floor_11"
+      },
+      {
+        "act": 4,
+        "name": "The Ossuary",
+        "biome": "sunken_ossuary",
+        "beat": "The bone-lands. Every skeleton here stands. Every skull turns to watch. The Raven speaks a name — yours, but spoken before you were born.",
+        "unlock_condition": "reach_floor_16"
+      },
+      {
+        "act": 5,
+        "name": "The Heart",
+        "biome": "the_wound",
+        "beat": "The final floor is not stone. It is flesh. The Depths are alive, and you have been descending into something that knows you are coming. The only way out is through.",
+        "unlock_condition": "defeat_ossuary_boss",
+        "ending": "You do not kill the Depths. You close the wound. And in closing it, you become the next keeper of the dark."
+      }
+    ]
+  }
+}

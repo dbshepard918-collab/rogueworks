@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "note": "NPC definitions for Depths of Vaelmoor (r46). Each NPC has a sprite, role, and dialogue tree. Sprites are palette-locked to the vaelmoor palette.",
+  "npcs": [
+    {
+      "id": "keeper_eira",
+      "name": "Eira the Keeper",
+      "sprite": "npc_keeper_eira",
+      "role": "hq_quartermaster",
+      "location": "hq_hall",
+      "biome": null,
+      "dialogue": "eira_greeting",
+      "services": ["meta_progression", "class_change"],
+      "faction": "keepers",
+      "description": "Blind archivist of the Depths. She can't see the dark — she says it's why she understands it."
+    },
+    {
+      "id": "forge_brokk",
+      "name": "Brokk the Unbroken",
+      "sprite": "npc_forge_brokk",
+      "role": "blacksmith",
+      "location": "hq_forge",
+      "biome": "ember_warrens",
+      "dialogue": "brokk_greeting",
+      "services": ["upgrade_weapon", "repair_armor"],
+      "faction": "forgeborn",
+      "description": "A seven-foot forge-giant who lost his hammer in the Depths. Forges with his fists now. Gruff, kind, missing three fingers."
+    },
+    {
+      "id": "tide_mira",
+      "name": "Mira of the Tides",
+      "sprite": "npc_tide_mira",
+      "role": "quest_giver",
+      "location": "hq_dock",
+      "biome": "drowned_vaults",
+      "dialogue": "mira_greeting",
+      "services": ["quest_drowned", "map_secrets"],
+      "faction": "tidebound",
+      "description": "Half-drowned cartographer. She breathes water now and can't remember why that ever seemed strange."
+    },
+    {
+      "id": "skull_raven",
+      "name": "The Raven",
+      "sprite": "npc_skull_raven",
+      "role": "omen_speaker",
+      "location": "hq_omen_room",
+      "biome": "catacombs",
+      "dialogue": "raven_greeting",
+      "services": ["preview_next_floor", "curse_fortune"],
+      "faction": "unbound",
+      "description": "A skull on a chain that speaks in riddles. Refuses to explain what it is or how it knows."
+    },
+    {
+      "id": "sorrow_lena",
+      "name": "Lena the Sorrowful",
+      "sprite": "npc_sorrow_lena",
+      "role": "death_recap",
+      "location": "hq_memorial",
+      "biome": null,
+      "dialogue": "lena_greeting",
+      "services": ["death_recap", "run_history"],
+      "faction": "keepers",
+      "description": "She remembers every run that ever ended here. She'll tell you who killed you, if you ask gently."
+    }
+  ]
+}
