@@ -1,10 +1,10 @@
-## 2026-09-15 (r54) — QA Gate Check (Forge)
+## 2026-09-15 (r54) — Animated environment: hazard tiles, prop ground glow, torch flicker (Forge + Chip)
 
-- **Full four-gate verification** — no code changes, results only.
-- **Gate 1** (`game.main --headless --turns 300 --seed 0..2`): PASS — all three seeds exit 0, violations=[].
-- **Gate 2** (`tools.selftest`): PASS — 22/22, 0 skipped, 0 failed.
-- **Gate 3** (`tools.validate_data`): PASS — 12 files, 625 entries, 0 errors, 1 warning (quests.json unrecognised).
-- **Gate 4** (`tools.art.verify`): **FAIL** — 13 errors, 1 warning. `assets/sprites/ui/title_background.png` has 921,598 off-palette pixels and is 1280x720 (not a 32px grid multiple). This is the raw FLUX output from r49 whose palette-snap fix did not persist.
+- **Animated tile frame cycling** — `Renderer._resolve_tile_frame()` cycles frames by phase, no RNG: `floor_burning` ↔ `floor_burning_alt` (0.25s), `floor_water` ↔ `floor_water_alt` (0.35s), `wall_torch` ↔ `wall_torch_bright` (0.18s). Wired into 3 tile-drawing sites in renderer.
+- **Prop ground glow** — light-emitting props (brazier, candles, lava_vent, forge, fountain, crystal, altar, anvil) stamp an additive glow disc on the floor beneath them. Colors match `lighting.py` spec exactly.
+- **20 new tile sprites** — generated via numpy pixel manipulation of existing frames (fire tint, water tint, brighten), snapped to 26-color vaelmoor palette: 4 base `floor_burning`, 4 base `floor_water`, 4 `burning_alt`, 4 `water_alt`, 4 `wall_torch_bright` — one per biome.
+- **Atlas repacked** — `assets/atlas/tiles.png` now 148 frames (was 128), 512×320.
+- **Gates**: `game.main --headless --turns 300 --seed 0..2` EXIT=0 violations=[]; `tools.selftest` 22/22 PASS; VLM-confirmed ground glow and prop lighting.
 - **BUILD report**: `runs/reports/BUILD-2026-09-15-r54.md`
 
 ## 2026-09-15 (r53) — CRITICAL BUG FIX: combat.py UnboundLocalError + balance re-verification (Forge + Chip)

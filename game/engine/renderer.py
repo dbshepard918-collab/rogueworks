@@ -31,6 +31,27 @@ COMBO_ELEMENT_COLORS = {
     "frost_burn": (100, 200, 80, 70),       # ice-fire blend
 }
 
+# r54: Animated tile sequences — each key maps to a list of frame names to
+# cycle through. Period controls how long each frame displays (seconds).
+# Deterministic: no RNG, animation is purely time-based.
+ANIMATED_TILES = {
+    "floor_burning":     (["floor_burning", "floor_burning_alt"], 0.25),
+    "floor_water":       (["floor_water", "floor_water_alt"], 0.35),
+    "wall_torch":        (["wall_torch", "wall_torch_bright"], 0.18),
+}
+
+# r54: Ground glow colours for light-emitting props (matches lighting.py spec)
+PROP_GLOW = {
+    "prop_brazier":    ((255, 120, 40), 18, 60),
+    "prop_candles":    ((255, 200, 80), 12, 40),
+    "prop_lava_vent":  ((255, 80, 20), 22, 70),
+    "prop_forge":      ((215, 100, 30), 16, 50),
+    "prop_fountain":   ((110, 190, 255), 10, 35),
+    "prop_crystal":    ((150, 205, 255), 10, 35),
+    "prop_altar":      ((190, 130, 255), 12, 35),
+    "prop_anvil":      ((190, 170, 150), 8, 25),
+}
+
 def _combo_status_id(actor):
     """Return the combo status ID if actor has one, else None."""
     for inst in getattr(actor, "statuses", []):
@@ -64,8 +85,30 @@ class Renderer:
         self._vignette = None
         self._halo = None
         self._locked_tint = {}
+        # r54: global animation phase counter for deterministic tile cycling
+        self._tile_anim_tick = 0.0
 
     # -- frame cache -----------------------------------------------------
+    @staticmethod
+    def _resolve_tile_frame(name, anim_tick, tileset=""):
+        """r54: pick the correct frame from an animated tile sequence.
+        Accepts a full frame name (e.g. 'tile_catacombs_wall_torch') and
+        returns the full animated frame name (e.g. 'tile_catacombs_wall_torch_bright')."""
+        # Extract short name by stripping tileset prefix
+        short = name
+        if tileset and name.startswith(tileset + "_"):
+            short = name[len(tileset) + 1:]
+        entry = ANIMATED_TILES.get(short)
+        if entry is None:
+            return name
+        frames, period = entry
+        idx = int(anim_tick / period) % len(frames)
+        animated_short = frames[idx]
+        # Reconstruct full frame name
+        if tileset:
+            return tileset + "_" + animated_short
+        return animated_short
+
     def frame(self, world, name, flip=False, scale=1.0):
         key = (name, flip, scale)
         img = self._frames.get(key)
@@ -162,6 +205,8 @@ class Renderer:
         level = world.level
         camera = world.camera
         self._tile_scale = camera.tile_scale  # r45: sync zoom
+        # r54: advance animation phase for deterministic tile cycling
+        self._tile_anim_tick += dt
         draw_list = []
         surface.fill(colour("void", (11, 10, 16)))
         if level is None:
@@ -179,6 +224,7 @@ class Renderer:
 
         from game.systems import procgen as procgen_mod
         tiles = world.tile_frames()
+        tileset = world.tileset()
 
         # -- tiles -------------------------------------------------------
         burning = _bm.burning_tiles(level)
@@ -249,7 +295,7 @@ class Renderer:
                             break
                     h = _hash2(tx, ty, 7)
                     if h % 29 == 0:
-                        name = tiles["wall_torch"]
+                        name = self._resolve_tile_frame(tiles["wall_torch"], self._tile_anim_tick, tileset)
                     elif h % 41 == 0:
                         name = tiles["wall_skull"]
                     elif h % 5 == 0:
@@ -265,14 +311,16 @@ class Renderer:
                     draw_list.append(("wall", tx, ty, name))
                     continue
                 if (tx, ty) in burning:
-                    name = tiles.get("floor_burning") or tiles["floor_rubble"]
+                    base_name = tiles.get("floor_burning") or tiles["floor_rubble"]
+                    name = self._resolve_tile_frame(base_name, self._tile_anim_tick, tileset)
                     img = self.frame(world, name)
                     img.fill((226, 113, 29, 60), special_flags=pygame.BLEND_RGB_ADD)
                     surface.blit(img, (sx, sy))
                     draw_list.append(("floor_burning", tx, ty))
                     continue
                 if (tx, ty) in water:
-                    name = tiles.get("floor_water") or tiles["pool"]
+                    base_name = tiles.get("floor_water") or tiles["pool"]
+                    name = self._resolve_tile_frame(base_name, self._tile_anim_tick, tileset)
                     img = self.frame(world, name)
                     surface.blit(img, (sx, sy))
                     draw_list.append(("floor_water", tx, ty))
@@ -371,11 +419,22 @@ class Renderer:
             sy = int(prop["ty"] * tile_px - oy * st)
             if sx < -tile_px or sy < -tile_px or sx > camera.view_w or sy > camera.view_h:
                 continue
-            img = self.frame(world, prop["sprite"])
+            sprite_name = prop.get("sprite", "")
+            # r54: ground glow for light-emitting props
+            glow_spec = PROP_GLOW.get(sprite_name)
+            if glow_spec is not None:
+                glow_color, glow_radius, glow_alpha = glow_spec
+                gx = sx + int(tile_px // 2)
+                gy = sy + int(tile_px // 2)
+                glow_surf = pygame.Surface((glow_radius * 2, glow_radius * 2), pygame.SRCALPHA)
+                pygame.draw.circle(glow_surf, (*glow_color, glow_alpha), (glow_radius, glow_radius), glow_radius)
+                surface.blit(glow_surf, (gx - glow_radius, gy - glow_radius),
+                             special_flags=pygame.BLEND_RGB_ADD)
+            img = self.frame(world, sprite_name)
             if st != 1.0:
                 img = pygame.transform.scale(img, (int(TILE*st), int(TILE*st)))
             surface.blit(img, (sx, sy))
-            draw_list.append(("prop", prop["sprite"], prop["tx"], prop["ty"]))
+            draw_list.append(("prop", sprite_name, prop["tx"], prop["ty"]))
 
         # -- event-room overlays ---------------------------------------
         st = camera.tile_scale  # ensure st is in scope
