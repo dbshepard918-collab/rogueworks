@@ -172,6 +172,14 @@ class AutoPilotInput:
 
         actions = set()
         threat, threat_dist = self._nearest(world, player, self.ENGAGE_RANGE)
+        if threat is None:
+            # A ranged monster can hold position beyond ENGAGE_RANGE and plink the
+            # player to death unopposed (seed 1: sniper at 249 px, ENGAGE_RANGE 230,
+            # died 11x in a row without the pilot ever seeing it). The pilot's sight
+            # must reach at least as far as its own gun (RANGED_MAX = 300).
+            far, far_dist = self._nearest(world, player, self.RANGED_MAX)
+            if far is not None:
+                threat, threat_dist = far, far_dist
         low_hp = player.hp < player.stats.max_hp() * self.RETREAT_HP
         objective = world.objective_tile()
 
