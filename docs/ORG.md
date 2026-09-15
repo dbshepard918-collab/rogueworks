@@ -32,7 +32,8 @@ template has both a Director and a Lead for a discipline, this studio has a sing
 
 | Bot | Reports to | Receives reports from | Escalates to |
 |---|---|---|---|
-| **forge** | Owner | chip, pixel, lore, tempo, lens | Owner |
+| **forge** | Owner | chip, pixel, lore, tempo, lens, narrative | Owner |
+| **narrative** | forge | — | forge |
 | **chip** | forge | — (sole engineer) | forge |
 | **pixel** | forge | — | forge |
 | **lore** | forge | — | forge |
