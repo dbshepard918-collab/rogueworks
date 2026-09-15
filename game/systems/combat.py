@@ -297,12 +297,15 @@ def player_ranged(world, player):
     weapon_element = _get_weapon_element(player)
     proj = Projectile(world.next_id(), player.x + fx * 14, player.y + fy * 14,
                       fx * speed, fy * speed, player.stats.damage() * 0.85,
-                      owner="player", sprite="vfx_magic_bolt", lifetime=1.4, radius=5.0)
+                      owner="player", sprite="projectile_soul", lifetime=1.4, radius=5.0)
     proj.crit_chance = player.stats.crit()
     proj.element = weapon_element
     # P1.6: weapon unique pierce — extra monsters the bolt passes through
     unique_sys.apply_unique(world, player.equipment.get("weapon"), "ranged_fire", proj=proj)
     world.add_entity(proj)
+    # r50: muzzle flash VFX
+    world.particles.sprite_burst(player.x + fx * 16, player.y + fy * 16,
+                                 "vfx_muzzle_flash", life=0.12, scale=1.5)
     play(world, "shoot")
     return proj
 

@@ -215,11 +215,21 @@ class HQScene:
                     draw_text(surface, f"  {check} {obj['label'][:25]}", (900, 48 + i * 40 + j * 14), 1, colour=(138, 132, 150))
 
     def _draw_dialogue(self, surface):
-        # Dialogue box at bottom
+        # r49: dialogue panel background
         box_h = 160
-        box_y = 720 - box_h
-        pygame.draw.rect(surface, (15, 13, 22, 240), (0, box_y, 1280, box_h))
-        pygame.draw.rect(surface, (58, 52, 80), (0, box_y, 1280, 2))
+        box_y = 720 - box_h  # = 560
+        try:
+            atlas = Atlas.load("ui")
+            if atlas and atlas.has("dialogue_panel"):
+                panel = atlas.frame("dialogue_panel")
+                if panel:
+                    surface.blit(panel, (0, box_y))
+            else:
+                pygame.draw.rect(surface, (15, 13, 22, 240), (0, box_y, 1280, box_h))
+                pygame.draw.rect(surface, (58, 52, 80), (0, box_y, 1280, 2))
+        except Exception:
+            pygame.draw.rect(surface, (15, 13, 22, 240), (0, box_y, 1280, box_h))
+            pygame.draw.rect(surface, (58, 52, 80), (0, box_y, 1280, 2))
         # NPC name
         if self.dialogue.npc_name:
             draw_text(surface, self.dialogue.npc_name, (20, box_y + 10), 2, colour=(217, 210, 197))
