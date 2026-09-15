@@ -1,4 +1,11 @@
-## 2026-09-17 (r56) — QA Gate Check (Forge)
+## 2026-09-15 (r57) — QA Gate Re-verification (Forge)
+
+- **QA gate sweep re-run** — `game.main --headless --turns 300 --seed 0..2` → all 3 seeds exit 0, violations=[]; `tools.selftest` → 22/22; `tools.validate_data` → 0 errors (1 warning: quests.json unrecognized); `tools.art.verify` → FAIL (13 errors, all from `assets/sprites/ui/title_background.png` off-palette — 921,598 off-palette pixels, same defect as T-01).
+- **BUILD report**: `runs/reports/BUILD-2026-09-15-r56.md`
+- **Overall**: 3/4 gates PASS. art.verify failure is isolated to `title_background.png` (title screen image, not gameplay sprites). Regression confirmed vs r55 which reported 0 off-palette — palette-snap did not persist from prior FLUX output.
+- **Fix status**: NOT attempted (observe-only per user instruction).
+
+## 2026-09-17 (r56) M-bM-^@M-^T QA Gate Check (Forge)
 
 - **QA gate sweep** — `game.main --headless --turns 300 --seed 0..2` → all 3 seeds exit 0, violations=[]; `tools.selftest` → 22/22; `tools.validate_data` → 0 errors (1 warning: quests.json unrecognized); `tools.art.verify` → FAIL (13 errors, all from `assets/sprites/ui/title_background.png` off-palette — pre-existing, not gameplay sprites).
 - **BUILD report**: `runs/reports/BUILD-2026-09-17-r56.md`
