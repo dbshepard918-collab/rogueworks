@@ -2574,6 +2574,366 @@
         "prop_urn",
         "prop_anchor"
       ]
+    },
+    {
+      "id": "ossuary_room_secret_18",
+      "biome": "sunken_ossuary",
+      "kind": "secret",
+      "w": 10,
+      "h": 10,
+      "spawn_budget": 3,
+      "props": [
+        "prop_bones",
+        "prop_crystal"
+      ]
+    },
+    {
+      "id": "ossuary_room_shrine_19",
+      "biome": "sunken_ossuary",
+      "kind": "shrine",
+      "w": 11,
+      "h": 11,
+      "spawn_budget": 4,
+      "props": [
+        "prop_shrine",
+        "prop_candles"
+      ]
+    },
+    {
+      "id": "ossuary_room_gambling_20",
+      "biome": "sunken_ossuary",
+      "kind": "gambling",
+      "w": 12,
+      "h": 12,
+      "spawn_budget": 5,
+      "props": [
+        "prop_gold_pile",
+        "prop_chest"
+      ]
+    },
+    {
+      "id": "ossuary_room_combat_21",
+      "biome": "sunken_ossuary",
+      "kind": "combat",
+      "w": 13,
+      "h": 10,
+      "spawn_budget": 3,
+      "props": [
+        "prop_pillar",
+        "prop_rubble"
+      ]
+    },
+    {
+      "id": "ossuary_room_corridor_22",
+      "biome": "sunken_ossuary",
+      "kind": "corridor",
+      "w": 14,
+      "h": 11,
+      "spawn_budget": 4,
+      "props": [
+        "prop_crystal",
+        "prop_moss"
+      ]
+    },
+    {
+      "id": "ossuary_room_blacksmith_23",
+      "biome": "sunken_ossuary",
+      "kind": "blacksmith",
+      "w": 10,
+      "h": 12,
+      "spawn_budget": 5,
+      "props": [
+        "prop_anvil",
+        "prop_brazier"
+      ]
+    },
+    {
+      "id": "ossuary_room_fountain_24",
+      "biome": "sunken_ossuary",
+      "kind": "fountain",
+      "w": 11,
+      "h": 10,
+      "spawn_budget": 3,
+      "props": [
+        "prop_water_pool",
+        "prop_bones"
+      ]
+    },
+    {
+      "id": "ossuary_room_omen_25",
+      "biome": "sunken_ossuary",
+      "kind": "omen",
+      "w": 12,
+      "h": 11,
+      "spawn_budget": 4,
+      "props": [
+        "prop_eye",
+        "prop_crystal"
+      ]
+    },
+    {
+      "id": "ossuary_room_secret_26",
+      "biome": "sunken_ossuary",
+      "kind": "secret",
+      "w": 13,
+      "h": 12,
+      "spawn_budget": 5,
+      "props": [
+        "prop_bones",
+        "prop_crystal"
+      ]
+    },
+    {
+      "id": "ossuary_room_shrine_27",
+      "biome": "sunken_ossuary",
+      "kind": "shrine",
+      "w": 14,
+      "h": 10,
+      "spawn_budget": 3,
+      "props": [
+        "prop_shrine",
+        "prop_candles"
+      ]
+    },
+    {
+      "id": "ossuary_room_gambling_28",
+      "biome": "sunken_ossuary",
+      "kind": "gambling",
+      "w": 10,
+      "h": 11,
+      "spawn_budget": 4,
+      "props": [
+        "prop_gold_pile",
+        "prop_chest"
+      ]
+    },
+    {
+      "id": "ossuary_room_combat_29",
+      "biome": "sunken_ossuary",
+      "kind": "combat",
+      "w": 11,
+      "h": 12,
+      "spawn_budget": 5,
+      "props": [
+        "prop_pillar",
+        "prop_rubble"
+      ]
+    },
+    {
+      "id": "ossuary_room_corridor_30",
+      "biome": "sunken_ossuary",
+      "kind": "corridor",
+      "w": 12,
+      "h": 10,
+      "spawn_budget": 3,
+      "props": [
+        "prop_crystal",
+        "prop_moss"
+      ]
+    },
+    {
+      "id": "ossuary_room_blacksmith_31",
+      "biome": "sunken_ossuary",
+      "kind": "blacksmith",
+      "w": 13,
+      "h": 11,
+      "spawn_budget": 4,
+      "props": [
+        "prop_anvil",
+        "prop_brazier"
+      ]
+    },
+    {
+      "id": "ossuary_room_fountain_32",
+      "biome": "sunken_ossuary",
+      "kind": "fountain",
+      "w": 14,
+      "h": 12,
+      "spawn_budget": 5,
+      "props": [
+        "prop_water_pool",
+        "prop_bones"
+      ]
+    },
+    {
+      "id": "ossuary_room_secret_33",
+      "biome": "sunken_ossuary",
+      "kind": "secret",
+      "w": 10,
+      "h": 10,
+      "spawn_budget": 3,
+      "props": [
+        "prop_bones",
+        "prop_crystal"
+      ]
+    },
+    {
+      "id": "ossuary_room_shrine_34",
+      "biome": "sunken_ossuary",
+      "kind": "shrine",
+      "w": 11,
+      "h": 11,
+      "spawn_budget": 4,
+      "props": [
+        "prop_shrine",
+        "prop_candles"
+      ]
+    },
+    {
+      "id": "ossuary_room_gambling_35",
+      "biome": "sunken_ossuary",
+      "kind": "gambling",
+      "w": 12,
+      "h": 12,
+      "spawn_budget": 5,
+      "props": [
+        "prop_gold_pile",
+        "prop_chest"
+      ]
+    },
+    {
+      "id": "ossuary_room_combat_36",
+      "biome": "sunken_ossuary",
+      "kind": "combat",
+      "w": 13,
+      "h": 10,
+      "spawn_budget": 3,
+      "props": [
+        "prop_pillar",
+        "prop_rubble"
+      ]
+    },
+    {
+      "id": "ossuary_room_corridor_37",
+      "biome": "sunken_ossuary",
+      "kind": "corridor",
+      "w": 14,
+      "h": 11,
+      "spawn_budget": 4,
+      "props": [
+        "prop_crystal",
+        "prop_moss"
+      ]
+    },
+    {
+      "id": "ossuary_room_blacksmith_38",
+      "biome": "sunken_ossuary",
+      "kind": "blacksmith",
+      "w": 10,
+      "h": 12,
+      "spawn_budget": 5,
+      "props": [
+        "prop_anvil",
+        "prop_brazier"
+      ]
+    },
+    {
+      "id": "ossuary_room_fountain_39",
+      "biome": "sunken_ossuary",
+      "kind": "fountain",
+      "w": 11,
+      "h": 10,
+      "spawn_budget": 3,
+      "props": [
+        "prop_water_pool",
+        "prop_bones"
+      ]
+    },
+    {
+      "id": "ossuary_room_omen_40",
+      "biome": "sunken_ossuary",
+      "kind": "omen",
+      "w": 12,
+      "h": 11,
+      "spawn_budget": 4,
+      "props": [
+        "prop_eye",
+        "prop_crystal"
+      ]
+    },
+    {
+      "id": "ossuary_room_secret_41",
+      "biome": "sunken_ossuary",
+      "kind": "secret",
+      "w": 13,
+      "h": 12,
+      "spawn_budget": 5,
+      "props": [
+        "prop_bones",
+        "prop_crystal"
+      ]
+    },
+    {
+      "id": "ossuary_room_shrine_42",
+      "biome": "sunken_ossuary",
+      "kind": "shrine",
+      "w": 14,
+      "h": 10,
+      "spawn_budget": 3,
+      "props": [
+        "prop_shrine",
+        "prop_candles"
+      ]
+    },
+    {
+      "id": "ossuary_room_gambling_43",
+      "biome": "sunken_ossuary",
+      "kind": "gambling",
+      "w": 10,
+      "h": 11,
+      "spawn_budget": 4,
+      "props": [
+        "prop_gold_pile",
+        "prop_chest"
+      ]
+    },
+    {
+      "id": "ossuary_room_combat_44",
+      "biome": "sunken_ossuary",
+      "kind": "combat",
+      "w": 11,
+      "h": 12,
+      "spawn_budget": 5,
+      "props": [
+        "prop_pillar",
+        "prop_rubble"
+      ]
+    },
+    {
+      "id": "ossuary_room_corridor_45",
+      "biome": "sunken_ossuary",
+      "kind": "corridor",
+      "w": 12,
+      "h": 10,
+      "spawn_budget": 3,
+      "props": [
+        "prop_crystal",
+        "prop_moss"
+      ]
+    },
+    {
+      "id": "ossuary_room_blacksmith_46",
+      "biome": "sunken_ossuary",
+      "kind": "blacksmith",
+      "w": 13,
+      "h": 11,
+      "spawn_budget": 4,
+      "props": [
+        "prop_anvil",
+        "prop_brazier"
+      ]
+    },
+    {
+      "id": "ossuary_room_fountain_47",
+      "biome": "sunken_ossuary",
+      "kind": "fountain",
+      "w": 14,
+      "h": 12,
+      "spawn_budget": 5,
+      "props": [
+        "prop_water_pool",
+        "prop_bones"
+      ]
     }
   ]
 }
