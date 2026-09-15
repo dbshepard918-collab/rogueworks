@@ -135,18 +135,39 @@ def bench(model):
         if line.strip():
             print("     %s" % line.strip()[:96])
 
-    # score each question against its known answer, matching by position
+    # score each question against its known answer, matching by position.
+    # Robustness (learned from minicpm-v-4_5 scoring 0/5 on a 2/5 answer):
+    # some models put a bare "N." on its own line with the value on the following
+    # lines, and/or a final "Answer:" summary block. So for each question, capture
+    # EVERY numbered segment (the "N." line plus continuation lines up to the next
+    # number) and PASS if ANY candidate segment satisfies the expectation.
     lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
     correct = 0
     for i, (key, _) in enumerate(QUESTIONS):
-        segment = ""
+        segments = []
+        cur = None
         for ln in lines:
-            if ln.lstrip("*- ").startswith(str(i + 1)):
-                segment = ln
-                break
-        if not segment:
-            segment = text
-        ok = EXPECT[key](segment)
+            is_num = ln.lstrip("*- ").startswith(str(i + 1))
+            is_other_num = any(ln.lstrip("*- ").startswith(str(j + 1)) for j in range(len(QUESTIONS)) if j != i)
+            if is_num:
+                if cur is not None:
+                    segments.append(cur)
+                cur = ln
+            elif cur is not None:
+                if is_other_num:
+                    segments.append(cur)
+                    cur = None
+                else:
+                    cur += " " + ln
+        if cur is not None:
+            segments.append(cur)
+        # fall back: an "Answer:" summary block line like "1. 18" may carry a
+        # leading label; also try matching after a "Answer:"/"Answers:" marker
+        for ln in lines:
+            m = ln.lower().split("answer:")[-1].strip() if "answer:" in ln.lower() else None
+            if m and m.lstrip("*- ").startswith(str(i + 1)):
+                segments.append(m)
+        ok = any(EXPECT[key](seg) for seg in segments) if segments else EXPECT[key](text)
         correct += 1 if ok else 0
         print("     [%s] Q%d %s" % ("OK " if ok else "MISS", i + 1, key))
     print("  SCORE: %d/%d known answers" % (correct, len(QUESTIONS)))

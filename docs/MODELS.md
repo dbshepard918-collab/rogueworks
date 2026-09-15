@@ -102,7 +102,7 @@ wrong answer class, and unusable latency for a QA loop that audits frames by the
 | `google/gemma-4-26b-a4b` | 3/5 | 351.9 s | 164.3 s | denied the duplicates exist |
 | `google/gemma-4-e4b` | 3/5 | 11.4 s | 10.6 s | miscounts |
 | `internvl3_5-8b` | 3/5 | 3.3 s | 4.1 s | **denied flat-rects** (the defect class) |
-| `minicpm-v-4_5` | 0/5 | 19.7 s | 12.3 s | flat wrong on every countable question |
+| `minicpm-v-4_5` | **2/5** ⚠ rescored | 19.7 s | 12.3 s | **scorer bug fixed 2026-09-14: recorded 0/5 was a parser artefact** (bare `N.` line style + `Answer:` summary block defeated the first-line matcher). Hand-rescore of the saved raw answer: Q3 plate ✓, Q4 dupes ✓, Q1/Q2 counts ✗ (18≠16, 9≠5), Q5 ✗ (denies flat-rects). Verdict unchanged — miscounts — but the 0/5 was the harness's fault, not the model's. |
 | `ui-tars-7b-dpo` | 1/5 | 3.5 s | 3.6 s | UI-grounding specialist, not an art auditor |
 | `holo1.5-7b` | 1/5 | 3.0 s | 3.2 s | same — its "improvement" advice also wanted anti-aliasing |
 | `qwen2.5-vl-3b-instruct` | 1/5 | 2.9 s | 3.2 s | previously rejected, reconfirmed |
@@ -135,7 +135,7 @@ the current LM Studio runtime:
 | `abetlen/BakLLaVA-1` (Q4_K) | **load fail** — same CLIP mmproj failure |
 | `PsiPi/liuhaotian_llava-v1.5-13b` (Q4_0 + Q5_K_M) | **load fail** — same, both quants |
 | `mozilla-ai/llava-v1.5-7b-llamafile` | **load fail** — same (the llamafile also ships as a self-extracting binary) |
-| `PsiPi/NousResearch_Nous-Hermes-2-Vision` (Q5_K_M) | loads text-only; server rejects images: *"does not support image inputs"* |
+| `PsiPi/NousResearch_Nous-Hermes-2-Vision` (Q5_K_M) | **load fail — root-caused.** First trial was unfair: the downloader had silently skipped the repo's `mmproj-model-f16.gguf`, so "does not support image inputs" described a text-only file, not the model. After fetching the encoder directly (839 MB), the model **still** fails with the same CLIP-mmproj load error as the other four — the 2023 vision-encoder *format* itself is unsupported by the current runtime. Verdict unchanged, but the recorded reason is now the correct one. |
 
 Same lesson as the coder trials, now confirmed in the vision lane: **a model that cannot
 load through the studio's own tooling cannot hold a seat, regardless of its reputation.**
