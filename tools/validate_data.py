@@ -146,13 +146,13 @@ SCHEMAS: dict[str, dict[str, dict]] = {
     "meta_tree.json": {
         "_special": True,
     },
-        "npcs.json": {
+    "npcs.json": {
         "_special": True,
     },
-        "storyline.json": {
+    "storyline.json": {
         "_special": True,
     },
-        "hq_rooms.json": {
+    "hq_rooms.json": {
         "_special": True,
     },
     }
