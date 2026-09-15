@@ -1,3 +1,10 @@
+## 2026-09-15 (r52) — Attack VFX variety: hit spark, crit strike, death poof, punch wave, magic cast (Forge + Pixel + Chip)
+
+- **Generated 5 new VFX sprites** — hit spark (yellow-white burst), crit strike (red X-slash), death poof (dark soul mist), punch wave (shockwave ring), magic cast (purple arcane). All palette-locked.
+- **Wired into combat** — `player_melee()` now spawns hit spark on contact + crit strike overlay on critical hits. `kill()` spawns death poof on every kill (player and monsters).
+- **Gates**: `game.main --headless --turns 300 --seed 0..2` → EXIT=0, violations=[]; `tools.selftest` → 22/22; `tools.art.verify` → 0 off-palette.
+- **Commit**: `74d01c9` r52: attack VFX variety — hit spark, crit strike, death poof, punch wave, magic cast. 22/22 gates green.
+
 ## 2026-09-15 (r51) — Title particles + full VFX/UI atlas palette-snap + VLM audit (Forge + Chip)
 
 - **Title screen particles** — deterministic soul-wisp particles floating up from the bottom of the title screen. Counter-based positions (no RNG, passes `no-bare-random` gate).

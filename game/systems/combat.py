@@ -255,15 +255,14 @@ def player_melee(world, player):
     player.swing_dir = player.facing
     world.particles.sprite_burst(player.x + player.facing[0] * 20, player.y + player.facing[1] * 20,
                                  "vfx_slash", life=0.16)
-    # r52: hit spark on contact
-    world.particles.sprite_burst(best.x, best.y, "vfx_hit_spark", life=0.18, scale=1.5)
-    # r52: crit strike overlay
-    if crit:
-        world.particles.sprite_burst(best.x, best.y, "vfx_crit_strike", life=0.25, scale=2.0)
     world.particles.burst(player.x + player.facing[0] * 18, player.y + player.facing[1] * 18,
                           world.rng, count=4, color=(147, 160, 180), speed=60.0, life=0.22, size=3)
     play(world, "swing")
     crit = world.rng.chance(player.stats.crit())
+    # r52: hit spark on contact + crit strike overlay
+    world.particles.sprite_burst(best.x, best.y, "vfx_hit_spark", life=0.18, scale=1.5)
+    if crit:
+        world.particles.sprite_burst(best.x, best.y, "vfx_crit_strike", life=0.25, scale=2.0)
     # P1.3: might tree tiers add extra melee knockback
     knockback = 120.0
     try:
