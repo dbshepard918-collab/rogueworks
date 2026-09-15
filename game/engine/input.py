@@ -234,13 +234,7 @@ class AutoPilotInput:
                     actions.add("dash")
                 return InputState((dx / length, dy / length), actions)
 
-        # r47: kite — if a ranged threat is plinking us and we can't reach it, dash away
-        if ranged_at is not None and threat_dist > player.ATTACK_REACH and player.dash_ready():
-            dx = player.x - threat.x
-            dy = player.y - threat.y
-            length = max(0.001, (dx * dx + dy * dy) ** 0.5)
-            actions.add("dash")
-            return InputState((dx / length, dy / length), actions)
+
 
         # 1. emergency: dash away from the pack, hard
         if threat is not None and low_hp and player.dash_ready() and threat_dist < 120.0:

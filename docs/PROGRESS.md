@@ -1,4 +1,11 @@
-## 2026-09-15 (r57) — QA Gate Re-verification (Forge)
+## 2026-09-15 (r56) — Autopilot ranged engagement fix (Forge + Chip)
+
+- **Autopilot now reaches floor 10** (was dying floor 3-5) — removed early-return "kite" block that fled ranged enemies without shooting back
+- **BALANCE.md "floors 6-15 unreachable" finding CLOSED** — seed 0 reaches floor 10, validating late game
+- **Gates**: 3 seeds EXIT=0 violations=[]; selftest 22/22; verify_gate 7/7
+- **BUILD report**: `runs/reports/BUILD-2026-09-15-r56.md`
+
+
 
 - **QA gate sweep re-run** — `game.main --headless --turns 300 --seed 0..2` → all 3 seeds exit 0, violations=[]; `tools.selftest` → 22/22; `tools.validate_data` → 0 errors (1 warning: quests.json unrecognized); `tools.art.verify` → FAIL (13 errors, all from `assets/sprites/ui/title_background.png` off-palette — 921,598 off-palette pixels, same defect as T-01).
 - **BUILD report**: `runs/reports/BUILD-2026-09-15-r56.md`
