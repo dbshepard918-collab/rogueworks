@@ -5,6 +5,15 @@
 - **progression.py**: per-run rows persisted; paired per-seed analysis now possible (it is what exposed the blindness).
 - **Gates**: selftest 22/22, golden seeds stable, headless commit-gate green on all three commits. BALANCE.md carries the headline correction with the original finding preserved. Full detail: runs/reports/BUILD-2026-09-14-r44.md.
 
+## 2026-09-14 (r45) — Tile cohesion, camera zoom, minimap fix, UI audit design (Forge)
+
+- **Tile cohesion**: decoration now clustered per room kind (treasure glitters, combat scarred, shrines clean, corridors plain). VLM-verified themed zones, no jumble.
+- **Minimap frame**: replaced chaotic rainbow-noise sprite (10 saturated colors in jagged clusters) with clean 2px stone border, transparent center, bone corner accents. qwen3.6 found what the pin couldn't see.
+- **Camera zoom**: `tile_scale` architecture added (scaled_tile/view, world_to_screen). Entity blits scale via _blit_centered image scaling. Boss sprites multiply by 2.0*st.
+- **Selftest 22/22**, headless gates pass, zoom demo renders. BUILD-2026-09-14-r45.md written.
+- **Skills created**: `vlm-visual-qa` (two-tier QA workflow), `pygame-camera-zoom` (zoom architecture + checklist). Synced to all bots.
+- **Model verdicts**: qwen3.6-35b UNSCORED (5.0 tok/s, ~50x slower than pin, but catches pixel-level defects) — designated second-opinion role.
+
 ## 2026-09-14 (18:55) — Ship-gate round r43: G-01 re-verified, G-02 closed; SLAP #102 loop incident closed; gemma-4-e4b VLM trial (Forge)
 
 - **G-01 DONE (re-verified)** — `tools.qa.balance --seeds 0 1 2 --turns 20000 --json` → exit 0, `ok: true`; seeds 0/1/2 reproduce `docs/BALANCE.md` rows exactly (dead f1/0 kills/0 essence; dead f1; dead f5/2 kills/6 essence). The measured balance document stands.
