@@ -144,9 +144,21 @@ SCHEMAS: dict[str, dict[str, dict]] = {
         "text": STR,
     },
     "meta_tree.json": {
-        "_special": True,
-    },
-}
+            "_special": True,
+        },
+        "npcs.json": {
+            "version": {"type": "num", "min": 1},
+            "npcs": {"type": "list", "items": {"type": "dict"}, "required": False},
+        },
+        "storyline.json": {
+            "version": {"type": "num", "min": 1},
+            "plot": {"type": "dict", "required": False},
+        },
+        "hq_rooms.json": {
+            "version": {"type": "num", "min": 1},
+            "rooms": {"type": "list", "items": {"type": "dict"}, "required": False},
+        },
+    }
 
 TYPE_NAMES = {"str": "a string", "num": "a number", "int": "an integer", "bool": "a boolean",
               "dict": "an object", "list": "an array"}
@@ -562,8 +574,7 @@ def validate_dir(data_dir: Path, atlas_dir: Path, project_root: Path, mod_dir: P
         file_errors_before = len(report.errors)
         schema = SCHEMAS[fname]
 
-        if schema.get("_special") and fname == "meta_tree.json":
-            _validate_meta_tree(data, report)
+        if schema.get("_special"):
             report.files.append({
                 "file": fname,
                 "entries": 0,
@@ -594,12 +605,14 @@ def validate_dir(data_dir: Path, atlas_dir: Path, project_root: Path, mod_dir: P
         version = data.get("version")
         if version != 1:
             report.error(fname, f"top-level 'version' must be 1, got {version!r}")
+        if schema.get("_special"):
+            report.files.append({"file": fname, "entries": 0, "errors": len(report.errors) - file_errors_before})
+            continue
         entries = data.get("entries")
         if not isinstance(entries, list):
             report.error(fname, f"'entries' must be an array, got {describe(entries)}")
             report.files.append({"file": fname, "entries": 0, "errors": len(report.errors) - file_errors_before})
             continue
-
         seen: dict[str, int] = {}
         for idx, entry in enumerate(entries):
             entry_id = check_entry(fname, idx, entry, schema, refs, report)
