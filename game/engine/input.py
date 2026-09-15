@@ -143,6 +143,10 @@ class AutoPilotInput:
     RANGED_MAX = 300.0
     RETREAT_HP = 0.4
     STRAFE_TICKS = 60            # r47: ticks between strafe direction changes
+    # r59: stair-first navigation
+    STAIR_FIRST_HP = 0.8         # r59: below this HP, go for stairs first
+    STAIR_CLEAR_RADIUS = 150.0   # r59: fight monsters within this range of stairs path
+    HEAL_THRESHOLD = 0.6         # r59: use consumables above retreat threshold
 
     def __init__(self, world):
         self.path = []
@@ -169,6 +173,13 @@ class AutoPilotInput:
                 best = mon
                 best_dist = dist
         return best, best_dist
+
+    def _is_between(self, ax, ay, bx, by, cx, cy2, threshold=15):
+        """r59: is point A between points B and C?"""
+        dist_bc = abs(bx - cx) + abs(by - cy2)
+        dist_ba = abs(ax - bx) + abs(ay - by)
+        dist_ac = abs(ax - cx) + abs(ay - cy2)
+        return dist_ba + dist_ac <= dist_bc + threshold
 
     def _recovery_target(self, world, player):
         """r57: pick a target tile when stuck - nearest walkable room center to stairs."""
@@ -254,6 +265,8 @@ class AutoPilotInput:
                 ranged_at = far
         low_hp = player.hp < player.stats.max_hp() * self.RETREAT_HP
         objective = world.objective_tile()
+        # r59: count nearby monsters for retreat decision
+        nearby_count = sum(1 for m in world.monsters if m.alive and m.dist_to(player) < 150)
 
         # r47: track last threat that hit us for kiting
         if player.last_damage_taken > 0 and threat is not None:
@@ -297,9 +310,7 @@ class AutoPilotInput:
             self.stuck_tick = world.tick
         if len(self.avoid) > 8:
             self.avoid.clear()
-        # drink something when hurt
-        if low_hp and (player.consumables or player.backpack):
-            world.use_consumable(0)
+
 
         reach = threat_dist - threat.radius if threat is not None else 1e9
 
@@ -315,19 +326,28 @@ class AutoPilotInput:
 
 
 
+        # r59: stair-first logic — go for stairs, only fight blocking monsters
+        very_low_hp = player.hp < player.stats.max_hp() * 0.3
+
         # 1. emergency: dash away from the pack, hard
-        if threat is not None and low_hp and player.dash_ready() and threat_dist < 120.0:
+        # r59: also flee when overwhelmed AND low hp
+        if threat is not None and (very_low_hp or (nearby_count > 3 and low_hp)) and player.dash_ready() and threat_dist < 120.0:
             dx = player.x - threat.x
             dy = player.y - threat.y
             length = max(0.001, (dx * dx + dy * dy) ** 0.5)
             actions.add("dash")
             return InputState((dx / length, dy / length), actions)
 
-        # 2. target selection: nearest monster to clear, else the floor objective
-        target = (threat.tile_x, threat.tile_y) if threat is not None else objective
-
-        # 3. combat actions
+        # r59: target selection — stairs first, but fight back when attacked
+        target = objective  # default: go to stairs
+        taking_damage = player.last_damage_taken > 0
         if threat is not None:
+            on_path = self._is_between(threat.tile_x, threat.tile_y, player.tile_x, player.tile_y, objective[0], objective[1], self.STAIR_CLEAR_RADIUS)
+            if on_path or taking_damage or threat_dist < self.ENGAGE_THRESHOLD:
+                target = (threat.tile_x, threat.tile_y)
+
+        # 3. combat actions — only when monster is our chosen target
+        if threat is not None and target == (threat.tile_x, threat.tile_y):
             if player.attack_ready() and reach <= player.ATTACK_REACH:
                 actions.add("attack")
             if player.ranged_ready() and self.RANGED_MIN < threat_dist < self.RANGED_MAX:
@@ -336,26 +356,22 @@ class AutoPilotInput:
                     target = (threat.tile_x, threat.tile_y)
 
         # r47: strafe — don't stand still in combat, orbit the target
-        if threat is not None and reach <= player.ATTACK_REACH * 1.5:
-            # Perpendicular orbit movement
+        if threat is not None and target == (threat.tile_x, threat.tile_y) and reach <= player.ATTACK_REACH * 1.5:
             dx = threat.x - player.x
             dy = threat.y - player.y
             length = max(0.001, (dx * dx + dy * dy) ** 0.5)
-            # Perpendicular vector (rotate 90 degrees)
             px = -dy / length * self.strafe_dir
             py = dx / length * self.strafe_dir
-            # Step in + strafe
-            mx = dx / length * 0.7 + px * 0.3
-            my = dy / length * 0.7 + py * 0.3
-            # Flip strafe direction periodically
+            dx_move = dx / length * 0.7 + px * 0.3
+            dy_move = dy / length * 0.7 + py * 0.3
             self.strafe_tick += 1
             if self.strafe_tick >= self.STRAFE_TICKS:
                 self.strafe_dir *= -1
                 self.strafe_tick = 0
-            return InputState((mx, my), actions)
+            return InputState((dx_move, dy_move), actions)
 
         # 4. point blank and recharged: step into the swing so we face the target
-        if threat is not None and player.attack_ready() and reach <= player.ATTACK_REACH * 0.8:
+        if threat is not None and target == (threat.tile_x, threat.tile_y) and player.attack_ready() and reach <= player.ATTACK_REACH * 0.8:
             dx = threat.x - player.x
             dy = threat.y - player.y
             length = max(0.001, (dx * dx + dy * dy) ** 0.5)
