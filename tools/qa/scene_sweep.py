@@ -145,22 +145,34 @@ def _sweep_all(root: Path, seed: int, scratch: Path) -> dict:
     record("RunScene.pause", lambda: drive(run_scene, ("K_ESCAPE", "K_DOWN", "K_UP", "K_RETURN")))
 
     # --- end screens through the real handoff ------------------------------ #
-    for kind in ("death", "victory"):
-        def end_path(kind=kind) -> None:
-            scene = game.start_run(seed=seed)
-            if kind == "death":
-                scene.world.on_player_death("sweep")
-            else:
-                scene.world.on_victory()
-            scene.end_timer = 99.0
-            for _ in range(8):
-                scene.update(1 / 60.0)
-            game.end_run()
-            top = game.scenes.top()
-            if type(top).__name__ != "EndScene":
-                raise AssertionError("expected EndScene, got %s" % type(top).__name__)
-            drive(top)
-        record("EndScene(%s)" % kind, end_path)
+    # r46: death goes to HQ hub first, not EndScene. Victory still goes to EndScene.
+    def victory_path() -> None:
+        scene = game.start_run(seed=seed)
+        scene.world.on_victory()
+        scene.end_timer = 99.0
+        for _ in range(8):
+            scene.update(1 / 60.0)
+        game.end_run()
+        top = game.scenes.top()
+        if type(top).__name__ != "EndScene":
+            raise AssertionError("victory: expected EndScene, got %s" % type(top).__name__)
+        drive(top)
+    record("EndScene(victory)", victory_path)
+
+    # r46: death → HQ hub path
+    def death_to_hq_path() -> None:
+        scene = game.start_run(seed=seed)
+        scene.world.on_player_death("sweep")
+        scene.end_timer = 99.0
+        for _ in range(8):
+            scene.update(1 / 60.0)
+        game.end_run()
+        top = game.scenes.top()
+        if type(top).__name__ != "HQScene":
+            raise AssertionError("death: expected HQScene, got %s" % type(top).__name__)
+        # Drive the HQ scene: move, interact, render
+        drive(top, ("K_LEFT", "K_RIGHT", "K_UP", "K_DOWN", "K_e", "K_ESCAPE"))
+    record("HQScene(death)", death_to_hq_path)
 
     return {"seed": seed, "surfaces": results,
             "failed": [r for r in results if not r["ok"]]}

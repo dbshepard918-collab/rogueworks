@@ -1029,7 +1029,17 @@ class Game:
         meta_sys.apply_run_results(self.profile, world)
         meta_sys.clear_run(self.profile)
         save_sys.save_profile(self.profile, self.save_path)
-        self.scenes.replace(EndScene(self, world, world.run_state == "victory"))
+        # r46: death goes to HQ hub instead of straight to EndScene
+        if world.run_state == "dead":
+            from ..ui.hq_scene import HQScene
+            self.scenes.replace(HQScene(self))
+        else:
+            self.scenes.replace(EndScene(self, world, world.run_state == "victory"))
+
+    def show_hq(self):
+        """Show the headquarters hub scene."""
+        from ..ui.hq_scene import HQScene
+        self.scenes.replace(HQScene(self))
 
     def save_run_state(self):
         world = self.last_world

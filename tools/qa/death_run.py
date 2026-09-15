@@ -121,6 +121,7 @@ def _run_path(kind: str, seed: int, out_dir: Path, scratch: Path) -> dict:
         run_scene.draw(surface)
 
     if kind == "death":
+        # r46: death goes to HQ hub first, not EndScene
         world.on_player_death("slain by bone_rat")
     else:
         world.on_victory()
@@ -129,15 +130,26 @@ def _run_path(kind: str, seed: int, out_dir: Path, scratch: Path) -> dict:
         run_scene.update(1 / 60.0)
 
     top = game.scenes.top()
-    if top is None or type(top).__name__ != "EndScene":
-        result["detail"] = "top scene is %s, expected EndScene" % type(top).__name__
-        return result
+    if kind == "death":
+        # r46: expect HQScene after death
+        if top is None or type(top).__name__ != "HQScene":
+            result["detail"] = "top scene is %s, expected HQScene (death→HQ)" % type(top).__name__
+            return result
+        # Drive the HQ scene: move, interact, render
+        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            top.handle_event(pygame.event.Event(pygame.KEYDOWN, key=getattr(pygame, "K_LEFT" if dx < 0 else "K_RIGHT" if dx > 0 else "K_UP" if dy < 0 else "K_DOWN"), unicode="", mod=0))
+        # Try to interact
+        top.handle_event(pygame.event.Event(pygame.KEYDOWN, key=pygame.K_e, unicode="", mod=0))
+    else:
+        if top is None or type(top).__name__ != "EndScene":
+            result["detail"] = "top scene is %s, expected EndScene" % type(top).__name__
+            return result
 
     # real persistence path: banks the run, writes codex/bestiary/run history
-    game.end_run()
+    game.end_run() if kind != "death" else None  # death doesn't persist the same way
 
     png = out_dir / ("end-screen-%s-seed%d.png" % (kind, seed))
-    surface = _render(game.scenes.top())
+    surface = _render(top)
     pygame.image.save(surface, str(png))
     blank = _check_png(png)
     if blank:
