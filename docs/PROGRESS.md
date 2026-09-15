@@ -1,3 +1,14 @@
+## 2026-09-15 (r50) — Dialogue panel art + projectile sprite + muzzle flash VFX (Forge + Pixel + Chip)
+
+- **Dialogue panel sprite** — ornate stone-and-bone banner frame for NPC conversations. 1024×192 raw → 1280×160 final, palette-locked.
+- **Projectile sprite** — soul-blue energy bolt, 32×32, palette-locked. Replaces generic `vfx_magic_bolt` for player shots.
+- **Muzzle flash VFX** — radial burst sprite, 32×32, fired at the player's gun-tip on every ranged shot.
+- **Wired into HQ scene** — `_draw_dialogue()` now blits the panel atlas; falls back to flat rect if atlas missing.
+- **Wired into combat** — `player_ranged()` uses new projectile sprite + spawns muzzle flash VFX on fire.
+- **Gates**: `game.main --headless --turns 300 --seed 0..2` → EXIT=0, violations=[]; `tools.selftest` → 22/22; `tools.art.verify` → 0 off-palette.
+- **Commit**: `c9fd52a` r50: dialogue panel art + projectile sprite + muzzle flash VFX. 22/22 gates green.
+- **BUILD report**: `runs/reports/BUILD-2026-09-15-r50.md`
+
 ## 2026-09-15 (r49) — Title background + palette pipeline lesson (Forge + Pixel + Chip)
 
 - **Generated title background** — lone adventurer with lantern at the edge of a vast abyss, five descending arcane platforms, giant skull at the bottom, gothic arch composition. FLUX.1-schnell at 1024×576, resized to 1280×720.

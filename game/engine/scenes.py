@@ -244,6 +244,9 @@ class MenuScene(Scene):
         self.title_anim_timer = 0.0
         self.title_anim_frame = 0
         self.title_pulse = 0.0
+        # r51: title particles
+        self.title_particles = []
+        self.title_particle_timer = 0.0
 
     def rebuild(self):
         profile = self.game.profile
@@ -305,6 +308,35 @@ class MenuScene(Scene):
                 self.game.quit_requested = True
         return None
 
+    def update(self, dt):
+        """r51: update title particles (deterministic pattern, no RNG)."""
+        self.title_particle_timer += dt
+        # Spawn new particles every 0.1s using a counter for determinism
+        if self.title_particle_timer > 0.1:
+            self.title_particle_timer = 0.0
+            idx = len(self.title_particles)
+            # Deterministic positions based on index
+            x = (idx * 37) % 1280
+            vx = float((idx % 5) - 2) * 4.0  # -8 to 8
+            vy = -20.0 - float(idx % 10) * 1.5  # -20 to -35
+            life = 3.0 + float(idx % 30) / 10.0  # 3.0 to 6.0
+            size = 2 + (idx % 4)  # 2 to 5
+            self.title_particles.append({
+                "x": float(x), "y": 720.0 + 10.0,
+                "vx": vx, "vy": vy,
+                "life": life, "size": size,
+            })
+        # Update positions
+        alive = []
+        for p in self.title_particles:
+            p["life"] -= dt
+            if p["life"] <= 0:
+                continue
+            p["x"] += p["vx"] * dt
+            p["y"] += p["vy"] * dt
+            alive.append(p)
+        self.title_particles = alive
+
     def draw(self, surface):
         # r49: title background image
         try:
@@ -338,6 +370,11 @@ class MenuScene(Scene):
                      int(stats.get("kills", 0))),
                   ((surface.get_width() - text_size("runs 0   best floor 1   kills 0", 1)[0]) // 2, 200),
                   1, colour=(138, 132, 150))
+        # r51: title particles (soul wisps)
+        for p in self.title_particles:
+            alpha = max(0.1, min(1.0, p["life"] / 3.0))
+            col = tuple(int(c * alpha) for c in (100, 180, 220))
+            pygame.draw.circle(surface, col, (int(p["x"]), int(p["y"])), p["size"])
         menus_mod.draw_list(surface, self.menu, top=380)
         menus_mod.draw_controls(surface, self.game.profile)
         # P4.5: draw run stats below menu
