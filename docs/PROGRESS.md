@@ -1,3 +1,12 @@
+## 2026-09-15 (r54) — QA Gate Check (Forge)
+
+- **Full four-gate verification** — no code changes, results only.
+- **Gate 1** (`game.main --headless --turns 300 --seed 0..2`): PASS — all three seeds exit 0, violations=[].
+- **Gate 2** (`tools.selftest`): PASS — 22/22, 0 skipped, 0 failed.
+- **Gate 3** (`tools.validate_data`): PASS — 12 files, 625 entries, 0 errors, 1 warning (quests.json unrecognised).
+- **Gate 4** (`tools.art.verify`): **FAIL** — 13 errors, 1 warning. `assets/sprites/ui/title_background.png` has 921,598 off-palette pixels and is 1280x720 (not a 32px grid multiple). This is the raw FLUX output from r49 whose palette-snap fix did not persist.
+- **BUILD report**: `runs/reports/BUILD-2026-09-15-r54.md`
+
 ## 2026-09-15 (r53) — CRITICAL BUG FIX: combat.py UnboundLocalError + balance re-verification (Forge + Chip)
 
 - **CRITICAL REGRESSION**: r52's VFX integration placed `if crit:` before `crit = ...` assignment → `UnboundLocalError` on every melee hit, silently crashing combat in the balance harness. All pre-r53 measurements invalid.
