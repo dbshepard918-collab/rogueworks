@@ -147,16 +147,14 @@ SCHEMAS: dict[str, dict[str, dict]] = {
             "_special": True,
         },
         "npcs.json": {
-            "version": {"type": "num", "min": 1},
-            "npcs": {"type": "list", "items": {"type": "dict"}, "required": False},
+            "_special": True,
         },
         "storyline.json": {
-            "version": {"type": "num", "min": 1},
-            "plot": {"type": "dict", "required": False},
+            "_special": True,
         },
         "hq_rooms.json": {
-            "version": {"type": "num", "min": 1},
-            "rooms": {"type": "list", "items": {"type": "dict"}, "required": False},
+            "_special": True,
+        },
         },
     }
 
