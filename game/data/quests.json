@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "note": "Quest chains for Depths of Vaelmoor (r46). Each quest has objectives, rewards, and narrative context.",
+  "quests": [
+    {
+      "id": "quest_first_descent",
+      "title": "The First Descent",
+      "giver": "keeper_eira",
+      "description": "Eira asks you to descend to floor 3 and return. She needs to know the Depths are still navigable.",
+      "objectives": [
+        {"type": "reach_floor", "target": 3, "label": "Reach floor 3"}
+      ],
+      "rewards": [
+        {"type": "essence", "amount": 50},
+        {"type": "unlock", "target": "class_grave_warden", "label": "Grave Warden class"}
+      ],
+      "prereqs": [],
+      "story_beat": "act_1"
+    },
+    {
+      "id": "quest_forge_brokk",
+      "title": "The Hammer Below",
+      "giver": "forge_brokk",
+      "description": "Brokk's hammer is somewhere in the Ember Warrens. He can't forge without it. He won't say why he really needs it back.",
+      "objectives": [
+        {"type": "reach_floor", "target": 7, "label": "Reach the Ember Warrens"},
+        {"type": "kill_boss", "target": "boss_forge_colossus", "label": "Defeat the Forge Colossus"},
+        {"type": "collect_item", "target": "item_brokk_hammer", "label": "Recover Brokk's Hammer"}
+      ],
+      "rewards": [
+        {"type": "essence", "amount": 200},
+        {"type": "upgrade", "target": "forge_permanent", "label": "Permanent forge access at HQ"}
+      ],
+      "prereqs": ["quest_first_descent"],
+      "story_beat": "act_2"
+    },
+    {
+      "id": "quest_tide_mira",
+      "title": "The Drowned Map",
+      "giver": "tide_mira",
+      "description": "Mira's maps are incomplete. She needs you to chart the Drowned Vaults — find the three flood-gates and mark them.",
+      "objectives": [
+        {"type": "reach_floor", "target": 12, "label": "Reach the Drowned Vaults"},
+        {"type": "interact", "target": "flood_gate_1", "label": "Mark flood-gate 1"},
+        {"type": "interact", "target": "flood_gate_2", "label": "Mark flood-gate 2"},
+        {"type": "interact", "target": "flood_gate_3", "label": "Mark flood-gate 3"}
+      ],
+      "rewards": [
+        {"type": "essence", "amount": 300},
+        {"type": "unlock", "target": "map_secrets", "label": "Secret rooms visible on minimap"}
+      ],
+      "prereqs": ["quest_first_descent"],
+      "story_beat": "act_3"
+    },
+    {
+      "id": "quest_raven_name",
+      "title": "The Name It Knows",
+      "giver": "skull_raven",
+      "description": "The Raven speaks a name. It won't say whose. It asks you to descend to the Ossuary and read the bones.",
+      "objectives": [
+        {"type": "reach_floor", "target": 16, "label": "Reach the Sunken Ossuary"},
+        {"type": "interact", "target": "bone_altar", "label": "Read the bone altar"}
+      ],
+      "rewards": [
+        {"type": "essence", "amount": 500},
+        {"type": "lore", "target": "raven_identity", "label": "The Raven's true name revealed"}
+      ],
+      "prereqs": ["quest_forge_brokk", "quest_tide_mira"],
+      "story_beat": "act_4"
+    },
+    {
+      "id": "quest_the_wound",
+      "title": "Close the Wound",
+      "giver": "keeper_eira",
+      "description": "Eira tells you the truth: the Depths are alive. The only way out is through. Descend to the Heart and end it.",
+      "objectives": [
+        {"type": "reach_floor", "target": 20, "label": "Reach the Heart"},
+        {"type": "kill_boss", "target": "boss_the_wound", "label": "Defeat the Heart of the Depths"}
+      ],
+      "rewards": [
+        {"type": "ending", "target": "ending_keeper", "label": "Become the next Keeper of the Dark"}
+      ],
+      "prereqs": ["quest_raven_name"],
+      "story_beat": "act_5"
+    }
+  ]
+}
