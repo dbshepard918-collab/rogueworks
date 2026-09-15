@@ -1,3 +1,10 @@
+## 2026-09-14 (r44) — Meta-progression verdict: loop works, the tester was blind (Forge)
+
+- **The "meta tree is broken" finding is overturned.** Root cause was the QA autopilot: ENGAGE_RANGE 230 could not see ranged snipers holding at 249 px, so it stood still and died unopposed at every investment level. After the sight fix (`c708db9`), the 12-seed paired ladder gives fresh 5.58 → full-tree 8.67 floors (+3.1), 8/2/2 improved/same/worse — the tree needed no retuning.
+- **P1 game bug fixed** (`f0726ff`): shop-stall vial restock called nonexistent `content.item_by_id` → AttributeError; invisible to 300-tick gates (shops unreached by them). Fixed to `content.by_id` lookup, verified on the crashing seed.
+- **progression.py**: per-run rows persisted; paired per-seed analysis now possible (it is what exposed the blindness).
+- **Gates**: selftest 22/22, golden seeds stable, headless commit-gate green on all three commits. BALANCE.md carries the headline correction with the original finding preserved. Full detail: runs/reports/BUILD-2026-09-14-r44.md.
+
 ## 2026-09-14 (18:55) — Ship-gate round r43: G-01 re-verified, G-02 closed; SLAP #102 loop incident closed; gemma-4-e4b VLM trial (Forge)
 
 - **G-01 DONE (re-verified)** — `tools.qa.balance --seeds 0 1 2 --turns 20000 --json` → exit 0, `ok: true`; seeds 0/1/2 reproduce `docs/BALANCE.md` rows exactly (dead f1/0 kills/0 essence; dead f1; dead f5/2 kills/6 essence). The measured balance document stands.
