@@ -142,14 +142,18 @@ class AutoPilotInput:
     RANGED_MIN = 70.0
     RANGED_MAX = 300.0
     RETREAT_HP = 0.4
+    STRAFE_TICKS = 60            # r47: ticks between strafe direction changes
 
     def __init__(self, world):
         self.path = []
         self.path_goal = None
         self.repath_at = 0
-        self.avoid = set()             # monster ids we could not reach
+        self.avoid = set()
         self.stuck_ref = None
         self.stuck_tick = 0
+        self.strafe_dir = 1         # r47: current strafe direction (1 or -1)
+        self.strafe_tick = 0        # r47: ticks until next strafe flip
+        self.last_threat = None     # r47: last monster that damaged us
 
     def _nearest(self, world, player, max_range=1e9):
         best = None
@@ -163,6 +167,18 @@ class AutoPilotInput:
                 best_dist = dist
         return best, best_dist
 
+    def _ranged_threat(self, world, player, threat, threat_dist):
+        """Detect a ranged monster holding beyond melee range but within gun range."""
+        if threat is None:
+            return None, None
+        if threat_dist > self.RANGED_MAX:
+            return None, None
+        # Is this monster actually ranged?
+        if getattr(threat, 'kind', '') not in ('ranged', 'ranged_ranged') and threat_dist > self.ENGAGE_RANGE:
+            # Not confirmed ranged, but still plinking us — treat as ranged
+            return threat, threat_dist
+        return None, None
+
     def sample(self, world=None, keys=None):
         if world is None:
             return InputState.idle()
@@ -172,16 +188,19 @@ class AutoPilotInput:
 
         actions = set()
         threat, threat_dist = self._nearest(world, player, self.ENGAGE_RANGE)
+        ranged_at = None
         if threat is None:
-            # A ranged monster can hold position beyond ENGAGE_RANGE and plink the
-            # player to death unopposed (seed 1: sniper at 249 px, ENGAGE_RANGE 230,
-            # died 11x in a row without the pilot ever seeing it). The pilot's sight
-            # must reach at least as far as its own gun (RANGED_MAX = 300).
+            # r44: A ranged monster can hold beyond ENGAGE_RANGE and plink us.
             far, far_dist = self._nearest(world, player, self.RANGED_MAX)
             if far is not None:
                 threat, threat_dist = far, far_dist
+                ranged_at = far
         low_hp = player.hp < player.stats.max_hp() * self.RETREAT_HP
         objective = world.objective_tile()
+
+        # r47: track last threat that hit us for kiting
+        if player.last_damage_taken > 0 and threat is not None:
+            self.last_threat = threat.id
 
         # stuck detection: if we are grinding against geometry, drop the target
         if self.stuck_ref is None:
@@ -215,6 +234,14 @@ class AutoPilotInput:
                     actions.add("dash")
                 return InputState((dx / length, dy / length), actions)
 
+        # r47: kite — if a ranged threat is plinking us and we can't reach it, dash away
+        if ranged_at is not None and threat_dist > player.ATTACK_REACH and player.dash_ready():
+            dx = player.x - threat.x
+            dy = player.y - threat.y
+            length = max(0.001, (dx * dx + dy * dy) ** 0.5)
+            actions.add("dash")
+            return InputState((dx / length, dy / length), actions)
+
         # 1. emergency: dash away from the pack, hard
         if threat is not None and low_hp and player.dash_ready() and threat_dist < 120.0:
             dx = player.x - threat.x
@@ -234,6 +261,25 @@ class AutoPilotInput:
                 actions.add("ranged")
                 if not player.attack_ready():
                     target = (threat.tile_x, threat.tile_y)
+
+        # r47: strafe — don't stand still in combat, orbit the target
+        if threat is not None and reach <= player.ATTACK_REACH * 1.5:
+            # Perpendicular orbit movement
+            dx = threat.x - player.x
+            dy = threat.y - player.y
+            length = max(0.001, (dx * dx + dy * dy) ** 0.5)
+            # Perpendicular vector (rotate 90 degrees)
+            px = -dy / length * self.strafe_dir
+            py = dx / length * self.strafe_dir
+            # Step in + strafe
+            mx = dx / length * 0.7 + px * 0.3
+            my = dy / length * 0.7 + py * 0.3
+            # Flip strafe direction periodically
+            self.strafe_tick += 1
+            if self.strafe_tick >= self.STRAFE_TICKS:
+                self.strafe_dir *= -1
+                self.strafe_tick = 0
+            return InputState((mx, my), actions)
 
         # 4. point blank and recharged: step into the swing so we face the target
         if threat is not None and player.attack_ready() and reach <= player.ATTACK_REACH * 0.8:
