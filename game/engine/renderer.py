@@ -161,6 +161,7 @@ class Renderer:
         """Render one frame.  Returns the draw list (never contains None)."""
         level = world.level
         camera = world.camera
+        self._tile_scale = camera.tile_scale  # r45: sync zoom
         draw_list = []
         surface.fill(colour("void", (11, 10, 16)))
         if level is None:
@@ -323,6 +324,8 @@ class Renderer:
                 surface.blit(self.frame(world, name), (sx, sy))
                 draw_list.append(("floor", tx, ty, name))
 
+        st = camera.tile_scale
+        tile_px = TILE * st
         # -- secret room floors (revealed) --------------------------------
         for room in level.rooms:
             if room.get("kind") != "secret":
@@ -336,8 +339,8 @@ class Renderer:
             for tx in range(rx, min(level.w, rx + rw)):
                 for ty in range(ry, min(level.h, ry + rh)):
                     if level.tiles[tx][ty] == FLOOR:
-                        sx = tx * TILE - ox
-                        sy = ty * TILE - oy
+                        sx = int(tx * tile_px - ox * st)
+                        sy = int(ty * tile_px - oy * st)
                         h = _hash2(tx, ty, 3)
                         bucket = h % 37
                         if bucket == 0:
@@ -356,20 +359,27 @@ class Renderer:
                             name = tiles["floor_cracked"]
                         else:
                             name = tiles["floor"]
-                        surface.blit(self.frame(world, name), (sx, sy))
+                        img = self.frame(world, name)
+                        if st != 1.0:
+                            img = pygame.transform.scale(img, (int(TILE*st), int(TILE*st)))
+                        surface.blit(img, (sx, sy))
                         draw_list.append(("secret_floor", tx, ty, name))
 
         # -- props -------------------------------------------------------
         for prop in level.props:
-            sx = prop["tx"] * TILE - ox
-            sy = prop["ty"] * TILE - oy
-            if sx < -TILE or sy < -TILE or sx > camera.view_w or sy > camera.view_h:
+            sx = int(prop["tx"] * tile_px - ox * st)
+            sy = int(prop["ty"] * tile_px - oy * st)
+            if sx < -tile_px or sy < -tile_px or sx > camera.view_w or sy > camera.view_h:
                 continue
             img = self.frame(world, prop["sprite"])
+            if st != 1.0:
+                img = pygame.transform.scale(img, (int(TILE*st), int(TILE*st)))
             surface.blit(img, (sx, sy))
             draw_list.append(("prop", prop["sprite"], prop["tx"], prop["ty"]))
 
         # -- event-room overlays ---------------------------------------
+        st = camera.tile_scale  # ensure st is in scope
+        tile_px = TILE * st
         for room in level.rooms:
             kind = room.get("kind", "")
             if kind not in ("gambling", "blacksmith", "fountain", "omen"):
@@ -382,37 +392,31 @@ class Renderer:
                 for ty in range(ry, min(level.h, ry + rh)):
                     if level.tiles[tx][ty] != FLOOR:
                         continue
-                    sx = tx * TILE - ox
-                    sy = ty * TILE - oy
+                    sx = int(tx * tile_px - ox * st)
+                    sy = int(ty * tile_px - oy * st)
+                    cx = sx + int(tile_px // 2)
+                    cy = sy + int(tile_px // 2)
                     # Draw event-room floor overlay
                     if kind == "gambling":
-                        # Gold coin icon in the room
                         h = _hash2(tx, ty, 7)
                         if h % 3 == 0:
                             icon = self.frame(world, "prop_gold_pile")
-                            self._blit_centered(surface, icon,
-                                                sx + TILE // 2, sy + TILE // 2, ox, oy)
+                            self._blit_centered(surface, icon, cx, cy, ox, oy)
                     elif kind == "blacksmith":
-                        # Anvil icon in the room
                         h = _hash2(tx, ty, 11)
                         if h % 3 == 0:
                             icon = self.frame(world, "prop_anvil")
-                            self._blit_centered(surface, icon,
-                                                sx + TILE // 2, sy + TILE // 2, ox, oy)
+                            self._blit_centered(surface, icon, cx, cy, ox, oy)
                     elif kind == "fountain":
-                        # Water drop icon in the room
                         h = _hash2(tx, ty, 13)
                         if h % 3 == 0:
                             icon = self.frame(world, "prop_fountain")
-                            self._blit_centered(surface, icon,
-                                                sx + TILE // 2, sy + TILE // 2, ox, oy)
+                            self._blit_centered(surface, icon, cx, cy, ox, oy)
                     elif kind == "omen":
-                        # Eye icon in the room
                         h = _hash2(tx, ty, 17)
                         if h % 3 == 0:
                             icon = self.frame(world, "prop_eye")
-                            self._blit_centered(surface, icon,
-                                                sx + TILE // 2, sy + TILE // 2, ox, oy)
+                            self._blit_centered(surface, icon, cx, cy, ox, oy)
 
         # -- pickups -----------------------------------------------------
         for pk in world.pickups:
@@ -429,7 +433,10 @@ class Renderer:
                 continue
             img = self.frame(world, mon.current_frame())
             if mon.boss:
-                img = pygame.transform.scale(img, (img.get_width() * 2, img.get_height() * 2))
+                # Boss sprites are 2x normal size — scale by zoom too so they
+                # stay proportionally larger when the camera is zoomed.
+                bscale = 2.0 * st
+                img = pygame.transform.scale(img, (int(img.get_width() * bscale), int(img.get_height() * bscale)))
             # P2.2: telegraph indicator sprite rendered during windup
             if mon.telegraph > 0.0 and getattr(mon, 'telegraph_indicator', None):
                 indicator_name = mon.telegraph_indicator
@@ -574,8 +581,17 @@ class Renderer:
 
     # -- helpers ---------------------------------------------------------
     def _blit_centered(self, surface, img, wx, wy, ox, oy):
-        surface.blit(img, (int(wx - img.get_width() / 2.0 - ox),
-                           int(wy - img.get_height() / 2.0 - oy)))
+        st = getattr(self, "_tile_scale", 1.0)
+        # World pixel to screen pixel after zoom
+        sx = int((wx - ox) * st - img.get_width() / 2.0)
+        sy = int((wy - oy) * st - img.get_height() / 2.0)
+        if st != 1.0:
+            # Scale the image to match zoom
+            new_w = int(img.get_width() * st)
+            new_h = int(img.get_height() * st)
+            if new_w > 0 and new_h > 0:
+                img = pygame.transform.scale(img, (new_w, new_h))
+        surface.blit(img, (sx, sy))
 
     def _health_bar(self, surface, cx, cy, fraction, width, colourblind_mode="off"):
         height = 4
