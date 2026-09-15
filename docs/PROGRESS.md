@@ -1,3 +1,12 @@
+## 2026-09-15 (r57) — QA Gate Check (Forge)
+
+- **game.main --headless --turns 300 --seed 0..2**: all 3 seeds exit 0, violations=[]
+- **tools.selftest**: 22/22 passed
+- **tools.validate_data**: 0 errors, 1 warning (quests.json unrecognised — pre-existing)
+- **tools.art.verify**: FAIL — 13 errors, title_background.png off-palette (921,598 off-palette pixels, 1280x720 not tile-grid multiple)
+- **T-01 remains BLOCKED**: same title_background.png palette issue as r54
+- **BUILD report**: runs/reports/BUILD-2026-09-15-r57.md
+
 1|## 2026-09-15 (r56) — Autopilot ranged engagement fix (Forge + Chip)
 2|
 3|- **Autopilot now reaches floor 10** (was dying floor 3-5) — removed early-return "kite" block that fled ranged enemies without shooting back
