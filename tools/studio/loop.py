@@ -39,6 +39,17 @@ ROADMAP = ROOT / "docs" / "ROADMAP.md"
 SLAPS = ROOT / "docs" / "slaps.json"
 BUILDER = "forge"
 REVIEWER = "warden"
+# r46: all known lanes — the loop drives forge, forge delegates. narrative is new.
+BOT_LANES = {"chip", "pixel", "lore", "lens", "tempo", "narrative"}
+# Lanes that own files and can be assigned tickets
+OWNER_LANES = {
+    "chip": "game/, tools/",
+    "pixel": "assets/sprites/, assets/atlas/",
+    "lore": "game/data/",
+    "lens": "runs/, tools/qa/",
+    "tempo": "assets/audio/",
+    "narrative": "game/data/, docs/NARRATIVE.md, docs/QUESTS.md",
+}
 
 
 def log(msg: str) -> None:
@@ -197,7 +208,8 @@ def slap_line(s: dict) -> str:
 
 def build_brief(n: int, item: str, gates: str, slaps: list) -> str:
     return (
-        "ROUND %d of the continuous Rogueworks loop. Project root: C:\\Users\\dbshe\\rogueworks "
+        "ROUND %d of the continuous Rogueworks loop. Project root: C:\\\\Users\\dbshe\
+ogueworks "
         "(bash/MSYS shell; python is: cd /c/Users/dbshe/rogueworks && MSYS_NO_PATHCONV=1 "
         ".venv/Scripts/python.exe -m <module>).\n\n"
         "PRE-FLIGHT GATES (just run by the driver):\n%s\n\n"
@@ -212,8 +224,8 @@ def build_brief(n: int, item: str, gates: str, slaps: list) -> str:
         "3. Document it: tick the item in docs/ROADMAP.md, update docs/TICKETS.md, PREPEND a dated "
         "entry to docs/PROGRESS.md, write runs/reports/BUILD-<date>.md. An undocumented round did not "
         "happen - the reviewer will slap you for it.\n"
-        "4. Delegate to chip (code), pixel (art), lore (data), lens (verification) when the work is "
-        "broad; give each child paths, the frozen contracts in docs/CONTRACTS.md, and an acceptance "
+        "4. Delegate to chip (code), pixel (art), lore (data), lens (verification), narrative (NPCs/quests/storyline) "
+        "when the work is broad; give each child paths, the frozen contracts in docs/CONTRACTS.md, and an acceptance "
         "command. If a worker's work is substandard, slap it yourself with "
         "`python -m tools.studio.slap --bot <bot> --severity <P0..P3> --violation ... --evidence ... "
         "--rule ... --fix <command> --async`.\n"
