@@ -125,6 +125,21 @@ wrong answer class, and unusable latency for a QA loop that audits frames by the
    models (8B and 30B MoE) and glm-4.6v-flash reach 4/5 or 3/5 with the defect-relevant
    answers intact.
 
+**2026-09-14 addition — `qwen3.6-35b-a3b` (owner-downloaded).** A vision-capable
+reasoning MoE (LM Studio's hub tags omit vision; the model delivers it — described a
+game frame accurately in a direct probe). Bench verdict: **UNSCORED — latency-bound.**
+Every known-answer question costs a 1,900-3,600-token thinking pass at 22 GB on a 12 GB
+card (CPU offload); individual vision questions ran 3-6+ min and the full bench failed
+with HTTP 400 twice (context too small for image + 8192-token reasoning budget, then
+request timeouts). `/no_think` and a reasoning-disabled load were NOT able to make
+vision prompts fast — the image-encoding pass through the 35B MoE dominates, not just
+the thinking tokens. **Verdict: not a QA-lane candidate** (pin answers in 3-4 s; this
+is ~50x slower) — **designated "second opinion on hard cases"**: consult it when the
+pin and a numeric gate disagree, with a generous timeout, once per dispute rather than
+per frame. Operational notes: load with `--context-length 32768` minimum (8192 cannot
+hold image + reasoning budget); the empty-content-with-finish=length trap applies
+twice over (reasoning + vision tokens both bill against max_tokens).
+
 **2026-09-14 addition — the legacy GGUF tier: all five disqualified without a score.**
 Owner requested the 2023-era LLaVA-family GGUFs; all downloaded, none can serve vision on
 the current LM Studio runtime:
