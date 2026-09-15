@@ -168,10 +168,13 @@ class Renderer:
             return draw_list
 
         ox, oy = camera.world_offset()
-        t0x = max(0, ox // TILE)
-        t0y = max(0, oy // TILE)
-        t1x = min(level.w - 1, (ox + camera.view_w) // TILE)
-        t1y = min(level.h - 1, (oy + camera.view_h) // TILE)
+        st = camera.tile_scale  # r45 camera zoom
+        # tile size and visible-bounds in scaled pixels
+        tile_px = TILE * st
+        t0x = max(0, int(ox // tile_px))
+        t0y = max(0, int(oy // tile_px))
+        t1x = min(level.w - 1, int((ox + camera.view_w) // tile_px))
+        t1y = min(level.h - 1, int((oy + camera.view_h) // tile_px))
 
         from game.systems import procgen as procgen_mod
         tiles = world.tile_frames()
@@ -181,8 +184,8 @@ class Renderer:
         water = _bm.water_tiles(level)
         for ty in range(t0y, t1y + 1):
             for tx in range(t0x, t1x + 1):
-                sx = tx * TILE - ox
-                sy = ty * TILE - oy
+                sx = int(tx * tile_px - ox * st)
+                sy = int(ty * tile_px - oy * st)
                 value = level.tiles[tx][ty]
                 if value == procgen_mod.STAIRS:
                     img = self.frame(world, tiles["stairs_down"])
@@ -275,22 +278,48 @@ class Renderer:
                     continue
                 h = _hash2(tx, ty, 3)
                 bucket = h % 37
-                if bucket == 0:
-                    name = tiles["floor_bones"]
-                elif bucket == 1:
-                    name = tiles["floor_coins"]
-                elif bucket < 4:
-                    name = tiles["floor_blood"]
-                elif bucket < 9:
-                    name = tiles["floor_rubble"]
-                elif bucket < 15:
-                    name = tiles["floor_alt"]
-                elif bucket < 20:
-                    name = tiles["floor_alt2"]
-                elif bucket < 25:
-                    name = tiles["floor_cracked"]
+                # r44 cohesion fix: decoration is clustered per-ROOM by room kind
+                # (uniform per-tile scatter looked like jumbled salad - bones next
+                # to coins next to blood with no logic). The room's theme picks ONE
+                # dressing family; within the room, tiles vary naturally around it.
+                room_kind = level.room_at(tx, ty)
+                rk = room_kind.get("kind", "") if room_kind else ""
+                if rk == "treasure":
+                    # coin pockets: ~1/3 of the floor glitters, nothing gory
+                    name = (tiles["floor_coins"] if bucket % 3 == 0
+                            else tiles["floor_alt2"] if bucket % 5 == 0
+                            else tiles["floor"])
+                elif rk in ("combat", "boss", "secret"):
+                    # battle-scarred: bones/rubble/blood, never coins
+                    if bucket < 6:
+                        name = tiles["floor_bones"]
+                    elif bucket < 12:
+                        name = tiles["floor_rubble"]
+                    elif bucket < 15:
+                        name = tiles["floor_blood"]
+                    elif bucket < 25:
+                        name = tiles["floor_cracked"]
+                    else:
+                        name = tiles["floor"]
+                elif rk in ("shrine", "omen", "gambling"):
+                    # solemn/clean: cracked + alt wear only, no gore or glitter
+                    if bucket < 10:
+                        name = tiles["floor_cracked"]
+                    elif bucket < 22:
+                        name = tiles["floor_alt"]
+                    else:
+                        name = tiles["floor"]
                 else:
-                    name = tiles["floor"]
+                    # corridors/entrance/shop/fountain/blacksmith: mostly clean
+                    # plain floors with sparse, mild wear
+                    if bucket < 8:
+                        name = tiles["floor_rubble"]
+                    elif bucket < 16:
+                        name = tiles["floor_alt"]
+                    elif bucket < 24:
+                        name = tiles["floor_alt2"]
+                    else:
+                        name = tiles["floor"]
                 surface.blit(self.frame(world, name), (sx, sy))
                 draw_list.append(("floor", tx, ty, name))
 

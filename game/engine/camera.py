@@ -8,6 +8,7 @@ class Camera:
         self.view_w = view_w
         self.view_h = view_h
         self.tile = tile
+        self.tile_scale = 1.0  # r45: camera zoom — 1.0=default (40 tiles wide), 2.0=closer (20 tiles)
         self.x = 0.0
         self.y = 0.0
         self.dead_zone = 96
@@ -21,29 +22,40 @@ class Camera:
         self.kick_y = 0           # P4.4: kick offset Y
         self.shake_enabled = True       # P2.1: toggle for screen shake
 
+    def scaled_tile(self):
+        """Tile size in screen pixels after zoom."""
+        return int(self.tile * self.tile_scale)
+
+    def scaled_view(self):
+        """Visible world area in world pixels after zoom."""
+        return (self.view_w / self.tile_scale, self.view_h / self.tile_scale)
+
     def center_on(self, px, py, level_w=0, level_h=0):
-        self.x = px - self.view_w / 2.0
-        self.y = py - self.view_h / 2.0
+        vw, vh = self.scaled_view()
+        self.x = px - vw / 2.0
+        self.y = py - vh / 2.0
         self._clamp(level_w, level_h)
 
     def _clamp(self, level_w, level_h):
+        vw, vh = self.scaled_view()
         world_w = level_w * self.tile
         world_h = level_h * self.tile
-        if world_w <= self.view_w:
-            self.x = (world_w - self.view_w) / 2.0
+        if world_w <= vw:
+            self.x = (world_w - vw) / 2.0
         else:
-            self.x = max(0.0, min(self.x, world_w - self.view_w))
-        if world_h <= self.view_h:
-            self.y = (world_h - self.view_h) / 2.0
+            self.x = max(0.0, min(self.x, world_w - vw))
+        if world_h <= vh:
+            self.y = (world_h - vh) / 2.0
         else:
-            self.y = max(0.0, min(self.y, world_h - self.view_h))
+            self.y = max(0.0, min(self.y, world_h - vh))
 
     def follow(self, px, py, level_w, level_h, dt):
-        target_x = px - self.view_w / 2.0
-        target_y = py - self.view_h / 2.0
+        vw, vh = self.scaled_view()
+        target_x = px - vw / 2.0
+        target_y = py - vh / 2.0
         dz = self.dead_zone
-        cx = self.x + self.view_w / 2.0
-        cy = self.y + self.view_h / 2.0
+        cx = self.x + vw / 2.0
+        cy = self.y + vh / 2.0
         if px - cx > dz / 2.0:
             target_x = self.x + (px - cx - dz / 2.0)
         elif cx - px > dz / 2.0:
@@ -95,6 +107,12 @@ class Camera:
     def world_offset(self):
         """Integer-snapped top-left of the view in world pixels."""
         return (int(self.x) - self.offset_x - self.kick_x, int(self.y) - self.offset_y - self.kick_y)
+
+    def world_to_screen(self, wx, wy, ox, oy):
+        """Convert a world pixel coordinate to a screen pixel coordinate
+        after zoom."""
+        st = self.tile_scale
+        return ((wx - ox) * st, (wy - oy) * st)
 
     def to_screen(self, wx, wy):
         ox, oy = self.world_offset()
