@@ -1,3 +1,12 @@
+## 2026-09-15 (r53) — CRITICAL BUG FIX: combat.py UnboundLocalError + balance re-verification (Forge + Chip)
+
+- **CRITICAL REGRESSION**: r52's VFX integration placed `if crit:` before `crit = ...` assignment → `UnboundLocalError` on every melee hit, silently crashing combat in the balance harness. All pre-r53 measurements invalid.
+- **FIX**: moved `crit = world.rng.chance(...)` above the VFX spawn block in `player_melee()`.
+- **Balance post-fix**: avg floor 3.6, avg kills 21.1, avg essence 9.5 across 8 seeds.
+- **Meta investment re-verified**: fresh 3.75 → full-tree 8.75 floors (+133% depth scaling).
+- **Gates**: `game.main --headless --turns 300 --seed 0..7` → EXIT=0, violations=[]; `tools.selftest` → 22/22.
+- **BUILD report**: `runs/reports/BUILD-2026-09-15-r53.md`
+
 ## 2026-09-15 (r52) — Attack VFX variety: hit spark, crit strike, death poof, punch wave, magic cast (Forge + Pixel + Chip)
 
 - **Generated 5 new VFX sprites** — hit spark (yellow-white burst), crit strike (red X-slash), death poof (dark soul mist), punch wave (shockwave ring), magic cast (purple arcane). All palette-locked.
