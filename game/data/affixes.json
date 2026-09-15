@@ -607,6 +607,110 @@
       "tier_min": 3,
       "tier_max": 5,
       "weight": 16
+    },
+    {
+      "id": "affix_deadly_touch",
+      "name": "Deadly Touch",
+      "effect": {
+        "damage": 2
+      },
+      "tier_min": 1,
+      "tier_max": 3,
+      "weight": 90
+    },
+    {
+      "id": "affix_iron_skin",
+      "name": "Iron Skin",
+      "effect": {
+        "armor": 2
+      },
+      "tier_min": 1,
+      "tier_max": 3,
+      "weight": 85
+    },
+    {
+      "id": "affix_vital_heart",
+      "name": "Vital Heart",
+      "effect": {
+        "max_hp": 15
+      },
+      "tier_min": 1,
+      "tier_max": 2,
+      "weight": 70
+    },
+    {
+      "id": "affix_swift_feet",
+      "name": "Swift Feet",
+      "effect": {
+        "speed": 0.12
+      },
+      "tier_min": 1,
+      "tier_max": 2,
+      "weight": 80
+    },
+    {
+      "id": "affix_lucky_charm",
+      "name": "Lucky Charm",
+      "effect": {
+        "luck": 4
+      },
+      "tier_min": 1,
+      "tier_max": 3,
+      "weight": 75
+    },
+    {
+      "id": "affix_keen_edge",
+      "name": "Keen Edge",
+      "effect": {
+        "crit": 0.04
+      },
+      "tier_min": 2,
+      "tier_max": 4,
+      "weight": 65
+    },
+    {
+      "id": "affix_brutal_strike",
+      "name": "Brutal Strike",
+      "effect": {
+        "damage": 4,
+        "crit": 0.02
+      },
+      "tier_min": 3,
+      "tier_max": 5,
+      "weight": 30
+    },
+    {
+      "id": "affix_guardian_plate",
+      "name": "Guardian Plate",
+      "effect": {
+        "armor": 4,
+        "max_hp": 20
+      },
+      "tier_min": 3,
+      "tier_max": 5,
+      "weight": 25
+    },
+    {
+      "id": "affix_nimble_steps",
+      "name": "Nimble Steps",
+      "effect": {
+        "speed": 0.2,
+        "luck": 2
+      },
+      "tier_min": 2,
+      "tier_max": 4,
+      "weight": 35
+    },
+    {
+      "id": "affix_heavy_hitter",
+      "name": "Heavy Hitter",
+      "effect": {
+        "damage": 6,
+        "speed": -0.05
+      },
+      "tier_min": 4,
+      "tier_max": 5,
+      "weight": 20
     }
   ]
 }
