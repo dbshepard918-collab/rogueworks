@@ -1,3 +1,16 @@
+## 2026-09-15 (r48) — Narrative art pass: 5 NPC sprites, 6 HQ tile sets, atlased & integrated (Forge + Pixel + Chip)
+
+- **Generated 5 NPC sprites** — Eira (keeper), Brokk (forge-giant), Mira (tide cartographer), The Raven (skull-on-chain), Lena (sorrowful spirit) via FLUX.1-schnell at 512px sheet, sliced 4x4 into 16 walk frames each, downscaled to 32x32.
+- **Generated 6 HQ tile sets** — hall, forge, dock, omen, memorial, stairs. Each sheet sliced into 16 floor tiles, downscaled to 32x32.
+- **Palette-locked** — every sprite snapped to the 26-colour vaelmoor palette via numpy nearest-color, chroma-key #ff00ff cut to transparent.
+- **Packed atlases** — `assets/atlas/npcs.png` (80 frames, 288x288) + `hq.png` (96 frames, 320x320).
+- **Integrated into HQ scene** — `_draw_room()` now tiles floor sprites from HQ atlas; `_draw_npc()` blits character sprites from NPC atlas; both fallback to colored rects if atlas missing.
+- **Art pipeline (existing)**: `raw/*.png --[pixelize --grid 128]--> sprites/<name>/*.png (128x128) --[PIL resize LANCZOS 32x32]--> sprites/<name>/*.png (32x32) --[numpy snap to palette + chroma key]--> final sprites --[pack_atlas]--> atlas/<name>.png + .json`
+- **Verify output**: `PASS: 628 sprite file(s), 745 frame(s), 0 off-palette pixel(s)`
+- **Gates**: `game.main --headless --turns 300 --seed 0..2` → EXIT=0, violations=[]; `tools.selftest` → 22/22; `tools.art.verify` → 628 sprites, 745 frames, 0 off-palette.
+- **Commit**: `698af8b` r48: narrative art pass — 5 NPC sprites, 6 HQ tile sets, atlased & integrated. 22/22 gates green.
+- **BUILD report**: `runs/reports/BUILD-2026-09-15-r48.md`
+
 ## 2026-09-15 (G-03) — Selftest FAIL fix + validate_data warnings cleared (Forge)
 
 - **Root cause of gate FAIL**: `FONT_GLYPHS` in `game/engine/assets.py` had no entry for `—` (U+2014 em dash). `BitmapFont.glyph()` silently fell back to space glyph. `check_glyph_coverage` caught it. Added `'—': "..#/###/###/###/..#"` 3x5 bitmap glyph.
