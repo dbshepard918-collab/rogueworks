@@ -1,3 +1,9 @@
+## 2026-09-15 (r58) — QA Gate Check (Forge)
+
+- **Gate sweep** — `game.main --headless --turns 300 --seed 0..2` → exit 0, all 3 seeds `violations=[]`; `tools.selftest` → 21/22 (FAIL: `golden-seed-regression` — `tide_pearl` strictly dominates `ember_dash_crystal` at tier 3); `tools.validate_data` → 0 errors (1 warning: quests.json unrecognised); `tools.art.verify` → FAIL (1 error: `title_background.png` not 32px-aligned).
+- **BUILD report**: `runs/reports/BUILD-2026-09-15-qa-gate.md`
+- **Overall**: 2/4 gates PASS. Gate 2 failure is a data-level balance defect; Gate 4 failure is a pre-existing title screen image issue. No gameplay-blocking regressions.
+
 ## 2026-09-15 (r57) — Autopilot stuck recovery: floor 11 → 15 VICTORY (Forge + Chip)
 
 - **Autopilot VICTORY on seed 5** — reached floor 15, completed the game (floors 1-15 done)
