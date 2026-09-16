@@ -152,22 +152,19 @@ class HQScene:
         ny = npc_state.y - self.camera_y
         npc_id = npc_state.definition.get("id", "")
         
-        # Draw NPC sprite from atlas
-        frame_name = f"{npc_id}_r0c0" if npc_id else None
+        # Draw NPC sprite from procedural atlas
+        frame_name = f"npc_{npc_id}" if npc_id else None
         if frame_name:
             try:
                 atlas = Atlas.load("npcs")
                 if atlas and frame_name in atlas.frames:
                     surf = atlas.frame(frame_name)
                     if surf:
-                        # Center sprite on NPC position (32x32)
                         surface.blit(surf, (nx - 16, ny - 16))
-                        # Name above head
                         name = npc_state.definition.get("name", "")
                         tw, th = text_size(name, 1)
                         if tw > 0:
                             draw_text(surface, name, (nx - tw // 2, ny - 28), 1, colour=(217, 210, 197))
-                        # Interact hint
                         hint = "[E] Talk"
                         hw, hh = text_size(hint, 1)
                         if hw > 0:
@@ -191,10 +188,18 @@ class HQScene:
     def _draw_player(self, surface):
         px = self.hq_state.player_tx * 32 - self.camera_x
         py = self.hq_state.player_ty * 32 - self.camera_y
-        # Player as a white rectangle
+        # Draw player from procedural atlas
+        try:
+            atlas = Atlas.load("player")
+            if atlas and "player_idle_0" in atlas.frames:
+                surf = atlas.frame("player_idle_0")
+                if surf:
+                    surface.blit(surf, (px - 16, py - 16))
+                    return
+        except Exception:
+            pass
+        # Fallback: gold rectangle
         pygame.draw.rect(surface, (232, 178, 60), (px - 10, py - 10, 20, 20))
-        # Direction indicator
-        draw_text(surface, "YOU", (px - 14, py - 22), 1, colour=(232, 178, 60))
 
     def _draw_hud(self, surface):
         # Room name
