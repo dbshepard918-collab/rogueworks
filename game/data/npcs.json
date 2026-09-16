@@ -10,9 +10,12 @@
       "location": "hq_hall",
       "biome": null,
       "dialogue": "eira_greeting",
-      "services": ["meta_progression", "class_change"],
+      "services": [
+        "meta_progression",
+        "class_change"
+      ],
       "faction": "keepers",
-      "description": "Blind archivist of the Depths. She can't see the dark — she says it's why she understands it."
+      "description": "Blind archivist of the Depths. She can't see the dark \u2014 she says it's why she understands it."
     },
     {
       "id": "forge_brokk",
@@ -22,7 +25,10 @@
       "location": "hq_forge",
       "biome": "ember_warrens",
       "dialogue": "brokk_greeting",
-      "services": ["upgrade_weapon", "repair_armor"],
+      "services": [
+        "upgrade_weapon",
+        "repair_armor"
+      ],
       "faction": "forgeborn",
       "description": "A seven-foot forge-giant who lost his hammer in the Depths. Forges with his fists now. Gruff, kind, missing three fingers."
     },
@@ -34,7 +40,10 @@
       "location": "hq_dock",
       "biome": "drowned_vaults",
       "dialogue": "mira_greeting",
-      "services": ["quest_drowned", "map_secrets"],
+      "services": [
+        "quest_drowned",
+        "map_secrets"
+      ],
       "faction": "tidebound",
       "description": "Half-drowned cartographer. She breathes water now and can't remember why that ever seemed strange."
     },
@@ -46,7 +55,10 @@
       "location": "hq_omen_room",
       "biome": "catacombs",
       "dialogue": "raven_greeting",
-      "services": ["preview_next_floor", "curse_fortune"],
+      "services": [
+        "preview_next_floor",
+        "curse_fortune"
+      ],
       "faction": "unbound",
       "description": "A skull on a chain that speaks in riddles. Refuses to explain what it is or how it knows."
     },
@@ -58,7 +70,10 @@
       "location": "hq_memorial",
       "biome": null,
       "dialogue": "lena_greeting",
-      "services": ["death_recap", "run_history"],
+      "services": [
+        "death_recap",
+        "run_history"
+      ],
       "faction": "keepers",
       "description": "She remembers every run that ever ended here. She'll tell you who killed you, if you ask gently."
     }

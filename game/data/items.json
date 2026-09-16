@@ -679,7 +679,7 @@
         "damage": 5
       },
       "value": 25,
-      "sprite": "prop_potion_health",
+      "sprite": "item_abyssal_edge",
       "flavor": "Cracked glass, thicker blood. Drink before the next room decides."
     },
     {
@@ -2153,7 +2153,7 @@
         "speed": 0.1
       },
       "value": 45,
-      "sprite": "prop_crystal",
+      "sprite": "item_abyssal_edge",
       "flavor": "Your dash leaves a trail of fire that burns enemies."
     },
     {
@@ -2165,7 +2165,7 @@
         "damage": 3
       },
       "value": 50,
-      "sprite": "prop_sword",
+      "sprite": "item_abyssal_edge",
       "flavor": "Killing an enemy spawns a temporary soul minion."
     },
     {
@@ -2177,7 +2177,7 @@
         "armor": 2
       },
       "value": 40,
-      "sprite": "prop_shield",
+      "sprite": "item_abyssal_edge",
       "flavor": "Dodging grants brief invulnerability."
     },
     {
@@ -2190,7 +2190,7 @@
         "crit": 0.05
       },
       "value": 45,
-      "sprite": "vfx_magic_bolt",
+      "sprite": "item_abyssal_edge",
       "flavor": "Ranged shots pierce through enemies."
     },
     {
@@ -2202,7 +2202,7 @@
         "damage": 2
       },
       "value": 35,
-      "sprite": "prop_sword",
+      "sprite": "item_abyssal_edge",
       "flavor": "Melee kills heal you for a portion of damage dealt."
     },
     {
@@ -2214,7 +2214,7 @@
         "damage": 1
       },
       "value": 30,
-      "sprite": "prop_crystal",
+      "sprite": "item_abyssal_edge",
       "flavor": "Attacks have a chance to freeze enemies."
     },
     {
@@ -2226,7 +2226,7 @@
         "crit": 0.05
       },
       "value": 35,
-      "sprite": "prop_crystal",
+      "sprite": "item_abyssal_edge",
       "flavor": "Critical strikes chain lightning."
     },
     {
@@ -2238,7 +2238,7 @@
         "speed": 0.5
       },
       "value": 30,
-      "sprite": "prop_shield",
+      "sprite": "item_abyssal_edge",
       "flavor": "Move faster in the shadows."
     },
     {
@@ -2250,7 +2250,7 @@
         "luck": 5
       },
       "value": 25,
-      "sprite": "prop_chest",
+      "sprite": "item_abyssal_edge",
       "flavor": "Increases gold drops from enemies."
     },
     {
