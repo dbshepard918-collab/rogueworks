@@ -2,7 +2,7 @@
   "version": 1,
   "image": "assets/atlas/title.png",
   "meta": {
-    "tile": 32,
+    "tile": 64,
     "palette_version": 1,
     "generated_by": "pixel"
   },
@@ -10,8 +10,8 @@
     "background": [
       0,
       0,
-      1280,
-      736
+      2560,
+      1472
     ]
   }
 }

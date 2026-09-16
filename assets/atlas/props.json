@@ -1,41 +1,41 @@
 {
- "version": 1,
- "image": "assets/atlas/props.png",
- "meta": {
-  "tile": 32,
-  "palette_version": 1,
-  "generated_by": "pixel"
- },
- "frames": {
-  "prop_potion_health": [
-   0,
-   0,
-   32,
-   32
-  ],
-  "prop_crystal": [
-   32,
-   0,
-   32,
-   32
-  ],
-  "prop_sword": [
-   64,
-   0,
-   32,
-   32
-  ],
-  "prop_shield": [
-   96,
-   0,
-   32,
-   32
-  ],
-  "prop_chest": [
-   128,
-   0,
-   32,
-   32
-  ]
- }
+  "version": 1,
+  "image": "assets/atlas/props.png",
+  "meta": {
+    "tile": 64,
+    "palette_version": 1,
+    "generated_by": "pixel"
+  },
+  "frames": {
+    "prop_potion_health": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "prop_crystal": [
+      64,
+      0,
+      64,
+      64
+    ],
+    "prop_sword": [
+      128,
+      0,
+      64,
+      64
+    ],
+    "prop_shield": [
+      192,
+      0,
+      64,
+      64
+    ],
+    "prop_chest": [
+      256,
+      0,
+      64,
+      64
+    ]
+  }
 }

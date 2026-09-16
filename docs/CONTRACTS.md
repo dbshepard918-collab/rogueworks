@@ -32,8 +32,8 @@ docs/               # GDD.md, CONTRACTS.md, TICKETS.md, ASSETS.md, CONTENT.md
 
 ## 2. Base units
 
-- Tile grid **32x32 px**. Window **1280x720** (40x22.5 tiles visible). Tile coordinates are integers
-  `(tx, ty)`; world pixels = tile * 32. Sprites are exact multiples of 32.
+- Tile grid **64x64 px**. Window **1280x720** (20x11.25 tiles visible). Tile coordinates are integers
+  `(tx, ty)`; world pixels = tile * 64. Sprites are exact multiples of 64.
 - Simulation is **fixed timestep 60 Hz** (`1/60` s), decoupled from rendering. All gameplay logic
   advances only in `world.step(dt)`; the renderer is pure.
 - **All randomness** comes from `game.systems.rng.RNG` — `RNG(seed)` exposing
@@ -128,8 +128,8 @@ an atlas (validator cross-checks `assets/atlas/*.json`).
 `assets/atlas/<name>.json`:
 ```json
 {"version": 1, "image": "assets/atlas/<name>.png",
- "meta": {"tile": 32, "palette_version": 1, "generated_by": "pixel"},
- "frames": {"player_idle_0": [0, 0, 32, 32], "wall_catacombs": [32, 0, 32, 32]}}
+ "meta": {"tile": 64, "palette_version": 1, "generated_by": "pixel"},
+ "frames": {"player_idle_0": [0, 0, 64, 64], "wall_catacombs": [64, 0, 64, 64]}}
 ```
 Rects are `[x, y, w, h]` in atlas pixels, top-left origin, no scaling, no padding > 1px.
 Loader: `game/engine/assets.py::Atlas.load(name)` -> `.frame(name) -> pygame.Surface` (alpha intact).

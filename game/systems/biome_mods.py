@@ -55,7 +55,7 @@ _MODULES = {
         "slip_duration": 120,
         # after a ranged hit lands, a tiny chance to chain to one nearby monster
         "chain_chance": 0.20,
-        "chain_radius": 130.0,
+        "chain_radius": 260.0,
         "chain_damage": 1.0,
     },
     "ossuary_toxic": {
@@ -75,7 +75,7 @@ _MODULES = {
         "hud_label": "DARK",
         "hud_color": (138, 132, 150),
         # lantern halo radius scales down from the renderer default
-        "halo_radius": 140,            # renderer default is 220
+        "halo_radius": 280,            # renderer default is 440
         # undead corpses have a chance to respawn once per floor after a delay
         "respawn_chance": 0.18,
         "respawn_delay": 300,          # ticks (~5 s)
@@ -293,8 +293,8 @@ def _try_respawn(world, entry, cfg):
     if int(defn.get("tier", 1)) > cfg["respawn_tier_cap"]:
         return
     from ..entities.monster import Monster
-    x = tx * 32 + 16
-    y = ty * 32 + 16
+    x = tx * 64 + 32
+    y = ty * 64 + 32
     mon = Monster(world.next_id(), x, y, defn, difficulty=1.0, damage_mult=1.0)
     mon.hp = mon.stats.max_hp() * cfg["respawn_hp_frac"]
     world.add_entity(mon)

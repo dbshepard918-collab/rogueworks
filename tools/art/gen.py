@@ -81,7 +81,7 @@ def licence_board() -> int:
     return 0
 
 CELL = ("Pixel art sprite sheet, EXACTLY a {cols}x{rows} grid of {n} separate {what}, "
-        "each drawn on a 32x32 pixel grid with hard aliased pixels (no anti-aliasing, no blur, "
+        "each drawn on a 64x64 pixel grid with hard aliased pixels (no anti-aliasing, no blur, "
         "no gradients), evenly spaced with clear gaps. The ENTIRE background is one flat solid "
         "pure magenta #ff00ff colour, edge to edge, with NO drop shadow under any sprite, NO glow, "
         "NO floor, NO gradient, NO vignette and NO label or caption under any sprite. "
@@ -94,7 +94,7 @@ NEGATIVE = ("drop shadow, ground shadow, glow, gradient background, white backgr
             "photorealistic, 3d render, text, caption, label, letters, numbers, watermark, "
             "signature, grid lines, duplicate sprites, identical clones, same pose, frame border")
 
-SINGLE_PROMPT = ("Pixel art of a single {subject}, drawn on a 32x32 pixel grid with hard aliased "
+SINGLE_PROMPT = ("Pixel art of a single {subject}, drawn on a 64x64 pixel grid with hard aliased "
                  "pixels (no anti-aliasing, no blur, no gradients). The ENTIRE background is one "
                  "flat solid pure magenta #ff00ff colour, edge to edge, with NO drop shadow, NO glow, "
                  "NO floor, NO gradient, NO vignette. Dark fantasy roguelite, limited palette. "

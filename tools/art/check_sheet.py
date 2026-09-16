@@ -7,7 +7,7 @@ is usable AT ALL, with numbers, in under a second:
   * is the background actually key-able (pure magenta family) all round each cell,
   * is there a sprite in every cell (ink coverage neither empty nor filling the cell),
   * are the cells actually DIFFERENT from each other (near-duplicate detection),
-  * is the art flat enough to survive palette-locking to 32x32 (colour count).
+  * is the art flat enough to survive palette-locking to 64x64 (colour count).
 
     python -m tools.art.check_sheet assets/raw/x.png [--cols 4] [--rows 4] [--json]
 
@@ -23,7 +23,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 # Thresholds calibrated against real sheets, not intuition: the hosted sheet that SHIPPED to the
 # atlas measures ring-magenta 0.73-0.79 (sprites slightly overhang their cell) and ~650 distinct
-# colours at 32x32 (raw anti-aliased AI art - palette locking is what reduces it to <=26 later).
+# colours at 64x64 (raw anti-aliased AI art - palette locking is what reduces it to <=26 later).
 # So: measure the ring loosely, treat colour count as a relative painterliness signal only, and
 # lean on duplicate detection, which separated the good sheet (16/16 distinct) from the bad one
 # (1/16 distinct) cleanly.

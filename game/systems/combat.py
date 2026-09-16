@@ -20,7 +20,7 @@ ELEMENT_TO_STATUS = {
     "physical": None,
 }
 
-TILE = 32
+TILE = 64
 
 # Element -> impact particle colour/sprite mapping (P2.1)
 ELEMENT_PARTICLES = {
@@ -350,7 +350,7 @@ def monster_charge(world, mon):
                           color=(180, 80, 30), speed=100.0, life=0.4, size=3)
     world.camera.add_shake(6.0)
     # AoE damage to all monsters and player in radius
-    radius = 40.0
+    radius = 80.0
     for target in [world.player] + world.monsters:
         if not target.alive or target is mon:
             continue
@@ -384,7 +384,7 @@ def monster_summon(world, mon):
 def monster_shield(world, mon):
     """Shielded — applies a directional block and reflects damage."""
     shield_angle = getattr(mon, 'shield_angle', 130.0)
-    block_radius = 35.0
+    block_radius = 70.0
     reflect_frac = 0.3
     # Find if player is in the shield cone
     player = world.player
@@ -418,8 +418,8 @@ def monster_teleport(world, mon):
     tx = int((player.x + dist * math.cos(angle)) // TILE)
     ty = int((player.y + dist * math.sin(angle)) // TILE)
     if world.level.in_bounds(tx, ty) and world.level.walkable(tx, ty):
-        mon.x = tx * 32 + 16
-        mon.y = ty * 32 + 16
+        mon.x = tx * 64 + 32
+        mon.y = ty * 64 + 32
     world.particles.sprite_burst(mon.x, mon.y, "vfx_smoke", life=0.5, scale=2.0)
     world.particles.burst(mon.x, mon.y, world.rng, count=10,
                           color=(120, 80, 180), speed=50.0, life=0.5, size=3)

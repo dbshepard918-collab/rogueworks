@@ -25,7 +25,7 @@ from ..entities.pickup import Pickup
 import math
 
 TICK = 1.0 / 60.0
-TILE = 32
+TILE = 64
 FLOOR_PER_BIOME = 5
 MAX_FLOOR = 15
 CONSUMABLE_BUFF_TIME = 720          # ticks (12 s) for consumable-granted buffs

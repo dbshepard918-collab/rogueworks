@@ -17,7 +17,7 @@ ASSETS_DIR = PROJECT_ROOT / "assets"
 ATLAS_DIR = ASSETS_DIR / "atlas"
 PALETTE_PATH = ASSETS_DIR / "palette.json"
 
-TILE = 32
+TILE = 64
 
 # ---------------------------------------------------------------- palette ----
 _FALLBACK_PALETTE = {

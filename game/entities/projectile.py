@@ -2,14 +2,14 @@
 
 from .actor import Entity
 
-TILE = 32
+TILE = 64
 
 
 class Projectile(Entity):
     kind = "projectile"
 
     def __init__(self, eid, x, y, vx, vy, damage, owner="player", sprite="vfx_magic_bolt",
-                 lifetime=1.5, radius=5.0, status_on_hit=None, pierce=0):
+                 lifetime=1.5, radius=10.0, status_on_hit=None, pierce=0):
         super().__init__(eid, x, y, radius=radius, sprite=sprite)
         self.vx = float(vx)
         self.vy = float(vy)

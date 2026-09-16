@@ -8,7 +8,7 @@ the windup before a monster attack lands. Set by the AI system from
 monsters.json data.
 """
 
-TILE = 32
+TILE = 64
 
 STAT_KEYS = ("damage", "armor", "max_hp", "speed", "luck", "crit")
 

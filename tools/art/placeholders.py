@@ -38,9 +38,9 @@ PLACEHOLDERS: dict[str, tuple[int, int, str, str, str]] = {
     "orb_health":     (32, 32, "flesh",       "white",        "cross"),
     "cursor":         (32, 32, "white",       "ink",          "frame"),
     "ui_icon":        (32, 32, "ink",         "steel",        "border"),
-    "ui_frame":       (96, 96, "ink",         "stone",        "frame"),
+    "ui_frame":       (128, 128, "ink",         "stone",        "frame"),
     "ui_panel":      (128, 64, "ink",         "stone",        "frame"),
-    "ui_bar":        (128, 32, "blood_dark",  "blood",        "bar"),
+    "ui_bar":        (256, 64, "blood_dark",  "blood",        "bar"),
 }
 
 

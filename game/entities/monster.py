@@ -2,7 +2,7 @@
 
 from .actor import Actor, Stats
 
-TILE = 32
+TILE = 64
 ARMOR_PER_POINT = 0.03      # content 'armor' -> damage-reduction fraction
 ARMOR_FRACTION_CAP = 0.6
 
@@ -39,7 +39,7 @@ class Monster(Actor):
             "crit": 0.05,
         }
         sprite = str(defn.get("sprite") or ("monster_%s" % defn.get("id", "unknown")))
-        super().__init__(eid, x, y, radius=12.0 if not boss else 30.0, sprite=sprite, stats=Stats(base))
+        super().__init__(eid, x, y, radius=24.0 if not boss else 60.0, sprite=sprite, stats=Stats(base))
         self.hp = self.stats.max_hp()
         self.monster_id = defn.get("id", "unknown")
         self.name = defn.get("name", self.monster_id)
@@ -64,7 +64,7 @@ class Monster(Actor):
         self.repath_timer = 0.0
         self.path = []
         self.wander_timer = 0.0
-        self.slam_radius = 62.0
+        self.slam_radius = 124.0
         self.ranged_range = 260.0
         self.knock_resist = 1.6 if boss else (1.0 if self.behavior == "brute" else 0.0)
         self.affix_name = None

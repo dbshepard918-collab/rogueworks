@@ -2,7 +2,7 @@
 
 from .actor import Entity
 
-TILE = 32
+TILE = 64
 
 PICKUP_SPRITES = {
     "gold": "prop_gold_pile",
@@ -20,7 +20,7 @@ class Pickup(Entity):
     kind = "pickup"
 
     def __init__(self, eid, x, y, pickup_kind, amount=0, item=None, sprite=None, magnet=True):
-        super().__init__(eid, x, y, radius=10.0, sprite=sprite or PICKUP_SPRITES.get(pickup_kind, "pickup_item"))
+        super().__init__(eid, x, y, radius=20.0, sprite=sprite or PICKUP_SPRITES.get(pickup_kind, "pickup_item"))
         self.pickup_kind = pickup_kind
         self.amount = float(amount)
         self.item = item

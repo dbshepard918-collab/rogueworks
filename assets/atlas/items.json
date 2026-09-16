@@ -1,911 +1,911 @@
 {
- "version": 1,
- "image": "assets/atlas/items.png",
- "meta": {
-  "tile": 32,
-  "palette_version": 1,
-  "generated_by": "pixel"
- },
- "frames": {
-  "item_rusty_blade": [
-   0,
-   0,
-   32,
-   32
-  ],
-  "item_chipped_hatchet": [
-   32,
-   0,
-   32,
-   32
-  ],
-  "item_bone_shiv": [
-   64,
-   0,
-   32,
-   32
-  ],
-  "item_iron_mace": [
-   96,
-   0,
-   32,
-   32
-  ],
-  "item_serrated_falchion": [
-   128,
-   0,
-   32,
-   32
-  ],
-  "item_lantern_flail": [
-   160,
-   0,
-   32,
-   32
-  ],
-  "item_venom_dirk": [
-   192,
-   0,
-   32,
-   32
-  ],
-  "item_ember_club": [
-   224,
-   0,
-   32,
-   32
-  ],
-  "item_steel_glaive": [
-   256,
-   0,
-   32,
-   32
-  ],
-  "item_wraithfang": [
-   288,
-   0,
-   32,
-   32
-  ],
-  "item_magma_warhammer": [
-   320,
-   0,
-   32,
-   32
-  ],
-  "item_vault_cleaver": [
-   352,
-   0,
-   32,
-   32
-  ],
-  "item_keepers_edge": [
-   384,
-   0,
-   32,
-   32
-  ],
-  "item_soul_reaver": [
-   416,
-   0,
-   32,
-   32
-  ],
-  "item_drowned_maul": [
-   448,
-   0,
-   32,
-   32
-  ],
-  "item_torn_leather_cap": [
-   480,
-   0,
-   32,
-   32
-  ],
-  "item_cracked_buckler": [
-   0,
-   32,
-   32,
-   32
-  ],
-  "item_rag_wraps": [
-   32,
-   32,
-   32,
-   32
-  ],
-  "item_iron_helm": [
-   64,
-   32,
-   32,
-   32
-  ],
-  "item_studded_jerkin": [
-   96,
-   32,
-   32,
-   32
-  ],
-  "item_oak_shield": [
-   128,
-   32,
-   32,
-   32
-  ],
-  "item_bone_plate": [
-   160,
-   32,
-   32,
-   32
-  ],
-  "item_ring_mail": [
-   192,
-   32,
-   32,
-   32
-  ],
-  "item_ember_visor": [
-   224,
-   32,
-   32,
-   32
-  ],
-  "item_warden_carapace": [
-   256,
-   32,
-   32,
-   32
-  ],
-  "item_magma_cuirass": [
-   288,
-   32,
-   32,
-   32
-  ],
-  "item_drownscale_mail": [
-   320,
-   32,
-   32,
-   32
-  ],
-  "item_keepers_bulwark": [
-   352,
-   32,
-   32,
-   32
-  ],
-  "item_vaelmoor_aegis": [
-   384,
-   32,
-   32,
-   32
-  ],
-  "item_soulforged_plate": [
-   416,
-   32,
-   32,
-   32
-  ],
-  "item_lucky_coin": [
-   448,
-   32,
-   32,
-   32
-  ],
-  "item_tin_ring": [
-   480,
-   32,
-   32,
-   32
-  ],
-  "item_rat_tooth_charm": [
-   0,
-   64,
-   32,
-   32
-  ],
-  "item_garnet_ring": [
-   32,
-   64,
-   32,
-   32
-  ],
-  "item_etched_amulet": [
-   64,
-   64,
-   32,
-   32
-  ],
-  "item_hunters_token": [
-   96,
-   64,
-   32,
-   32
-  ],
-  "item_rusted_censer": [
-   128,
-   64,
-   32,
-   32
-  ],
-  "item_luckstone": [
-   160,
-   64,
-   32,
-   32
-  ],
-  "item_cinder_talisman": [
-   192,
-   64,
-   32,
-   32
-  ],
-  "item_seers_lens": [
-   224,
-   64,
-   32,
-   32
-  ],
-  "item_sigil_of_warding": [
-   256,
-   64,
-   32,
-   32
-  ],
-  "item_abyssal_band": [
-   288,
-   64,
-   32,
-   32
-  ],
-  "item_phoenix_feather": [
-   320,
-   64,
-   32,
-   32
-  ],
-  "item_void_lantern": [
-   352,
-   64,
-   32,
-   32
-  ],
-  "item_crown_of_depths": [
-   384,
-   64,
-   32,
-   32
-  ],
-  "item_soul_prism": [
-   416,
-   64,
-   32,
-   32
-  ],
-  "item_keepers_signet": [
-   448,
-   64,
-   32,
-   32
-  ],
-  "item_small_health_draught": [
-   480,
-   64,
-   32,
-   32
-  ],
-  "item_swift_tonic": [
-   0,
-   96,
-   32,
-   32
-  ],
-  "item_whetstone_salve": [
-   32,
-   96,
-   32,
-   32
-  ],
-  "item_pilgrim_bandage": [
-   64,
-   96,
-   32,
-   32
-  ],
-  "item_lantern_oil": [
-   96,
-   96,
-   32,
-   32
-  ],
-  "item_health_draught": [
-   128,
-   96,
-   32,
-   32
-  ],
-  "item_iron_skin_brew": [
-   160,
-   96,
-   32,
-   32
-  ],
-  "item_focus_tea": [
-   192,
-   96,
-   32,
-   32
-  ],
-  "item_greater_draught": [
-   224,
-   96,
-   32,
-   32
-  ],
-  "item_ember_tonic": [
-   256,
-   96,
-   32,
-   32
-  ],
-  "item_hunters_elixir": [
-   288,
-   96,
-   32,
-   32
-  ],
-  "item_vault_elixir": [
-   320,
-   96,
-   32,
-   32
-  ],
-  "item_lava_ward_potion": [
-   352,
-   96,
-   32,
-   32
-  ],
-  "item_assassin_draught": [
-   384,
-   96,
-   32,
-   32
-  ],
-  "item_keepers_draught": [
-   416,
-   96,
-   32,
-   32
-  ],
-  "item_dragonsblood_flask": [
-   448,
-   96,
-   32,
-   32
-  ],
-  "item_soulfire_tonic": [
-   480,
-   96,
-   32,
-   32
-  ],
-  "item_whisper_dagger": [
-   0,
-   128,
-   32,
-   32
-  ],
-  "item_chain_reaver": [
-   32,
-   128,
-   32,
-   32
-  ],
-  "item_mirror_shield": [
-   64,
-   128,
-   32,
-   32
-  ],
-  "item_bloodletter": [
-   96,
-   128,
-   32,
-   32
-  ],
-  "item_death_spark": [
-   128,
-   128,
-   32,
-   32
-  ],
-  "item_purifier": [
-   160,
-   128,
-   32,
-   32
-  ],
-  "item_ember_dancer_crystal": [
-   192,
-   128,
-   32,
-   32
-  ],
-  "item_venom_tongue": [
-   224,
-   128,
-   32,
-   32
-  ],
-  "item_abyssal_blessing": [
-   256,
-   128,
-   32,
-   32
-  ],
-  "item_abyssal_crown": [
-   288,
-   128,
-   32,
-   32
-  ],
-  "item_abyssal_edge": [
-   320,
-   128,
-   32,
-   32
-  ],
-  "item_abyssal_elixir": [
-   352,
-   128,
-   32,
-   32
-  ],
-  "item_abyssal_gem": [
-   384,
-   128,
-   32,
-   32
-  ],
-  "item_abyssal_mail": [
-   416,
-   128,
-   32,
-   32
-  ],
-  "item_abyssal_mail_of_depths": [
-   448,
-   128,
-   32,
-   32
-  ],
-  "item_abyssal_miracle": [
-   480,
-   128,
-   32,
-   32
-  ],
-  "item_abyssal_pearl": [
-   0,
-   160,
-   32,
-   32
-  ],
-  "item_abyssal_spear": [
-   32,
-   160,
-   32,
-   32
-  ],
-  "item_abyssal_star": [
-   64,
-   160,
-   32,
-   32
-  ],
-  "item_brine_brew": [
-   96,
-   160,
-   32,
-   32
-  ],
-  "item_brine_draught": [
-   128,
-   160,
-   32,
-   32
-  ],
-  "item_brine_executor": [
-   160,
-   160,
-   32,
-   32
-  ],
-  "item_brine_gauntlets": [
-   192,
-   160,
-   32,
-   32
-  ],
-  "item_brine_locket": [
-   224,
-   160,
-   32,
-   32
-  ],
-  "item_brine_power": [
-   256,
-   160,
-   32,
-   32
-  ],
-  "item_brine_trident": [
-   288,
-   160,
-   32,
-   32
-  ],
-  "item_brine_vial": [
-   320,
-   160,
-   32,
-   32
-  ],
-  "item_coral_breastplate": [
-   352,
-   160,
-   32,
-   32
-  ],
-  "item_coral_charm": [
-   384,
-   160,
-   32,
-   32
-  ],
-  "item_coral_halberd": [
-   416,
-   160,
-   32,
-   32
-  ],
-  "item_coral_heal": [
-   448,
-   160,
-   32,
-   32
-  ],
-  "item_coral_star": [
-   480,
-   160,
-   32,
-   32
-  ],
-  "item_coral_surge": [
-   0,
-   192,
-   32,
-   32
-  ],
-  "item_coral_token": [
-   32,
-   192,
-   32,
-   32
-  ],
-  "item_coral_vest": [
-   64,
-   192,
-   32,
-   32
-  ],
-  "item_crown_of_bones": [
-   96,
-   192,
-   32,
-   32
-  ],
-  "item_crown_of_the_deep": [
-   128,
-   192,
-   32,
-   32
-  ],
-  "item_crown_of_tides": [
-   160,
-   192,
-   32,
-   32
-  ],
-  "item_deep_cutlass": [
-   192,
-   192,
-   32,
-   32
-  ],
-  "item_deep_draught": [
-   224,
-   192,
-   32,
-   32
-  ],
-  "item_deep_pearl": [
-   256,
-   192,
-   32,
-   32
-  ],
-  "item_deep_sea_sting": [
-   288,
-   192,
-   32,
-   32
-  ],
-  "item_deep_shell": [
-   320,
-   192,
-   32,
-   32
-  ],
-  "item_drift_blade": [
-   352,
-   192,
-   32,
-   32
-  ],
-  "item_drift_shield": [
-   384,
-   192,
-   32,
-   32
-  ],
-  "item_kelp_amulet": [
-   416,
-   192,
-   32,
-   32
-  ],
-  "item_kelp_hammer": [
-   448,
-   192,
-   32,
-   32
-  ],
-  "item_kelp_mail": [
-   480,
-   192,
-   32,
-   32
-  ],
-  "item_kelp_tonic": [
-   0,
-   224,
-   32,
-   32
-  ],
-  "item_kelp_wrap": [
-   32,
-   224,
-   32,
-   32
-  ],
-  "item_kelp_wraps": [
-   64,
-   224,
-   32,
-   32
-  ],
-  "item_kraken_charm": [
-   96,
-   224,
-   32,
-   32
-  ],
-  "item_kraken_elixir": [
-   128,
-   224,
-   32,
-   32
-  ],
-  "item_kraken_essence": [
-   160,
-   224,
-   32,
-   32
-  ],
-  "item_kraken_eye": [
-   192,
-   224,
-   32,
-   32
-  ],
-  "item_kraken_fury": [
-   224,
-   224,
-   32,
-   32
-  ],
-  "item_kraken_hide": [
-   256,
-   224,
-   32,
-   32
-  ],
-  "item_leviathan_core": [
-   288,
-   224,
-   32,
-   32
-  ],
-  "item_leviathan_draught": [
-   320,
-   224,
-   32,
-   32
-  ],
-  "item_leviathan_gift": [
-   352,
-   224,
-   32,
-   32
-  ],
-  "item_leviathan_hide": [
-   384,
-   224,
-   32,
-   32
-  ],
-  "item_leviathan_jaw": [
-   416,
-   224,
-   32,
-   32
-  ],
-  "item_leviathan_plate": [
-   448,
-   224,
-   32,
-   32
-  ],
-  "item_leviathan_tongue": [
-   480,
-   224,
-   32,
-   32
-  ],
-  "item_mire_helm": [
-   0,
-   256,
-   32,
-   32
-  ],
-  "item_mud_glaive": [
-   32,
-   256,
-   32,
-   32
-  ],
-  "item_mussel_plate": [
-   64,
-   256,
-   32,
-   32
-  ],
-  "item_ossuary_cuirass": [
-   96,
-   256,
-   32,
-   32
-  ],
-  "item_ossuary_fang": [
-   128,
-   256,
-   32,
-   32
-  ],
-  "item_ossuary_grand_plate": [
-   160,
-   256,
-   32,
-   32
-  ],
-  "item_ossuary_plate": [
-   192,
-   256,
-   32,
-   32
-  ],
-  "item_ossuary_revival": [
-   224,
-   256,
-   32,
-   32
-  ],
-  "item_ossuary_staff": [
-   256,
-   256,
-   32,
-   32
-  ],
-  "item_pearl_chip": [
-   288,
-   256,
-   32,
-   32
-  ],
-  "item_river_mace": [
-   320,
-   256,
-   32,
-   32
-  ],
-  "item_rusty_spear": [
-   352,
-   256,
-   32,
-   32
-  ],
-  "item_salt_helm": [
-   384,
-   256,
-   32,
-   32
-  ],
-  "item_sand_cuirass": [
-   416,
-   256,
-   32,
-   32
-  ],
-  "item_sand_draught": [
-   448,
-   256,
-   32,
-   32
-  ],
-  "item_sand_mail": [
-   480,
-   256,
-   32,
-   32
-  ],
-  "item_sand_pendant": [
-   0,
-   288,
-   32,
-   32
-  ],
-  "item_sand_strength": [
-   32,
-   288,
-   32,
-   32
-  ],
-  "item_sea_claymore": [
-   64,
-   288,
-   32,
-   32
-  ],
-  "item_sea_glass": [
-   96,
-   288,
-   32,
-   32
-  ],
-  "item_shell_cap": [
-   128,
-   288,
-   32,
-   32
-  ],
-  "item_tide_amber": [
-   160,
-   288,
-   32,
-   32
-  ]
- }
+  "version": 1,
+  "image": "assets/atlas/items.png",
+  "meta": {
+    "tile": 64,
+    "palette_version": 1,
+    "generated_by": "pixel"
+  },
+  "frames": {
+    "item_rusty_blade": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "item_chipped_hatchet": [
+      64,
+      0,
+      64,
+      64
+    ],
+    "item_bone_shiv": [
+      128,
+      0,
+      64,
+      64
+    ],
+    "item_iron_mace": [
+      192,
+      0,
+      64,
+      64
+    ],
+    "item_serrated_falchion": [
+      256,
+      0,
+      64,
+      64
+    ],
+    "item_lantern_flail": [
+      320,
+      0,
+      64,
+      64
+    ],
+    "item_venom_dirk": [
+      384,
+      0,
+      64,
+      64
+    ],
+    "item_ember_club": [
+      448,
+      0,
+      64,
+      64
+    ],
+    "item_steel_glaive": [
+      512,
+      0,
+      64,
+      64
+    ],
+    "item_wraithfang": [
+      576,
+      0,
+      64,
+      64
+    ],
+    "item_magma_warhammer": [
+      640,
+      0,
+      64,
+      64
+    ],
+    "item_vault_cleaver": [
+      704,
+      0,
+      64,
+      64
+    ],
+    "item_keepers_edge": [
+      768,
+      0,
+      64,
+      64
+    ],
+    "item_soul_reaver": [
+      832,
+      0,
+      64,
+      64
+    ],
+    "item_drowned_maul": [
+      896,
+      0,
+      64,
+      64
+    ],
+    "item_torn_leather_cap": [
+      960,
+      0,
+      64,
+      64
+    ],
+    "item_cracked_buckler": [
+      0,
+      64,
+      64,
+      64
+    ],
+    "item_rag_wraps": [
+      64,
+      64,
+      64,
+      64
+    ],
+    "item_iron_helm": [
+      128,
+      64,
+      64,
+      64
+    ],
+    "item_studded_jerkin": [
+      192,
+      64,
+      64,
+      64
+    ],
+    "item_oak_shield": [
+      256,
+      64,
+      64,
+      64
+    ],
+    "item_bone_plate": [
+      320,
+      64,
+      64,
+      64
+    ],
+    "item_ring_mail": [
+      384,
+      64,
+      64,
+      64
+    ],
+    "item_ember_visor": [
+      448,
+      64,
+      64,
+      64
+    ],
+    "item_warden_carapace": [
+      512,
+      64,
+      64,
+      64
+    ],
+    "item_magma_cuirass": [
+      576,
+      64,
+      64,
+      64
+    ],
+    "item_drownscale_mail": [
+      640,
+      64,
+      64,
+      64
+    ],
+    "item_keepers_bulwark": [
+      704,
+      64,
+      64,
+      64
+    ],
+    "item_vaelmoor_aegis": [
+      768,
+      64,
+      64,
+      64
+    ],
+    "item_soulforged_plate": [
+      832,
+      64,
+      64,
+      64
+    ],
+    "item_lucky_coin": [
+      896,
+      64,
+      64,
+      64
+    ],
+    "item_tin_ring": [
+      960,
+      64,
+      64,
+      64
+    ],
+    "item_rat_tooth_charm": [
+      0,
+      128,
+      64,
+      64
+    ],
+    "item_garnet_ring": [
+      64,
+      128,
+      64,
+      64
+    ],
+    "item_etched_amulet": [
+      128,
+      128,
+      64,
+      64
+    ],
+    "item_hunters_token": [
+      192,
+      128,
+      64,
+      64
+    ],
+    "item_rusted_censer": [
+      256,
+      128,
+      64,
+      64
+    ],
+    "item_luckstone": [
+      320,
+      128,
+      64,
+      64
+    ],
+    "item_cinder_talisman": [
+      384,
+      128,
+      64,
+      64
+    ],
+    "item_seers_lens": [
+      448,
+      128,
+      64,
+      64
+    ],
+    "item_sigil_of_warding": [
+      512,
+      128,
+      64,
+      64
+    ],
+    "item_abyssal_band": [
+      576,
+      128,
+      64,
+      64
+    ],
+    "item_phoenix_feather": [
+      640,
+      128,
+      64,
+      64
+    ],
+    "item_void_lantern": [
+      704,
+      128,
+      64,
+      64
+    ],
+    "item_crown_of_depths": [
+      768,
+      128,
+      64,
+      64
+    ],
+    "item_soul_prism": [
+      832,
+      128,
+      64,
+      64
+    ],
+    "item_keepers_signet": [
+      896,
+      128,
+      64,
+      64
+    ],
+    "item_small_health_draught": [
+      960,
+      128,
+      64,
+      64
+    ],
+    "item_swift_tonic": [
+      0,
+      192,
+      64,
+      64
+    ],
+    "item_whetstone_salve": [
+      64,
+      192,
+      64,
+      64
+    ],
+    "item_pilgrim_bandage": [
+      128,
+      192,
+      64,
+      64
+    ],
+    "item_lantern_oil": [
+      192,
+      192,
+      64,
+      64
+    ],
+    "item_health_draught": [
+      256,
+      192,
+      64,
+      64
+    ],
+    "item_iron_skin_brew": [
+      320,
+      192,
+      64,
+      64
+    ],
+    "item_focus_tea": [
+      384,
+      192,
+      64,
+      64
+    ],
+    "item_greater_draught": [
+      448,
+      192,
+      64,
+      64
+    ],
+    "item_ember_tonic": [
+      512,
+      192,
+      64,
+      64
+    ],
+    "item_hunters_elixir": [
+      576,
+      192,
+      64,
+      64
+    ],
+    "item_vault_elixir": [
+      640,
+      192,
+      64,
+      64
+    ],
+    "item_lava_ward_potion": [
+      704,
+      192,
+      64,
+      64
+    ],
+    "item_assassin_draught": [
+      768,
+      192,
+      64,
+      64
+    ],
+    "item_keepers_draught": [
+      832,
+      192,
+      64,
+      64
+    ],
+    "item_dragonsblood_flask": [
+      896,
+      192,
+      64,
+      64
+    ],
+    "item_soulfire_tonic": [
+      960,
+      192,
+      64,
+      64
+    ],
+    "item_whisper_dagger": [
+      0,
+      256,
+      64,
+      64
+    ],
+    "item_chain_reaver": [
+      64,
+      256,
+      64,
+      64
+    ],
+    "item_mirror_shield": [
+      128,
+      256,
+      64,
+      64
+    ],
+    "item_bloodletter": [
+      192,
+      256,
+      64,
+      64
+    ],
+    "item_death_spark": [
+      256,
+      256,
+      64,
+      64
+    ],
+    "item_purifier": [
+      320,
+      256,
+      64,
+      64
+    ],
+    "item_ember_dancer_crystal": [
+      384,
+      256,
+      64,
+      64
+    ],
+    "item_venom_tongue": [
+      448,
+      256,
+      64,
+      64
+    ],
+    "item_abyssal_blessing": [
+      512,
+      256,
+      64,
+      64
+    ],
+    "item_abyssal_crown": [
+      576,
+      256,
+      64,
+      64
+    ],
+    "item_abyssal_edge": [
+      640,
+      256,
+      64,
+      64
+    ],
+    "item_abyssal_elixir": [
+      704,
+      256,
+      64,
+      64
+    ],
+    "item_abyssal_gem": [
+      768,
+      256,
+      64,
+      64
+    ],
+    "item_abyssal_mail": [
+      832,
+      256,
+      64,
+      64
+    ],
+    "item_abyssal_mail_of_depths": [
+      896,
+      256,
+      64,
+      64
+    ],
+    "item_abyssal_miracle": [
+      960,
+      256,
+      64,
+      64
+    ],
+    "item_abyssal_pearl": [
+      0,
+      320,
+      64,
+      64
+    ],
+    "item_abyssal_spear": [
+      64,
+      320,
+      64,
+      64
+    ],
+    "item_abyssal_star": [
+      128,
+      320,
+      64,
+      64
+    ],
+    "item_brine_brew": [
+      192,
+      320,
+      64,
+      64
+    ],
+    "item_brine_draught": [
+      256,
+      320,
+      64,
+      64
+    ],
+    "item_brine_executor": [
+      320,
+      320,
+      64,
+      64
+    ],
+    "item_brine_gauntlets": [
+      384,
+      320,
+      64,
+      64
+    ],
+    "item_brine_locket": [
+      448,
+      320,
+      64,
+      64
+    ],
+    "item_brine_power": [
+      512,
+      320,
+      64,
+      64
+    ],
+    "item_brine_trident": [
+      576,
+      320,
+      64,
+      64
+    ],
+    "item_brine_vial": [
+      640,
+      320,
+      64,
+      64
+    ],
+    "item_coral_breastplate": [
+      704,
+      320,
+      64,
+      64
+    ],
+    "item_coral_charm": [
+      768,
+      320,
+      64,
+      64
+    ],
+    "item_coral_halberd": [
+      832,
+      320,
+      64,
+      64
+    ],
+    "item_coral_heal": [
+      896,
+      320,
+      64,
+      64
+    ],
+    "item_coral_star": [
+      960,
+      320,
+      64,
+      64
+    ],
+    "item_coral_surge": [
+      0,
+      384,
+      64,
+      64
+    ],
+    "item_coral_token": [
+      64,
+      384,
+      64,
+      64
+    ],
+    "item_coral_vest": [
+      128,
+      384,
+      64,
+      64
+    ],
+    "item_crown_of_bones": [
+      192,
+      384,
+      64,
+      64
+    ],
+    "item_crown_of_the_deep": [
+      256,
+      384,
+      64,
+      64
+    ],
+    "item_crown_of_tides": [
+      320,
+      384,
+      64,
+      64
+    ],
+    "item_deep_cutlass": [
+      384,
+      384,
+      64,
+      64
+    ],
+    "item_deep_draught": [
+      448,
+      384,
+      64,
+      64
+    ],
+    "item_deep_pearl": [
+      512,
+      384,
+      64,
+      64
+    ],
+    "item_deep_sea_sting": [
+      576,
+      384,
+      64,
+      64
+    ],
+    "item_deep_shell": [
+      640,
+      384,
+      64,
+      64
+    ],
+    "item_drift_blade": [
+      704,
+      384,
+      64,
+      64
+    ],
+    "item_drift_shield": [
+      768,
+      384,
+      64,
+      64
+    ],
+    "item_kelp_amulet": [
+      832,
+      384,
+      64,
+      64
+    ],
+    "item_kelp_hammer": [
+      896,
+      384,
+      64,
+      64
+    ],
+    "item_kelp_mail": [
+      960,
+      384,
+      64,
+      64
+    ],
+    "item_kelp_tonic": [
+      0,
+      448,
+      64,
+      64
+    ],
+    "item_kelp_wrap": [
+      64,
+      448,
+      64,
+      64
+    ],
+    "item_kelp_wraps": [
+      128,
+      448,
+      64,
+      64
+    ],
+    "item_kraken_charm": [
+      192,
+      448,
+      64,
+      64
+    ],
+    "item_kraken_elixir": [
+      256,
+      448,
+      64,
+      64
+    ],
+    "item_kraken_essence": [
+      320,
+      448,
+      64,
+      64
+    ],
+    "item_kraken_eye": [
+      384,
+      448,
+      64,
+      64
+    ],
+    "item_kraken_fury": [
+      448,
+      448,
+      64,
+      64
+    ],
+    "item_kraken_hide": [
+      512,
+      448,
+      64,
+      64
+    ],
+    "item_leviathan_core": [
+      576,
+      448,
+      64,
+      64
+    ],
+    "item_leviathan_draught": [
+      640,
+      448,
+      64,
+      64
+    ],
+    "item_leviathan_gift": [
+      704,
+      448,
+      64,
+      64
+    ],
+    "item_leviathan_hide": [
+      768,
+      448,
+      64,
+      64
+    ],
+    "item_leviathan_jaw": [
+      832,
+      448,
+      64,
+      64
+    ],
+    "item_leviathan_plate": [
+      896,
+      448,
+      64,
+      64
+    ],
+    "item_leviathan_tongue": [
+      960,
+      448,
+      64,
+      64
+    ],
+    "item_mire_helm": [
+      0,
+      512,
+      64,
+      64
+    ],
+    "item_mud_glaive": [
+      64,
+      512,
+      64,
+      64
+    ],
+    "item_mussel_plate": [
+      128,
+      512,
+      64,
+      64
+    ],
+    "item_ossuary_cuirass": [
+      192,
+      512,
+      64,
+      64
+    ],
+    "item_ossuary_fang": [
+      256,
+      512,
+      64,
+      64
+    ],
+    "item_ossuary_grand_plate": [
+      320,
+      512,
+      64,
+      64
+    ],
+    "item_ossuary_plate": [
+      384,
+      512,
+      64,
+      64
+    ],
+    "item_ossuary_revival": [
+      448,
+      512,
+      64,
+      64
+    ],
+    "item_ossuary_staff": [
+      512,
+      512,
+      64,
+      64
+    ],
+    "item_pearl_chip": [
+      576,
+      512,
+      64,
+      64
+    ],
+    "item_river_mace": [
+      640,
+      512,
+      64,
+      64
+    ],
+    "item_rusty_spear": [
+      704,
+      512,
+      64,
+      64
+    ],
+    "item_salt_helm": [
+      768,
+      512,
+      64,
+      64
+    ],
+    "item_sand_cuirass": [
+      832,
+      512,
+      64,
+      64
+    ],
+    "item_sand_draught": [
+      896,
+      512,
+      64,
+      64
+    ],
+    "item_sand_mail": [
+      960,
+      512,
+      64,
+      64
+    ],
+    "item_sand_pendant": [
+      0,
+      576,
+      64,
+      64
+    ],
+    "item_sand_strength": [
+      64,
+      576,
+      64,
+      64
+    ],
+    "item_sea_claymore": [
+      128,
+      576,
+      64,
+      64
+    ],
+    "item_sea_glass": [
+      192,
+      576,
+      64,
+      64
+    ],
+    "item_shell_cap": [
+      256,
+      576,
+      64,
+      64
+    ],
+    "item_tide_amber": [
+      320,
+      576,
+      64,
+      64
+    ]
+  }
 }

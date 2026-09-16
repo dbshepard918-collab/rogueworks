@@ -27,7 +27,7 @@ pal = json.load(open(PALETTE_PATH, encoding="utf-8"))
 colours = list(pal["colors"].values())
 pal_arr = np.array([[int(c[1:3], 16), int(c[3:5], 16), int(c[5:7], 16)] for c in colours], dtype="int16")
 
-TILE = 32
+TILE = 64
 COLS = 8
 
 # (frame_name, description) — descriptions crafted for FLUX to produce concrete subjects

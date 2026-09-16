@@ -6,7 +6,7 @@ from ..entities.monster import Monster
 from ..entities.pickup import Pickup
 from . import loot
 
-TILE = 32
+TILE = 64
 
 MAX_FLOOR = 15
 FLOOR_PER_BIOME = 5

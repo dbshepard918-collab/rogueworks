@@ -6,7 +6,7 @@ Pipeline (each step is a real subprocess call to the sibling tools, so the outpu
 running them by hand):
 
   1. stage   assets/raw/<sheet>.png  ->  assets/raw/staged/<sheet>.png      (square-crop + BOX
-             downscale each painted cell to 32px, magenta background preserved)
+             downscale each painted cell to 64px, magenta background preserved)
   2. emit    assets/raw/pixelize_manifest.json   (pixelize's `manifest` split schema:
              {name, raw, cell, frames:{frame:[x,y,w,h]}})
   3. pixelize --split manifest  ->  assets/sprites/<set>/<frame>.png  (chroma-key + palette lock)
@@ -29,7 +29,7 @@ MANIFEST = ROOT / "assets" / "art_manifest.json"
 STAGED = ROOT / "assets" / "raw" / "staged"
 PIXELIZE_MANIFEST = ROOT / "assets" / "raw" / "pixelize_manifest.json"
 STRIPES = ("magenta",)
-OUT_GRID = 32
+OUT_GRID = 64
 
 
 def say(msg: str) -> None:
@@ -50,7 +50,7 @@ def load_palette_rgb():
 def presnap(cell, palette_rgb):
     """Snap the painted cell to the locked palette at SOURCE resolution, protecting the magenta key.
 
-    Downscaling anti-aliased AI art straight to 32px produces colour mush (the "digital static"
+    Downscaling anti-aliased AI art straight to 64px produces colour mush (the "digital static"
     floor tiles). Flattening each pixel onto the palette first makes whole regions one colour, so
     the BOX downscale yields clean pixel-art blocks instead of noise.
     """
@@ -79,7 +79,7 @@ def presnap(cell, palette_rgb):
 
 
 def stage_sheet(sheet: dict, palette_rgb=None, do_presnap: bool = True, fill: bool = False):
-    """Downscale every painted cell to OUT_GRID and lay them out as a 32px-cell sheet."""
+    """Downscale every painted cell to OUT_GRID and lay them out as a 64px-cell sheet."""
     from PIL import Image
 
     raw = ROOT / sheet["raw"]

@@ -30,7 +30,7 @@ from __future__ import annotations
 
 import math
 
-TILE = 32
+TILE = 64
 
 
 # --------------------------------------------------------------------------- pierce

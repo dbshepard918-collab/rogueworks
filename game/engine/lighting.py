@@ -27,7 +27,7 @@ import math
 
 import pygame
 
-TILE = 32
+TILE = 64
 
 LIGHT_EMITTING_PROPS = frozenset({
     "prop_brazier", "prop_candles", "prop_lava_vent", "prop_forge",
@@ -138,7 +138,7 @@ def _build_light_sources(world, dt):
         try:
             base_radius = _bm.lantern_radius(world, profile=world.profile)
         except Exception:
-            base_radius = 220.0
+            base_radius = 440.0
         lights.append(LightSource(
             player.x, player.y, base_radius,
             colour=(255, 220, 160),

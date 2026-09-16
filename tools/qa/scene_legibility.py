@@ -39,7 +39,7 @@ os.environ.setdefault("PYGAME_HIDE_SUPPORT_PROMPT", "1")
 from tools import _util  # noqa: E402
 from tools._util import EXIT_FAIL, EXIT_OK, EXIT_PREREQ  # noqa: E402
 
-TILE = 32
+TILE = 64
 SIZE = (1280, 720)
 
 #: Thresholds. Each one was set from a measurement of a frame that was actually

@@ -11,7 +11,7 @@ import math
 from ..entities.actor import move_with_collision
 from . import combat, statuses as status_sys
 
-TILE = 32
+TILE = 64
 AGGRO_RADIUS = 380.0      # monsters notice the lantern at this range (or when hit)
 
 # Default telegraph durations per behavior (seconds) — overridden by monster data

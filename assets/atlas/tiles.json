@@ -1,827 +1,827 @@
 {
- "version": 1,
- "image": "assets/atlas/tiles.png",
- "meta": {
-  "tile": 32,
-  "palette_version": 1,
-  "generated_by": "pixel"
- },
- "frames": {
-  "tile_catacombs_floor": [
-   0,
-   0,
-   32,
-   32
-  ],
-  "tile_catacombs_floor_alt": [
-   32,
-   0,
-   32,
-   32
-  ],
-  "tile_catacombs_floor_alt2": [
-   64,
-   0,
-   32,
-   32
-  ],
-  "tile_catacombs_floor_rubble": [
-   96,
-   0,
-   32,
-   32
-  ],
-  "tile_catacombs_floor_cracked": [
-   128,
-   0,
-   32,
-   32
-  ],
-  "tile_catacombs_floor_blood": [
-   160,
-   0,
-   32,
-   32
-  ],
-  "tile_catacombs_floor_bones": [
-   192,
-   0,
-   32,
-   32
-  ],
-  "tile_catacombs_floor_coins": [
-   224,
-   0,
-   32,
-   32
-  ],
-  "tile_catacombs_wall": [
-   256,
-   0,
-   32,
-   32
-  ],
-  "tile_catacombs_wall_alt": [
-   288,
-   0,
-   32,
-   32
-  ],
-  "tile_catacombs_wall_torch": [
-   320,
-   0,
-   32,
-   32
-  ],
-  "tile_catacombs_wall_corner": [
-   352,
-   0,
-   32,
-   32
-  ],
-  "tile_catacombs_wall_decor": [
-   384,
-   0,
-   32,
-   32
-  ],
-  "tile_catacombs_wall_cracked": [
-   416,
-   0,
-   32,
-   32
-  ],
-  "tile_catacombs_wall_skull": [
-   448,
-   0,
-   32,
-   32
-  ],
-  "tile_catacombs_doorway": [
-   480,
-   0,
-   32,
-   32
-  ],
-  "tile_catacombs_door": [
-   0,
-   32,
-   32,
-   32
-  ],
-  "tile_catacombs_door_open": [
-   32,
-   32,
-   32,
-   32
-  ],
-  "tile_catacombs_stairs_down": [
-   64,
-   32,
-   32,
-   32
-  ],
-  "tile_catacombs_stairs_up": [
-   96,
-   32,
-   32,
-   32
-  ],
-  "tile_catacombs_pillar": [
-   128,
-   32,
-   32,
-   32
-  ],
-  "tile_catacombs_pool": [
-   160,
-   32,
-   32,
-   32
-  ],
-  "tile_catacombs_pool_alt": [
-   192,
-   32,
-   32,
-   32
-  ],
-  "tile_catacombs_grate": [
-   224,
-   32,
-   32,
-   32
-  ],
-  "tile_catacombs_brazier": [
-   256,
-   32,
-   32,
-   32
-  ],
-  "tile_catacombs_slab": [
-   288,
-   32,
-   32,
-   32
-  ],
-  "tile_catacombs_gate": [
-   320,
-   32,
-   32,
-   32
-  ],
-  "tile_catacombs_rune_floor": [
-   352,
-   32,
-   32,
-   32
-  ],
-  "tile_catacombs_shrine_floor": [
-   384,
-   32,
-   32,
-   32
-  ],
-  "tile_catacombs_treasure_floor": [
-   416,
-   32,
-   32,
-   32
-  ],
-  "tile_catacombs_pit": [
-   448,
-   32,
-   32,
-   32
-  ],
-  "tile_catacombs_barricade": [
-   480,
-   32,
-   32,
-   32
-  ],
-  "tile_catacombs_floor_burning": [
-   0,
-   64,
-   32,
-   32
-  ],
-  "tile_catacombs_floor_water": [
-   32,
-   64,
-   32,
-   32
-  ],
-  "tile_ember_floor": [
-   64,
-   64,
-   32,
-   32
-  ],
-  "tile_ember_floor_alt": [
-   96,
-   64,
-   32,
-   32
-  ],
-  "tile_ember_floor_alt2": [
-   128,
-   64,
-   32,
-   32
-  ],
-  "tile_ember_floor_rubble": [
-   160,
-   64,
-   32,
-   32
-  ],
-  "tile_ember_floor_cracked": [
-   192,
-   64,
-   32,
-   32
-  ],
-  "tile_ember_floor_blood": [
-   224,
-   64,
-   32,
-   32
-  ],
-  "tile_ember_floor_bones": [
-   256,
-   64,
-   32,
-   32
-  ],
-  "tile_ember_floor_coins": [
-   288,
-   64,
-   32,
-   32
-  ],
-  "tile_ember_wall": [
-   320,
-   64,
-   32,
-   32
-  ],
-  "tile_ember_wall_alt": [
-   352,
-   64,
-   32,
-   32
-  ],
-  "tile_ember_wall_torch": [
-   384,
-   64,
-   32,
-   32
-  ],
-  "tile_ember_wall_corner": [
-   416,
-   64,
-   32,
-   32
-  ],
-  "tile_ember_wall_decor": [
-   448,
-   64,
-   32,
-   32
-  ],
-  "tile_ember_wall_cracked": [
-   480,
-   64,
-   32,
-   32
-  ],
-  "tile_ember_wall_skull": [
-   0,
-   96,
-   32,
-   32
-  ],
-  "tile_ember_doorway": [
-   32,
-   96,
-   32,
-   32
-  ],
-  "tile_ember_door": [
-   64,
-   96,
-   32,
-   32
-  ],
-  "tile_ember_door_open": [
-   96,
-   96,
-   32,
-   32
-  ],
-  "tile_ember_stairs_down": [
-   128,
-   96,
-   32,
-   32
-  ],
-  "tile_ember_stairs_up": [
-   160,
-   96,
-   32,
-   32
-  ],
-  "tile_ember_pillar": [
-   192,
-   96,
-   32,
-   32
-  ],
-  "tile_ember_pool": [
-   224,
-   96,
-   32,
-   32
-  ],
-  "tile_ember_pool_alt": [
-   256,
-   96,
-   32,
-   32
-  ],
-  "tile_ember_grate": [
-   288,
-   96,
-   32,
-   32
-  ],
-  "tile_ember_brazier": [
-   320,
-   96,
-   32,
-   32
-  ],
-  "tile_ember_slab": [
-   352,
-   96,
-   32,
-   32
-  ],
-  "tile_ember_gate": [
-   384,
-   96,
-   32,
-   32
-  ],
-  "tile_ember_rune_floor": [
-   416,
-   96,
-   32,
-   32
-  ],
-  "tile_ember_shrine_floor": [
-   448,
-   96,
-   32,
-   32
-  ],
-  "tile_ember_treasure_floor": [
-   480,
-   96,
-   32,
-   32
-  ],
-  "tile_ember_pit": [
-   0,
-   128,
-   32,
-   32
-  ],
-  "tile_ember_barricade": [
-   32,
-   128,
-   32,
-   32
-  ],
-  "tile_ember_floor_burning": [
-   64,
-   128,
-   32,
-   32
-  ],
-  "tile_ember_floor_water": [
-   96,
-   128,
-   32,
-   32
-  ],
-  "tile_drowned_floor": [
-   128,
-   128,
-   32,
-   32
-  ],
-  "tile_drowned_floor_alt": [
-   160,
-   128,
-   32,
-   32
-  ],
-  "tile_drowned_floor_alt2": [
-   192,
-   128,
-   32,
-   32
-  ],
-  "tile_drowned_floor_rubble": [
-   224,
-   128,
-   32,
-   32
-  ],
-  "tile_drowned_floor_cracked": [
-   256,
-   128,
-   32,
-   32
-  ],
-  "tile_drowned_floor_blood": [
-   288,
-   128,
-   32,
-   32
-  ],
-  "tile_drowned_floor_bones": [
-   320,
-   128,
-   32,
-   32
-  ],
-  "tile_drowned_floor_coins": [
-   352,
-   128,
-   32,
-   32
-  ],
-  "tile_drowned_wall": [
-   384,
-   128,
-   32,
-   32
-  ],
-  "tile_drowned_wall_alt": [
-   416,
-   128,
-   32,
-   32
-  ],
-  "tile_drowned_wall_torch": [
-   448,
-   128,
-   32,
-   32
-  ],
-  "tile_drowned_wall_corner": [
-   480,
-   128,
-   32,
-   32
-  ],
-  "tile_drowned_wall_decor": [
-   0,
-   160,
-   32,
-   32
-  ],
-  "tile_drowned_wall_cracked": [
-   32,
-   160,
-   32,
-   32
-  ],
-  "tile_drowned_wall_skull": [
-   64,
-   160,
-   32,
-   32
-  ],
-  "tile_drowned_doorway": [
-   96,
-   160,
-   32,
-   32
-  ],
-  "tile_drowned_door": [
-   128,
-   160,
-   32,
-   32
-  ],
-  "tile_drowned_door_open": [
-   160,
-   160,
-   32,
-   32
-  ],
-  "tile_drowned_stairs_down": [
-   192,
-   160,
-   32,
-   32
-  ],
-  "tile_drowned_stairs_up": [
-   224,
-   160,
-   32,
-   32
-  ],
-  "tile_drowned_pillar": [
-   256,
-   160,
-   32,
-   32
-  ],
-  "tile_drowned_pool": [
-   288,
-   160,
-   32,
-   32
-  ],
-  "tile_drowned_pool_alt": [
-   320,
-   160,
-   32,
-   32
-  ],
-  "tile_drowned_grate": [
-   352,
-   160,
-   32,
-   32
-  ],
-  "tile_drowned_brazier": [
-   384,
-   160,
-   32,
-   32
-  ],
-  "tile_drowned_slab": [
-   416,
-   160,
-   32,
-   32
-  ],
-  "tile_drowned_gate": [
-   448,
-   160,
-   32,
-   32
-  ],
-  "tile_drowned_rune_floor": [
-   480,
-   160,
-   32,
-   32
-  ],
-  "tile_drowned_shrine_floor": [
-   0,
-   192,
-   32,
-   32
-  ],
-  "tile_drowned_treasure_floor": [
-   32,
-   192,
-   32,
-   32
-  ],
-  "tile_drowned_pit": [
-   64,
-   192,
-   32,
-   32
-  ],
-  "tile_drowned_barricade": [
-   96,
-   192,
-   32,
-   32
-  ],
-  "tile_drowned_floor_burning": [
-   128,
-   192,
-   32,
-   32
-  ],
-  "tile_drowned_floor_water": [
-   160,
-   192,
-   32,
-   32
-  ],
-  "tile_ossuary_floor": [
-   192,
-   192,
-   32,
-   32
-  ],
-  "tile_ossuary_floor_alt": [
-   224,
-   192,
-   32,
-   32
-  ],
-  "tile_ossuary_floor_alt2": [
-   256,
-   192,
-   32,
-   32
-  ],
-  "tile_ossuary_floor_rubble": [
-   288,
-   192,
-   32,
-   32
-  ],
-  "tile_ossuary_floor_cracked": [
-   320,
-   192,
-   32,
-   32
-  ],
-  "tile_ossuary_floor_blood": [
-   352,
-   192,
-   32,
-   32
-  ],
-  "tile_ossuary_floor_bones": [
-   384,
-   192,
-   32,
-   32
-  ],
-  "tile_ossuary_floor_coins": [
-   416,
-   192,
-   32,
-   32
-  ],
-  "tile_ossuary_wall": [
-   448,
-   192,
-   32,
-   32
-  ],
-  "tile_ossuary_wall_alt": [
-   480,
-   192,
-   32,
-   32
-  ],
-  "tile_ossuary_wall_torch": [
-   0,
-   224,
-   32,
-   32
-  ],
-  "tile_ossuary_wall_corner": [
-   32,
-   224,
-   32,
-   32
-  ],
-  "tile_ossuary_wall_decor": [
-   64,
-   224,
-   32,
-   32
-  ],
-  "tile_ossuary_wall_cracked": [
-   96,
-   224,
-   32,
-   32
-  ],
-  "tile_ossuary_wall_skull": [
-   128,
-   224,
-   32,
-   32
-  ],
-  "tile_ossuary_doorway": [
-   160,
-   224,
-   32,
-   32
-  ],
-  "tile_ossuary_door": [
-   192,
-   224,
-   32,
-   32
-  ],
-  "tile_ossuary_door_open": [
-   224,
-   224,
-   32,
-   32
-  ],
-  "tile_ossuary_stairs_down": [
-   256,
-   224,
-   32,
-   32
-  ],
-  "tile_ossuary_stairs_up": [
-   288,
-   224,
-   32,
-   32
-  ],
-  "tile_ossuary_pillar": [
-   320,
-   224,
-   32,
-   32
-  ],
-  "tile_ossuary_pool": [
-   352,
-   224,
-   32,
-   32
-  ],
-  "tile_ossuary_pool_alt": [
-   384,
-   224,
-   32,
-   32
-  ],
-  "tile_ossuary_grate": [
-   416,
-   224,
-   32,
-   32
-  ],
-  "tile_ossuary_brazier": [
-   448,
-   224,
-   32,
-   32
-  ],
-  "tile_ossuary_slab": [
-   480,
-   224,
-   32,
-   32
-  ],
-  "tile_ossuary_gate": [
-   0,
-   256,
-   32,
-   32
-  ],
-  "tile_ossuary_rune_floor": [
-   32,
-   256,
-   32,
-   32
-  ],
-  "tile_ossuary_shrine_floor": [
-   64,
-   256,
-   32,
-   32
-  ],
-  "tile_ossuary_treasure_floor": [
-   96,
-   256,
-   32,
-   32
-  ],
-  "tile_ossuary_pit": [
-   128,
-   256,
-   32,
-   32
-  ],
-  "tile_ossuary_barricade": [
-   160,
-   256,
-   32,
-   32
-  ],
-  "tile_ossuary_floor_burning": [
-   192,
-   256,
-   32,
-   32
-  ],
-  "tile_ossuary_floor_water": [
-   224,
-   256,
-   32,
-   32
-  ]
- }
+  "version": 1,
+  "image": "assets/atlas/tiles.png",
+  "meta": {
+    "tile": 64,
+    "palette_version": 1,
+    "generated_by": "pixel"
+  },
+  "frames": {
+    "tile_catacombs_floor": [
+      0,
+      0,
+      64,
+      64
+    ],
+    "tile_catacombs_floor_alt": [
+      64,
+      0,
+      64,
+      64
+    ],
+    "tile_catacombs_floor_alt2": [
+      128,
+      0,
+      64,
+      64
+    ],
+    "tile_catacombs_floor_rubble": [
+      192,
+      0,
+      64,
+      64
+    ],
+    "tile_catacombs_floor_cracked": [
+      256,
+      0,
+      64,
+      64
+    ],
+    "tile_catacombs_floor_blood": [
+      320,
+      0,
+      64,
+      64
+    ],
+    "tile_catacombs_floor_bones": [
+      384,
+      0,
+      64,
+      64
+    ],
+    "tile_catacombs_floor_coins": [
+      448,
+      0,
+      64,
+      64
+    ],
+    "tile_catacombs_wall": [
+      512,
+      0,
+      64,
+      64
+    ],
+    "tile_catacombs_wall_alt": [
+      576,
+      0,
+      64,
+      64
+    ],
+    "tile_catacombs_wall_torch": [
+      640,
+      0,
+      64,
+      64
+    ],
+    "tile_catacombs_wall_corner": [
+      704,
+      0,
+      64,
+      64
+    ],
+    "tile_catacombs_wall_decor": [
+      768,
+      0,
+      64,
+      64
+    ],
+    "tile_catacombs_wall_cracked": [
+      832,
+      0,
+      64,
+      64
+    ],
+    "tile_catacombs_wall_skull": [
+      896,
+      0,
+      64,
+      64
+    ],
+    "tile_catacombs_doorway": [
+      960,
+      0,
+      64,
+      64
+    ],
+    "tile_catacombs_door": [
+      0,
+      64,
+      64,
+      64
+    ],
+    "tile_catacombs_door_open": [
+      64,
+      64,
+      64,
+      64
+    ],
+    "tile_catacombs_stairs_down": [
+      128,
+      64,
+      64,
+      64
+    ],
+    "tile_catacombs_stairs_up": [
+      192,
+      64,
+      64,
+      64
+    ],
+    "tile_catacombs_pillar": [
+      256,
+      64,
+      64,
+      64
+    ],
+    "tile_catacombs_pool": [
+      320,
+      64,
+      64,
+      64
+    ],
+    "tile_catacombs_pool_alt": [
+      384,
+      64,
+      64,
+      64
+    ],
+    "tile_catacombs_grate": [
+      448,
+      64,
+      64,
+      64
+    ],
+    "tile_catacombs_brazier": [
+      512,
+      64,
+      64,
+      64
+    ],
+    "tile_catacombs_slab": [
+      576,
+      64,
+      64,
+      64
+    ],
+    "tile_catacombs_gate": [
+      640,
+      64,
+      64,
+      64
+    ],
+    "tile_catacombs_rune_floor": [
+      704,
+      64,
+      64,
+      64
+    ],
+    "tile_catacombs_shrine_floor": [
+      768,
+      64,
+      64,
+      64
+    ],
+    "tile_catacombs_treasure_floor": [
+      832,
+      64,
+      64,
+      64
+    ],
+    "tile_catacombs_pit": [
+      896,
+      64,
+      64,
+      64
+    ],
+    "tile_catacombs_barricade": [
+      960,
+      64,
+      64,
+      64
+    ],
+    "tile_catacombs_floor_burning": [
+      0,
+      128,
+      64,
+      64
+    ],
+    "tile_catacombs_floor_water": [
+      64,
+      128,
+      64,
+      64
+    ],
+    "tile_ember_floor": [
+      128,
+      128,
+      64,
+      64
+    ],
+    "tile_ember_floor_alt": [
+      192,
+      128,
+      64,
+      64
+    ],
+    "tile_ember_floor_alt2": [
+      256,
+      128,
+      64,
+      64
+    ],
+    "tile_ember_floor_rubble": [
+      320,
+      128,
+      64,
+      64
+    ],
+    "tile_ember_floor_cracked": [
+      384,
+      128,
+      64,
+      64
+    ],
+    "tile_ember_floor_blood": [
+      448,
+      128,
+      64,
+      64
+    ],
+    "tile_ember_floor_bones": [
+      512,
+      128,
+      64,
+      64
+    ],
+    "tile_ember_floor_coins": [
+      576,
+      128,
+      64,
+      64
+    ],
+    "tile_ember_wall": [
+      640,
+      128,
+      64,
+      64
+    ],
+    "tile_ember_wall_alt": [
+      704,
+      128,
+      64,
+      64
+    ],
+    "tile_ember_wall_torch": [
+      768,
+      128,
+      64,
+      64
+    ],
+    "tile_ember_wall_corner": [
+      832,
+      128,
+      64,
+      64
+    ],
+    "tile_ember_wall_decor": [
+      896,
+      128,
+      64,
+      64
+    ],
+    "tile_ember_wall_cracked": [
+      960,
+      128,
+      64,
+      64
+    ],
+    "tile_ember_wall_skull": [
+      0,
+      192,
+      64,
+      64
+    ],
+    "tile_ember_doorway": [
+      64,
+      192,
+      64,
+      64
+    ],
+    "tile_ember_door": [
+      128,
+      192,
+      64,
+      64
+    ],
+    "tile_ember_door_open": [
+      192,
+      192,
+      64,
+      64
+    ],
+    "tile_ember_stairs_down": [
+      256,
+      192,
+      64,
+      64
+    ],
+    "tile_ember_stairs_up": [
+      320,
+      192,
+      64,
+      64
+    ],
+    "tile_ember_pillar": [
+      384,
+      192,
+      64,
+      64
+    ],
+    "tile_ember_pool": [
+      448,
+      192,
+      64,
+      64
+    ],
+    "tile_ember_pool_alt": [
+      512,
+      192,
+      64,
+      64
+    ],
+    "tile_ember_grate": [
+      576,
+      192,
+      64,
+      64
+    ],
+    "tile_ember_brazier": [
+      640,
+      192,
+      64,
+      64
+    ],
+    "tile_ember_slab": [
+      704,
+      192,
+      64,
+      64
+    ],
+    "tile_ember_gate": [
+      768,
+      192,
+      64,
+      64
+    ],
+    "tile_ember_rune_floor": [
+      832,
+      192,
+      64,
+      64
+    ],
+    "tile_ember_shrine_floor": [
+      896,
+      192,
+      64,
+      64
+    ],
+    "tile_ember_treasure_floor": [
+      960,
+      192,
+      64,
+      64
+    ],
+    "tile_ember_pit": [
+      0,
+      256,
+      64,
+      64
+    ],
+    "tile_ember_barricade": [
+      64,
+      256,
+      64,
+      64
+    ],
+    "tile_ember_floor_burning": [
+      128,
+      256,
+      64,
+      64
+    ],
+    "tile_ember_floor_water": [
+      192,
+      256,
+      64,
+      64
+    ],
+    "tile_drowned_floor": [
+      256,
+      256,
+      64,
+      64
+    ],
+    "tile_drowned_floor_alt": [
+      320,
+      256,
+      64,
+      64
+    ],
+    "tile_drowned_floor_alt2": [
+      384,
+      256,
+      64,
+      64
+    ],
+    "tile_drowned_floor_rubble": [
+      448,
+      256,
+      64,
+      64
+    ],
+    "tile_drowned_floor_cracked": [
+      512,
+      256,
+      64,
+      64
+    ],
+    "tile_drowned_floor_blood": [
+      576,
+      256,
+      64,
+      64
+    ],
+    "tile_drowned_floor_bones": [
+      640,
+      256,
+      64,
+      64
+    ],
+    "tile_drowned_floor_coins": [
+      704,
+      256,
+      64,
+      64
+    ],
+    "tile_drowned_wall": [
+      768,
+      256,
+      64,
+      64
+    ],
+    "tile_drowned_wall_alt": [
+      832,
+      256,
+      64,
+      64
+    ],
+    "tile_drowned_wall_torch": [
+      896,
+      256,
+      64,
+      64
+    ],
+    "tile_drowned_wall_corner": [
+      960,
+      256,
+      64,
+      64
+    ],
+    "tile_drowned_wall_decor": [
+      0,
+      320,
+      64,
+      64
+    ],
+    "tile_drowned_wall_cracked": [
+      64,
+      320,
+      64,
+      64
+    ],
+    "tile_drowned_wall_skull": [
+      128,
+      320,
+      64,
+      64
+    ],
+    "tile_drowned_doorway": [
+      192,
+      320,
+      64,
+      64
+    ],
+    "tile_drowned_door": [
+      256,
+      320,
+      64,
+      64
+    ],
+    "tile_drowned_door_open": [
+      320,
+      320,
+      64,
+      64
+    ],
+    "tile_drowned_stairs_down": [
+      384,
+      320,
+      64,
+      64
+    ],
+    "tile_drowned_stairs_up": [
+      448,
+      320,
+      64,
+      64
+    ],
+    "tile_drowned_pillar": [
+      512,
+      320,
+      64,
+      64
+    ],
+    "tile_drowned_pool": [
+      576,
+      320,
+      64,
+      64
+    ],
+    "tile_drowned_pool_alt": [
+      640,
+      320,
+      64,
+      64
+    ],
+    "tile_drowned_grate": [
+      704,
+      320,
+      64,
+      64
+    ],
+    "tile_drowned_brazier": [
+      768,
+      320,
+      64,
+      64
+    ],
+    "tile_drowned_slab": [
+      832,
+      320,
+      64,
+      64
+    ],
+    "tile_drowned_gate": [
+      896,
+      320,
+      64,
+      64
+    ],
+    "tile_drowned_rune_floor": [
+      960,
+      320,
+      64,
+      64
+    ],
+    "tile_drowned_shrine_floor": [
+      0,
+      384,
+      64,
+      64
+    ],
+    "tile_drowned_treasure_floor": [
+      64,
+      384,
+      64,
+      64
+    ],
+    "tile_drowned_pit": [
+      128,
+      384,
+      64,
+      64
+    ],
+    "tile_drowned_barricade": [
+      192,
+      384,
+      64,
+      64
+    ],
+    "tile_drowned_floor_burning": [
+      256,
+      384,
+      64,
+      64
+    ],
+    "tile_drowned_floor_water": [
+      320,
+      384,
+      64,
+      64
+    ],
+    "tile_ossuary_floor": [
+      384,
+      384,
+      64,
+      64
+    ],
+    "tile_ossuary_floor_alt": [
+      448,
+      384,
+      64,
+      64
+    ],
+    "tile_ossuary_floor_alt2": [
+      512,
+      384,
+      64,
+      64
+    ],
+    "tile_ossuary_floor_rubble": [
+      576,
+      384,
+      64,
+      64
+    ],
+    "tile_ossuary_floor_cracked": [
+      640,
+      384,
+      64,
+      64
+    ],
+    "tile_ossuary_floor_blood": [
+      704,
+      384,
+      64,
+      64
+    ],
+    "tile_ossuary_floor_bones": [
+      768,
+      384,
+      64,
+      64
+    ],
+    "tile_ossuary_floor_coins": [
+      832,
+      384,
+      64,
+      64
+    ],
+    "tile_ossuary_wall": [
+      896,
+      384,
+      64,
+      64
+    ],
+    "tile_ossuary_wall_alt": [
+      960,
+      384,
+      64,
+      64
+    ],
+    "tile_ossuary_wall_torch": [
+      0,
+      448,
+      64,
+      64
+    ],
+    "tile_ossuary_wall_corner": [
+      64,
+      448,
+      64,
+      64
+    ],
+    "tile_ossuary_wall_decor": [
+      128,
+      448,
+      64,
+      64
+    ],
+    "tile_ossuary_wall_cracked": [
+      192,
+      448,
+      64,
+      64
+    ],
+    "tile_ossuary_wall_skull": [
+      256,
+      448,
+      64,
+      64
+    ],
+    "tile_ossuary_doorway": [
+      320,
+      448,
+      64,
+      64
+    ],
+    "tile_ossuary_door": [
+      384,
+      448,
+      64,
+      64
+    ],
+    "tile_ossuary_door_open": [
+      448,
+      448,
+      64,
+      64
+    ],
+    "tile_ossuary_stairs_down": [
+      512,
+      448,
+      64,
+      64
+    ],
+    "tile_ossuary_stairs_up": [
+      576,
+      448,
+      64,
+      64
+    ],
+    "tile_ossuary_pillar": [
+      640,
+      448,
+      64,
+      64
+    ],
+    "tile_ossuary_pool": [
+      704,
+      448,
+      64,
+      64
+    ],
+    "tile_ossuary_pool_alt": [
+      768,
+      448,
+      64,
+      64
+    ],
+    "tile_ossuary_grate": [
+      832,
+      448,
+      64,
+      64
+    ],
+    "tile_ossuary_brazier": [
+      896,
+      448,
+      64,
+      64
+    ],
+    "tile_ossuary_slab": [
+      960,
+      448,
+      64,
+      64
+    ],
+    "tile_ossuary_gate": [
+      0,
+      512,
+      64,
+      64
+    ],
+    "tile_ossuary_rune_floor": [
+      64,
+      512,
+      64,
+      64
+    ],
+    "tile_ossuary_shrine_floor": [
+      128,
+      512,
+      64,
+      64
+    ],
+    "tile_ossuary_treasure_floor": [
+      192,
+      512,
+      64,
+      64
+    ],
+    "tile_ossuary_pit": [
+      256,
+      512,
+      64,
+      64
+    ],
+    "tile_ossuary_barricade": [
+      320,
+      512,
+      64,
+      64
+    ],
+    "tile_ossuary_floor_burning": [
+      384,
+      512,
+      64,
+      64
+    ],
+    "tile_ossuary_floor_water": [
+      448,
+      512,
+      64,
+      64
+    ]
+  }
 }

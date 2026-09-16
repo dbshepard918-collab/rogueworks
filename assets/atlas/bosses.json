@@ -2,7 +2,7 @@
   "version": 1,
   "image": "assets/atlas/bosses.png",
   "meta": {
-    "tile": 32,
+    "tile": 64,
     "palette_version": 1,
     "generated_by": "rogueworks"
   },
@@ -10,44 +10,44 @@
     "boss_drowned_leviathan": [
       0,
       0,
-      32,
-      32
+      64,
+      64
     ],
     "boss_forge_colossus": [
-      32,
-      0,
-      32,
-      32
-    ],
-    "boss_skull_overlord": [
       64,
       0,
-      32,
-      32
+      64,
+      64
     ],
-    "boss_coral_leviathan": [
-      96,
-      0,
-      32,
-      32
-    ],
-    "boss_ossuary_kraken": [
+    "boss_skull_overlord": [
       128,
       0,
-      32,
-      32
+      64,
+      64
     ],
-    "boss_tide_hunter": [
-      160,
-      0,
-      32,
-      32
-    ],
-    "boss_abyssal_beacon": [
+    "boss_coral_leviathan": [
       192,
       0,
-      32,
-      32
+      64,
+      64
+    ],
+    "boss_ossuary_kraken": [
+      256,
+      0,
+      64,
+      64
+    ],
+    "boss_tide_hunter": [
+      320,
+      0,
+      64,
+      64
+    ],
+    "boss_abyssal_beacon": [
+      384,
+      0,
+      64,
+      64
     ]
   }
 }

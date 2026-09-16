@@ -322,7 +322,7 @@ def main(argv=None) -> int:
     ap.add_argument("--split", choices=SPLIT_MODES, default="grid",
                     help="grid = fixed --grid cells; panels = auto-detect; manifest = named rects")
     ap.add_argument("--manifest", default=None, help="manifest JSON (default assets/raw/manifest.json)")
-    ap.add_argument("--grid", type=int, default=_util.TILE, help="tile/cell size in px (default 32)")
+    ap.add_argument("--grid", type=int, default=_util.TILE, help="tile/cell size in px (default 64)")
     ap.add_argument("--alpha-min", type=int, default=128, help="alpha below this is cut (default 128)")
     ap.add_argument("--key", dest="key_mode", choices=KEY_MODES, default="family",
                     help="background removal: family (default), exact, tolerance, none")

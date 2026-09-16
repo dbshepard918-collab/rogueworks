@@ -32,7 +32,7 @@ EXIT_PREREQ = 2
 SNAKE_RE = re.compile(r"^[a-z][a-z0-9_]*$")
 HEX_RE = re.compile(r"^#[0-9a-fA-F]{6}$")
 
-TILE = 32
+TILE = 64
 """Base tile size in pixels (docs/CONTRACTS.md section 2)."""
 
 MAGENTA_KEY = (255, 0, 255)

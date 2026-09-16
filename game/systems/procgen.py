@@ -24,7 +24,7 @@ import json
 import math
 from pathlib import Path
 
-TILE = 32
+TILE = 64
 
 # -- tile values --------------------------------------------------------------- #
 FLOOR = 0
@@ -56,8 +56,8 @@ def _level_extents(floor, biome_id, content, rng):
     w = cols * cell + 6 + rng.randint(0, 16)
     h = rows * cell + 6 + rng.randint(0, 16)
     # clamp into the GDD band (48x32 .. 80x56)
-    w = max(48, min(80, w))
-    h = max(32, min(56, h))
+    w = max(96, min(160, w))
+    h = max(64, min(112, h))
     return w, h
 
 

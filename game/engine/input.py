@@ -10,7 +10,7 @@ import json
 
 import pygame
 
-TILE = 32
+TILE = 64
 
 ACTION_NAMES = ("attack", "dash", "ranged", "interact", "inventory", "confirm", "quit", "pause")
 

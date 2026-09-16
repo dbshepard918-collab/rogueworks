@@ -2,7 +2,7 @@
   "version": 1,
   "name": "vaelmoor",
   "description": "Locked 24-colour dark-fantasy palette for Depths of Vaelmoor. Art ships only in these colours.",
-  "base_tile": 32,
+  "base_tile": 64,
   "colors": {
     "void": "#0b0a10",
     "ink": "#15131f",

@@ -16,7 +16,7 @@ from ..systems import biome_mods as _bm
 from ..systems.statuses import COMBO_IDS
 from game.systems.procgen import FLOOR
 
-TILE = 32
+TILE = 64
 
 
 def _hash2(x, y, salt=0):
@@ -657,11 +657,11 @@ class Renderer:
                 continue
             sx = decal["x"] - ox
             sy = decal["y"] - oy
-            if sx < -32 or sy < -32 or sx > camera.view_w + 32 or sy > camera.view_h + 32:
+            if sx < -64 or sy < -64 or sx > camera.view_w + 64 or sy > camera.view_h + 64:
                 continue
             fade = max(0.0, min(1.0, decal["life"] / max(0.001, decal["max_life"])))
             alpha = int(120 * fade)
-            size = 16
+            size = 32
             s = pygame.Surface((size, size), pygame.SRCALPHA)
             pygame.draw.circle(s, (60, 20, 8, alpha), (size // 2, size // 2), size // 2)
             surface.blit(s, (sx - size // 2, sy - size // 2))

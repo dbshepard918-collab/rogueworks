@@ -96,11 +96,11 @@ class NPCState:
 
     @property
     def x(self):
-        return self.tx * 32
+        return self.tx * 64
 
     @property
     def y(self):
-        return self.ty * 32
+        return self.ty * 64
 
 
 class HQState:
@@ -123,7 +123,7 @@ class HQState:
         return None
 
     def update_room(self):
-        room = room_at(self.player_tx * 32, self.player_ty * 32)
+        room = room_at(self.player_tx * 64, self.player_ty * 64)
         if room:
             self.active_room = room.get("id")
         else:

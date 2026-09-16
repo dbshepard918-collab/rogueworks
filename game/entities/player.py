@@ -4,11 +4,11 @@ from ..engine.audio import play
 from ..systems import statuses as status_sys
 from .actor import Actor, Stats, move_with_collision
 
-TILE = 32
+TILE = 64
 
 PLAYER_DIRECTIONS = ("down", "up", "left", "right")
 
-# Canonical frame names from assets/art_manifest.json (all 32x32).
+# Canonical frame names from assets/art_manifest.json (all 64x64).
 PLAYER_FRAMES = {
     "idle": {d: "player_idle_%s" % d for d in PLAYER_DIRECTIONS},
     "idle_breath": {d: ["player_idle_breath_%s_0" % d, "player_idle_breath_%s_1" % d] for d in PLAYER_DIRECTIONS},
@@ -36,7 +36,7 @@ class Player(Actor):
     kind = "player"
 
     ATTACK_COOLDOWN = 0.38
-    ATTACK_REACH = 44.0          # pixels from the player centre
+    ATTACK_REACH = 88.0          # pixels from the player centre
     ATTACK_ARC = 2.2             # radians, total width of the swing
     RANGED_COOLDOWN = 0.72
     DASH_TIME = 0.15
@@ -64,7 +64,7 @@ class Player(Actor):
                 "luck": 0.0 + float((meta_totals or {}).get("luck", 0.0)),
                 "crit": 0.05 + float((meta_totals or {}).get("crit", 0.0)),
             }
-        super().__init__(eid, x, y, radius=11.0, sprite="player_idle_0", stats=Stats(base))
+        super().__init__(eid, x, y, radius=22.0, sprite="player_idle_0", stats=Stats(base))
         self.hp = self.stats.max_hp()
 
         self.level = 1

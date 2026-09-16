@@ -11,7 +11,7 @@ class Camera:
         self.tile_scale = 1.0  # r45: camera zoom — 1.0=default (40 tiles wide), 2.0=closer (20 tiles)
         self.x = 0.0
         self.y = 0.0
-        self.dead_zone = 96
+        self.dead_zone = 192
         self.smooth = 8.0
         self.shake = 0.0
         self.shake_mag = 0.0
