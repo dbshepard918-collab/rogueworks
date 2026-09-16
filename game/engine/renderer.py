@@ -325,50 +325,25 @@ class Renderer:
                     surface.blit(img, (sx, sy))
                     draw_list.append(("floor_water", tx, ty))
                     continue
-                h = _hash2(tx, ty, 3)
-                bucket = h % 37
-                # r44 cohesion fix: decoration is clustered per-ROOM by room kind
-                # (uniform per-tile scatter looked like jumbled salad - bones next
-                # to coins next to blood with no logic). The room's theme picks ONE
-                # dressing family; within the room, tiles vary naturally around it.
+                # r45: sparse, structured decoration — never per-tile random.
+                # Dead Cells-style clarity: plain floors dominate, decoration
+                # is rare and biome-appropriate. No hash-based scatter.
                 room_kind = level.room_at(tx, ty)
                 rk = room_kind.get("kind", "") if room_kind else ""
-                if rk == "treasure":
-                    # coin pockets: ~1/3 of the floor glitters, nothing gory
-                    name = (tiles["floor_coins"] if bucket % 3 == 0
-                            else tiles["floor_alt2"] if bucket % 5 == 0
-                            else tiles["floor"])
-                elif rk in ("combat", "boss", "secret"):
-                    # battle-scarred: bones/rubble/blood, never coins
-                    if bucket < 6:
-                        name = tiles["floor_bones"]
-                    elif bucket < 12:
-                        name = tiles["floor_rubble"]
-                    elif bucket < 15:
-                        name = tiles["floor_blood"]
-                    elif bucket < 25:
-                        name = tiles["floor_cracked"]
-                    else:
-                        name = tiles["floor"]
-                elif rk in ("shrine", "omen", "gambling"):
-                    # solemn/clean: cracked + alt wear only, no gore or glitter
-                    if bucket < 10:
-                        name = tiles["floor_cracked"]
-                    elif bucket < 22:
-                        name = tiles["floor_alt"]
-                    else:
-                        name = tiles["floor"]
+                # Use a deterministic but sparse pattern: only decorate tiles
+                # where (tx + ty) % N == 0, and only in themed rooms
+                is_decoration_tile = ((tx + ty) % 5 == 0) or ((tx * 7 + ty * 3) % 11 == 0)
+                if rk == "treasure" and is_decoration_tile:
+                    name = tiles["floor_coins"]
+                elif rk in ("combat", "boss", "secret") and is_decoration_tile:
+                    name = tiles["floor_bones"] if (tx % 3 == 0) else tiles["floor_rubble"]
+                elif rk in ("shrine", "omen", "gambling") and is_decoration_tile:
+                    name = tiles["floor_cracked"]
+                elif is_decoration_tile:
+                    # corridors/entrance/shop: very sparse wear
+                    name = tiles["floor_alt"] if (tx % 2 == 0) else tiles["floor_rubble"]
                 else:
-                    # corridors/entrance/shop/fountain/blacksmith: mostly clean
-                    # plain floors with sparse, mild wear
-                    if bucket < 8:
-                        name = tiles["floor_rubble"]
-                    elif bucket < 16:
-                        name = tiles["floor_alt"]
-                    elif bucket < 24:
-                        name = tiles["floor_alt2"]
-                    else:
-                        name = tiles["floor"]
+                    name = tiles["floor"]
                 surface.blit(self.frame(world, name), (sx, sy))
                 draw_list.append(("floor", tx, ty, name))
 
@@ -389,22 +364,14 @@ class Renderer:
                     if level.tiles[tx][ty] == FLOOR:
                         sx = int(tx * tile_px - ox * st)
                         sy = int(ty * tile_px - oy * st)
-                        h = _hash2(tx, ty, 3)
-                        bucket = h % 37
-                        if bucket == 0:
+                        # r45: sparse decoration in secret rooms too
+                        is_dec = ((tx + ty) % 5 == 0) or ((tx * 7 + ty * 3) % 11 == 0)
+                        if is_dec and (tx % 3 == 0):
                             name = tiles["floor_bones"]
-                        elif bucket == 1:
+                        elif is_dec and (tx % 3 == 1):
                             name = tiles["floor_coins"]
-                        elif bucket < 4:
+                        elif is_dec:
                             name = tiles["floor_blood"]
-                        elif bucket < 9:
-                            name = tiles["floor_rubble"]
-                        elif bucket < 15:
-                            name = tiles["floor_alt"]
-                        elif bucket < 20:
-                            name = tiles["floor_alt2"]
-                        elif bucket < 25:
-                            name = tiles["floor_cracked"]
                         else:
                             name = tiles["floor"]
                         img = self.frame(world, name)
