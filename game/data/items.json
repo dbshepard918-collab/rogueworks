@@ -2252,6 +2252,108 @@
       "value": 25,
       "sprite": "prop_chest",
       "flavor": "Increases gold drops from enemies."
+    },
+    {
+      "id": "bone_charm",
+      "name": "Bone Charm",
+      "slot": "trinket",
+      "tier": 1,
+      "effect": {
+        "luck": 1,
+        "max_hp": 6
+      },
+      "value": 12,
+      "sprite": "item_bone_shiv",
+      "flavor": "A knucklebone that remembers the hand it came from."
+    },
+    {
+      "id": "shadow_veil",
+      "name": "Shadow Veil",
+      "slot": "armor",
+      "tier": 3,
+      "effect": {
+        "armor": 7,
+        "speed": 0.1
+      },
+      "value": 35,
+      "sprite": "item_bone_plate",
+      "flavor": "Drapes the wearer in darkness."
+    },
+    {
+      "id": "ember_draught",
+      "name": "Ember Draught",
+      "slot": "consumable",
+      "tier": 1,
+      "effect": {
+        "speed": 0.2,
+        "crit": 1
+      },
+      "value": 15,
+      "sprite": "item_ember_tonic",
+      "flavor": "Burns going down. Burns coming up too."
+    },
+    {
+      "id": "flame_fang",
+      "name": "Flame Fang",
+      "slot": "weapon",
+      "tier": 3,
+      "effect": {
+        "damage": 8
+      },
+      "value": 55,
+      "sprite": "item_ember_club",
+      "flavor": "A tooth from something that never stopped burning."
+    },
+    {
+      "id": "tide_cloak",
+      "name": "Tide Cloak",
+      "slot": "armor",
+      "tier": 1,
+      "effect": {
+        "armor": 1,
+        "speed": 0.1
+      },
+      "value": 14,
+      "sprite": "item_drownscale_mail",
+      "flavor": "Still dripping after all these centuries."
+    },
+    {
+      "id": "tide_pearl",
+      "name": "Tide Pearl",
+      "slot": "trinket",
+      "tier": 3,
+      "effect": {
+        "max_hp": 8
+      },
+      "value": 30,
+      "sprite": "item_tide_amber",
+      "flavor": "A pearl that hums with the tide."
+    },
+    {
+      "id": "ossuary_shard",
+      "name": "Ossuary Shard",
+      "slot": "weapon",
+      "tier": 1,
+      "effect": {
+        "crit": 2,
+        "max_hp": 5
+      },
+      "value": 16,
+      "sprite": "item_ossuary_fang",
+      "flavor": "A shard of bone from the Sunken Ossuary."
+    },
+    {
+      "id": "toxic_brew",
+      "name": "Toxic Brew",
+      "slot": "consumable",
+      "tier": 3,
+      "effect": {
+        "luck": 3,
+        "armor": 5
+      },
+      "value": 42,
+      "sprite": "item_ossuary_staff",
+      "flavor": "Smells like victory. Tastes like rot."
     }
   ]
 }
