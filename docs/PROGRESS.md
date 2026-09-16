@@ -1,3 +1,9 @@
+## 2026-09-16 (r65) — QA Gate Re-verification (Forge)
+
+- **Gate sweep** — `game.main --headless --turns 300 --seed 0..2` → all 3 seeds exit 0, violations=[] (18/18/19 warnings each, all `ossuary_room_secret_18` missing secret_wall); `tools.selftest` → **22/22 PASS**; `tools.validate_data` → 0 errors, 1 warning (quests.json unrecognised); `tools.art.verify` → **PASS** (657 sprites, 581 frames, 0 off-palette). All 4 gates GREEN. No fixes applied — reporting only.
+- **BUILD report**: `runs/reports/BUILD-2026-09-16.md`
+
+---
 ## 2026-09-18 (r64) — Full QA Gate: ALL 7 GREEN
 
 - **Gate sweep** — `game.main --headless --turns 300 --seed 0..2` → all 3 seeds exit 0, violations=[] (5 warnings each); `tools.selftest` → **22/22 PASS**; `tools.validate_data` → 0 errors, 1 warning (quests.json unrecognised); `tools.art.verify` → **PASS** (657 sprites, 762 frames, 0 off-palette); `verify_gate --seeds 0 1 2` → **PASS all 7 green**.
