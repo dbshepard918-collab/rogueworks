@@ -1,35 +1,185 @@
 {
- "version": 1,
- "image": "assets/atlas/ui.png",
- "meta": {
-  "tile": 32,
-  "palette_version": 1,
-  "generated_by": "pixel"
- },
- "frames": {
-  "ui_health_bar": [
-   0,
-   0,
-   32,
-   32
-  ],
-  "ui_button": [
-   32,
-   0,
-   32,
-   32
-  ],
-  "ui_icon": [
-   64,
-   0,
-   32,
-   32
-  ],
-  "ui_frame": [
-   96,
-   0,
-   32,
-   32
-  ]
- }
+  "version": 1,
+  "image": "assets/atlas/ui.png",
+  "meta": {
+    "tile": 32,
+    "palette_version": 1,
+    "generated_by": "pixel"
+  },
+  "frames": {
+    "title_anim": [
+      0,
+      0,
+      256,
+      32
+    ],
+    "ui_hp_fill": [
+      256,
+      0,
+      32,
+      32
+    ],
+    "ui_hp_frame": [
+      512,
+      0,
+      32,
+      32
+    ],
+    "ui_icon_dash": [
+      768,
+      0,
+      32,
+      32
+    ],
+    "ui_icon_sword": [
+      1024,
+      0,
+      32,
+      32
+    ],
+    "ui_minimap_frame": [
+      1280,
+      0,
+      32,
+      32
+    ],
+    "ui_panel": [
+      0,
+      32,
+      32,
+      32
+    ],
+    "ui_slot": [
+      256,
+      32,
+      32,
+      32
+    ],
+    "ui_status_bleed": [
+      512,
+      32,
+      32,
+      32
+    ],
+    "ui_status_burn": [
+      768,
+      32,
+      32,
+      32
+    ],
+    "ui_status_fortify": [
+      1024,
+      32,
+      32,
+      32
+    ],
+    "ui_status_frost_burn": [
+      1280,
+      32,
+      32,
+      32
+    ],
+    "ui_status_poison": [
+      0,
+      64,
+      32,
+      32
+    ],
+    "ui_status_rage": [
+      256,
+      64,
+      32,
+      32
+    ],
+    "ui_status_shatter": [
+      512,
+      64,
+      32,
+      32
+    ],
+    "ui_status_slow": [
+      768,
+      64,
+      32,
+      32
+    ],
+    "ui_status_steam_burst": [
+      1024,
+      64,
+      32,
+      32
+    ],
+    "ui_status_stun": [
+      1280,
+      64,
+      32,
+      32
+    ],
+    "ui_title_frame_0": [
+      0,
+      96,
+      32,
+      32
+    ],
+    "ui_title_frame_1": [
+      256,
+      96,
+      32,
+      32
+    ],
+    "ui_title_frame_2": [
+      512,
+      96,
+      32,
+      32
+    ],
+    "ui_title_frame_3": [
+      768,
+      96,
+      32,
+      32
+    ],
+    "ui_title_frame_4": [
+      1024,
+      96,
+      32,
+      32
+    ],
+    "ui_title_frame_5": [
+      1280,
+      96,
+      32,
+      32
+    ],
+    "ui_title_frame_6": [
+      0,
+      128,
+      32,
+      32
+    ],
+    "ui_title_frame_7": [
+      256,
+      128,
+      32,
+      32
+    ],
+    "ui_xp_fill": [
+      512,
+      128,
+      32,
+      32
+    ],
+    "ui_xp_frame": [
+      768,
+      128,
+      32,
+      32
+    ],
+    "dialogue_panel": [
+      0,
+      320,
+      1280,
+      160
+    ]
+  }
 }
