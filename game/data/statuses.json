@@ -35,7 +35,7 @@
       "magnitude": 2,
       "duration": 180,
       "tick_every": 30,
-      "icon": "ui_status_acid_burn"
+      "icon": "ui_status_burn"
     },
     {
       "id": "soul_rot",
@@ -44,7 +44,7 @@
       "magnitude": 5,
       "duration": 360,
       "tick_every": 60,
-      "icon": "ui_status_soul_rot"
+      "icon": "ui_status_poison"
     },
     {
       "id": "ember_scorch",
@@ -53,7 +53,7 @@
       "magnitude": 4,
       "duration": 300,
       "tick_every": 30,
-      "icon": "ui_status_ember_scorch"
+      "icon": "ui_status_burn"
     },
     {
       "id": "slow",
@@ -80,7 +80,7 @@
       "magnitude": 0.75,
       "duration": 240,
       "tick_every": 60,
-      "icon": "ui_status_weaken"
+      "icon": "ui_status_slow"
     },
     {
       "id": "corrode",
@@ -89,7 +89,7 @@
       "magnitude": 0.7,
       "duration": 300,
       "tick_every": 60,
-      "icon": "ui_status_corrode"
+      "icon": "ui_status_poison"
     },
     {
       "id": "chill",
@@ -98,7 +98,7 @@
       "magnitude": 0.6,
       "duration": 300,
       "tick_every": 60,
-      "icon": "ui_status_chill"
+      "icon": "ui_status_slow"
     },
     {
       "id": "doom_mark",
@@ -107,7 +107,7 @@
       "magnitude": 0.25,
       "duration": 600,
       "tick_every": 60,
-      "icon": "ui_status_doom_mark"
+      "icon": "ui_status_stun"
     },
     {
       "id": "fortify",
@@ -134,7 +134,7 @@
       "magnitude": 0.3,
       "duration": 180,
       "tick_every": 60,
-      "icon": "ui_status_haste"
+      "icon": "ui_status_fortify"
     },
     {
       "id": "regeneration",
@@ -143,7 +143,7 @@
       "magnitude": 3,
       "duration": 300,
       "tick_every": 60,
-      "icon": "ui_status_regeneration"
+      "icon": "ui_status_fortify"
     },
     {
       "id": "luck_ward",
@@ -152,7 +152,7 @@
       "magnitude": 2,
       "duration": 300,
       "tick_every": 60,
-      "icon": "ui_status_luck_ward"
+      "icon": "ui_status_fortify"
     },
     {
       "id": "lantern_glow",
@@ -161,7 +161,7 @@
       "magnitude": 1.0,
       "duration": 600,
       "tick_every": 60,
-      "icon": "ui_status_lantern_glow"
+      "icon": "ui_status_fortify"
     },
     {
       "id": "steam_burst",
