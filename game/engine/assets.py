@@ -213,8 +213,14 @@ def _luminance(rgb):
 
 
 def make_placeholder(name, size=TILE):
-    """Flat palette colour + 1-2 letter tag.  Always succeeds."""
-    tag = _tag_for(name)
+    """Flat palette colour placeholder.  Always succeeds.
+
+    No text tag is drawn: the 2-letter tags were being rendered on floor
+    tiles wherever a prop sprite was missing from the atlas (e.g. PC for
+    prop_chain, PS for prop_shrine), creating "debug label" noise.  The
+    flat colour + darker border still reads as "missing art" without
+    cluttering the game view.
+    """
     colour_name = _colour_name_for(name)
     rgb = colour(colour_name, (93, 98, 114)) if colour_name else colour("slate")
     surf = pygame.Surface((size, size), pygame.SRCALPHA)
@@ -226,10 +232,6 @@ def make_placeholder(name, size=TILE):
     surf.fill(edge, pygame.Rect(0, 0, 1, size))
     surf.fill(edge, pygame.Rect(size - 1, 0, 1, size))
     surf.fill(edge, pygame.Rect(size - 3, size - 3, 3, 3))
-    ink = (11, 10, 16) if _luminance(rgb) > 140 else (246, 242, 232)
-    scale = 2 if len(tag) <= 2 else 1
-    img = FONT.render(tag, scale, ink)
-    surf.blit(img, ((size - img.get_width()) // 2, (size - img.get_height()) // 2))
     return surf
 
 
