@@ -1,6 +1,6 @@
 {
  "version": 1,
- "image": "assets/atlas/monsters.png",
+ "image": "assets/atlas/monster.png",
  "meta": {
   "tile": 32,
   "palette_version": 1,

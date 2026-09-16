@@ -1,0 +1,17 @@
+{
+ "version": 1,
+ "image": "assets/atlas/other.png",
+ "meta": {
+  "tile": 32,
+  "palette_version": 1,
+  "generated_by": "pixel"
+ },
+ "frames": {
+  "vfx_magic_bolt": [
+   0,
+   0,
+   32,
+   32
+  ]
+ }
+}

@@ -1,6 +1,6 @@
 {
  "version": 1,
- "image": "assets/atlas/items.png",
+ "image": "assets/atlas/item.png",
  "meta": {
   "tile": 32,
   "palette_version": 1,
