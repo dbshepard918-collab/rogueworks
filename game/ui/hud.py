@@ -157,15 +157,6 @@ class HUD:
         self._cooldown(world, surface, "ui_icon_dash", player.dash_cooldown,
                        player.DASH_COOLDOWN, 46, 676)
 
-        shake_label = "SHAKE: ON" if getattr(self, "shake_enabled", True) else "SHAKE: OFF"
-        shake_col = rarity_colour(2, cb_mode) if getattr(self, "shake_enabled", True) else rarity_colour(4, cb_mode)
-        draw_text(surface, shake_label, (bar_x + 6, 80 * fs), 1, colour=shake_col)
-
-        dn_on = self.settings.get("damage_numbers", True)
-        dn_label = "DAMAGE NUMS: ON" if dn_on else "DAMAGE NUMS: OFF"
-        dn_col = rarity_colour(2, cb_mode) if dn_on else rarity_colour(4, cb_mode)
-        draw_text(surface, dn_label, (bar_x + 6, 95 * fs), 1, colour=dn_col)
-
     def _panel(self, surface, rect):
         panel = pygame.Surface((rect.w, rect.h), pygame.SRCALPHA)
         panel.fill((21, 19, 31, 200))
