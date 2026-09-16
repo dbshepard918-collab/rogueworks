@@ -147,7 +147,7 @@ class RunScene(Scene):
         # In real game, this would show a menu and wait for Enter
         import pygame
         keys = pygame.key.get_pressed()
-        if keys.get(pygame.K_e):
+        if keys[pygame.K_e]:
             # Choose the first available option
             choice = self.world.active_reward_choice
             if choice:
@@ -160,7 +160,7 @@ class RunScene(Scene):
             if self.inventory.open:
                 if self.inventory.handle_key(self.world, event.key):
                     return None
-            if event.key == pygame.K_F:
+            if event.key == pygame.K_f:
                 # P2.1: toggle screen shake
                 self.world.camera.shake_enabled = not self.world.camera.shake_enabled
                 return None

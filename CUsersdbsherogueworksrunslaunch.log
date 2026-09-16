@@ -1,0 +1,15 @@
+pygame-ce 2.5.8 (SDL 2.32.10, Python 3.11.16)
+Traceback (most recent call last):
+  File "C:\Users\dbshe\rogueworks\game\main.py", line 331, in run_once
+    return run_windowed(args, profile, warnings)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dbshe\rogueworks\game\main.py", line 307, in run_windowed
+    game.run_gui(max_frames=args.frames)
+  File "C:\Users\dbshe\rogueworks\game\engine\scenes.py", line 1200, in run_gui
+    scene.update(fixed)
+  File "C:\Users\dbshe\rogueworks\game\engine\scenes.py", line 217, in update
+    self._handle_reward_choice()
+  File "C:\Users\dbshe\rogueworks\game\engine\scenes.py", line 150, in _handle_reward_choice
+    if keys.get(pygame.K_e):
+       ^^^^^^^^
+AttributeError: 'pygame.key.ScancodeWrapper' object has no attribute 'get'

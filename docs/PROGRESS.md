@@ -1,3 +1,17 @@
+## 2026-09-18 (r64) — Full QA Gate: ALL 7 GREEN
+
+- **Gate sweep** — `game.main --headless --turns 300 --seed 0..2` → all 3 seeds exit 0, violations=[] (5 warnings each); `tools.selftest` → **22/22 PASS**; `tools.validate_data` → 0 errors, 1 warning (quests.json unrecognised); `tools.art.verify` → **PASS** (657 sprites, 762 frames, 0 off-palette); `verify_gate --seeds 0 1 2` → **PASS all 7 green**.
+- **Fix applied**: `title_background.png` padded 1280×720→1280×736 with palette colour `ink` (#15131f); `assets/atlas/title.png` repadded identically; `assets/atlas/title.json` frame rect updated to [0,0,1280,736]. This resolved the last remaining art.verify FAIL. The tiles.png off-palette (147456 pixels) and scene-legibility (79%→100%) issues were already resolved since the 09-17 report.
+- **QA**: 3 seeds × 3 frames each (ticks 20/40/100/120/199/240) all >2KB, >8 distinct colours. Vision service unavailable (500/timeout), numeric verification complete.
+- **BUILD report**: `runs/reports/BUILD-2026-09-18.md`
+- **Overall**: **7/7 gates PASS**. All gates green for the first time in this session.
+
+## 2026-09-17 (r59) — QA Gate Check (Forge)
+
+- **Gate sweep** — `game.main --headless --turns 300 --seed 0..2` → all 3 seeds exit 0, violations=[] (5 warnings each: `ossuary_room_secret_18` missing secret_wall); `tools.selftest` → 20/22 (FAIL: `atlas-format` — tiles.png 147456 off-palette pixels; `scene-legibility` — 79% visible, need ≥85%); `tools.validate_data` → 0 errors, 1 warning (quests.json unrecognised); `tools.art.verify` → FAIL (3 errors: `title_background.png` not 32px-aligned, tiles.png 8200 off-palette pixels, `title.json` background frame not tile-grid multiple).
+- **BUILD report**: `runs/reports/BUILD-2026-09-17-qa-gate.md`
+- **Overall**: 2/4 gates PASS. Gate 1 (headless gameplay) and Gate 3 (data) are clean. Gate 2 failures (atlas-format, scene-legibility) and Gate 4 failures (title_background.png, tiles.png) are art-related — title_background is pre-existing; tiles.png off-palette + scene-legibility may indicate a regression in the tileset or lighting. No gameplay-blocking regressions.
+
 ## 2026-09-15 (r58) — QA Gate Check (Forge)
 
 - **Gate sweep** — `game.main --headless --turns 300 --seed 0..2` → exit 0, all 3 seeds `violations=[]`; `tools.selftest` → 21/22 (FAIL: `golden-seed-regression` — `tide_pearl` strictly dominates `ember_dash_crystal` at tier 3); `tools.validate_data` → 0 errors (1 warning: quests.json unrecognised); `tools.art.verify` → FAIL (1 error: `title_background.png` not 32px-aligned).
