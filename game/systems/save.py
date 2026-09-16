@@ -207,12 +207,29 @@ def default_profile():
     }
 
 
-def _slot_path(slot_name):
-    if slot_name == "default":
-        return DEFAULT_SAVE_PATH
+def _sanitize_slot_name(slot_name):
+    if slot_name in (None, "default"):
+        return "default"
     if slot_name == "autosave":
+        return "autosave"
+    text = str(slot_name).strip()
+    if not text:
+        return "default"
+    clean = []
+    for ch in text:
+        if ch.isalnum() or ch in ("_", "-"):
+            clean.append(ch)
+    cleaned = "".join(clean).strip("_-")
+    return cleaned or "default"
+
+
+def _slot_path(slot_name):
+    name = _sanitize_slot_name(slot_name)
+    if name == "default":
+        return DEFAULT_SAVE_PATH
+    if name == "autosave":
         return PROJECT_ROOT / "save_autosave.json"
-    return PROJECT_ROOT / ("save_%s.json" % slot_name)
+    return PROJECT_ROOT / ("save_%s.json" % name)
 
 
 # ----- normalization helpers -----
@@ -719,19 +736,21 @@ def profile_bonuses(profile):
 
 def save_slot(slot_name, profile):
     """Save profile to a named slot. Returns the path written."""
-    path = _slot_path(slot_name)
-    profile["save_slots"][slot_name] = str(path)
+    safe_slot_name = _sanitize_slot_name(slot_name)
+    path = _slot_path(safe_slot_name)
+    profile.setdefault("save_slots", {})[safe_slot_name] = str(path)
     return save_profile(profile, path)
 
 
 def load_slot(slot_name):
     """Load a named save slot. Returns (profile, notes) like load_profile().
     Falls back to the default slot if the named slot file is missing."""
-    path = _slot_path(slot_name)
+    safe_slot_name = _sanitize_slot_name(slot_name)
+    path = _slot_path(safe_slot_name)
     if not path.is_file():
         profile = default_profile()
         profile["save_slots"] = {"default": str(DEFAULT_SAVE_PATH), "autosave": str(PROJECT_ROOT / "save_autosave.json")}
-        return profile, ["slot %r not found - fresh profile" % slot_name]
+        return profile, ["slot %r not found - fresh profile" % safe_slot_name]
     return load_profile(path)
 
 
@@ -744,21 +763,44 @@ def list_saves():
     """Return a dict of slot_name -> metadata for all existing save slots."""
     import json as _json
     saves = {}
-    for p in [DEFAULT_SAVE_PATH, PROJECT_ROOT / "save_autosave.json"]:
-        if p.is_file():
-            try:
-                with open(p, "r", encoding="utf-8") as fh:
-                    data = _json.load(fh)
-                saves[p.stem] = {"version": data.get("version"), "essence": data.get("essence", 0), "stats": data.get("stats", {})}
-            except (OSError, ValueError):
-                pass
+
+    def _record(path, slot_name):
+        if not path.is_file():
+            return
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                data = _json.load(fh)
+        except (OSError, ValueError):
+            return
+        saves[slot_name] = {
+            "version": data.get("version"),
+            "essence": data.get("essence", 0),
+            "stats": data.get("stats", {}),
+        }
+
+    _record(DEFAULT_SAVE_PATH, "default")
+    _record(PROJECT_ROOT / "save_autosave.json", "autosave")
+
+    for p in sorted(PROJECT_ROOT.glob("save_*.json")):
+        name = p.stem
+        if name == "save":
+            slot_name = "default"
+        elif name == "save_autosave":
+            slot_name = "autosave"
+        else:
+            slot_name = name[len("save_") :]
+        _record(p, slot_name)
+
     saves_dir = PROJECT_ROOT / "saves"
     if saves_dir.is_dir():
-        for p in saves_dir.glob("save_*.json"):
-            try:
-                with open(p, "r", encoding="utf-8") as fh:
-                    data = _json.load(fh)
-                saves[p.stem.replace("save_", "")] = {"version": data.get("version"), "essence": data.get("essence", 0), "stats": data.get("stats", {})}
-            except (OSError, ValueError):
-                pass
+        for p in sorted(saves_dir.glob("save_*.json")):
+            name = p.stem
+            if name == "save":
+                slot_name = "default"
+            elif name == "save_autosave":
+                slot_name = "autosave"
+            else:
+                slot_name = name[len("save_") :]
+            _record(p, slot_name)
+
     return saves

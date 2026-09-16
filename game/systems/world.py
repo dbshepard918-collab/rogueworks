@@ -868,7 +868,8 @@ class World:
             if hasattr(entity, "tick_hit_stop"):
                 entity.tick_hit_stop(dt)
 
-        self.camera.follow(player.x, player.y, self.level.w, self.level.h, dt)
+        self.camera.follow(player.x, player.y, self.level.w, self.level.h, dt,
+                           getattr(player, "facing", (0.0, 0.0)))
         self.camera.update_shake(dt, self.rng)
         self.level.reveal_around(player.x, player.y)
         self._track_room_visit()

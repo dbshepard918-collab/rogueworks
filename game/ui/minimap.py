@@ -30,11 +30,11 @@ def draw_minimap(world, surface, screen_size=(1280, 720), show_frame=True):
         surface.blit(overlay, (rect.x, rect.y))
         draw_text(surface, "MINIMAP LOST", (rect.x + rect.w // 2 - 44, rect.y + rect.h // 2 - 6), 1, colour=(196, 99, 95))
         return
-    if show_frame:
-        frame = world.frame("ui_minimap_frame", size=32)
-        surface.blit(pygame.transform.scale(frame, (rect.w, rect.h)), (rect.x, rect.y))
-    else:
-        pygame.draw.rect(surface, (11, 10, 16), rect)
+    panel = pygame.Surface(rect.size, pygame.SRCALPHA)
+    panel.fill((11, 10, 16, 232))
+    pygame.draw.rect(panel, (87, 80, 112), panel.get_rect(), 2)
+    pygame.draw.line(panel, (232, 178, 60), (2, 2), (44, 2), 2)
+    surface.blit(panel, rect.topleft)
 
     inner = rect.inflate(-10, -10)
     surface.set_clip(inner)
@@ -104,4 +104,5 @@ def draw_minimap(world, surface, screen_size=(1280, 720), show_frame=True):
     pygame.draw.rect(surface, (232, 178, 60), pygame.Rect(px - 2, py - 2, 4, 4))
     surface.set_clip(None)
 
-    draw_text(surface, "F%d" % world.floor, (rect.x + 6, rect.y + 6), 1, colour=(217, 210, 197))
+    draw_text(surface, "MAP  F%d" % world.floor, (rect.x + 8, rect.y + 6), 2,
+              colour=(217, 210, 197))

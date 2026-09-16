@@ -24,6 +24,102 @@ def _hash2(x, y, salt=0):
     return abs(h)
 
 
+def _draw_biome_texture(surface, biome_id, sx, sy, tx, ty, tile_px):
+    """Add sparse, deterministic surface detail to otherwise flat biome tiles."""
+    tile_px = int(tile_px)
+    detail = pygame.Surface((tile_px, tile_px), pygame.SRCALPHA)
+    h = _hash2(tx, ty, 101)
+    if biome_id == "drowned_vaults":
+        colour = (79, 151, 171, 22 + (h % 30))
+        if h % 4 in (0, 1):
+            pygame.draw.arc(
+                detail,
+                colour,
+                pygame.Rect((h % 17) - tile_px // 8, tile_px // 4,
+                            max(4, tile_px * 3 // 4), max(3, tile_px // 4)),
+                0.25 if h % 2 else 3.25,
+                2.35 if h % 2 else 5.35,
+                max(1, tile_px // 32),
+            )
+        if h % 5 in (0, 2):
+            pygame.draw.line(
+                detail,
+                (164, 213, 204, 24 + (h % 16)),
+                ((h % 19), tile_px * (2 + h % 4) // 8),
+                (tile_px * 3 // 4, tile_px * (2 + h % 4) // 8),
+                max(1, tile_px // 32),
+            )
+        if h % 7 == 0:
+            pygame.draw.line(
+                detail,
+                (31, 95, 128, 34 + (h % 24)),
+                (tile_px // 6, tile_px * 7 // 8),
+                (tile_px * 5 // 6, tile_px * 7 // 8),
+                max(1, tile_px // 24),
+            )
+    elif biome_id == "sunken_ossuary":
+        if h % 2 == 0:
+            pygame.draw.line(
+                detail,
+                (217, 210, 197, 32 + (h % 20)),
+                (tile_px // 4, tile_px * 2 // 5),
+                (tile_px * 3 // 4, tile_px * 3 // 5),
+                max(1, tile_px // 32),
+            )
+        if h % 3 == 0:
+            pygame.draw.line(
+                detail,
+                (138, 132, 150, 30 + (h % 20)),
+                (tile_px // 5, tile_px * 3 // 4),
+                (tile_px * 4 // 5, tile_px * 3 // 4),
+                max(1, tile_px // 32),
+            )
+        if h % 5 == 1:
+            pygame.draw.line(
+                detail,
+                (36, 52, 45, 90 + (h % 20)),
+                (tile_px // 8, tile_px // 2),
+                (tile_px * 7 // 8, tile_px // 2),
+                max(1, tile_px // 32),
+            )
+        if h % 5 == 0:
+            pygame.draw.circle(
+                detail,
+                (121, 176, 74, 38 + (h % 16)),
+                (tile_px * 3 // 4, tile_px // 4),
+                max(1, tile_px // 24),
+            )
+    if detail.get_bounding_rect().width:
+        surface.blit(detail, (sx, sy))
+
+
+def _draw_contact_shadow(surface, wx, wy, ox, oy, radius, scale=1.0):
+    """Ground actors and pickups without changing their palette-locked art."""
+    width = max(12, min(42, int(radius * 2.2 * scale)))
+    height = max(4, int(width * 0.32))
+    cx = int((wx - ox) * scale)
+    cy = int((wy - oy) * scale + radius * 0.58 * scale)
+    shadow = pygame.Surface((width, height), pygame.SRCALPHA)
+    pygame.draw.ellipse(shadow, (11, 10, 16, 112), shadow.get_rect())
+    surface.blit(shadow, (cx - width // 2, cy - height // 2))
+
+
+def _draw_combat_ring(surface, wx, wy, ox, oy, radius, color, width=2, scale=1.0):
+    """Draw a crisp ground-space cue without changing the simulation."""
+    cx = int((wx - ox) * scale)
+    cy = int((wy - oy) * scale)
+    pygame.draw.circle(surface, color, (cx, cy), max(2, int(radius * scale)),
+                       max(1, int(width * scale)))
+
+
+def _draw_combat_silhouette(surface, wx, wy, ox, oy, radius, color, scale=1.0):
+    """Give tiny atlas sprites a readable dark keyline against busy floors."""
+    cx = int((wx - ox) * scale)
+    cy = int((wy - oy) * scale)
+    r = max(5, int(radius * 0.78 * scale))
+    pygame.draw.circle(surface, color, (cx, cy), r + max(2, int(3 * scale)))
+
+
 # Element colors for combo aura rendering
 COMBO_ELEMENT_COLORS = {
     "steam_burst": (200, 180, 120, 80),    # warm amber steam
@@ -147,18 +243,24 @@ class Renderer:
 
     def vignette(self):
         if self._vignette is None:
+            import numpy as np
             w, h = self.size
             surf = pygame.Surface(self.size, pygame.SRCALPHA)
             cx, cy = w / 2.0, h / 2.0
             max_d = (cx * cx + cy * cy) ** 0.5
-            step = 12
-            for i in range(0, step):
-                t = i / float(step)
-                radius = max_d * (0.45 + 0.55 * t)
-                alpha = int(70 * (t ** 2))
-                if alpha <= 0:
-                    continue
-                pygame.draw.circle(surf, (11, 10, 16, alpha), (int(cx), int(cy)), int(radius), step)
+            axis_x = np.arange(w, dtype=np.float32) - cx
+            axis_y = np.arange(h, dtype=np.float32) - cy
+            xx, yy = np.meshgrid(axis_x, axis_y, indexing="xy")
+            distance = np.sqrt(xx * xx + yy * yy) / max_d
+            alpha = np.clip((distance - 0.45) / 0.55, 0.0, 1.0) ** 2
+            rgb = np.zeros((w, h, 3), dtype=np.uint8)
+            rgb[:, :, 0] = 11
+            rgb[:, :, 1] = 10
+            rgb[:, :, 2] = 16
+            pygame.surfarray.blit_array(surf, rgb)
+            pygame.surfarray.pixels_alpha(surf)[:, :] = np.transpose(
+                (70.0 * alpha).astype(np.uint8)
+            )
             self._vignette = surf
         return self._vignette
 
@@ -323,6 +425,7 @@ class Renderer:
                     name = self._resolve_tile_frame(base_name, self._tile_anim_tick, tileset)
                     img = self.frame(world, name)
                     surface.blit(img, (sx, sy))
+                    _draw_biome_texture(surface, world.biome_id, sx, sy, tx, ty, tile_px)
                     draw_list.append(("floor_water", tx, ty))
                     continue
                 # r45: sparse, structured decoration — never per-tile random.
@@ -341,10 +444,11 @@ class Renderer:
                     name = tiles["floor_cracked"]
                 elif is_decoration_tile:
                     # corridors/entrance/shop: very sparse wear
-                    name = tiles["floor_alt"] if (tx % 2 == 0) else tiles["floor_rubble"]
+                    name = tiles["floor_rubble"]
                 else:
                     name = tiles["floor"]
                 surface.blit(self.frame(world, name), (sx, sy))
+                _draw_biome_texture(surface, world.biome_id, sx, sy, tx, ty, tile_px)
                 draw_list.append(("floor", tx, ty, name))
 
         st = camera.tile_scale
@@ -391,6 +495,12 @@ class Renderer:
             glow_spec = PROP_GLOW.get(sprite_name)
             if glow_spec is not None:
                 glow_color, glow_radius, glow_alpha = glow_spec
+                # A restrained, deterministic pulse gives lights and crystals
+                # a living presence without moving their authored sprites.
+                phase = self._tile_anim_tick * 2.2 + (int(prop["tx"]) * 0.71) + (int(prop["ty"]) * 1.13)
+                pulse = 0.88 + 0.12 * math.sin(phase)
+                glow_radius = max(2, int(glow_radius * (0.96 + 0.04 * math.sin(phase))))
+                glow_alpha = int(glow_alpha * pulse)
                 gx = sx + int(tile_px // 2)
                 gy = sy + int(tile_px // 2)
                 glow_surf = pygame.Surface((glow_radius * 2, glow_radius * 2), pygame.SRCALPHA)
@@ -449,6 +559,7 @@ class Renderer:
             if not pk.alive or pk.collected:
                 continue
             bob = math.sin((pk.age + pk.bob) * 4.0) * 2.0 if pk.magnet else 0.0
+            _draw_contact_shadow(surface, pk.x, pk.y, ox, oy, pk.radius, st)
             img = self.frame(world, pk.sprite)
             self._blit_centered(surface, img, pk.x, pk.y + bob, ox, oy)
             draw_list.append(("pickup", pk.sprite, pk.id))
@@ -457,7 +568,40 @@ class Renderer:
         for mon in world.monsters:
             if not mon.alive:
                 continue
+            _draw_contact_shadow(surface, mon.x, mon.y, ox, oy, mon.radius, st)
+            # A compact silhouette keyline keeps enemies legible when several
+            # palette-locked sprites overlap in a horde.
+            _draw_combat_silhouette(surface, mon.x, mon.y, ox, oy, mon.radius,
+                                    (8, 7, 13), st)
+            if mon.boss:
+                # Boss presence is communicated on the ground, not by changing
+                # stats or authored sprite art.
+                pulse = 0.5 + 0.5 * math.sin(mon.age * 5.0)
+                _draw_combat_ring(surface, mon.x, mon.y, ox, oy,
+                                  72.0 + pulse * 5.0, (112, 35, 55), 2, st)
+                _draw_combat_ring(surface, mon.x, mon.y, ox, oy,
+                                  62.0 + pulse * 3.0, (232, 178, 60), 1, st)
+            if mon.telegraph > 0.0:
+                # Telegraphs sit beneath the actor so the danger zone remains
+                # readable even when the attack frame is missing.
+                duration = max(0.01, getattr(mon, "telegraph_duration", 0.55))
+                progress = 1.0 - mon.telegraph / duration
+                pulse = 0.5 + 0.5 * math.sin((mon.age + progress) * 18.0)
+                tele_color = (226, 113, 29) if pulse < 0.75 else (255, 210, 92)
+                _draw_combat_ring(surface, mon.x, mon.y, ox, oy,
+                                  max(30.0, mon.radius + 8.0 + progress * 18.0),
+                                  tele_color, 2, st)
+                fx, fy = getattr(mon, "facing", (1.0, 0.0))
+                tip_x = mon.x + fx * (mon.radius + 22.0 + progress * 18.0)
+                tip_y = mon.y + fy * (mon.radius + 22.0 + progress * 18.0)
+                pygame.draw.line(surface, tele_color,
+                                 (int((mon.x - ox) * st), int((mon.y - oy) * st)),
+                                 (int((tip_x - ox) * st), int((tip_y - oy) * st)),
+                                 max(1, int(2 * st)))
             img = self.frame(world, mon.current_frame())
+            if not mon.boss:
+                img = pygame.transform.scale(img, (int(img.get_width() * 1.28),
+                                                    int(img.get_height() * 1.28)))
             if mon.boss:
                 # Boss sprites are 2x normal size — scale by zoom too so they
                 # stay proportionally larger when the camera is zoomed.
@@ -494,6 +638,21 @@ class Renderer:
         for proj in world.projectiles:
             if not proj.alive:
                 continue
+            # Directional streaks make fast bolts readable without allocating
+            # particles or consuming the deterministic gameplay RNG.
+            speed = proj.speed()
+            if speed > 1.0:
+                nx, ny = proj.vx / speed, proj.vy / speed
+                trail_len = min(34.0, 10.0 + speed * 0.045)
+                trail_color = (226, 113, 29) if proj.owner == "monster" else (180, 220, 255)
+                start = ((proj.x - nx * trail_len - ox) * st,
+                         (proj.y - ny * trail_len - oy) * st)
+                end = ((proj.x - ox) * st, (proj.y - oy) * st)
+                pygame.draw.line(surface, trail_color,
+                                 (int(start[0]), int(start[1])),
+                                 (int(end[0]), int(end[1])), max(1, int(2 * st)))
+                pygame.draw.circle(surface, (246, 242, 232),
+                                   (int(end[0]), int(end[1])), max(1, int(2 * st)))
             img = self.frame(world, proj.sprite)
             if proj.owner == "monster":
                 img = pygame.transform.flip(img, True, False)
@@ -504,8 +663,11 @@ class Renderer:
         player = world.player
         settings = getattr(world, "settings", {}) or {}
         if player.alive:
+            _draw_contact_shadow(surface, player.x, player.y, ox, oy, player.radius, st)
             name, flip = player.current_frame()
             img = self.frame(world, name, flip=flip)
+            img = pygame.transform.scale(img, (int(img.get_width() * 1.22),
+                                               int(img.get_height() * 1.22)))
             if player.hit_flash > 0.0:
                 # P2.6: reduced_flashing - reduce hit_flash intensity
                 if settings.get("reduced_flashing", False):
@@ -573,27 +735,13 @@ class Renderer:
         # P2.6: reduced_flashing - reduce vignette intensity
         vig = self.vignette()
         if reduced_flashing:
-            # Create a dimmer vignette by scaling alpha
+            # Preserve the accessibility setting while reusing the smooth
+            # cached gradient. Only the overlay alpha is reduced.
             vig_scaled = vig.copy()
-            # Scale down alpha channel by half
-            vig_scaled.fill((0, 0, 0, 0), special_flags=pygame.BLEND_RGB_ADD)
-            # Use a simpler approach: create half-alpha version
-            w, h = self.size
-            half_vig = pygame.Surface(self.size, pygame.SRCALPHA)
-            half_vig.fill((0, 0, 0, 0))
-            # Draw a dimmer vignette
-            cx, cy = w / 2.0, h / 2.0
-            max_d = (cx * cx + cy * cy) ** 0.5
-            step = 12
-            for i in range(0, step):
-                t = i / float(step)
-                radius = max_d * (0.45 + 0.55 * t)
-                alpha = int(35 * (t ** 2))  # Half of 70
-                if alpha <= 0:
-                    continue
-                pygame.draw.circle(half_vig, (11, 10, 16, alpha),
-                                   (int(cx), int(cy)), int(radius), step)
-            surface.blit(half_vig, (0, 0))
+            alpha = pygame.surfarray.pixels_alpha(vig_scaled)
+            alpha[:] = (alpha.astype("uint16") // 2).astype("uint8")
+            del alpha
+            surface.blit(vig_scaled, (0, 0))
         else:
             surface.blit(vig, (0, 0))
 

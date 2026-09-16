@@ -7,35 +7,383 @@
     "generated_by": "pixel"
   },
   "frames": {
-    "prop_potion_health": [
+    "prop_altar": [
       0,
       0,
-      64,
-      64
+      32,
+      32
     ],
-    "prop_crystal": [
+    "prop_amulet": [
+      32,
+      0,
+      32,
+      32
+    ],
+    "prop_anchor": [
       64,
       0,
-      64,
-      64
+      32,
+      32
     ],
-    "prop_sword": [
+    "prop_anvil": [
+      96,
+      0,
+      32,
+      32
+    ],
+    "prop_backpack": [
       128,
       0,
-      64,
-      64
+      32,
+      32
     ],
-    "prop_shield": [
+    "prop_barrel": [
+      160,
+      0,
+      32,
+      32
+    ],
+    "prop_bear_trap": [
       192,
       0,
+      32,
+      32
+    ],
+    "prop_bones": [
+      224,
+      0,
+      32,
+      32
+    ],
+    "prop_brazier": [
+      0,
+      32,
+      32,
+      32
+    ],
+    "prop_candles": [
+      32,
+      32,
+      32,
+      32
+    ],
+    "prop_cap": [
       64,
-      64
+      32,
+      32,
+      32
+    ],
+    "prop_cart": [
+      96,
+      32,
+      32,
+      32
+    ],
+    "prop_chain": [
+      128,
+      32,
+      32,
+      32
+    ],
+    "prop_chair": [
+      160,
+      32,
+      32,
+      32
     ],
     "prop_chest": [
-      256,
+      192,
+      32,
+      32,
+      32
+    ],
+    "prop_chest_open": [
+      224,
+      32,
+      32,
+      32
+    ],
+    "prop_coffer": [
       0,
       64,
-      64
+      32,
+      32
+    ],
+    "prop_coin": [
+      32,
+      64,
+      32,
+      32
+    ],
+    "prop_coral": [
+      64,
+      64,
+      32,
+      32
+    ],
+    "prop_cracked_wall": [
+      96,
+      64,
+      32,
+      32
+    ],
+    "prop_crate": [
+      128,
+      64,
+      32,
+      32
+    ],
+    "prop_crystal": [
+      160,
+      64,
+      32,
+      32
+    ],
+    "prop_dart_trap": [
+      192,
+      64,
+      32,
+      32
+    ],
+    "prop_essence": [
+      224,
+      64,
+      32,
+      32
+    ],
+    "prop_eye": [
+      0,
+      96,
+      32,
+      32
+    ],
+    "prop_forge": [
+      32,
+      96,
+      32,
+      32
+    ],
+    "prop_fountain": [
+      64,
+      96,
+      32,
+      32
+    ],
+    "prop_gold_pile": [
+      96,
+      96,
+      32,
+      32
+    ],
+    "prop_hammer": [
+      128,
+      96,
+      32,
+      32
+    ],
+    "prop_hidden_door": [
+      160,
+      96,
+      32,
+      32
+    ],
+    "prop_jelly": [
+      192,
+      96,
+      32,
+      32
+    ],
+    "prop_kelp": [
+      224,
+      96,
+      32,
+      32
+    ],
+    "prop_key": [
+      0,
+      128,
+      32,
+      32
+    ],
+    "prop_ladder": [
+      32,
+      128,
+      32,
+      32
+    ],
+    "prop_lava_vent": [
+      64,
+      128,
+      32,
+      32
+    ],
+    "prop_mussel": [
+      96,
+      128,
+      32,
+      32
+    ],
+    "prop_pillar": [
+      128,
+      128,
+      32,
+      32
+    ],
+    "prop_pillar_drowned": [
+      160,
+      128,
+      32,
+      32
+    ],
+    "prop_pipes": [
+      192,
+      128,
+      32,
+      32
+    ],
+    "prop_potion_health": [
+      224,
+      128,
+      32,
+      32
+    ],
+    "prop_potion_mana": [
+      0,
+      160,
+      32,
+      32
+    ],
+    "prop_pottery": [
+      32,
+      160,
+      32,
+      32
+    ],
+    "prop_pressure_plate": [
+      64,
+      160,
+      32,
+      32
+    ],
+    "prop_rat_nest": [
+      96,
+      160,
+      32,
+      32
+    ],
+    "prop_ring": [
+      128,
+      160,
+      32,
+      32
+    ],
+    "prop_roots": [
+      160,
+      160,
+      32,
+      32
+    ],
+    "prop_rubble": [
+      192,
+      160,
+      32,
+      32
+    ],
+    "prop_rune_stone": [
+      224,
+      160,
+      32,
+      32
+    ],
+    "prop_sarcophagus": [
+      0,
+      192,
+      32,
+      32
+    ],
+    "prop_shield": [
+      32,
+      192,
+      32,
+      32
+    ],
+    "prop_shipwreck": [
+      64,
+      192,
+      32,
+      32
+    ],
+    "prop_shop_stall": [
+      96,
+      192,
+      32,
+      32
+    ],
+    "prop_shrine": [
+      128,
+      192,
+      32,
+      32
+    ],
+    "prop_shrine_drowned": [
+      160,
+      192,
+      32,
+      32
+    ],
+    "prop_spike_trap": [
+      192,
+      192,
+      32,
+      32
+    ],
+    "prop_statue_head": [
+      224,
+      192,
+      32,
+      32
+    ],
+    "prop_sword": [
+      0,
+      224,
+      32,
+      32
+    ],
+    "prop_table": [
+      32,
+      224,
+      32,
+      32
+    ],
+    "prop_tentacle": [
+      64,
+      224,
+      32,
+      32
+    ],
+    "prop_torch": [
+      96,
+      224,
+      32,
+      32
+    ],
+    "prop_urn": [
+      128,
+      224,
+      32,
+      32
+    ],
+    "prop_water_pool": [
+      160,
+      224,
+      32,
+      32
+    ],
+    "prop_web": [
+      192,
+      224,
+      32,
+      32
     ]
   }
 }

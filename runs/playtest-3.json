@@ -8,22 +8,22 @@
     "violations": []
   },
   "metrics": {
-    "fps_equiv": 370,
+    "fps_equiv": 206,
     "frames": 300,
-    "ms_per_tick": 2.7015460000014477
+    "ms_per_tick": 4.847532333321094
   },
   "metrics_profiler": {
-    "atlas_mem_bytes": 16646144,
-    "atlas_mem_mb": 15.9,
+    "atlas_mem_bytes": 15745024,
+    "atlas_mem_mb": 15.0,
     "caps_violations": [],
     "draw_calls": 271,
     "entity_cap": 200,
     "entity_count": 15,
-    "fps_equiv": 9487.7,
+    "fps_equiv": 9765.6,
     "particle_cap": 420,
     "particle_count": 0,
     "target_fps": 60,
-    "tick_ms": 0.11,
+    "tick_ms": 0.1,
     "tick_ms_smoothed": 0.11
   },
   "ok": true,

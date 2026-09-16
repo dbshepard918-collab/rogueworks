@@ -48,10 +48,10 @@ class HUD:
     def draw(self, world, surface):
         player = world.player
         self.settings = getattr(world, "settings", {}) or {}
-        fs = self.settings.get("font_scale", 1)
+        fs = max(2, int(self.settings.get("font_scale", 1)))
         self.font_scale = fs
-        panel_w = PANEL.w * fs
-        panel_h = PANEL.h * fs
+        panel_w = 380
+        panel_h = 124
         panel_rect = pygame.Rect(PANEL.x, PANEL.y, panel_w, panel_h)
         self._panel(surface, panel_rect)
 
@@ -59,22 +59,44 @@ class HUD:
         wobble_x = int(math.sin(world.time * 26.0) * 4.0 * self.wobble)
         bar_x = 24 + wobble_x
 
-        self._bar(world, surface, "ui_hp_frame", "ui_hp_fill", bar_x, 22 * fs,
-                  BAR_W * fs, BAR_H * fs, player.hp_fraction())
+        self._bar(world, surface, "ui_hp_frame", "ui_hp_fill", bar_x, 22,
+                  300, 22, player.hp_fraction(), fill_colour=(196, 99, 95))
         draw_text(surface, "%d/%d" % (int(round(player.hp)), int(round(player.stats.max_hp()))),
-                  (bar_x + 6, 27 * fs), fs)
+                  (bar_x + 8, 25), 2)
 
         need = max(1, player.xp_needed())
-        self._bar(world, surface, "ui_xp_frame", "ui_xp_fill", bar_x, 46 * fs, BAR_W * fs, 12 * fs,
-                  player.xp / float(need))
-        draw_text(surface, "LVL %d" % player.level, (bar_x + 6, 60 * fs), fs, colour=(180, 140, 240))
+        self._bar(world, surface, "ui_xp_frame", "ui_xp_fill", bar_x, 54,
+                  300, 14, player.xp / float(need), fill_colour=(180, 140, 240))
+        draw_text(surface, "LVL %d" % player.level, (bar_x + 8, 58), 2, colour=(180, 140, 240))
 
-        surface.blit(self._img(world, "prop_essence", (16, 16)), (bar_x + 196, 44))
-        draw_text(surface, "%d" % player.essence, (bar_x + 216, 48), 1, colour=rarity_colour(3, cb_mode))
-        surface.blit(self._img(world, "prop_gold_pile", (16, 16)), (bar_x + 196, 62))
-        draw_text(surface, "%d" % player.gold, (bar_x + 216, 66), 1, colour=rarity_colour(4, cb_mode))
-        surface.blit(self._img(world, "prop_key", (16, 16)), (bar_x + 284, 62))
-        draw_text(surface, "%d" % world.keys, (bar_x + 304, 66), 1, colour=rarity_colour(4, cb_mode))
+        icon = 18
+        surface.blit(self._img(world, "prop_essence", (icon, icon)), (bar_x + 12, 86))
+        draw_text(surface, "ESS %d" % player.essence, (bar_x + 36, 88), 2,
+                  colour=rarity_colour(3, cb_mode))
+        surface.blit(self._img(world, "prop_gold_pile", (icon, icon)), (bar_x + 130, 86))
+        draw_text(surface, "GOLD %d" % player.gold, (bar_x + 154, 88), 2,
+                  colour=rarity_colour(4, cb_mode))
+        surface.blit(self._img(world, "prop_key", (icon, icon)), (bar_x + 278, 86))
+        draw_text(surface, "KEY %d" % world.keys, (bar_x + 302, 88), 2,
+                  colour=rarity_colour(4, cb_mode))
+
+        # Give the run identity a deliberate title treatment instead of a
+        # low-contrast one-line caption.  It remains centered and compact so
+        # it never competes with the gameplay view or the HP panel.
+        label = "FLOOR %d  %s" % (world.floor, world.biome_name.upper())
+        title_scale = max(1, int(fs))
+        title_w, title_h = text_size(label, title_scale)
+        title_rect = pygame.Rect(
+            (surface.get_width() - title_w) // 2 - 10 * title_scale,
+            6 * title_scale,
+            title_w + 20 * title_scale,
+            title_h + 8 * title_scale,
+        )
+        pygame.draw.rect(surface, (21, 19, 31), title_rect)
+        pygame.draw.rect(surface, (232, 178, 60), title_rect, max(1, title_scale))
+        draw_text(surface, label,
+                  ((surface.get_width() - title_w) // 2, 10 * title_scale),
+                  title_scale, colour=(246, 242, 232))
 
         from ..systems import biome_mods as _bm
         badge = _bm.hud_badge(world)
@@ -82,7 +104,7 @@ class HUD:
             b_label, b_color = badge
             badge_w = text_size(b_label, 1)[0] + 16
             bx = (surface.get_width() - badge_w) // 2
-            by = 42
+            by = 54 * title_scale
             b_surf = pygame.Surface((badge_w, 18), pygame.SRCALPHA)
             b_surf.fill((21, 19, 31, 180))
             pygame.draw.rect(b_surf, b_color, pygame.Rect(0, 0, badge_w, 18), 1)
@@ -104,16 +126,12 @@ class HUD:
                 draw_text(surface, cdef["name"], (x_curse, y_curse + i * 18), 1,
                           colour=rarity_colour(5, cb_mode))
 
-        label = "FLOOR %d  %s" % (world.floor, world.biome_name.upper())
-        draw_text(surface, label, ((surface.get_width() - text_size(label, 1)[0]) // 2, 12 * fs), 1,
-                  colour=(217, 210, 197))
-
         self._shrine_panel(world, surface)
 
         unlocked = world.stairs_unlocked_flag or world.stairs_unlocked()
         state = "STAIR OPEN" if unlocked else "STAIR SEALED"
         state_colour = rarity_colour(2, cb_mode) if unlocked else rarity_colour(4, cb_mode)
-        draw_text(surface, state, ((surface.get_width() - text_size(state, 1)[0]) // 2, 27 * fs), 1,
+        draw_text(surface, state, ((surface.get_width() - text_size(state, 1)[0]) // 2, 38 * title_scale), 1,
                   colour=state_colour)
 
         if world.active_reward_choice is not None:
@@ -140,16 +158,20 @@ class HUD:
         x = 24
         y = 70 * fs
         for inst in player.statuses:
-            surface.blit(self._img(world, inst.icon or "ui_status_poison", (20, 20)), (x, y))
+            status_size = 20 * fs
+            surface.blit(self._img(world, inst.icon or "ui_status_poison",
+                                   (status_size, status_size)), (x, y))
             remaining = max(0.0, min(1.0, inst.remaining / 420.0))
-            pygame.draw.rect(surface, (11, 10, 16), pygame.Rect(x, y + 20 * fs, 20, 3))
+            pygame.draw.rect(surface, (11, 10, 16),
+                             pygame.Rect(x, y + 20 * fs, status_size, 3 * fs))
             if inst.kind == "dot":
                 bar_color = (226, 113, 29)
             elif inst.kind == "debuff":
                 bar_color = (196, 99, 95)
             else:
                 bar_color = (121, 176, 74)
-            pygame.draw.rect(surface, bar_color, pygame.Rect(x, y + 20 * fs, int(20 * remaining), 3))
+            pygame.draw.rect(surface, bar_color,
+                             pygame.Rect(x, y + 20 * fs, int(status_size * remaining), 3 * fs))
             x += 24 * fs
 
         self._cooldown(world, surface, "ui_icon_sword", player.attack_timer,
@@ -163,11 +185,15 @@ class HUD:
         pygame.draw.rect(panel, (58, 52, 80), pygame.Rect(0, 0, rect.w, rect.h), 1)
         surface.blit(panel, (rect.x, rect.y))
 
-    def _bar(self, world, surface, frame_name, fill_name, x, y, w, h, fraction):
-        surface.blit(self._img(world, frame_name, (w, h)), (x, y))
+    def _bar(self, world, surface, frame_name, fill_name, x, y, w, h, fraction,
+             fill_colour=(79, 209, 200)):
+        pygame.draw.rect(surface, (11, 10, 16), (x, y, w, h))
+        pygame.draw.rect(surface, (87, 80, 112), (x, y, w, h), 2)
         filled = int(w * max(0.0, min(1.0, fraction)))
         if filled > 2:
-            surface.blit(self._img(world, fill_name, (w, h)), (x, y), pygame.Rect(0, 0, filled, h))
+            pygame.draw.rect(surface, fill_colour, (x + 2, y + 2, max(1, filled - 4), h - 4))
+            pygame.draw.line(surface, (246, 242, 232), (x + 4, y + 4),
+                             (x + max(4, filled - 5), y + 4), 1)
 
     def _cooldown(self, world, surface, icon, timer, total, x, y):
         surface.blit(self._img(world, icon, (32, 32)), (x, y))

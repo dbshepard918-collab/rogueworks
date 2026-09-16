@@ -56,6 +56,21 @@ class ParticleSystem:
                 "life": life, "max_life": life, "color": color, "size": size,
             })
 
+    def deterministic_trail(self, x, y, phase, color=(138, 132, 150), life=0.24, size=2):
+        """Leave a small motion streak without consuming gameplay RNG.
+
+        Projectile decoration is deliberately derived from the projectile's
+        age/id, so replays and simulation outcomes remain unchanged.
+        """
+        if len(self.items) >= self.MAX_PARTICLES:
+            return
+        wobble = math.sin(phase * 17.0) * 2.0
+        self.items.append({
+            "x": x + wobble, "y": y - wobble,
+            "vx": -wobble * 2.0, "vy": wobble * 2.0,
+            "life": life, "max_life": life, "color": color, "size": size,
+        })
+
     def update(self, dt):
         alive = []
         for p in self.items:

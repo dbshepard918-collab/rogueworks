@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
 
 _loaded = {}
+TILE = 64
 
 def _load(name):
     if name not in _loaded:
@@ -50,10 +51,11 @@ def room_by_id(rid: str) -> Optional[dict]:
 
 def room_at(x: float, y: float) -> Optional[dict]:
     """Return the room at world pixel coordinates, or None."""
+    tx, ty = x / TILE, y / TILE
     for r in hq_rooms().get("rooms", []):
         rx, ry = r.get("x", 0), r.get("y", 0)
         rw, rh = r.get("w", 8), r.get("h", 8)
-        if rx <= x < rx + rw and ry <= y < ry + rh:
+        if rx <= tx < rx + rw and ry <= ty < ry + rh:
             return r
     return None
 

@@ -490,12 +490,20 @@ def update_projectiles(world, dt):
         proj.tick(dt)
         if not proj.alive:
             continue
+        # Cosmetic only: the trail is derived from projectile state rather
+        # than world.rng so VFX never changes combat/replay determinism.
+        trail_color = (232, 220, 180) if proj.owner == "player" else (180, 120, 180)
+        world.particles.deterministic_trail(
+            proj.x, proj.y, proj.age + proj.id * 0.013,
+            color=trail_color, life=0.2, size=2,
+        )
         level = world.level
         if not level.in_bounds(int(proj.x // TILE), int(proj.y // TILE)):
             proj.alive = False
             continue
         if not level.walkable_px(proj.x, proj.y):
             proj.alive = False
+            world.particles.sprite_burst(proj.x, proj.y, "vfx_impact", life=0.14, scale=0.8)
             world.particles.burst(proj.x, proj.y, world.rng, count=3,
                                   color=(138, 132, 150), speed=45.0, life=0.2, size=2)
             continue

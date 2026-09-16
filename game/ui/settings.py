@@ -18,7 +18,7 @@ DEFAULT_SETTINGS = {
     "shake_enabled": True,
     "damage_numbers": True,
     "reduced_flashing": False,
-    "font_scale": 1,
+    "font_scale": 2,
     "hold_to_attack": False,
     "colourblind_mode": "off",
     "gamepad_enabled": False,

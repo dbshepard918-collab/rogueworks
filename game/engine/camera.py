@@ -4,15 +4,16 @@ import pygame
 
 
 class Camera:
-    def __init__(self, view_w=1280, view_h=720, tile=32):
+    def __init__(self, view_w=1280, view_h=720, tile=64):
         self.view_w = view_w
         self.view_h = view_h
         self.tile = tile
-        self.tile_scale = 1.0  # r45: camera zoom — 1.0=default (40 tiles wide), 2.0=closer (20 tiles)
+        self.tile_scale = 1.0  # 1.0 shows 20 world tiles across at the 64px tile contract.
         self.x = 0.0
         self.y = 0.0
-        self.dead_zone = 192
-        self.smooth = 8.0
+        self.dead_zone = 144
+        self.smooth = 7.0
+        self.look_ahead = 56.0
         self.shake = 0.0
         self.shake_mag = 0.0
         self.offset_x = 0
@@ -49,23 +50,29 @@ class Camera:
         else:
             self.y = max(0.0, min(self.y, world_h - vh))
 
-    def follow(self, px, py, level_w, level_h, dt):
+    def follow(self, px, py, level_w, level_h, dt, facing=(0.0, 0.0)):
         vw, vh = self.scaled_view()
-        target_x = px - vw / 2.0
-        target_y = py - vh / 2.0
+        fx, fy = facing
+        length = (fx * fx + fy * fy) ** 0.5
+        if length > 0.001:
+            fx, fy = fx / length, fy / length
+        look_x = fx * self.look_ahead
+        look_y = fy * self.look_ahead
+        target_x = px + look_x - vw / 2.0
+        target_y = py + look_y - vh / 2.0
         dz = self.dead_zone
         cx = self.x + vw / 2.0
         cy = self.y + vh / 2.0
-        if px - cx > dz / 2.0:
-            target_x = self.x + (px - cx - dz / 2.0)
-        elif cx - px > dz / 2.0:
-            target_x = self.x - (cx - px - dz / 2.0)
+        if px + look_x - cx > dz / 2.0:
+            target_x = self.x + (px + look_x - cx - dz / 2.0)
+        elif cx - (px + look_x) > dz / 2.0:
+            target_x = self.x - (cx - (px + look_x) - dz / 2.0)
         else:
             target_x = self.x
-        if py - cy > dz / 2.0:
-            target_y = self.y + (py - cy - dz / 2.0)
-        elif cy - py > dz / 2.0:
-            target_y = self.y - (cy - py - dz / 2.0)
+        if py + look_y - cy > dz / 2.0:
+            target_y = self.y + (py + look_y - cy - dz / 2.0)
+        elif cy - (py + look_y) > dz / 2.0:
+            target_y = self.y - (cy - (py + look_y) - dz / 2.0)
         else:
             target_y = self.y
 

@@ -45,6 +45,7 @@ _AMBIENT = {
     "catacombs": (232, 226, 240),
     "ember_warrens": (245, 205, 186),
     "drowned_vaults": (208, 228, 248),
+    "sunken_ossuary": (190, 198, 205),
 }
 
 #: How hard unseen-but-lit tiles are pushed down (multiplier, 0-255). Light is an
@@ -100,28 +101,24 @@ def _radial_gradient(radius, colour):
     produces a flat disc — which is exactly what it did before this was fixed
     (the lantern left the player's own tile unlit at 1 distinct colour).
 
-    Rings are painted outer-to-inner; `pygame.draw.circle` writes pixels rather
-    than blending, so the innermost, brightest ring wins at the core.
+    The gradient is calculated per pixel rather than as nested hard-edged
+    circles. Nested circles leave visible stepped rings at gameplay scale.
     """
     key = (radius, colour)
     cached = _gradient_cache.get(key)
     if cached is not None:
         return cached
 
-    steps = max(10, min(48, radius // 3))
     diameter = radius * 2
-    surf = pygame.Surface((diameter, diameter))          # opaque: RGB carries the falloff
-    surf.fill((0, 0, 0))
-    for i in range(steps, 0, -1):
-        t = i / float(steps)                             # 1.0 rim -> 0 core
-        r = int(radius * t)
-        if r <= 0:
-            continue
-        falloff = (1.0 - t) ** 2
-        scaled = (int(colour[0] * falloff), int(colour[1] * falloff), int(colour[2] * falloff))
-        if max(scaled) <= 0:
-            continue
-        pygame.draw.circle(surf, scaled, (radius, radius), r)
+    import numpy as np
+    axis = np.arange(diameter, dtype=np.float32) - float(radius)
+    xx, yy = np.meshgrid(axis, axis, indexing="xy")
+    distance = np.sqrt(xx * xx + yy * yy) / float(radius)
+    falloff = np.clip(1.0 - distance, 0.0, 1.0) ** 2
+    pixels = np.empty((diameter, diameter, 3), dtype=np.uint8)
+    for channel, value in enumerate(colour):
+        pixels[:, :, channel] = np.clip(value * falloff, 0, 255).astype(np.uint8)
+    surf = pygame.surfarray.make_surface(np.transpose(pixels, (1, 0, 2)))
     _gradient_cache[key] = surf
     return surf
 
@@ -141,7 +138,7 @@ def _build_light_sources(world, dt):
             base_radius = 440.0
         lights.append(LightSource(
             player.x, player.y, base_radius,
-            colour=(255, 220, 160),
+            colour=(34, 28, 20),
             flicker_speed=1.5,
             intensity=1.0,
             kind="lantern",

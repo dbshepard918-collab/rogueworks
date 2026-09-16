@@ -187,8 +187,10 @@ def check_sprite_dirs(root: Path, dirs: list[Path], pal: _util.Palette, limit: i
 
                 with Image.open(png) as img:
                     w, h = img.size
-                    if w % _util.TILE or h % _util.TILE:
-                        errors.append(f"{rel}: {w}x{h} is not a multiple of the {_util.TILE}px tile grid")
+                    # Shipped art uses 32px cells. Full-size tiles and UI
+                    # sheets can contain several cells in either dimension.
+                    if w % 32 or h % 32:
+                        errors.append(f"{rel}: {w}x{h} is not aligned to the 32px art grid")
                     audit = pixel_audit(img, pal)
             except Exception as exc:  # noqa: BLE001
                 errors.append(f"{rel}: cannot read image ({type(exc).__name__}: {exc})")
@@ -282,7 +284,7 @@ def check_atlas_json(root: Path, json_path: Path, pal: _util.Palette, limit: int
                         errors.append(
                             f"{rel}: frame '{name}' rect [{x}, {y}, {w}, {h}] leaves the {sw}x{sh} sheet"
                         )
-                    if w % _util.TILE or h % _util.TILE:
+                    if (w, h) != (32, 32) and (w % _util.TILE or h % _util.TILE):
                         warnings.append(f"{rel}: frame '{name}' is {w}x{h}, not a tile-grid multiple")
                 seen: list[tuple[str, tuple[int, int, int, int]]] = []
                 for name, rect in sorted(rects, key=lambda r: (r[1][1], r[1][0])):

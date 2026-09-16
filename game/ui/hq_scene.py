@@ -11,6 +11,8 @@ from ..systems.dialogue import DialogueSystem
 class HQScene:
     """The headquarters hub: NPCs, rooms, quest tracking, dialogue."""
 
+    TILE = 64
+
     def __init__(self, game):
         self.game = game
         self.hq_state = hq_sys.HQState()
@@ -23,6 +25,7 @@ class HQScene:
         # Camera offset for HQ
         self.camera_x = 0
         self.camera_y = 0
+        self.hq_state.update_room()
         self._update_camera()
         # Accept starting quests
         for q in self.quest_tracker.quests.values():
@@ -31,8 +34,8 @@ class HQScene:
 
     def _update_camera(self):
         """Center camera on player."""
-        self.camera_x = self.hq_state.player_tx * 32 - 640 + 16
-        self.camera_y = self.hq_state.player_ty * 32 - 360 + 16
+        self.camera_x = self.hq_state.player_tx * self.TILE - 640 + self.TILE // 2
+        self.camera_y = self.hq_state.player_ty * self.TILE - 360 + self.TILE // 2
 
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
@@ -68,7 +71,10 @@ class HQScene:
             self.active_npc = npc_def.get("name", "")
         else:
             # Check for room interactions
-            room = hq_sys.room_at(self.hq_state.player_tx * 32, self.hq_state.player_ty * 32)
+            room = hq_sys.room_at(
+                self.hq_state.player_tx * self.TILE,
+                self.hq_state.player_ty * self.TILE,
+            )
             if room and room.get("kind") == "exit":
                 # Start a new run
                 self.game.start_run()
@@ -101,51 +107,51 @@ class HQScene:
             self._draw_message(surface)
 
     def _draw_room(self, surface, room):
-        rx = room.get("x", 0) * 32 - self.camera_x
-        ry = room.get("y", 0) * 32 - self.camera_y
-        rw = room.get("w", 8) * 32
-        rh = room.get("h", 8) * 32
+        rx = room.get("x", 0) * self.TILE - self.camera_x
+        ry = room.get("y", 0) * self.TILE - self.camera_y
+        rw = room.get("w", 8) * self.TILE
+        rh = room.get("h", 8) * self.TILE
         room_id = room.get("id", "")
-        
-        # Draw floor tiles from HQ atlas
-        floor_frame = f"{room_id}_r0c0" if room_id else None
-        if floor_frame:
-            try:
-                atlas = Atlas.load("hq")
-                if atlas and floor_frame in atlas.frames:
-                    surf = atlas.frame(floor_frame)
-                    if surf:
-                        # Tile the floor across the room
-                        for ty in range(0, rh, 32):
-                            for tx in range(0, rw, 32):
-                                surface.blit(surf, (rx + tx, ry + ty))
-                        # Draw walls on top
-                        wall_col = (58, 52, 80)
-                        pygame.draw.rect(surface, wall_col, (rx, ry, rw, 4))
-                        pygame.draw.rect(surface, wall_col, (rx, ry + rh - 4, rw, 4))
-                        pygame.draw.rect(surface, wall_col, (rx, ry, 4, rh))
-                        pygame.draw.rect(surface, wall_col, (rx + rw - 4, ry, 4, rh))
-                        # Room name
-                        name = room.get("name", "")
-                        tw, th = text_size(name, 1)
-                        if tw > 0:
-                            draw_text(surface, name, (rx + rw // 2 - tw // 2, ry + 8), 1, colour=(217, 210, 197))
-                        return
-            except Exception:
-                pass
-        
-        # Fallback: colored rectangle
-        floor_col = (40, 36, 52)
-        pygame.draw.rect(surface, floor_col, (rx, ry, rw, rh))
-        wall_col = (58, 52, 80)
-        pygame.draw.rect(surface, wall_col, (rx, ry, rw, 4))
-        pygame.draw.rect(surface, wall_col, (rx, ry + rh - 4, rw, 4))
-        pygame.draw.rect(surface, wall_col, (rx, ry, 4, rh))
-        pygame.draw.rect(surface, wall_col, (rx + rw - 4, ry, 4, rh))
+        kind = room.get("kind", "hub")
+        palettes = {
+            "hub": ((36, 32, 50), (58, 52, 80), (87, 80, 112), (121, 176, 74)),
+            "blacksmith": ((58, 32, 28), (92, 32, 24), (168, 60, 28), (226, 113, 29)),
+            "quest_hub": ((16, 40, 60), (31, 95, 128), (79, 209, 200), (147, 160, 180)),
+            "omen": ((36, 32, 50), (58, 52, 80), (123, 79, 209), (180, 140, 240)),
+            "recap": ((58, 52, 80), (87, 80, 112), (217, 210, 197), (138, 132, 150)),
+            "exit": ((21, 19, 31), (36, 32, 50), (87, 80, 112), (232, 178, 60)),
+        }
+        floor, wall, highlight, accent = palettes.get(kind, palettes["hub"])
+        pygame.draw.rect(surface, floor, (rx, ry, rw, rh))
+        # Large, quiet material bands read as stone/wood/water without noisy stamps.
+        for row in range(2, max(2, rh // self.TILE), 2):
+            yy = ry + row * self.TILE
+            pygame.draw.line(surface, wall, (rx + 8, yy), (rx + rw - 9, yy), 1)
+        for col in range(2, max(2, rw // self.TILE), 2):
+            xx = rx + col * self.TILE
+            pygame.draw.line(surface, wall, (xx, ry + 8), (xx, ry + rh - 9), 1)
+        if kind == "blacksmith":
+            for xx in range(rx + 18, rx + rw - 18, 96):
+                pygame.draw.rect(surface, accent, (xx, ry + rh // 2 - 3, 26, 6))
+        elif kind == "quest_hub":
+            for yy in range(ry + 20, ry + rh - 20, 48):
+                pygame.draw.arc(surface, highlight, (rx + 12, yy, rx + rw - 24, yy + 18), 0.2, 2.8, 2)
+        elif kind == "omen":
+            pygame.draw.circle(surface, accent, (rx + rw // 2, ry + rh // 2), min(rw, rh) // 5, 3)
+        elif kind == "recap":
+            for yy in range(ry + 24, ry + rh - 20, 42):
+                pygame.draw.line(surface, highlight, (rx + 18, yy), (rx + rw - 18, yy), 2)
+        elif kind == "exit":
+            pygame.draw.circle(surface, accent, (rx + rw // 2, ry + rh // 2), min(rw, rh) // 4, 3)
+        # Recessed wall frame and bottom shadow give rooms a solid architectural edge.
+        pygame.draw.rect(surface, wall, (rx, ry, rw, rh), 6)
+        pygame.draw.line(surface, (11, 10, 16), (rx + 8, ry + rh - 8), (rx + rw - 8, ry + rh - 8), 4)
         name = room.get("name", "")
         tw, th = text_size(name, 1)
         if tw > 0:
-            draw_text(surface, name, (rx + rw // 2 - tw // 2, ry + 8), 1, colour=(217, 210, 197))
+            label_w = tw + 20
+            pygame.draw.rect(surface, (11, 10, 16), (rx + rw // 2 - label_w // 2, ry + 10, label_w, 22))
+            draw_text(surface, name, (rx + rw // 2 - tw // 2, ry + 14), 1, colour=(217, 210, 197))
 
     def _draw_npc(self, surface, npc_state):
         nx = npc_state.x - self.camera_x
@@ -160,7 +166,11 @@ class HQScene:
                 if atlas and frame_name in atlas.frames:
                     surf = atlas.frame(frame_name)
                     if surf:
-                        surface.blit(surf, (nx - 16, ny - 16))
+                        # HQ character frames are 64px world tiles; center the
+                        # full authored silhouette on the NPC's interaction
+                        # point instead of offsetting as if it were 32px art.
+                        surface.blit(surf, (nx - surf.get_width() // 2,
+                                            ny - surf.get_height() // 2))
                         name = npc_state.definition.get("name", "")
                         tw, th = text_size(name, 1)
                         if tw > 0:
@@ -186,55 +196,66 @@ class HQScene:
             draw_text(surface, name, (nx - tw // 2, ny - 24), 1, colour=(217, 210, 197))
 
     def _draw_player(self, surface):
-        px = self.hq_state.player_tx * 32 - self.camera_x
-        py = self.hq_state.player_ty * 32 - self.camera_y
-        # Draw player from procedural atlas
+        px = self.hq_state.player_tx * self.TILE - self.camera_x
+        py = self.hq_state.player_ty * self.TILE - self.camera_y
+        # Draw a real directional human silhouette from the shipped atlas.
+        # ``player_idle_0`` is a runtime alias used by the combat entity, not
+        # a frame in the HQ atlas JSON.
         try:
             atlas = Atlas.load("player")
-            if atlas and "player_idle_0" in atlas.frames:
-                surf = atlas.frame("player_idle_0")
-                if surf:
-                    surface.blit(surf, (px - 16, py - 16))
-                    return
+            if atlas:
+                frame_name = next(
+                    (name for name in ("player_idle_down",
+                                       "player_idle_breath_down_0",
+                                       "player_idle_right")
+                     if name in atlas.frames),
+                    None,
+                )
+                if frame_name:
+                    surf = atlas.frame(frame_name)
+                    if surf:
+                        surface.blit(surf, (px - surf.get_width() // 2,
+                                            py - surf.get_height() // 2))
+                        return
         except Exception:
             pass
         # Fallback: gold rectangle
         pygame.draw.rect(surface, (232, 178, 60), (px - 10, py - 10, 20, 20))
 
     def _draw_hud(self, surface):
+        pygame.draw.rect(surface, (11, 10, 16), (8, 8, 270, 42))
+        pygame.draw.rect(surface, (87, 80, 112), (8, 8, 270, 42), 2)
         # Room name
         if self.hq_state.active_room:
             room = hq_sys.room_by_id(self.hq_state.active_room)
             if room:
-                draw_text(surface, room.get("name", ""), (10, 10), 2, colour=(217, 210, 197))
+                draw_text(surface, room.get("name", ""), (18, 16), 1, colour=(217, 210, 197))
         # Controls hint
-        draw_text(surface, "WASD: Move | E: Interact | ESC: Menu", (10, 700), 1, colour=(138, 132, 150))
+        pygame.draw.rect(surface, (11, 10, 16), (8, 680, 390, 28))
+        draw_text(surface, "WASD MOVE   E INTERACT   ESC MENU", (18, 689), 1, colour=(138, 132, 150))
         # Active quests
         quests = self.quest_tracker.active_quests_with_progress()
         if quests:
-            draw_text(surface, "QUESTS:", (900, 10), 1, colour=(217, 210, 197))
+            pygame.draw.rect(surface, (11, 10, 16), (902, 8, 366, 132))
+            pygame.draw.rect(surface, (87, 80, 112), (902, 8, 366, 132), 2)
+            draw_text(surface, "ACTIVE QUESTS", (918, 16), 1, colour=(217, 210, 197))
             for i, q in enumerate(quests[:3]):
-                draw_text(surface, q["title"][:30], (900, 30 + i * 40), 1, colour=(121, 176, 74))
+                draw_text(surface, q["title"][:30], (918, 38 + i * 40), 1, colour=(121, 176, 74))
                 for j, obj in enumerate(q["objectives"][:2]):
                     check = "[x]" if obj["done"] else "[ ]"
-                    draw_text(surface, f"  {check} {obj['label'][:25]}", (900, 48 + i * 40 + j * 14), 1, colour=(138, 132, 150))
+                    draw_text(surface, f"  {check} {obj['label'][:25]}", (918, 54 + i * 40 + j * 14), 1, colour=(138, 132, 150))
 
     def _draw_dialogue(self, surface):
         # r49: dialogue panel background
         box_h = 160
         box_y = 720 - box_h  # = 560
-        try:
-            atlas = Atlas.load("ui")
-            if atlas and atlas.has("dialogue_panel"):
-                panel = atlas.frame("dialogue_panel")
-                if panel:
-                    surface.blit(panel, (0, box_y))
-            else:
-                pygame.draw.rect(surface, (15, 13, 22, 240), (0, box_y, 1280, box_h))
-                pygame.draw.rect(surface, (58, 52, 80), (0, box_y, 1280, 2))
-        except Exception:
-            pygame.draw.rect(surface, (15, 13, 22, 240), (0, box_y, 1280, box_h))
-            pygame.draw.rect(surface, (58, 52, 80), (0, box_y, 1280, 2))
+        panel = pygame.Surface((surface.get_width(), box_h), pygame.SRCALPHA)
+        panel.fill((11, 10, 16, 245))
+        surface.blit(panel, (0, box_y))
+        pygame.draw.rect(surface, (87, 80, 112),
+                         (0, box_y, surface.get_width(), box_h), 2)
+        pygame.draw.line(surface, (121, 176, 74),
+                         (20, box_y + 36), (surface.get_width() - 20, box_y + 36), 1)
         # NPC name
         if self.dialogue.npc_name:
             draw_text(surface, self.dialogue.npc_name, (20, box_y + 10), 2, colour=(217, 210, 197))

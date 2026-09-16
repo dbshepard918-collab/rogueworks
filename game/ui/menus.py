@@ -20,9 +20,24 @@ BUTTON_W = 240
 BUTTON_H = 30
 
 
-def draw_title(surface, title, subtitle=None, y=120):
-    draw_text(surface, title, ((surface.get_width() - text_size(title, 4)[0]) // 2, y), 4,
-              colour=(232, 178, 60))
+def _title_frame(surface, title, y, colour):
+    """Draw a restrained title plate that keeps bitmap text readable."""
+    width = text_size(title, 4)[0]
+    x = (surface.get_width() - width) // 2
+    frame = pygame.Rect(x - 18, y - 10, width + 36, 52)
+    panel = pygame.Surface(frame.size, pygame.SRCALPHA)
+    panel.fill((15, 13, 22, 220))
+    pygame.draw.rect(panel, (58, 52, 80, 255), panel.get_rect(), 1)
+    pygame.draw.line(panel, colour, (1, 1), (min(panel.get_width() - 2, 28), 1), 2)
+    pygame.draw.line(panel, colour, (panel.get_width() - 29, panel.get_height() - 2),
+                     (panel.get_width() - 2, panel.get_height() - 2), 2)
+    surface.blit(panel, frame.topleft)
+    return x
+
+
+def draw_title(surface, title, subtitle=None, y=120, colour=(232, 178, 60)):
+    x = _title_frame(surface, title, y, colour)
+    draw_text(surface, title, (x, y), 4, colour=colour)
     if subtitle:
         draw_text(surface, subtitle, ((surface.get_width() - text_size(subtitle, 1)[0]) // 2, y + 44),
                   1, colour=(138, 132, 150))
@@ -42,8 +57,8 @@ def draw_title_animated(surface, title, subtitle=None, y=110, frame_idx=0, pulse
     g = int(178 * (0.7 + 0.3 * pulse))
     b = int(60 * (0.7 + 0.3 * pulse))
     title_colour = (r, g, b)
-    draw_text(surface, title, ((w - text_size(title, 4)[0]) // 2, y), 4,
-              colour=title_colour)
+    x = _title_frame(surface, title, y, title_colour)
+    draw_text(surface, title, (x, y), 4, colour=title_colour)
     # Draw the title animation sprite (lantern) above the title
     try:
         atlas = Atlas.load("ui")
@@ -236,13 +251,21 @@ def draw_end_screen(surface, world, victory, profile, menu):
     profile = profile or {}
 
     title = VICTORY_TITLE if victory else DEATH_TITLE
+    accent = (79, 209, 200) if victory else (196, 99, 95)
+    glow = (31, 95, 128) if victory else (77, 18, 32)
+    surface.fill((11, 10, 16))
+    # Broad, low-contrast bands give the recap a composed backdrop without
+    # competing with the run data.
+    for y_band in range(0, surface.get_height(), 48):
+        pygame.draw.line(surface, glow, (0, y_band), (surface.get_width(), y_band), 1)
     subtitle = ("depth %d reached - %s" % (int(getattr(world, "floor", 1)),
                                            str(getattr(world, "biome_name", "") or ""))).strip(" -")
-    draw_title(surface, title, subtitle, y=34)
+    draw_title(surface, title, subtitle, y=34, colour=accent)
 
     # -- run recap ---------------------------------------------------------
     left = pygame.Rect(60, 108, 560, 268)
     draw_panel(surface, left)
+    pygame.draw.rect(surface, accent, (left.x, left.y, 5, left.h))
     draw_text(surface, "RUN RECAP", (left.x + 22, left.y + 16), 2, colour=(232, 178, 60))
     y = left.y + 56
     for label, value in _recap_lines(world, profile):
@@ -253,6 +276,7 @@ def draw_end_screen(surface, world, victory, profile, menu):
     # -- codex + bestiary --------------------------------------------------
     right = pygame.Rect(660, 108, 560, 268)
     draw_panel(surface, right)
+    pygame.draw.rect(surface, accent, (right.x, right.y, 5, right.h))
     codex = profile.get("codex", {}) or {}
     seen = sum(1 for entry in codex.values() if isinstance(entry, dict) and entry.get("seen"))
     total = 0
@@ -282,6 +306,7 @@ def draw_end_screen(surface, world, victory, profile, menu):
     # -- run history -------------------------------------------------------
     hist = pygame.Rect(60, 392, 1160, 132)
     draw_panel(surface, hist)
+    pygame.draw.rect(surface, accent, (hist.x, hist.y, hist.w, 4))
     draw_text(surface, "RECENT DESCENTS", (hist.x + 22, hist.y + 14), 1, colour=(138, 132, 150))
     lines = _history_lines(profile, world)
     if not lines:
