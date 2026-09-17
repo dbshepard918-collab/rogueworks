@@ -174,18 +174,22 @@ def main(argv=None) -> int:
     CACHE.mkdir(parents=True, exist_ok=True)
 
     images = []
+    sprites_dir = ROOT / "assets" / "sprites" / "monsters"
+    sprites_dir.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
     for idx, (sprite, prompt) in enumerate(specs):
         raw = CACHE / ("%s.png" % sprite)
-        if not raw.exists():
-            ok = generate(prompt, raw, args.seed + idx)
-            if not ok:
-                print("  FAILED %s" % sprite)
-                continue
-        cell = process(raw)
+        cell = None
+        if raw.exists():
+            cell = process(raw)
+        else:
+            existing = sprites_dir / ("%s.png" % sprite)
+            if existing.exists():
+                cell = Image.open(existing).convert("RGBA")
         if cell is None:
-            print("  EMPTY  %s" % sprite)
+            print("  MISSING/EMPTY %s" % sprite)
             continue
+        cell.save(sprites_dir / ("%s.png" % sprite))
         images.append((sprite, cell))
         print("  [%3d/%d] %s" % (idx + 1, len(specs), sprite), flush=True)
 

@@ -1,617 +1,617 @@
 {
-  "version": 1,
-  "image": "assets/atlas/monsters.png",
-  "meta": {
-    "tile": 64,
-    "palette_version": 1,
-    "generated_by": "pixel"
-  },
-  "frames": {
-    "monster_abyss_lamprey": [
-      0,
-      0,
-      64,
-      64
-    ],
-    "monster_abyss_lamprey_elite": [
-      64,
-      0,
-      64,
-      64
-    ],
-    "monster_abyssal_beacon": [
-      128,
-      0,
-      64,
-      64
-    ],
-    "monster_abyssal_splitter": [
-      192,
-      0,
-      64,
-      64
-    ],
-    "monster_ash_skeleton": [
-      256,
-      0,
-      64,
-      64
-    ],
-    "monster_ash_skeleton_elite": [
-      320,
-      0,
-      64,
-      64
-    ],
-    "monster_ash_wraith": [
-      384,
-      0,
-      64,
-      64
-    ],
-    "monster_bellows_brute": [
-      448,
-      0,
-      64,
-      64
-    ],
-    "monster_bog_lurker": [
-      512,
-      0,
-      64,
-      64
-    ],
-    "monster_bog_teleporter": [
-      576,
-      0,
-      64,
-      64
-    ],
-    "monster_bone_husk": [
-      640,
-      0,
-      64,
-      64
-    ],
-    "monster_bone_marrow": [
-      0,
-      64,
-      64,
-      64
-    ],
-    "monster_bone_rat": [
-      64,
-      64,
-      64,
-      64
-    ],
-    "monster_bone_rat_elite": [
-      128,
-      64,
-      64,
-      64
-    ],
-    "monster_bone_stalker": [
-      192,
-      64,
-      64,
-      64
-    ],
-    "monster_brine_juggernaut": [
-      256,
-      64,
-      64,
-      64
-    ],
-    "monster_brine_slinger": [
-      320,
-      64,
-      64,
-      64
-    ],
-    "monster_brine_thrall": [
-      384,
-      64,
-      64,
-      64
-    ],
-    "monster_brine_thrall_elite": [
-      448,
-      64,
-      64,
-      64
-    ],
-    "monster_catacomb_guardian": [
-      512,
-      64,
-      64,
-      64
-    ],
-    "monster_charger_brute": [
-      576,
-      64,
-      64,
-      64
-    ],
-    "monster_cinder_wretch": [
-      640,
-      64,
-      64,
-      64
-    ],
-    "monster_cinder_wretch_elite": [
-      0,
-      128,
-      64,
-      64
-    ],
-    "monster_coal_hound": [
-      64,
-      128,
-      64,
-      64
-    ],
-    "monster_coal_hound_elite": [
-      128,
-      128,
-      64,
-      64
-    ],
-    "monster_coral_guardian": [
-      192,
-      128,
-      64,
-      64
-    ],
-    "monster_coral_horror": [
-      256,
-      128,
-      64,
-      64
-    ],
-    "monster_coral_leviathan": [
-      320,
-      128,
-      64,
-      64
-    ],
-    "monster_crypt_brute": [
-      384,
-      128,
-      64,
-      64
-    ],
-    "monster_crypt_crawler": [
-      448,
-      128,
-      64,
-      64
-    ],
-    "monster_deep_priest": [
-      512,
-      128,
-      64,
-      64
-    ],
-    "monster_deep_sentinels": [
-      576,
-      128,
-      64,
-      64
-    ],
-    "monster_deep_summoner": [
-      640,
-      128,
-      64,
-      64
-    ],
-    "monster_deep_tide": [
-      0,
-      192,
-      64,
-      64
-    ],
-    "monster_drift_shell": [
-      64,
-      192,
-      64,
-      64
-    ],
-    "monster_drowned_grunt": [
-      128,
-      192,
-      64,
-      64
-    ],
-    "monster_drowned_horror": [
-      192,
-      192,
-      64,
-      64
-    ],
-    "monster_drowned_leviathan": [
-      256,
-      192,
-      64,
-      64
-    ],
-    "monster_drowned_soldier": [
-      320,
-      192,
-      64,
-      64
-    ],
-    "monster_drowned_soldier_elite": [
-      384,
-      192,
-      64,
-      64
-    ],
-    "monster_drowned_tidal": [
-      448,
-      192,
-      64,
-      64
-    ],
-    "monster_ember_imp": [
-      512,
-      192,
-      64,
-      64
-    ],
-    "monster_ember_imp_elite": [
-      576,
-      192,
-      64,
-      64
-    ],
-    "monster_flame_djinn": [
-      640,
-      192,
-      64,
-      64
-    ],
-    "monster_flesh_spawn": [
-      0,
-      256,
-      64,
-      64
-    ],
-    "monster_flesh_weaver": [
-      64,
-      256,
-      64,
-      64
-    ],
-    "monster_forge_husk": [
-      128,
-      256,
-      64,
-      64
-    ],
-    "monster_forge_protector": [
-      192,
-      256,
-      64,
-      64
-    ],
-    "monster_forge_spark": [
-      256,
-      256,
-      64,
-      64
-    ],
-    "monster_forge_spitter": [
-      320,
-      256,
-      64,
-      64
-    ],
-    "monster_grave_moth": [
-      384,
-      256,
-      64,
-      64
-    ],
-    "monster_heart_thrall": [
-      448,
-      256,
-      64,
-      64
-    ],
-    "monster_hive_splitter": [
-      512,
-      256,
-      64,
-      64
-    ],
-    "monster_kelp_witch": [
-      576,
-      256,
-      64,
-      64
-    ],
-    "monster_magma_slinger": [
-      640,
-      256,
-      64,
-      64
-    ],
-    "monster_mire_hulk": [
-      0,
-      320,
-      64,
-      64
-    ],
-    "monster_mire_lurker": [
-      64,
-      320,
-      64,
-      64
-    ],
-    "monster_molten_crawler": [
-      128,
-      320,
-      64,
-      64
-    ],
-    "monster_mud_brute": [
-      192,
-      320,
-      64,
-      64
-    ],
-    "monster_ossuary_archer": [
-      256,
-      320,
-      64,
-      64
-    ],
-    "monster_ossuary_charger": [
-      320,
-      320,
-      64,
-      64
-    ],
-    "monster_ossuary_kraken": [
-      384,
-      320,
-      64,
-      64
-    ],
-    "monster_ossuary_summoner": [
-      448,
-      320,
-      64,
-      64
-    ],
-    "monster_ossuary_wraith": [
-      512,
-      320,
-      64,
-      64
-    ],
-    "monster_pale_diver": [
-      576,
-      320,
-      64,
-      64
-    ],
-    "monster_pale_diver_elite": [
-      640,
-      320,
-      64,
-      64
-    ],
-    "monster_phantom_teleporter": [
-      0,
-      384,
-      64,
-      64
-    ],
-    "monster_pulse_caller": [
-      64,
-      384,
-      64,
-      64
-    ],
-    "monster_putrid_ghoul": [
-      128,
-      384,
-      64,
-      64
-    ],
-    "monster_putrid_ghoul_elite": [
-      192,
-      384,
-      64,
-      64
-    ],
-    "monster_rot_spore": [
-      256,
-      384,
-      64,
-      64
-    ],
-    "monster_rune_runner": [
-      320,
-      384,
-      64,
-      64
-    ],
-    "monster_shield_guardian": [
-      384,
-      384,
-      64,
-      64
-    ],
-    "monster_shroud_haunt": [
-      448,
-      384,
-      64,
-      64
-    ],
-    "monster_silt_crawler": [
-      512,
-      384,
-      64,
-      64
-    ],
-    "monster_skull_archer": [
-      576,
-      384,
-      64,
-      64
-    ],
-    "monster_skull_brute": [
-      640,
-      384,
-      64,
-      64
-    ],
-    "monster_skull_warden": [
-      0,
-      448,
-      64,
-      64
-    ],
-    "monster_skull_wraith": [
-      64,
-      448,
-      64,
-      64
-    ],
-    "monster_slag_drudge": [
-      128,
-      448,
-      64,
-      64
-    ],
-    "monster_spark_moth": [
-      192,
-      448,
-      64,
-      64
-    ],
-    "monster_spark_moth_elite": [
-      256,
-      448,
-      64,
-      64
-    ],
-    "monster_summon_skeleton": [
-      320,
-      448,
-      64,
-      64
-    ],
-    "monster_sunken_runner": [
-      384,
-      448,
-      64,
-      64
-    ],
-    "monster_swamp_drifter": [
-      448,
-      448,
-      64,
-      64
-    ],
-    "monster_the_wound": [
-      512,
-      448,
-      64,
-      64
-    ],
-    "monster_tide_caller": [
-      576,
-      448,
-      64,
-      64
-    ],
-    "monster_tide_hunter": [
-      640,
-      448,
-      64,
-      64
-    ],
-    "monster_tide_moth": [
-      0,
-      512,
-      64,
-      64
-    ],
-    "monster_tide_shield": [
-      64,
-      512,
-      64,
-      64
-    ],
-    "monster_tomb_lurker": [
-      128,
-      512,
-      64,
-      64
-    ],
-    "monster_toxic_bloom": [
-      192,
-      512,
-      64,
-      64
-    ],
-    "monster_toxic_priest": [
-      256,
-      512,
-      64,
-      64
-    ],
-    "monster_vault_sifter": [
-      320,
-      512,
-      64,
-      64
-    ],
-    "monster_vein_lurker": [
-      384,
-      512,
-      64,
-      64
-    ],
-    "monster_viscera_brute": [
-      448,
-      512,
-      64,
-      64
-    ],
-    "monster_warren_overseer": [
-      512,
-      512,
-      64,
-      64
-    ],
-    "monster_waterlogged_husk": [
-      576,
-      512,
-      64,
-      64
-    ],
-    "monster_wax_wisp": [
-      640,
-      512,
-      64,
-      64
-    ],
-    "monster_wound_horror": [
-      0,
-      576,
-      64,
-      64
-    ],
-    "monster_wound_maggot": [
-      64,
-      576,
-      64,
-      64
-    ]
-  }
+ "version": 1,
+ "image": "assets/atlas/monsters.png",
+ "meta": {
+  "tile": 64,
+  "palette_version": 1,
+  "generated_by": "procedural+flesh"
+ },
+ "frames": {
+  "monster_abyss_lamprey": [
+   0,
+   0,
+   64,
+   64
+  ],
+  "monster_abyss_lamprey_elite": [
+   64,
+   0,
+   64,
+   64
+  ],
+  "monster_abyssal_beacon": [
+   128,
+   0,
+   64,
+   64
+  ],
+  "monster_abyssal_splitter": [
+   192,
+   0,
+   64,
+   64
+  ],
+  "monster_ash_skeleton": [
+   256,
+   0,
+   64,
+   64
+  ],
+  "monster_ash_skeleton_elite": [
+   320,
+   0,
+   64,
+   64
+  ],
+  "monster_ash_wraith": [
+   384,
+   0,
+   64,
+   64
+  ],
+  "monster_bellows_brute": [
+   448,
+   0,
+   64,
+   64
+  ],
+  "monster_bog_lurker": [
+   512,
+   0,
+   64,
+   64
+  ],
+  "monster_bog_teleporter": [
+   576,
+   0,
+   64,
+   64
+  ],
+  "monster_bone_husk": [
+   640,
+   0,
+   64,
+   64
+  ],
+  "monster_bone_marrow": [
+   704,
+   0,
+   64,
+   64
+  ],
+  "monster_bone_rat": [
+   768,
+   0,
+   64,
+   64
+  ],
+  "monster_bone_rat_elite": [
+   832,
+   0,
+   64,
+   64
+  ],
+  "monster_bone_stalker": [
+   896,
+   0,
+   64,
+   64
+  ],
+  "monster_brine_juggernaut": [
+   960,
+   0,
+   64,
+   64
+  ],
+  "monster_brine_slinger": [
+   0,
+   64,
+   64,
+   64
+  ],
+  "monster_brine_thrall": [
+   64,
+   64,
+   64,
+   64
+  ],
+  "monster_brine_thrall_elite": [
+   128,
+   64,
+   64,
+   64
+  ],
+  "monster_catacomb_guardian": [
+   192,
+   64,
+   64,
+   64
+  ],
+  "monster_charger_brute": [
+   256,
+   64,
+   64,
+   64
+  ],
+  "monster_cinder_wretch": [
+   320,
+   64,
+   64,
+   64
+  ],
+  "monster_cinder_wretch_elite": [
+   384,
+   64,
+   64,
+   64
+  ],
+  "monster_coal_hound": [
+   448,
+   64,
+   64,
+   64
+  ],
+  "monster_coal_hound_elite": [
+   512,
+   64,
+   64,
+   64
+  ],
+  "monster_coral_guardian": [
+   576,
+   64,
+   64,
+   64
+  ],
+  "monster_coral_horror": [
+   640,
+   64,
+   64,
+   64
+  ],
+  "monster_coral_leviathan": [
+   704,
+   64,
+   64,
+   64
+  ],
+  "monster_crypt_brute": [
+   768,
+   64,
+   64,
+   64
+  ],
+  "monster_crypt_crawler": [
+   832,
+   64,
+   64,
+   64
+  ],
+  "monster_deep_priest": [
+   896,
+   64,
+   64,
+   64
+  ],
+  "monster_deep_sentinels": [
+   960,
+   64,
+   64,
+   64
+  ],
+  "monster_deep_summoner": [
+   0,
+   128,
+   64,
+   64
+  ],
+  "monster_deep_tide": [
+   64,
+   128,
+   64,
+   64
+  ],
+  "monster_drift_shell": [
+   128,
+   128,
+   64,
+   64
+  ],
+  "monster_drowned_grunt": [
+   192,
+   128,
+   64,
+   64
+  ],
+  "monster_drowned_horror": [
+   256,
+   128,
+   64,
+   64
+  ],
+  "monster_drowned_leviathan": [
+   320,
+   128,
+   64,
+   64
+  ],
+  "monster_drowned_soldier": [
+   384,
+   128,
+   64,
+   64
+  ],
+  "monster_drowned_soldier_elite": [
+   448,
+   128,
+   64,
+   64
+  ],
+  "monster_drowned_tidal": [
+   512,
+   128,
+   64,
+   64
+  ],
+  "monster_ember_imp": [
+   576,
+   128,
+   64,
+   64
+  ],
+  "monster_ember_imp_elite": [
+   640,
+   128,
+   64,
+   64
+  ],
+  "monster_flame_djinn": [
+   704,
+   128,
+   64,
+   64
+  ],
+  "monster_flesh_spawn": [
+   768,
+   128,
+   64,
+   64
+  ],
+  "monster_flesh_weaver": [
+   832,
+   128,
+   64,
+   64
+  ],
+  "monster_forge_husk": [
+   896,
+   128,
+   64,
+   64
+  ],
+  "monster_forge_protector": [
+   960,
+   128,
+   64,
+   64
+  ],
+  "monster_forge_spark": [
+   0,
+   192,
+   64,
+   64
+  ],
+  "monster_forge_spitter": [
+   64,
+   192,
+   64,
+   64
+  ],
+  "monster_grave_moth": [
+   128,
+   192,
+   64,
+   64
+  ],
+  "monster_heart_thrall": [
+   192,
+   192,
+   64,
+   64
+  ],
+  "monster_hive_splitter": [
+   256,
+   192,
+   64,
+   64
+  ],
+  "monster_kelp_witch": [
+   320,
+   192,
+   64,
+   64
+  ],
+  "monster_magma_slinger": [
+   384,
+   192,
+   64,
+   64
+  ],
+  "monster_mire_hulk": [
+   448,
+   192,
+   64,
+   64
+  ],
+  "monster_mire_lurker": [
+   512,
+   192,
+   64,
+   64
+  ],
+  "monster_molten_crawler": [
+   576,
+   192,
+   64,
+   64
+  ],
+  "monster_mud_brute": [
+   640,
+   192,
+   64,
+   64
+  ],
+  "monster_ossuary_archer": [
+   704,
+   192,
+   64,
+   64
+  ],
+  "monster_ossuary_charger": [
+   768,
+   192,
+   64,
+   64
+  ],
+  "monster_ossuary_kraken": [
+   832,
+   192,
+   64,
+   64
+  ],
+  "monster_ossuary_summoner": [
+   896,
+   192,
+   64,
+   64
+  ],
+  "monster_ossuary_wraith": [
+   960,
+   192,
+   64,
+   64
+  ],
+  "monster_pale_diver": [
+   0,
+   256,
+   64,
+   64
+  ],
+  "monster_pale_diver_elite": [
+   64,
+   256,
+   64,
+   64
+  ],
+  "monster_phantom_teleporter": [
+   128,
+   256,
+   64,
+   64
+  ],
+  "monster_pulse_caller": [
+   192,
+   256,
+   64,
+   64
+  ],
+  "monster_putrid_ghoul": [
+   256,
+   256,
+   64,
+   64
+  ],
+  "monster_putrid_ghoul_elite": [
+   320,
+   256,
+   64,
+   64
+  ],
+  "monster_rot_spore": [
+   384,
+   256,
+   64,
+   64
+  ],
+  "monster_rune_runner": [
+   448,
+   256,
+   64,
+   64
+  ],
+  "monster_shield_guardian": [
+   512,
+   256,
+   64,
+   64
+  ],
+  "monster_shroud_haunt": [
+   576,
+   256,
+   64,
+   64
+  ],
+  "monster_silt_crawler": [
+   640,
+   256,
+   64,
+   64
+  ],
+  "monster_skull_archer": [
+   704,
+   256,
+   64,
+   64
+  ],
+  "monster_skull_brute": [
+   768,
+   256,
+   64,
+   64
+  ],
+  "monster_skull_warden": [
+   832,
+   256,
+   64,
+   64
+  ],
+  "monster_skull_wraith": [
+   896,
+   256,
+   64,
+   64
+  ],
+  "monster_slag_drudge": [
+   960,
+   256,
+   64,
+   64
+  ],
+  "monster_spark_moth": [
+   0,
+   320,
+   64,
+   64
+  ],
+  "monster_spark_moth_elite": [
+   64,
+   320,
+   64,
+   64
+  ],
+  "monster_summon_skeleton": [
+   128,
+   320,
+   64,
+   64
+  ],
+  "monster_sunken_runner": [
+   192,
+   320,
+   64,
+   64
+  ],
+  "monster_swamp_drifter": [
+   256,
+   320,
+   64,
+   64
+  ],
+  "monster_the_wound": [
+   320,
+   320,
+   64,
+   64
+  ],
+  "monster_tide_caller": [
+   384,
+   320,
+   64,
+   64
+  ],
+  "monster_tide_hunter": [
+   448,
+   320,
+   64,
+   64
+  ],
+  "monster_tide_moth": [
+   512,
+   320,
+   64,
+   64
+  ],
+  "monster_tide_shield": [
+   576,
+   320,
+   64,
+   64
+  ],
+  "monster_tomb_lurker": [
+   640,
+   320,
+   64,
+   64
+  ],
+  "monster_toxic_bloom": [
+   704,
+   320,
+   64,
+   64
+  ],
+  "monster_toxic_priest": [
+   768,
+   320,
+   64,
+   64
+  ],
+  "monster_vault_sifter": [
+   832,
+   320,
+   64,
+   64
+  ],
+  "monster_vein_lurker": [
+   896,
+   320,
+   64,
+   64
+  ],
+  "monster_viscera_brute": [
+   960,
+   320,
+   64,
+   64
+  ],
+  "monster_warren_overseer": [
+   0,
+   384,
+   64,
+   64
+  ],
+  "monster_waterlogged_husk": [
+   64,
+   384,
+   64,
+   64
+  ],
+  "monster_wax_wisp": [
+   128,
+   384,
+   64,
+   64
+  ],
+  "monster_wound_horror": [
+   192,
+   384,
+   64,
+   64
+  ],
+  "monster_wound_maggot": [
+   256,
+   384,
+   64,
+   64
+  ]
+ }
 }

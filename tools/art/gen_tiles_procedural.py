@@ -450,11 +450,12 @@ def _floor_decor(t, salt, kind):
             _fill(arr, hazard, (x, y, x + 3, y + 3))
         _fill(arr, hazard, (24, 26, 40, 34))
     elif kind == "bones":
-        for i in range(4):
-            x = _hash(i, salt, 61) % 40 + 10
-            y = _hash(i, salt, 63) % 40 + 10
-            _fill(arr, accent, (x, y, x + 8, y + 3))
-            _fill(arr, accent, (x + 2, y + 2, x + 6, y + 3))
+        for i in range(3):
+            bx = _hash(i, salt, 61) % 40 + 12
+            by = _hash(i, salt, 63) % 40 + 12
+            _fill(arr, t["floor_lo"], (bx + 1, by + 1, bx + 5, by + 4))
+            _fill(arr, accent, (bx, by, bx + 4, by + 2))
+            _fill(arr, accent, (bx + 1, by - 1, bx + 3, by + 3))
     elif kind == "coins":
         for i in range(7):
             x = _hash(i, salt, 71) % 48 + 8
@@ -541,10 +542,14 @@ def _floor_burning(t, salt):
 def _floor_water(t, salt):
     arr = _base_floor(t, salt)
     water = t["water"]
-    _fill(arr, water, (8, 8, 56, 56))
-    for i in range(5):
-        y = 14 + i * 8
-        _fill(arr, t["accent"], (12 + (i % 2) * 8, y, 48, y + 1))
+    _fill(arr, water, (6, 6, 58, 58))
+    # Soft concentric puddle ripples, not harsh horizontal stripes
+    cx, cy = 32, 32
+    for y in range(TILE):
+        for x in range(TILE):
+            d = ((x - cx) ** 2 + (y - cy) ** 2) ** 0.5
+            if (14 <= d <= 16 or 22 <= d <= 24) and (8 <= x <= 56 and 8 <= y <= 56):
+                arr[y, x] = _vary(water, 4, _hash(x, y, salt))
     return arr
 
 

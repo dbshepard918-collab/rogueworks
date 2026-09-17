@@ -184,6 +184,7 @@ def _place_room_props(room, rng):
         placed_props.append({"tx": tx, "ty": ty, "sprite": sprite})
         return True
 
+    # Wall-adjacent and corner spots for clutter (strictly perimeter tiles)
     clutter_candidates = [
         (rx + 1, ry + 1),
         (rx + rw - 2, ry + 1),
@@ -195,21 +196,38 @@ def _place_room_props(room, rng):
         (rx + rw - 2, ry + 2),
         (rx + 2, ry + rh - 2),
         (rx + rw - 3, ry + rh - 2),
+        (rx + 3, ry + 1),
+        (rx + rw - 4, ry + 1),
+        (rx + 1, ry + rh - 3),
+        (rx + rw - 2, ry + rh - 3),
     ]
+
+    has_centerpiece = any(s in ("prop_anvil", "prop_fountain", "prop_eye", "prop_altar", "prop_coffer") for s in prop_list)
 
     for j, sprite in enumerate(prop_list):
         if sprite in ("prop_anvil", "prop_fountain", "prop_eye", "prop_altar") or (sprite == "prop_coffer" and kind in ("gambling", "shop")):
             if not try_place(sprite, cx, cy):
                 try_place(sprite, cx, cy - 1)
         elif sprite == "prop_hammer":
-            if not try_place(sprite, cx + 1, cy):
-                try_place(sprite, cx, cy + 1)
+            if has_centerpiece:
+                if not try_place(sprite, cx + 1, cy):
+                    try_place(sprite, cx, cy + 1)
+            else:
+                try_place(sprite, rx + 2, ry + 1)
         elif sprite in ("prop_gold_pile", "prop_coins"):
-            if not try_place(sprite, cx - 1, cy):
-                try_place(sprite, cx + 1, cy)
+            if has_centerpiece:
+                if not try_place(sprite, cx - 1, cy):
+                    try_place(sprite, cx + 1, cy)
+            else:
+                try_place(sprite, rx + 2, ry + 1)
         elif sprite in ("prop_candles",):
-            if not try_place(sprite, cx - 1, cy):
-                try_place(sprite, cx + 1, cy)
+            # Candles flank centerpieces or sit flush along the north wall, never isolated in walking space
+            if has_centerpiece:
+                if not try_place(sprite, cx - 1, cy):
+                    try_place(sprite, cx + 1, cy)
+            else:
+                if not try_place(sprite, cx, ry + 1):
+                    try_place(sprite, rx + 2, ry + 1)
         elif sprite in ("prop_chest", "prop_sarcophagus", "prop_statue"):
             if not try_place(sprite, cx, ry + 1):
                 if not try_place(sprite, rx + 2, ry + 1):
@@ -234,8 +252,9 @@ def _place_room_props(room, rng):
                     placed = True
                     break
             if not placed:
+                # Wall-perimeter fallback only
                 px = rx + 1 + (j * 2) % max(1, rw - 2)
-                py = ry + 1 + (j * 3) % max(1, rh - 2)
+                py = ry + 1
                 try_place(sprite, px, py)
         else:
             placed = False
@@ -245,7 +264,7 @@ def _place_room_props(room, rng):
                     break
             if not placed:
                 px = rx + 2 + (j * 3) % max(1, rw - 3)
-                py = ry + 2 + (j * 5) % max(1, rh - 3)
+                py = ry + 1
                 try_place(sprite, px, py)
 
     return placed_props

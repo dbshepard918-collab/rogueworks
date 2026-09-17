@@ -321,6 +321,181 @@ def make_water_pool():
     return img
 
 
+# ── prop_candles: 3 candles on a bronze dish with glowing flames ────────────
+def make_candles():
+    img = _new()
+    _hline(img, 7, 28, 18, C["stone_dark"])
+    _hline(img, 9, 27, 14, C["gold_dark"])
+    _put(img, 6, 27, C["gold_dark"])
+    _put(img, 25, 27, C["gold_dark"])
+    # tall center candle
+    _rect(img, 14, 13, 4, 14, C["bone"])
+    _vline(img, 14, 14, 13, C["white"])
+    _vline(img, 17, 13, 14, C["stone_dark"])
+    _put(img, 15, 11, C["ink"])
+    _put(img, 16, 12, C["ink"])
+    _put(img, 15, 8, C["flame"])
+    _put(img, 15, 9, C["gold"])
+    _put(img, 16, 9, C["gold"])
+    _put(img, 15, 10, C["ember"])
+    # left candle
+    _rect(img, 10, 18, 3, 9, C["bone"])
+    _vline(img, 10, 19, 8, C["white"])
+    _put(img, 11, 16, C["ink"])
+    _put(img, 11, 14, C["gold"])
+    _put(img, 11, 15, C["flame"])
+    # right candle
+    _rect(img, 19, 21, 3, 6, C["bone"])
+    _vline(img, 19, 22, 5, C["white"])
+    _put(img, 20, 19, C["ink"])
+    _put(img, 20, 17, C["gold"])
+    _put(img, 20, 18, C["flame"])
+    # drips
+    _put(img, 13, 17, C["bone"])
+    _put(img, 13, 18, C["bone"])
+    _put(img, 18, 24, C["bone"])
+    return img
+
+# ── prop_anvil: dark iron blacksmith anvil on a wood chopping block ────────
+def make_anvil():
+    img = _new()
+    # wood stump base
+    _rect(img, 8, 24, 16, 6, C["stone_dark"])
+    _hline(img, 9, 24, 14, C["stone"])
+    _vline(img, 10, 25, 4, C["ink"])
+    _vline(img, 21, 25, 4, C["ink"])
+    # foot
+    _hline(img, 10, 23, 12, C["stone_dark"])
+    _hline(img, 11, 22, 10, C["stone"])
+    # waist
+    _rect(img, 13, 17, 6, 5, C["stone_dark"])
+    _vline(img, 14, 17, 5, C["stone"])
+    _vline(img, 15, 17, 5, C["stone_light"])
+    # face & horn
+    _rect(img, 6, 13, 8, 4, C["stone_dark"])
+    _put(img, 4, 13, C["stone_light"])
+    _put(img, 5, 13, C["stone_light"])
+    _put(img, 5, 14, C["stone"])
+    _put(img, 4, 14, C["stone_dark"])
+    _rect(img, 12, 12, 14, 5, C["stone_dark"])
+    _hline(img, 6, 12, 20, C["stone_light"])
+    _hline(img, 12, 13, 13, C["stone"])
+    _put(img, 22, 13, C["ink"])
+    _put(img, 22, 14, C["ink"])
+    return img
+
+# ── prop_forge: stone hearth with glowing coals, sparks, chimney hood ───────
+def make_forge():
+    img = _new()
+    # chimney
+    _rect(img, 10, 4, 12, 8, C["stone_dark"])
+    _hline(img, 9, 4, 14, C["stone"])
+    _vline(img, 11, 5, 7, C["stone"])
+    _vline(img, 20, 5, 7, C["stone"])
+    # hearth hood
+    _rect(img, 6, 12, 20, 5, C["stone_dark"])
+    _hline(img, 5, 16, 22, C["stone"])
+    _hline(img, 5, 17, 22, C["stone_dark"])
+    # hearth base & firebox
+    _rect(img, 4, 18, 24, 12, C["stone_dark"])
+    _hline(img, 4, 29, 24, C["ink"])
+    _hline(img, 4, 18, 24, C["stone"])
+    _rect(img, 8, 19, 16, 9, C["ink"])
+    # glowing fire
+    _hline(img, 9, 27, 14, C["ember_dark"])
+    _hline(img, 9, 26, 14, C["ember"])
+    _rect(img, 11, 24, 10, 2, C["flame"])
+    _hline(img, 12, 24, 8, C["gold"])
+    _put(img, 13, 23, C["flame"])
+    _put(img, 15, 22, C["flame"])
+    _put(img, 17, 23, C["gold"])
+    _put(img, 14, 21, C["ember"])
+    return img
+
+# ── prop_brazier: wrought iron tripod brazier with roaring flame ────────────
+def make_brazier():
+    img = _new()
+    # legs
+    _vline(img, 15, 20, 10, C["stone_dark"])
+    _vline(img, 16, 20, 10, C["stone_dark"])
+    for i in range(5):
+        _put(img, 10 + i, 29 - i, C["stone_dark"])
+        _put(img, 21 - i, 29 - i, C["stone_dark"])
+    # basin
+    _rect(img, 8, 17, 16, 4, C["stone_dark"])
+    _hline(img, 7, 16, 18, C["slate"])
+    _hline(img, 9, 20, 14, C["stone_dark"])
+    _hline(img, 10, 21, 12, C["ink"])
+    # coals
+    _hline(img, 9, 16, 14, C["ember"])
+    _hline(img, 10, 15, 12, C["ember_dark"])
+    # flame
+    _rect(img, 11, 11, 10, 4, C["flame"])
+    _rect(img, 12, 12, 8, 3, C["gold"])
+    _put(img, 13, 10, C["flame"])
+    _put(img, 14, 9, C["flame"])
+    _put(img, 15, 8, C["gold"])
+    _put(img, 16, 7, C["flame"])
+    _put(img, 17, 9, C["flame"])
+    _put(img, 18, 10, C["flame"])
+    _put(img, 15, 5, C["gold"])
+    _put(img, 12, 6, C["ember"])
+    return img
+
+# ── prop_altar: stone altar with crimson cloth, gold rune, candle, skull ───
+def make_altar():
+    img = _new()
+    # base
+    _rect(img, 3, 26, 26, 4, C["stone_dark"])
+    _hline(img, 4, 26, 24, C["stone"])
+    _rect(img, 5, 23, 22, 3, C["stone_dark"])
+    _hline(img, 6, 23, 20, C["stone"])
+    # body
+    _rect(img, 6, 13, 20, 10, C["stone_dark"])
+    _outline(img, 6, 13, 20, 10, C["stone"])
+    # cloth
+    _rect(img, 11, 14, 10, 11, C["blood_dark"])
+    _rect(img, 12, 14, 8, 10, C["blood"])
+    _rect(img, 15, 19, 2, 2, C["gold"])
+    # slab top
+    _rect(img, 4, 11, 24, 3, C["stone"])
+    _hline(img, 3, 11, 26, C["stone_light"])
+    _hline(img, 4, 13, 24, C["stone_dark"])
+    # candle
+    _rect(img, 8, 8, 2, 3, C["bone"])
+    _put(img, 8, 6, C["flame"])
+    _put(img, 8, 7, C["gold"])
+    # skull
+    _rect(img, 21, 8, 3, 3, C["bone"])
+    _put(img, 21, 9, C["ink"])
+    _put(img, 23, 9, C["ink"])
+    return img
+
+# ── prop_bones: skull and crossed bones ─────────────────────────────────────
+def make_bones():
+    img = _new()
+    _rect(img, 12, 14, 8, 7, C["bone"])
+    _rect(img, 13, 13, 6, 2, C["white"])
+    _put(img, 14, 17, C["ink"])
+    _put(img, 17, 17, C["ink"])
+    _put(img, 15, 19, C["ink"])
+    _put(img, 16, 19, C["ink"])
+    _hline(img, 14, 21, 4, C["stone_dark"])
+    _put(img, 8, 21, C["bone"])
+    _put(img, 9, 22, C["bone"])
+    _put(img, 10, 23, C["bone"])
+    _put(img, 21, 24, C["bone"])
+    _put(img, 22, 25, C["bone"])
+    _put(img, 23, 26, C["bone"])
+    _put(img, 7, 26, C["bone"])
+    _put(img, 8, 25, C["bone"])
+    _put(img, 9, 24, C["bone"])
+    _put(img, 21, 22, C["bone"])
+    _put(img, 22, 21, C["bone"])
+    _put(img, 23, 20, C["bone"])
+    return img
+
+
 MAKERS = {
     "prop_pillar": make_pillar,
     "prop_pillar_drowned": make_pillar_drowned,
@@ -334,6 +509,12 @@ MAKERS = {
     "prop_shop_stall": make_shop_stall,
     "prop_shrine_drowned": make_shrine_drowned,
     "prop_water_pool": make_water_pool,
+    "prop_candles": make_candles,
+    "prop_anvil": make_anvil,
+    "prop_forge": make_forge,
+    "prop_brazier": make_brazier,
+    "prop_altar": make_altar,
+    "prop_bones": make_bones,
 }
 
 

@@ -490,22 +490,20 @@ class Renderer:
                     else:
                         name = tiles["floor"]
                 elif rk in ("combat", "boss"):
-                    if near_wall and h % 5 == 0:
-                        name = tiles.get("floor_rubble") or tiles["floor"]
-                    elif h % 17 == 0:
-                        name = tiles.get("floor_bones") or tiles["floor"]
-                    elif h % 23 == 0:
+                    if near_wall and h % 9 == 0:
+                        name = tiles.get("floor_bones") or tiles.get("floor_rubble") or tiles["floor"]
+                    elif near_wall and h % 13 == 0:
                         name = tiles.get("floor_blood") or tiles["floor"]
-                    elif h % 11 == 0:
-                        name = tiles.get("floor_cracked") or tiles["floor"]
-                    elif h % 7 == 0 and "floor_alt" in tiles:
+                    elif h % 5 == 0 and "floor_alt" in tiles:
                         name = tiles["floor_alt"]
+                    elif h % 11 == 0 and "floor_alt2" in tiles:
+                        name = tiles["floor_alt2"]
                     else:
                         name = tiles["floor"]
                 elif rk in ("shrine", "omen"):
                     if (h % 13 == 0) and ("shrine_floor" in tiles or "rune_floor" in tiles):
                         name = tiles.get("shrine_floor") or tiles.get("rune_floor") or tiles["floor"]
-                    elif h % 9 == 0:
+                    elif near_wall and h % 9 == 0:
                         name = tiles.get("floor_cracked") or tiles["floor"]
                     elif h % 7 == 0 and "floor_alt" in tiles:
                         name = tiles["floor_alt"]
@@ -514,20 +512,18 @@ class Renderer:
                 elif rk == "gambling":
                     if h % 11 == 0:
                         name = tiles.get("floor_coins") or tiles["floor"]
-                    elif h % 13 == 0:
+                    elif near_wall and h % 13 == 0:
                         name = tiles.get("floor_cracked") or tiles["floor"]
                     elif h % 7 == 0 and "floor_alt" in tiles:
                         name = tiles["floor_alt"]
                     else:
                         name = tiles["floor"]
                 else:
-                    if near_wall and h % 8 == 0:
+                    if near_wall and h % 11 == 0:
                         name = tiles.get("floor_rubble") or tiles["floor"]
-                    elif h % 23 == 0:
-                        name = tiles.get("floor_cracked") or tiles["floor"]
-                    elif h % 9 == 0 and "floor_alt" in tiles:
+                    elif h % 7 == 0 and "floor_alt" in tiles:
                         name = tiles["floor_alt"]
-                    elif h % 29 == 0 and "floor_alt2" in tiles:
+                    elif h % 17 == 0 and "floor_alt2" in tiles:
                         name = tiles["floor_alt2"]
                     else:
                         name = tiles["floor"]
