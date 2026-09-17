@@ -293,16 +293,45 @@ def _meta_melee_knockback_add(world):
 
 
 def player_ranged(world, player):
-    """SPACE: aimed projectile in the facing direction."""
+    """Ranged attack: auto-aims at the nearest monster in the facing cone,
+    falling back to the raw facing direction when nothing is in range."""
     player.ranged_timer = player.RANGED_COOLDOWN
     fx, fy = player.facing
     length = max(0.001, (fx * fx + fy * fy) ** 0.5)
     fx /= length
     fy /= length
+
+    # r74: auto-aim at the nearest monster within a generous forward cone so
+    # the ranged attack feels good instead of demanding pixel-perfect aim.
+    aim_x, aim_y = fx, fy
+    best = None
+    best_dist = 1e18
+    for mon in world.monsters:
+        if not mon.alive:
+            continue
+        dx = mon.x - player.x
+        dy = mon.y - player.y
+        d = max(0.001, (dx * dx + dy * dy) ** 0.5)
+        if d > 420.0:
+            continue
+        dot = (dx / d) * fx + (dy / d) * fy
+        if dot < 0.35:              # ~69 degree half-cone
+            continue
+        if d < best_dist:
+            best_dist = d
+            best = mon
+    if best is not None:
+        dx = best.x - player.x
+        dy = best.y - player.y
+        d = max(0.001, (dx * dx + dy * dy) ** 0.5)
+        aim_x, aim_y = dx / d, dy / d
+        # face the target so the muzzle flash and follow-up shots line up
+        player.facing = (aim_x, aim_y)
+
     speed = 620.0
     weapon_element = _get_weapon_element(player)
-    proj = Projectile(world.next_id(), player.x + fx * 14, player.y + fy * 14,
-                      fx * speed, fy * speed, player.stats.damage() * 0.85,
+    proj = Projectile(world.next_id(), player.x + aim_x * 14, player.y + aim_y * 14,
+                      aim_x * speed, aim_y * speed, player.stats.damage() * 0.85,
                       owner="player", sprite="projectile_soul", lifetime=1.4, radius=5.0)
     proj.crit_chance = player.stats.crit()
     proj.element = weapon_element
@@ -310,7 +339,7 @@ def player_ranged(world, player):
     unique_sys.apply_unique(world, player.equipment.get("weapon"), "ranged_fire", proj=proj)
     world.add_entity(proj)
     # r50: muzzle flash VFX
-    world.particles.sprite_burst(player.x + fx * 16, player.y + fy * 16,
+    world.particles.sprite_burst(player.x + aim_x * 16, player.y + aim_y * 16,
                                  "vfx_muzzle_flash", life=0.12, scale=1.5)
     play(world, "shoot")
     return proj

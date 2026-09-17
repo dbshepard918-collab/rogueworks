@@ -28,6 +28,7 @@ class TutorialSystem:
     ACTION_LABELS = {
         "move": "Move (WASD)",
         "attack": "Attack (SPACE)",
+        "ranged": "Ranged (J)",
         "dash": "Dash (SHIFT + direction)",
         "interact": "Interact (E)",
     }

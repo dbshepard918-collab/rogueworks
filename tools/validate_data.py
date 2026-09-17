@@ -112,6 +112,8 @@ SCHEMAS: dict[str, dict[str, dict]] = {
         "props": {"type": "list", "items": {"type": "str"}, "len_min": 0},
         "secret_wall": {"type": "str", "required": False},
         "quest_props": {"type": "list", "items": {"type": "dict"}, "required": False},
+        "template": {"type": "str", "required": False},
+        "decoration": {"type": "str", "required": False},
     },
     "biomes.json": {
         "id": {"type": "str", "id": True},
@@ -158,7 +160,10 @@ SCHEMAS: dict[str, dict[str, dict]] = {
     "hq_rooms.json": {
         "_special": True,
     },
-    }
+    "quests.json": {
+        "_special": True,
+    },
+}
 
 TYPE_NAMES = {"str": "a string", "num": "a number", "int": "an integer", "bool": "a boolean",
               "dict": "an object", "list": "an array"}

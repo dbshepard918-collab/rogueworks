@@ -98,7 +98,10 @@ class ParticleSystem:
             size = p["size"]
             fade = max(0.15, min(1.0, p["life"] / max(0.0001, p["max_life"])))
             col = tuple(int(c * (0.45 + 0.55 * fade)) for c in p["color"])
-            surface.fill(col, pygame.Rect(sx, sy, size, size))
+            # r74: soft round particles instead of hard 1px squares, so
+            # movement dust and impacts read as puffs, not pixelated noise.
+            radius = max(1, size // 2)
+            pygame.draw.circle(surface, col, (sx + radius, sy + radius), radius)
 
 
 class DamageNumbers:

@@ -210,10 +210,14 @@ def _visibility_mask(level, player_tx, player_ty):
     h = level.h
     tiles = level.tiles
     r = _SIGHT_RADIUS_TILES
+    r2 = r * r
     visible = [[False] * h for _ in range(w)]
     for tx in range(max(0, player_tx - r), min(w, player_tx + r + 1)):
+        dx = tx - player_tx
+        dx2 = dx * dx
         for ty in range(max(0, player_ty - r), min(h, player_ty + r + 1)):
-            if _line_of_sight(tiles, player_tx, player_ty, tx, ty):
+            dy = ty - player_ty
+            if dx2 + dy * dy <= r2 and _line_of_sight(tiles, player_tx, player_ty, tx, ty):
                 visible[tx][ty] = True
 
     if len(_vis_cache) > 8:                           # tiny LRU; levels are big
@@ -269,16 +273,16 @@ def _compose_lightmap(world, level, ox, oy, w, h, biome, dt):
         shadow = pygame.Surface((TILE, TILE))
         shadow.fill((_SHADOW_LEVEL, _SHADOW_LEVEL, _SHADOW_LEVEL))
         level_w, level_h = level.w, level.h
-        for sy in range(0, h, TILE):
-            wy = int((sy + TILE // 2 + oy) // TILE)
-            if wy < 0 or wy >= level_h:
-                continue
-            for sx in range(0, w + TILE, TILE):
-                wx = int((sx + TILE // 2 + ox) // TILE)
-                if wx < 0 or wx >= level_w:
-                    continue
+        min_tx = max(0, int(ox // TILE))
+        max_tx = min(level_w - 1, int((ox + w) // TILE) + 1)
+        min_ty = max(0, int(oy // TILE))
+        max_ty = min(level_h - 1, int((oy + h) // TILE) + 1)
+        for wy in range(min_ty, max_ty + 1):
+            tile_sy = wy * TILE - oy
+            for wx in range(min_tx, max_tx + 1):
                 if not vis[wx][wy]:
-                    lightmap.blit(shadow, (sx, sy), special_flags=pygame.BLEND_RGB_MULT)
+                    tile_sx = wx * TILE - ox
+                    lightmap.blit(shadow, (tile_sx, tile_sy), special_flags=pygame.BLEND_RGB_MULT)
     return lightmap
 
 

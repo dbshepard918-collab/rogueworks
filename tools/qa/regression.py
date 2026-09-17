@@ -167,7 +167,7 @@ def _bfs_reachable(tiles: list[list[int]], level_w: int, level_h: int,
         return False
     if not (0 <= target[0] < level_w and 0 <= target[1] < level_h):
         return False
-    if tiles[start[1]][start[0]] == 1 or tiles[target[1]][target[0]] == 1:
+    if tiles[start[0]][start[1]] == 1 or tiles[target[0]][target[1]] == 1:
         return False
     visited = {start}
     queue = [start]
@@ -178,7 +178,7 @@ def _bfs_reachable(tiles: list[list[int]], level_w: int, level_h: int,
             nx, ny = tx + dx, ty + dy
             if not (0 <= nx < level_w and 0 <= ny < level_h):
                 continue
-            if tiles[ny][nx] == 1 or (nx, ny) in visited:
+            if tiles[nx][ny] == 1 or (nx, ny) in visited:
                 continue
             if (nx, ny) == target:
                 return True
@@ -228,7 +228,7 @@ def check_stairs(seeds: list[int], turns: int) -> list[dict]:
             continue
         # Rebuild the Level from the deterministic procgen and run BFS
         # on the real tile grid — mirrors world.check_invariants().
-        floor_rng = RNG(seed)
+        floor_rng = RNG(seed).fork("floor:%d" % floor)
         try:
             level = procgen.generate(content, floor_rng, floor, biome)
         except Exception as exc:

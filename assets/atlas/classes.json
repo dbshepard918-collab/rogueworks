@@ -1,0 +1,29 @@
+{
+ "version": 1,
+ "image": "assets/atlas/classes.png",
+ "meta": {
+  "tile": 64,
+  "palette_version": 1,
+  "generated_by": "sd"
+ },
+ "frames": {
+  "class_lantern_keeper": [
+   0,
+   0,
+   128,
+   128
+  ],
+  "class_grave_warden": [
+   128,
+   0,
+   128,
+   128
+  ],
+  "class_ash_dancer": [
+   256,
+   0,
+   128,
+   128
+  ]
+ }
+}

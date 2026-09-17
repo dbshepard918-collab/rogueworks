@@ -337,10 +337,25 @@ class Renderer:
                 sy = int(ty * tile_px - oy * st)
                 value = level.tiles[tx][ty]
                 if value == procgen_mod.STAIRS:
+                    # r74: a pulsing beacon under the stairwell so the exit
+                    # reads instantly instead of blending into the floor.
+                    unlocked = world.stairs_unlocked_flag
+                    pulse = 0.5 + 0.5 * math.sin(self._tile_anim_tick * 4.0 + (tx + ty) * 0.7)
+                    glow_col = (79, 209, 200) if unlocked else (232, 178, 60)
+                    glow_alpha = int(70 + 55 * pulse)
+                    gsize = int(tile_px * 1.7)
+                    gx = sx + tile_px // 2
+                    gy = sy + tile_px // 2
+                    glow = pygame.Surface((gsize, gsize), pygame.SRCALPHA)
+                    pygame.draw.circle(glow, (*glow_col, glow_alpha), (gsize // 2, gsize // 2), gsize // 2)
+                    surface.blit(glow, (gx - gsize // 2, gy - gsize // 2),
+                                 special_flags=pygame.BLEND_RGB_ADD)
                     img = self.frame(world, tiles["stairs_down"])
-                    if not world.stairs_unlocked_flag:
+                    if not unlocked:
                         img = self.locked(img)
                     surface.blit(img, (sx, sy))
+                    # crisp keyline so the stairs never vanish into the floor
+                    pygame.draw.rect(surface, glow_col, pygame.Rect(sx, sy, tile_px, tile_px), max(2, int(3 * st)))
                     draw_list.append(("stairs", tx, ty))
                     continue
                 if value == procgen_mod.DOOR:
@@ -390,25 +405,52 @@ class Renderer:
                     draw_list.append(("hidden_door", tx, ty))
                     continue
                 if value == procgen_mod.WALL:
-                    neighbour = False
-                    for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1), (1, 1), (-1, -1), (1, -1), (-1, 1)):
-                        if level.walkable(tx + dx, ty + dy):
-                            neighbour = True
-                            break
+                    w_n = level.walkable(tx, ty - 1)
+                    w_s = level.walkable(tx, ty + 1)
+                    w_w = level.walkable(tx - 1, ty)
+                    w_e = level.walkable(tx + 1, ty)
+                    ortho_walkable = w_n or w_s or w_w or w_e
+                    diag_walkable = (
+                        level.walkable(tx - 1, ty - 1) or
+                        level.walkable(tx + 1, ty - 1) or
+                        level.walkable(tx - 1, ty + 1) or
+                        level.walkable(tx + 1, ty + 1)
+                    )
+                    is_exposed = ortho_walkable or diag_walkable
+
+                    if not is_exposed:
+                        img = self.dark_wall(world, self.frame(world, tiles["wall"]))
+                        surface.blit(img, (sx, sy))
+                        draw_list.append(("wall", tx, ty, tiles["wall"]))
+                        continue
+
                     h = _hash2(tx, ty, 7)
-                    if h % 29 == 0:
+                    room_kind = level.room_at(tx, ty)
+                    rk = room_kind.get("kind", "") if room_kind else ""
+
+                    # Inner corner (adjacent to walkable floor horizontally AND vertically)
+                    # or outer corner (only diagonally adjacent to floor)
+                    is_inner_corner = (w_s and w_e) or (w_s and w_w) or (w_n and w_e) or (w_n and w_w)
+                    is_outer_corner = (not ortho_walkable) and diag_walkable
+                    is_corner = is_inner_corner or is_outer_corner
+
+                    if is_corner and "wall_corner" in tiles:
+                        name = tiles["wall_corner"]
+                    elif w_s and (tx % 6 == 3 or h % 29 == 0):
+                        # Wall torch on south-facing exposed walls
                         name = self._resolve_tile_frame(tiles["wall_torch"], self._tile_anim_tick, tileset)
-                    elif h % 41 == 0:
-                        name = tiles["wall_skull"]
+                    elif (rk in ("shrine", "omen", "boss", "entrance") and h % 7 == 0) or (h % 23 == 0):
+                        name = tiles.get("wall_decor") or tiles["wall"]
+                    elif h % 37 == 0:
+                        name = tiles.get("wall_skull") or tiles["wall"]
+                    elif h % 17 == 0:
+                        name = tiles.get("wall_cracked") or tiles["wall"]
                     elif h % 5 == 0:
-                        name = tiles["wall_cracked"]
-                    elif h % 3 == 0:
-                        name = tiles["wall_alt"]
+                        name = tiles.get("wall_alt") or tiles["wall"]
                     else:
                         name = tiles["wall"]
+
                     img = self.frame(world, name)
-                    if not neighbour:
-                        img = self.dark_wall(world, self.frame(world, tiles["wall"]))
                     surface.blit(img, (sx, sy))
                     draw_list.append(("wall", tx, ty, name))
                     continue
@@ -428,25 +470,68 @@ class Renderer:
                     _draw_biome_texture(surface, world.biome_id, sx, sy, tx, ty, tile_px)
                     draw_list.append(("floor_water", tx, ty))
                     continue
-                # r45: sparse, structured decoration — never per-tile random.
-                # Dead Cells-style clarity: plain floors dominate, decoration
-                # is rare and biome-appropriate. No hash-based scatter.
                 room_kind = level.room_at(tx, ty)
                 rk = room_kind.get("kind", "") if room_kind else ""
-                # Use a deterministic but sparse pattern: only decorate tiles
-                # where (tx + ty) % N == 0, and only in themed rooms
-                is_decoration_tile = ((tx + ty) % 5 == 0) or ((tx * 7 + ty * 3) % 11 == 0)
-                if rk == "treasure" and is_decoration_tile:
-                    name = tiles["floor_coins"]
-                elif rk in ("combat", "boss", "secret") and is_decoration_tile:
-                    name = tiles["floor_bones"] if (tx % 3 == 0) else tiles["floor_rubble"]
-                elif rk in ("shrine", "omen", "gambling") and is_decoration_tile:
-                    name = tiles["floor_cracked"]
-                elif is_decoration_tile:
-                    # corridors/entrance/shop: very sparse wear
-                    name = tiles["floor_rubble"]
+                h = _hash2(tx, ty, 79)
+                near_wall = (
+                    (level.in_bounds(tx + 1, ty) and level.tiles[tx + 1][ty] == procgen_mod.WALL) or
+                    (level.in_bounds(tx - 1, ty) and level.tiles[tx - 1][ty] == procgen_mod.WALL) or
+                    (level.in_bounds(tx, ty + 1) and level.tiles[tx][ty + 1] == procgen_mod.WALL) or
+                    (level.in_bounds(tx, ty - 1) and level.tiles[tx][ty - 1] == procgen_mod.WALL)
+                )
+
+                if rk == "treasure":
+                    if h % 7 == 0 or (near_wall and h % 5 == 0):
+                        name = tiles.get("floor_coins") or tiles["floor"]
+                    elif h % 13 == 0 and "treasure_floor" in tiles:
+                        name = tiles["treasure_floor"]
+                    elif h % 11 == 0 and "floor_alt" in tiles:
+                        name = tiles["floor_alt"]
+                    else:
+                        name = tiles["floor"]
+                elif rk in ("combat", "boss"):
+                    if near_wall and h % 5 == 0:
+                        name = tiles.get("floor_rubble") or tiles["floor"]
+                    elif h % 17 == 0:
+                        name = tiles.get("floor_bones") or tiles["floor"]
+                    elif h % 23 == 0:
+                        name = tiles.get("floor_blood") or tiles["floor"]
+                    elif h % 11 == 0:
+                        name = tiles.get("floor_cracked") or tiles["floor"]
+                    elif h % 7 == 0 and "floor_alt" in tiles:
+                        name = tiles["floor_alt"]
+                    else:
+                        name = tiles["floor"]
+                elif rk in ("shrine", "omen"):
+                    if (h % 13 == 0) and ("shrine_floor" in tiles or "rune_floor" in tiles):
+                        name = tiles.get("shrine_floor") or tiles.get("rune_floor") or tiles["floor"]
+                    elif h % 9 == 0:
+                        name = tiles.get("floor_cracked") or tiles["floor"]
+                    elif h % 7 == 0 and "floor_alt" in tiles:
+                        name = tiles["floor_alt"]
+                    else:
+                        name = tiles["floor"]
+                elif rk == "gambling":
+                    if h % 11 == 0:
+                        name = tiles.get("floor_coins") or tiles["floor"]
+                    elif h % 13 == 0:
+                        name = tiles.get("floor_cracked") or tiles["floor"]
+                    elif h % 7 == 0 and "floor_alt" in tiles:
+                        name = tiles["floor_alt"]
+                    else:
+                        name = tiles["floor"]
                 else:
-                    name = tiles["floor"]
+                    if near_wall and h % 8 == 0:
+                        name = tiles.get("floor_rubble") or tiles["floor"]
+                    elif h % 23 == 0:
+                        name = tiles.get("floor_cracked") or tiles["floor"]
+                    elif h % 9 == 0 and "floor_alt" in tiles:
+                        name = tiles["floor_alt"]
+                    elif h % 29 == 0 and "floor_alt2" in tiles:
+                        name = tiles["floor_alt2"]
+                    else:
+                        name = tiles["floor"]
+
                 surface.blit(self.frame(world, name), (sx, sy))
                 _draw_biome_texture(surface, world.biome_id, sx, sy, tx, ty, tile_px)
                 draw_list.append(("floor", tx, ty, name))
@@ -468,14 +553,15 @@ class Renderer:
                     if level.tiles[tx][ty] == FLOOR:
                         sx = int(tx * tile_px - ox * st)
                         sy = int(ty * tile_px - oy * st)
-                        # r45: sparse decoration in secret rooms too
-                        is_dec = ((tx + ty) % 5 == 0) or ((tx * 7 + ty * 3) % 11 == 0)
-                        if is_dec and (tx % 3 == 0):
-                            name = tiles["floor_bones"]
-                        elif is_dec and (tx % 3 == 1):
-                            name = tiles["floor_coins"]
-                        elif is_dec:
-                            name = tiles["floor_blood"]
+                        h = _hash2(tx, ty, 83)
+                        if h % 7 == 0:
+                            name = tiles.get("floor_coins") or tiles["floor"]
+                        elif h % 11 == 0:
+                            name = tiles.get("floor_bones") or tiles["floor"]
+                        elif h % 17 == 0:
+                            name = tiles.get("floor_blood") or tiles["floor"]
+                        elif h % 5 == 0 and "floor_alt" in tiles:
+                            name = tiles["floor_alt"]
                         else:
                             name = tiles["floor"]
                         img = self.frame(world, name)
@@ -512,47 +598,6 @@ class Renderer:
                 img = pygame.transform.scale(img, (int(TILE*st), int(TILE*st)))
             surface.blit(img, (sx, sy))
             draw_list.append(("prop", sprite_name, prop["tx"], prop["ty"]))
-
-        # -- event-room overlays ---------------------------------------
-        st = camera.tile_scale  # ensure st is in scope
-        tile_px = TILE * st
-        for room in level.rooms:
-            kind = room.get("kind", "")
-            if kind not in ("gambling", "blacksmith", "fountain", "omen"):
-                continue
-            rx = int(room.get("x", 0))
-            ry = int(room.get("y", 0))
-            rw = int(room.get("w", 8))
-            rh = int(room.get("h", 8))
-            for tx in range(rx, min(level.w, rx + rw)):
-                for ty in range(ry, min(level.h, ry + rh)):
-                    if level.tiles[tx][ty] != FLOOR:
-                        continue
-                    sx = int(tx * tile_px - ox * st)
-                    sy = int(ty * tile_px - oy * st)
-                    cx = sx + int(tile_px // 2)
-                    cy = sy + int(tile_px // 2)
-                    # Draw event-room floor overlay
-                    if kind == "gambling":
-                        h = _hash2(tx, ty, 7)
-                        if h % 3 == 0:
-                            icon = self.frame(world, "prop_gold_pile")
-                            self._blit_centered(surface, icon, cx, cy, ox, oy)
-                    elif kind == "blacksmith":
-                        h = _hash2(tx, ty, 11)
-                        if h % 3 == 0:
-                            icon = self.frame(world, "prop_anvil")
-                            self._blit_centered(surface, icon, cx, cy, ox, oy)
-                    elif kind == "fountain":
-                        h = _hash2(tx, ty, 13)
-                        if h % 3 == 0:
-                            icon = self.frame(world, "prop_fountain")
-                            self._blit_centered(surface, icon, cx, cy, ox, oy)
-                    elif kind == "omen":
-                        h = _hash2(tx, ty, 17)
-                        if h % 3 == 0:
-                            icon = self.frame(world, "prop_eye")
-                            self._blit_centered(surface, icon, cx, cy, ox, oy)
 
         # -- pickups -----------------------------------------------------
         for pk in world.pickups:
@@ -664,6 +709,15 @@ class Renderer:
         settings = getattr(world, "settings", {}) or {}
         if player.alive:
             _draw_contact_shadow(surface, player.x, player.y, ox, oy, player.radius, st)
+            # r74: a warm lantern glow grounds the hero and keeps them legible
+            # against busy floors (the Lantern-Keeper's signature light).
+            glow_r = int(player.radius * 1.9 * st)
+            glow_surf = pygame.Surface((glow_r * 2, glow_r * 2), pygame.SRCALPHA)
+            pygame.draw.circle(glow_surf, (232, 178, 60, 42), (glow_r, glow_r), glow_r)
+            pygame.draw.circle(glow_surf, (232, 178, 60, 60), (glow_r, glow_r), int(glow_r * 0.6))
+            surface.blit(glow_surf, (int((player.x - ox) * st) - glow_r,
+                                     int((player.y - oy) * st) - glow_r),
+                         special_flags=pygame.BLEND_RGB_ADD)
             name, flip = player.current_frame()
             img = self.frame(world, name, flip=flip)
             if player.hit_flash > 0.0:

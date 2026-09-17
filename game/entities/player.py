@@ -36,8 +36,8 @@ class Player(Actor):
     kind = "player"
 
     ATTACK_COOLDOWN = 0.38
-    ATTACK_REACH = 88.0          # pixels from the player centre
-    ATTACK_ARC = 2.2             # radians, total width of the swing
+    ATTACK_REACH = 112.0         # pixels from the player centre (forgiving melee)
+    ATTACK_ARC = 2.7             # radians, total width of the swing
     RANGED_COOLDOWN = 0.72
     DASH_TIME = 0.15
     DASH_COOLDOWN = 0.80

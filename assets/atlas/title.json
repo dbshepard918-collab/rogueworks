@@ -1,17 +1,17 @@
 {
-  "version": 1,
-  "image": "assets/atlas/title.png",
-  "meta": {
-    "tile": 64,
-    "palette_version": 1,
-    "generated_by": "pixel"
-  },
-  "frames": {
-    "background": [
-      0,
-      0,
-      2560,
-      1472
-    ]
-  }
+ "version": 1,
+ "image": "assets/atlas/title.png",
+ "meta": {
+  "tile": 64,
+  "palette_version": 1,
+  "generated_by": "sd"
+ },
+ "frames": {
+  "background": [
+   0,
+   0,
+   1280,
+   768
+  ]
+ }
 }

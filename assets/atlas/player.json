@@ -4,130 +4,130 @@
  "meta": {
   "tile": 64,
   "palette_version": 1,
-  "generated_by": "pixel"
+  "generated_by": "sd"
  },
  "frames": {
-  "player_idle_down": [
-   0,
-   0,
-   64,
-   64
-  ],
-  "player_idle_breath_down_0": [
-   64,
-   0,
-   64,
-   64
-  ],
-  "player_idle_breath_down_1": [
-   128,
-   0,
-   64,
-   64
-  ],
-  "player_walk_down_0": [
-   192,
-   0,
-   64,
-   64
-  ],
-  "player_walk_down_1": [
-   256,
-   0,
-   64,
-   64
-  ],
-  "player_walk_down_2": [
-   320,
-   0,
-   64,
-   64
-  ],
-  "player_walk_down_3": [
-   384,
-   0,
-   64,
-   64
-  ],
   "player_attack_down_0": [
-   448,
+   0,
    0,
    64,
    64
   ],
   "player_attack_down_1": [
-   512,
+   64,
    0,
    64,
    64
   ],
   "player_attack_down_2": [
+   128,
+   0,
+   64,
+   64
+  ],
+  "player_attack_left_0": [
+   192,
+   0,
+   64,
+   64
+  ],
+  "player_attack_left_1": [
+   256,
+   0,
+   64,
+   64
+  ],
+  "player_attack_left_2": [
+   320,
+   0,
+   64,
+   64
+  ],
+  "player_attack_right_0": [
+   384,
+   0,
+   64,
+   64
+  ],
+  "player_attack_right_1": [
+   448,
+   0,
+   64,
+   64
+  ],
+  "player_attack_right_2": [
+   512,
+   0,
+   64,
+   64
+  ],
+  "player_attack_up_0": [
    576,
    0,
    64,
    64
   ],
-  "player_idle_up": [
+  "player_attack_up_1": [
    640,
    0,
    64,
    64
   ],
-  "player_idle_breath_up_0": [
+  "player_attack_up_2": [
    704,
    0,
    64,
    64
   ],
-  "player_idle_breath_up_1": [
+  "player_dash_right": [
    768,
    0,
    64,
    64
   ],
-  "player_walk_up_0": [
+  "player_death_0": [
    832,
    0,
    64,
    64
   ],
-  "player_walk_up_1": [
+  "player_death_1": [
    896,
    0,
    64,
    64
   ],
-  "player_walk_up_2": [
+  "player_death_2": [
    960,
    0,
    64,
    64
   ],
-  "player_walk_up_3": [
+  "player_death_3": [
    0,
    64,
    64,
    64
   ],
-  "player_attack_up_0": [
+  "player_hurt_left_0": [
    64,
    64,
    64,
    64
   ],
-  "player_attack_up_1": [
+  "player_hurt_left_1": [
    128,
    64,
    64,
    64
   ],
-  "player_attack_up_2": [
+  "player_idle_breath_down_0": [
    192,
    64,
    64,
    64
   ],
-  "player_idle_left": [
+  "player_idle_breath_down_1": [
    256,
    64,
    64,
@@ -145,145 +145,145 @@
    64,
    64
   ],
-  "player_walk_left_0": [
-   448,
-   64,
-   64,
-   64
-  ],
-  "player_walk_left_1": [
-   512,
-   64,
-   64,
-   64
-  ],
-  "player_walk_left_2": [
-   576,
-   64,
-   64,
-   64
-  ],
-  "player_walk_left_3": [
-   640,
-   64,
-   64,
-   64
-  ],
-  "player_attack_left_0": [
-   704,
-   64,
-   64,
-   64
-  ],
-  "player_attack_left_1": [
-   768,
-   64,
-   64,
-   64
-  ],
-  "player_attack_left_2": [
-   832,
-   64,
-   64,
-   64
-  ],
-  "player_idle_right": [
-   896,
-   64,
-   64,
-   64
-  ],
   "player_idle_breath_right_0": [
-   960,
+   448,
    64,
    64,
    64
   ],
   "player_idle_breath_right_1": [
+   512,
+   64,
+   64,
+   64
+  ],
+  "player_idle_breath_up_0": [
+   576,
+   64,
+   64,
+   64
+  ],
+  "player_idle_breath_up_1": [
+   640,
+   64,
+   64,
+   64
+  ],
+  "player_idle_down": [
+   704,
+   64,
+   64,
+   64
+  ],
+  "player_idle_left": [
+   768,
+   64,
+   64,
+   64
+  ],
+  "player_idle_right": [
+   832,
+   64,
+   64,
+   64
+  ],
+  "player_idle_up": [
+   896,
+   64,
+   64,
+   64
+  ],
+  "player_walk_down_0": [
+   960,
+   64,
+   64,
+   64
+  ],
+  "player_walk_down_1": [
    0,
    128,
    64,
    64
   ],
-  "player_walk_right_0": [
+  "player_walk_down_2": [
    64,
    128,
    64,
    64
   ],
-  "player_walk_right_1": [
+  "player_walk_down_3": [
    128,
    128,
    64,
    64
   ],
-  "player_walk_right_2": [
+  "player_walk_left_0": [
    192,
    128,
    64,
    64
   ],
-  "player_walk_right_3": [
+  "player_walk_left_1": [
    256,
    128,
    64,
    64
   ],
-  "player_attack_right_0": [
+  "player_walk_left_2": [
    320,
    128,
    64,
    64
   ],
-  "player_attack_right_1": [
+  "player_walk_left_3": [
    384,
    128,
    64,
    64
   ],
-  "player_attack_right_2": [
+  "player_walk_right_0": [
    448,
    128,
    64,
    64
   ],
-  "player_hurt_left_0": [
+  "player_walk_right_1": [
    512,
    128,
    64,
    64
   ],
-  "player_hurt_right_1": [
+  "player_walk_right_2": [
    576,
    128,
    64,
    64
   ],
-  "player_death_0": [
+  "player_walk_right_3": [
    640,
    128,
    64,
    64
   ],
-  "player_death_1": [
+  "player_walk_up_0": [
    704,
    128,
    64,
    64
   ],
-  "player_death_2": [
+  "player_walk_up_1": [
    768,
    128,
    64,
    64
   ],
-  "player_death_3": [
+  "player_walk_up_2": [
    832,
    128,
    64,
    64
   ],
-  "player_dash_right": [
+  "player_walk_up_3": [
    896,
    128,
    64,

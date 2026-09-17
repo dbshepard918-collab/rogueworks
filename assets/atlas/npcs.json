@@ -1,41 +1,41 @@
 {
-  "version": 1,
-  "image": "assets/atlas/npcs.png",
-  "meta": {
-    "tile": 64,
-    "palette_version": 1,
-    "generated_by": "pixel"
-  },
-  "frames": {
-    "npc_keeper_eira": [
-      0,
-      0,
-      64,
-      64
-    ],
-    "npc_forge_brokk": [
-      64,
-      0,
-      64,
-      64
-    ],
-    "npc_tide_mira": [
-      128,
-      0,
-      64,
-      64
-    ],
-    "npc_skull_raven": [
-      192,
-      0,
-      64,
-      64
-    ],
-    "npc_sorrow_lena": [
-      256,
-      0,
-      64,
-      64
-    ]
-  }
+ "version": 1,
+ "image": "assets/atlas/npcs.png",
+ "meta": {
+  "tile": 64,
+  "palette_version": 1,
+  "generated_by": "sd"
+ },
+ "frames": {
+  "npc_keeper_eira": [
+   0,
+   0,
+   64,
+   64
+  ],
+  "npc_forge_brokk": [
+   64,
+   0,
+   64,
+   64
+  ],
+  "npc_tide_mira": [
+   128,
+   0,
+   64,
+   64
+  ],
+  "npc_skull_raven": [
+   192,
+   0,
+   64,
+   64
+  ],
+  "npc_sorrow_lena": [
+   256,
+   0,
+   64,
+   64
+  ]
+ }
 }

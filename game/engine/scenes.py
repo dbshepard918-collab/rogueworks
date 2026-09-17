@@ -130,8 +130,8 @@ class RunScene(Scene):
     def _handle_reward_choice(self):
         """Handle the reward choice UI for a cleared room.
 
-        Headless mode auto-selects 'heal'. Windowed mode waits
-        for player input via the input source.
+        Headless mode auto-selects 'heal'. Windowed mode pauses the
+        simulation and waits for navigation/confirm events (see handle_event).
         """
         if self.world._pending_room is None:
             return
@@ -139,24 +139,27 @@ class RunScene(Scene):
             # Auto-choose in headless mode
             self.world.choose_room_reward("heal")
             return
-        # Windowed mode: check for player input
-        inp = self.sample_input()
-        if inp is None:
-            return
-        # Auto-select first option if no input (safety for testing)
-        # In real game, this would show a menu and wait for Enter
-        import pygame
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_e]:
-            # Choose the first available option
-            choice = self.world.active_reward_choice
-            if choice:
-                options = choice.get("options", ["heal"])
-                self.world.choose_room_reward(options[0])
 
 
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
+            # P3.1: reward choice navigation takes priority over gameplay keys
+            if self.world.active_reward_choice is not None:
+                choice = self.world.active_reward_choice
+                options = choice.get("options", ["heal"])
+                sel = int(getattr(self.world, "reward_selection", 0))
+                if event.key in (pygame.K_w, pygame.K_UP):
+                    self.world.reward_selection = (sel - 1) % len(options)
+                    return None
+                if event.key in (pygame.K_s, pygame.K_DOWN):
+                    self.world.reward_selection = (sel + 1) % len(options)
+                    return None
+                if event.key in (pygame.K_RETURN, pygame.K_SPACE, pygame.K_e):
+                    self.world.choose_room_reward(options[sel])
+                    return None
+                if event.key in (pygame.K_ESCAPE,):
+                    # keep the panel open; ignore escape so the player must choose
+                    return None
             if self.inventory.open:
                 if self.inventory.handle_key(self.world, event.key):
                     return None
@@ -471,11 +474,32 @@ class ClassSelectScene(Scene):
             stat_line = "HP %d  DMG %d  SPD %.1f  ARM %d%%  LUCK %d  CRIT %d%%" % (
                 int(st["max_hp"]), int(st["damage"]), st["speed"],
                 int(round(st["armor"] * 100)), int(st["luck"]), int(round(st["crit"] * 100)))
-            draw_text(surface, "  " + stat_line, (x, y + 28), 1, colour=(138, 132, 150))
+            draw_text(surface, "  " + stat_line, (x, y + 26), 2, colour=(138, 132, 150))
             if not is_unlocked:
                 draw_text(surface, "  [LOCKED] %s" % defn["unlock_desc"],
-                          (x, y + 44), 1, colour=(93, 98, 114))
-            y += 68
+                          (x, y + 46), 2, colour=(93, 98, 114))
+            y += 72
+
+        # Portrait panel for the selected class (right side)
+        sel_cid = self.class_ids[self.index]
+        sel_defn = save_sys.CLASS_DEFS[sel_cid]
+        px, py, ps = 760, 150, 256
+        panel = pygame.Surface((ps + 16, ps + 16), pygame.SRCALPHA)
+        panel.fill((15, 13, 22, 220))
+        pygame.draw.rect(panel, (58, 52, 80), panel.get_rect(), 2)
+        surface.blit(panel, (px, py))
+        try:
+            atlas = Atlas.load("classes")
+            frame_name = "class_" + sel_cid
+            if atlas.has(frame_name):
+                img = atlas.frame(frame_name)
+                img = pygame.transform.scale(img, (ps, ps))
+                surface.blit(img, (px + 8, py + 8))
+        except Exception:
+            pass
+        draw_text(surface, sel_defn["name"], (px + 8, py + ps + 24), 2, colour=(232, 178, 60))
+        draw_text(surface, sel_defn["desc"], (px + 8, py + ps + 46), 2, colour=(138, 132, 150))
+
         draw_text(surface, "UP/DOWN choose   ENTER select   ESC back",
                   (80, surface.get_height() - 40), 1, colour=(93, 98, 114))
 
@@ -534,11 +558,11 @@ class AscensionSelectScene(Scene):
             x = 80
             prefix = "> " if selected else ("* " if is_current else "  ")
             draw_text(surface, prefix + label, (x, y), 2, colour=col)
-            draw_text(surface, "  " + desc, (x, y + 28), 1, colour=(138, 132, 150))
+            draw_text(surface, "  " + desc, (x, y + 26), 2, colour=(138, 132, 150))
             if not is_unlocked:
                 draw_text(surface, "  [LOCKED] beat the boss at ascension %d to unlock" % (level - 1),
-                          (x, y + 44), 1, colour=(93, 98, 114))
-            y += 62
+                          (x, y + 46), 2, colour=(93, 98, 114))
+            y += 72
         draw_text(surface, "UP/DOWN choose   ENTER select   ESC back",
                   (80, surface.get_height() - 40), 1, colour=(93, 98, 114))
 
@@ -912,8 +936,8 @@ class CurseSelectScene(Scene):
             x = 80
             prefix = "> " if is_cursor else ("* " if is_selected else "  ")
             draw_text(surface, prefix + cdef["name"], (x, y), 2, colour=col)
-            draw_text(surface, "  " + cdef["desc"], (x, y + 28), 1, colour=(138, 132, 150))
-            y += 56
+            draw_text(surface, "  " + cdef["desc"], (x, y + 26), 2, colour=(138, 132, 150))
+            y += 62
         draw_text(surface, "UP/DOWN move   ENTER toggle   ESC confirm & start",
                   (80, surface.get_height() - 40), 1, colour=(93, 98, 114))
 

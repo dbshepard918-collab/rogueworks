@@ -120,13 +120,17 @@ def _place_rooms(content, biome_id, level_w, level_h, cell, rng):
             continue
         used_slots.add(key)
 
-        # origin in tiles, clamped so the room fits inside the level
-        max_x = level_w - int(room.get("w", 8))
-        max_y = level_h - int(room.get("h", 8))
-        x = col * cell + 2 + (0 if i != 0 else 0)
-        y = row * cell + 2 + (0 if i != 0 else 0)
-        x = max(0, min(max_x, x))
-        y = max(0, min(max_y, y))
+        # origin in tiles, centered in its grid slot and clamped inside the level
+        rw = int(room.get("w", 8))
+        rh = int(room.get("h", 8))
+        cell_w = (level_w - 6) // 3
+        cell_h = (level_h - 6) // 2
+        max_x = level_w - rw - 2
+        max_y = level_h - rh - 2
+        x = col * cell_w + 3 + max(0, (cell_w - rw) // 2)
+        y = row * cell_h + 3 + max(0, (cell_h - rh) // 2)
+        x = max(2, min(max_x, x))
+        y = max(2, min(max_y, y))
         room_d = dict(room)
         room_d["x"] = x
         room_d["y"] = y
@@ -147,19 +151,108 @@ def _place_rooms(content, biome_id, level_w, level_h, cell, rng):
     # props: place each room's declared props at deterministic positions inside it
     props = []
     for room in rooms:
-        prop_list = list(room.get("props", []))
-        if not prop_list:
-            continue
-        rw = int(room.get("w", 8))
-        rh = int(room.get("h", 8))
-        rx = int(room.get("x", 0))
-        ry = int(room.get("y", 0))
-        for j, prop_name in enumerate(prop_list):
-            px = rx + 2 + (j * 3) % (rw - 3)
-            py = ry + 2 + (j * 5) % (rh - 3)
-            props.append({"tx": px, "ty": py, "sprite": prop_name})
+        props.extend(_place_room_props(room, rng))
 
     return rooms, props, spawn_room, stairs_room
+
+
+def _place_room_props(room, rng):
+    """Place room props at aesthetically anchored positions inside the room.
+
+    - Centered interactables for event rooms (fountain, anvil, eye, altar, coffer).
+    - Back-wall anchored sarcophagi, statues, and chests.
+    - Symmetrical pillars and braziers flanking halls and entries.
+    - Corners/edges for urns, bones, pots, and rubble.
+    """
+    prop_list = list(room.get("props", []))
+    if not prop_list:
+        return []
+
+    rw = int(room.get("w", 8))
+    rh = int(room.get("h", 8))
+    rx = int(room.get("x", 0))
+    ry = int(room.get("y", 0))
+    kind = room.get("kind", "")
+    cx = rx + rw // 2
+    cy = ry + rh // 2
+
+    used_tiles = set()
+    placed_props = []
+
+    def try_place(sprite, tx, ty):
+        tx = max(rx + 1, min(rx + rw - 2, tx))
+        ty = max(ry + 1, min(ry + rh - 2, ty))
+        if (tx, ty) in used_tiles:
+            return False
+        used_tiles.add((tx, ty))
+        placed_props.append({"tx": tx, "ty": ty, "sprite": sprite})
+        return True
+
+    clutter_candidates = [
+        (rx + 1, ry + 1),
+        (rx + rw - 2, ry + 1),
+        (rx + 1, ry + rh - 2),
+        (rx + rw - 2, ry + rh - 2),
+        (rx + 2, ry + 1),
+        (rx + rw - 3, ry + 1),
+        (rx + 1, ry + 2),
+        (rx + rw - 2, ry + 2),
+        (rx + 2, ry + rh - 2),
+        (rx + rw - 3, ry + rh - 2),
+    ]
+
+    for j, sprite in enumerate(prop_list):
+        if sprite in ("prop_anvil", "prop_fountain", "prop_eye", "prop_altar") or (sprite == "prop_coffer" and kind in ("gambling", "shop")):
+            if not try_place(sprite, cx, cy):
+                try_place(sprite, cx, cy - 1)
+        elif sprite == "prop_hammer":
+            if not try_place(sprite, cx + 1, cy):
+                try_place(sprite, cx, cy + 1)
+        elif sprite in ("prop_gold_pile", "prop_coins"):
+            if not try_place(sprite, cx - 1, cy):
+                try_place(sprite, cx + 1, cy)
+        elif sprite in ("prop_candles",):
+            if not try_place(sprite, cx - 1, cy):
+                try_place(sprite, cx + 1, cy)
+        elif sprite in ("prop_chest", "prop_sarcophagus", "prop_statue"):
+            if not try_place(sprite, cx, ry + 1):
+                if not try_place(sprite, rx + 2, ry + 1):
+                    try_place(sprite, rx + rw - 3, ry + 1)
+        elif sprite == "prop_brazier":
+            if not try_place(sprite, rx + 2, ry + 2):
+                if not try_place(sprite, rx + rw - 3, ry + 2):
+                    try_place(sprite, cx - 2 if cx - 2 > rx else rx + 2, cy)
+        elif sprite == "prop_pillar":
+            if rw >= 12 and rh >= 10:
+                if not try_place(sprite, rx + 3, ry + 3):
+                    if not try_place(sprite, rx + rw - 4, ry + 3):
+                        if not try_place(sprite, rx + 3, ry + rh - 4):
+                            try_place(sprite, rx + rw - 4, ry + rh - 4)
+            else:
+                if not try_place(sprite, rx + 2, ry + 2):
+                    try_place(sprite, rx + rw - 3, ry + 2)
+        elif sprite in ("prop_urn", "prop_pot", "prop_bones", "prop_rubble"):
+            placed = False
+            for cand in clutter_candidates:
+                if try_place(sprite, cand[0], cand[1]):
+                    placed = True
+                    break
+            if not placed:
+                px = rx + 1 + (j * 2) % max(1, rw - 2)
+                py = ry + 1 + (j * 3) % max(1, rh - 2)
+                try_place(sprite, px, py)
+        else:
+            placed = False
+            for cand in clutter_candidates:
+                if try_place(sprite, cand[0], cand[1]):
+                    placed = True
+                    break
+            if not placed:
+                px = rx + 2 + (j * 3) % max(1, rw - 3)
+                py = ry + 2 + (j * 5) % max(1, rh - 3)
+                try_place(sprite, px, py)
+
+    return placed_props
 
 
 def _place_cracked_walls(tiles, rooms, level_w, level_h, rng):
@@ -404,11 +497,8 @@ def _open_neighbours(tiles, w, h, x, y):
             tiles[nx][ny] = FLOOR
 
 
-def _build_tile_grid(level_w, level_h, rooms, rng):
-    """Start from all-wall, carve out each room's interior as floor.
-    Place DOOR tiles at room boundaries where corridors do not connect.
-    Place CRACKED_WALL tiles adjacent to rooms (not entrance/boss).
-    """
+def _build_tile_grid(level_w, level_h, rooms, rng=None):
+    """Start from all-wall, carve out each room's interior as floor."""
     tiles = [[WALL for _ in range(level_h)] for _ in range(level_w)]
     for room in rooms:
         rx = int(room.get("x", 0))
@@ -418,14 +508,11 @@ def _build_tile_grid(level_w, level_h, rooms, rng):
         for tx in range(rx, min(level_w, rx + rw)):
             for ty in range(ry, min(level_h, ry + rh)):
                 tiles[tx][ty] = FLOOR
-    _place_doors(tiles, rooms, level_w, level_h)
-    _place_cracked_walls(tiles, rooms, level_w, level_h, rng)
-    _place_hidden_doors(tiles, rooms, level_w, level_h, rng)
     return tiles
 
 
 def _place_doors(tiles, rooms, level_w, level_h):
-    """Mark door tiles at room boundaries not connected by corridors."""
+    """Mark centered door tiles at room boundaries where carved corridors connect."""
     corridor_tiles = set()
     room_floors = set()
     for room in rooms:
@@ -436,37 +523,63 @@ def _place_doors(tiles, rooms, level_w, level_h):
         for tx in range(rx, min(level_w, rx + rw)):
             for ty in range(ry, min(level_h, ry + rh)):
                 room_floors.add((tx, ty))
+
     for tx in range(level_w):
         for ty in range(level_h):
             if tiles[tx][ty] == FLOOR and (tx, ty) not in room_floors:
                 corridor_tiles.add((tx, ty))
+
+    if not corridor_tiles:
+        return
+
     for room in rooms:
         kind = room.get("kind", "")
-        if kind in ("entrance", "boss"):
+        if kind in ("entrance", "boss", "secret"):
             continue
         rx = int(room.get("x", 0))
         ry = int(room.get("y", 0))
         rw = int(room.get("w", 8))
         rh = int(room.get("h", 8))
-        for tx in range(rx, min(level_w, rx + rw)):
-            for ty in range(ry, min(level_h, ry + rh)):
-                if tiles[tx][ty] != FLOOR:
-                    continue
-                for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
-                    nx, ny = tx + dx, ty + dy
-                    if 0 <= nx < level_w and 0 <= ny < level_h and tiles[nx][ny] == WALL:
-                        has_corridor = False
-                        for dx2, dy2 in ((dx * 2, 0), (-dx * 2, 0), (0, dy * 2), (0, -dy * 2)):
-                            if (nx + dx2, ny + dy2) in corridor_tiles:
-                                has_corridor = True
-                                break
-                        if not has_corridor:
-                            for dx3, dy3 in ((dx * 2, 0), (-dx * 2, 0), (0, dy * 2), (0, -dy * 2)):
-                                rx2, ry2 = nx + dx3, ny + dy3
-                                if (rx2, ry2) in room_floors:
-                                    if kind in ("combat", "treasure", "shrine", "shop", "gambling", "blacksmith", "fountain", "omen"):
-                                        tiles[tx][ty] = DOOR
-                                    break
+
+        # North wall boundary (ty = ry, exterior neighbor is ty - 1)
+        n_openings = [tx for tx in range(rx, min(level_w, rx + rw))
+                      if tiles[tx][ry] == FLOOR and (tx, ry - 1) in corridor_tiles]
+        # South wall boundary (ty = ry + rh - 1, exterior neighbor is ty + 1)
+        s_ty = min(level_h - 1, ry + rh - 1)
+        s_openings = [tx for tx in range(rx, min(level_w, rx + rw))
+                      if tiles[tx][s_ty] == FLOOR and (tx, s_ty + 1) in corridor_tiles]
+        # West wall boundary (tx = rx, exterior neighbor is tx - 1)
+        w_openings = [ty for ty in range(ry, min(level_h, ry + rh))
+                      if tiles[rx][ty] == FLOOR and (rx - 1, ty) in corridor_tiles]
+        # East wall boundary (tx = rx + rw - 1, exterior neighbor is tx + 1)
+        e_tx = min(level_w - 1, rx + rw - 1)
+        e_openings = [ty for ty in range(ry, min(level_h, ry + rh))
+                      if tiles[e_tx][ty] == FLOOR and (e_tx + 1, ty) in corridor_tiles]
+
+        def _cluster_and_place(openings, is_horizontal, fixed_coord):
+            if not openings:
+                return
+            groups = []
+            curr = [openings[0]]
+            for c in openings[1:]:
+                if c == curr[-1] + 1:
+                    curr.append(c)
+                else:
+                    groups.append(curr)
+                    curr = [c]
+            groups.append(curr)
+
+            for grp in groups:
+                mid = grp[len(grp) // 2]
+                if is_horizontal:
+                    tiles[mid][fixed_coord] = DOOR
+                else:
+                    tiles[fixed_coord][mid] = DOOR
+
+        _cluster_and_place(n_openings, True, ry)
+        _cluster_and_place(s_openings, True, s_ty)
+        _cluster_and_place(w_openings, False, rx)
+        _cluster_and_place(e_openings, False, e_tx)
 
 
 def _place_stairs_and_spawn(tiles, rooms, spawn_room, stairs_room, level_w, level_h):
@@ -862,8 +975,8 @@ def _place_quest_props(rooms, biome_id, rng):
         ry = int(room.get("y", 0))
         rw = int(room.get("w", 8))
         rh = int(room.get("h", 8))
-        tx = rx + 2 + (i * 3) % max(1, rw - 3)
-        ty = ry + 2 + (i * 5) % max(1, rh - 3)
+        tx = rx + rw // 2
+        ty = ry + 2
         quest_props.append({"tx": tx, "ty": ty, "sprite": sprite, "quest_id": qid})
     return quest_props
 
@@ -887,6 +1000,7 @@ def generate(content, floor_rng, floor, biome_id, world_profile=None):
 
     tiles = _build_tile_grid(level_w, level_h, rooms, floor_rng)
     _carve_corridors(tiles, rooms, floor_rng)
+    _place_doors(tiles, rooms, level_w, level_h)
 
     burning, water = _place_biome_tiles(tiles, level_w, level_h, biome_id, floor_rng)
 
