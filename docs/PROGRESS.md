@@ -1,3 +1,13 @@
+## 2026-09-17 (r79) — Q-01 QA pass + HQ/dialogue system
+
+- **Q-01 closed:** First vision-audited frame pass complete. 9 frames rendered (3 seeds × 3 ticks), all >70KB, 573–665 distinct colours. VLM audit on seed 0 (PASS-WITH-ISSUES: minor HUD text overlap) and seed 2 (PASS). Report: `runs/reports/QA-1.md`.
+- **Dialogue system fixed:** `game/systems/dialogue.py` `DATA_DIR` path was broken (`game/game/data` → `game/data`). 5 NPC greeting JSON files now loadable. Was silently dropping all dialogue content.
+- **HQ scene movement:** `game/ui/hq_scene.py` rewritten with smooth held-key repeat, `_move_and_reset()`, cleaned-up dialogue key handling.
+- **Procgen props:** `ITEM_PROPS` expanded to exclude 9 more collectible props from static scenery.
+- **World interaction:** `self.player_interact()` added to `step()` for P3.2 cracked wall/secret room support.
+- **Full gates:** verify_gate --seeds 0 1 2 → PASS all 7, selftest 22/22, validate_data 0 errors, art.verify 0 off-palette, audit_sprites 434/434 resolved.
+- **Commit:** `162b73a` (passed commit gate: import OK, headless seed 0 violations=[])
+
 ## 2026-09-17 (r78-QA) — QA gate verification pass
 
 - **All 4 gates PASS**: `game.main --headless --turns 300 --seed 0..2` exit 0 violations=[] (seeds 0/1/2); `tools.selftest` 22/22; `tools.validate_data` 0 errors (748 entries); `tools.art.verify` 0 off-palette (691 sprites, 703 frames).
