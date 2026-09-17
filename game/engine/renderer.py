@@ -666,8 +666,6 @@ class Renderer:
             _draw_contact_shadow(surface, player.x, player.y, ox, oy, player.radius, st)
             name, flip = player.current_frame()
             img = self.frame(world, name, flip=flip)
-            img = pygame.transform.scale(img, (int(img.get_width() * 1.22),
-                                               int(img.get_height() * 1.22)))
             if player.hit_flash > 0.0:
                 # P2.6: reduced_flashing - reduce hit_flash intensity
                 if settings.get("reduced_flashing", False):
