@@ -146,6 +146,9 @@ class HUD:
         # P3.3: event-room interaction prompt
         self._event_room_prompt(world, surface)
 
+        # Quests: quest-prop interaction prompt (flood gates, bone altar)
+        self._quest_prop_prompt(world, surface)
+
         # P3.3: omen preview
         if world.next_floor_modifier:
             self._omen_panel(world, surface)
@@ -419,6 +422,32 @@ class HUD:
                 py = room_sy - 36
                 if 0 < px < surface.get_width() - text_w and py > 0:
                     draw_text(surface, prompt, (px, py), 1, colour=(232, 178, 60))
+                break
+
+    def _quest_prop_prompt(self, world, surface):
+        """Show interaction prompt when the player is adjacent to a quest prop."""
+        player = world.player
+        if not player or not hasattr(world, "level"):
+            return
+        ptx = int(player.x // TILE)
+        pty = int(player.y // TILE)
+        for prop in world.level.props:
+            qid = prop.get("quest_id")
+            if not qid:
+                continue
+            tx = int(prop.get("tx", -1))
+            ty = int(prop.get("ty", -1))
+            if abs(ptx - tx) <= 1 and abs(pty - ty) <= 1:
+                prompt = "Press E to mark %s" % qid.replace("_", " ").title()
+                text_w = text_size(prompt, 1)[0]
+                cam_x = world.camera.world_offset()[0]
+                cam_y = world.camera.world_offset()[1]
+                prop_sx = tx * TILE + TILE // 2 - cam_x
+                prop_sy = ty * TILE - cam_y
+                px = surface.get_width() // 2 + prop_sx - text_w // 2
+                py = prop_sy - 36
+                if 0 < px < surface.get_width() - text_w and py > 0:
+                    draw_text(surface, prompt, (px, py), 1, colour=(121, 176, 74))
                 break
 
     def _omen_panel(self, world, surface):

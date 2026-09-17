@@ -868,6 +868,7 @@ class World:
         # P3.3: event-room interaction (E key)
         if inp.has("interact"):
             self.player_interact_event()
+            self._interact_quest_prop()
             if _tut and self.floor == self.start_floor:
                 _tut.record_success("interact")
 
@@ -1487,6 +1488,26 @@ class World:
                                 if 0 <= hdx < self.level.w and 0 <= hdy < self.level.h:
                                     self.level.tiles[hdx][hdy] = procgen.DOOR_OPEN
                         return True
+                return True
+        return False
+
+    def _interact_quest_prop(self):
+        """Check if the player is adjacent to a quest prop and trigger its objective."""
+        if not self.level or not self.player or self.quests is None:
+            return False
+        ptx = int(self.player.x // TILE)
+        pty = int(self.player.y // TILE)
+        for prop in self.level.props:
+            qid = prop.get("quest_id")
+            if not qid:
+                continue
+            tx = int(prop.get("tx", -1))
+            ty = int(prop.get("ty", -1))
+            if abs(ptx - tx) <= 1 and abs(pty - ty) <= 1:
+                self.quests.check_interact(qid)
+                self._process_quest_completions()
+                self.floating.add("Marked %s" % qid.replace("_", " "),
+                                  color=(121, 176, 74), life=2.0)
                 return True
         return False
 

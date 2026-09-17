@@ -1,3 +1,26 @@
+## 2026-09-16 (r77) — Quest content: Brokk's Hammer, flood gates, bone altar
+
+- **Brokk's Hammer** — `brokk_hammer` added to `items.json` (tier-4 weapon, `quest_only: true` so
+  it never enters the normal loot pool). `forge_colossus` gained a `quest_drop` field;
+  `drop_loot_for` now drops a monster's `quest_drop` item guaranteed on death. Quest 2
+  (The Hammer Below) is now fully completable: reach floor 7 → kill Forge Colossus →
+  collect Brokk's Hammer → 200 essence + permanent forge unlock.
+- **Flood gates** — `_place_quest_props` in procgen places 3 `flood_gate_1/2/3` interactables
+  (`prop_pillar_drowned`) on every Drowned Vaults floor, and 1 `bone_altar` (`prop_altar`) on
+  every Sunken Ossuary floor. `World._interact_quest_prop` triggers the matching `interact`
+  objective when the player presses E adjacent to one; the HUD shows a "Press E to mark …" prompt.
+  Quest 3 (The Drowned Map) is now fully completable; quest 4 (The Name It Knows) is completable
+  in endless mode (floor 16).
+- **Schema** — `validate_data.py` gained `quest_drop` (monsters), `quest_only` (items), and
+  `quest_props` (rooms) fields.
+- **Gates** — `tools.selftest` 22/22 PASS; `tools.studio.verify_gate` 7/7 green;
+  `game.main --headless --turns 300 --seed 0..2` exit 0, violations=[], warnings=0;
+  `tools.validate_data` 0 errors (722 entries).
+- **Remaining** — quest 5 (Close the Wound) targets floor 20 and a `the_wound` boss that do not
+  exist yet (a 5th biome + final boss); its objective ids are reconciled for when that content ships.
+
+---
+
 ## 2026-09-16 (r76) — Quest system wired into the run (narrative → gameplay)
 
 - **Quest tracking during runs** — the r46 narrative content (5 quests, 5-act storyline) was

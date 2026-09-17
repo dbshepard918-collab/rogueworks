@@ -1376,7 +1376,8 @@
         "vfx": "vfx_boss_enrage",
         "duration": 450
       },
-      "element": "fire"
+      "element": "fire",
+      "quest_drop": "brokk_hammer"
     },
     {
       "id": "skull_wraith",

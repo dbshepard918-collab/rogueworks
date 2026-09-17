@@ -287,6 +287,16 @@ def drop_loot_for(world, mon):
         if item is not None:
             world.add_entity(Pickup(world.next_id(), mon.x, mon.y - 6, "item", item=item,
                                     sprite=item.get("sprite")))
+    # Quest drops: a monster with a quest_drop field drops that item guaranteed
+    quest_drop_id = (mon.defn or {}).get("quest_drop")
+    if quest_drop_id:
+        qitem = world.content.item(quest_drop_id)
+        if qitem is not None:
+            qitem = dict(qitem)
+            world.add_entity(Pickup(world.next_id(), mon.x, mon.y - 14, "item", item=qitem,
+                                    sprite=qitem.get("sprite")))
+            world.floating.add("%s" % qitem.get("name", qitem.get("id")),
+                              color=(232, 178, 60), life=2.5)
     if mon.guardian or mon.boss:
         world.add_entity(Pickup(world.next_id(), mon.x + 4, mon.y - 10, "key",
                                 amount=1, sprite="prop_key"))

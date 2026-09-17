@@ -2354,6 +2354,21 @@
       "value": 42,
       "sprite": "item_ossuary_staff",
       "flavor": "Smells like victory. Tastes like rot."
+    },
+    {
+      "id": "brokk_hammer",
+      "name": "Brokk's Hammer",
+      "slot": "weapon",
+      "tier": 4,
+      "effect": {
+        "damage": 20,
+        "crit": 7,
+        "armor": 3
+      },
+      "value": 280,
+      "sprite": "item_magma_warhammer",
+      "flavor": "The forge-giant's hammer. It remembers every anvil it has ever struck.",
+      "quest_only": true
     }
   ]
 }

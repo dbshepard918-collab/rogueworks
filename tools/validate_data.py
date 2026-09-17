@@ -79,6 +79,7 @@ SCHEMAS: dict[str, dict[str, dict]] = {
         "enrage": {"type": "dict", "required": False},
         "miniboss": {"type": "bool", "required": False},
         "miniboss_of": {"type": "str", "required": False},
+        "quest_drop": {"type": "str", "ref": "items", "required": False},
     },
     "items.json": {
         "id": {"type": "str", "id": True},
@@ -91,6 +92,7 @@ SCHEMAS: dict[str, dict[str, dict]] = {
         "flavor": STR,
         "unique": {"type": "str", "nullable": True, "required": False},
         "element": {"type": "str", "enum": ELEMENTS, "required": False},
+        "quest_only": {"type": "bool", "required": False},
     },
     "affixes.json": {
         "id": {"type": "str", "id": True},
@@ -109,6 +111,7 @@ SCHEMAS: dict[str, dict[str, dict]] = {
         "spawn_budget": {"type": "num", "min": 0},
         "props": {"type": "list", "items": {"type": "str"}, "len_min": 0},
         "secret_wall": {"type": "str", "required": False},
+        "quest_props": {"type": "list", "items": {"type": "dict"}, "required": False},
     },
     "biomes.json": {
         "id": {"type": "str", "id": True},

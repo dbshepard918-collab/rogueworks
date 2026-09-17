@@ -835,6 +835,39 @@ class Level:
         return rng.choice(top)
 
 
+def _place_quest_props(rooms, biome_id, rng):
+    """Place biome-specific quest interactables (flood gates, bone altar).
+
+    Returns a list of props with a ``quest_id`` field so the world can trigger
+    the matching quest objective when the player interacts adjacent to them.
+    """
+    if biome_id == "drowned_vaults":
+        ids = ["flood_gate_1", "flood_gate_2", "flood_gate_3"]
+        sprite = "prop_pillar_drowned"
+    elif biome_id == "sunken_ossuary":
+        ids = ["bone_altar"]
+        sprite = "prop_altar"
+    else:
+        return []
+
+    candidates = [r for r in rooms
+                  if r.get("kind") not in ("entrance", "boss", "secret")]
+    if not candidates:
+        return []
+    rng.shuffle(candidates)
+    quest_props = []
+    for i, qid in enumerate(ids):
+        room = candidates[i % len(candidates)]
+        rx = int(room.get("x", 0))
+        ry = int(room.get("y", 0))
+        rw = int(room.get("w", 8))
+        rh = int(room.get("h", 8))
+        tx = rx + 2 + (i * 3) % max(1, rw - 3)
+        ty = ry + 2 + (i * 5) % max(1, rh - 3)
+        quest_props.append({"tx": tx, "ty": ty, "sprite": sprite, "quest_id": qid})
+    return quest_props
+
+
 # --------------------------------------------------------------------------- generate
 def generate(content, floor_rng, floor, biome_id, world_profile=None):
     """Build a ``Level`` for *floor* in *biome_id*, deterministic from *floor_rng*.
@@ -848,6 +881,9 @@ def generate(content, floor_rng, floor, biome_id, world_profile=None):
 
     rooms, props, spawn_room, stairs_room = _place_rooms(
         content, biome_id, level_w, level_h, cell, floor_rng)
+
+    # Place biome-specific quest interactables (flood gates, bone altar)
+    props.extend(_place_quest_props(rooms, biome_id, floor_rng))
 
     tiles = _build_tile_grid(level_w, level_h, rooms, floor_rng)
     _carve_corridors(tiles, rooms, floor_rng)

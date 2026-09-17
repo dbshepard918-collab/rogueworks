@@ -43,6 +43,8 @@ def pick_base_item(content, rng, tier=None, slot=None, luck=0.0, unlocks=None):
         unlock_set = set(unlock_set)
     pool = []
     for item in content.items():
+        if item.get("quest_only"):
+            continue
         if slot is not None and item.get("slot") != slot:
             continue
         if tier is None:
@@ -57,6 +59,8 @@ def pick_base_item(content, rng, tier=None, slot=None, luck=0.0, unlocks=None):
         pool.append((item, w))
     if not pool:
         for item in content.items():
+            if item.get("quest_only"):
+                continue
             if slot is None or item.get("slot") == slot:
                 pool.append((item, 1.0))
     if not pool:
