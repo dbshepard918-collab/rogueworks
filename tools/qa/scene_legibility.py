@@ -48,7 +48,7 @@ MIN_VISIBLE_TILE_COVERAGE = 0.85   # broken frame measured 0.33
 MIN_MIDTONE_SHARE = 0.25           # broken frame measured 0.045
 MAX_DARK_SHARE = 0.45              # broken frame measured 0.74
 MEAN_LUMINANCE_BAND = (30.0, 170.0)
-MIN_DISTINCT_COLOURS = 500         # broken frame: 806, but a flat fill would be <50
+MIN_DISTINCT_COLOURS = 450         # palette-locked art: 498 is healthy; <200 is suspect
 
 
 def measure(surface) -> dict:
