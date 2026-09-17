@@ -1,3 +1,32 @@
+## 2026-09-16 (r69) — QA Gate Check
+
+- **QA gate sweep** — Full verification pass. All 4 gates green:
+  - `game.main --headless --turns 300 --seed 0..2` → all exit 0, violations=[] (warnings=4 per seed: room 'ossuary_room_secret_18' is kind=secret but missing secret_wall)
+  - `tools.selftest` → 22/22 passed, 0 skipped, 0 failed
+  - `tools.validate_data` → 12 files, 721 entries, 0 errors, 51 warnings (non-blocking: quests.json unrecognised content file; rooms.json painter rooms have `template`/`decoration` fields not yet in contract)
+  - `tools.art.verify` → 682 sprites, 657 frames, 0 off-palette pixels
+- **No fixes applied.** Reporting only.
+
+## 2026-09-16 (r75) — SD monster & player art regeneration
+
+- **Monsters** — `tools/art/gen_monsters_sd.py` regenerates all 92 monster atlas frames via the local FLUX pipeline (256×256 on a clean magenta key → palette-locked → centred 64×64). Replaces the 32×32-upscaled "black and white blobs" with chunky, readable dark-fantasy silhouettes. Resumable via `assets/raw/sd_cache`.
+- **Player (Lantern-Keeper)** — `tools/art/gen_player_sd.py` regenerates the hero as a hooded lantern-keeper with a glowing amber lantern. 18 base poses (idle/walk/attack × 4 directions + hurt + dash) are generated, then the full 47-frame animation atlas (idle breath, 4-frame walk cycles, 3-phase attacks, hurt flash, death collapse, dash) is derived and packed. Also fixes a stale `player_hurt_right_1` frame name (the code expects `player_hurt_left_1`).
+- **Gates** — `tools.selftest` 22/22 PASS; `tools.art.verify` PASS (0 off-palette); `game.main --headless --turns 300 --seed 0..2` all exit 0, violations=[].
+
+---
+
+## 2026-09-16 (r74) — Visual & feel pass (procedural art + combat/UI polish)
+
+- **Procedural dungeon tileset** — `tools/art/gen_tiles_procedural.py` replaces the flat AI-downscaled tiles with hand-built 64px pixel art (stone floors with grout, brick walls with a lit top edge, real staircases, framed doors, pools, pillars, braziers) for all 4 tilesets (catacombs/ember/drowned/ossuary). 136 frames, 0 off-palette.
+- **Stairs beacon** — renderer draws a pulsing additive glow + keyline under the stairwell so the exit reads instantly (gold while sealed, cyan once unlocked).
+- **Clean VFX** — `tools/art/fix_vfx.py` replaces the noisy AI `vfx_dust`/`vfx_slash`/`vfx_impact`/`vfx_hit_spark`/`vfx_muzzle_flash`/`vfx_levelup`/`vfx_sparkle` with palette-locked procedural art; `ParticleSystem.draw` now renders soft circles instead of hard 1px squares (fixes the "pixelated cloud" on movement).
+- **Player lantern glow** — a warm additive glow grounds the Lantern-Keeper against busy floors.
+- **Room-reward panel** — icons + descriptions per option (item/gold/heal/shrine), a visible selection cursor, and W/S/Up/Down + Enter navigation (was: text-only, first-option-only).
+- **Combat feel** — melee reach 88→112px and arc 2.2→2.7 rad; ranged attack (J) now auto-aims at the nearest monster in the facing cone; "Ranged (J)" added to the onboarding tutorial.
+- **Gates** — `tools.selftest` 22/22 PASS; `tools.art.verify` PASS (0 off-palette); `game.main --headless --turns 300 --seed 0..2` all exit 0, violations=[].
+
+---
+
 ## 2026-09-16 (r69) — QA Gate Check (Forge, cron)
 
 - **Gate sweep** — `game.main --headless --turns 300 --seed 0..2` → all 3 seeds exit 0, violations=[] (4 warnings each, all `ossuary_room_secret_18` missing secret_wall); `tools.selftest` → **22/22 PASS**; `tools.validate_data` → 0 errors, 1 warning (quests.json unrecognised); `tools.art.verify` → **PASS** (682 sprites, 657 frames, 0 off-palette). All 4 gates GREEN. No fixes applied — reporting only.
