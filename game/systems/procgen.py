@@ -161,7 +161,15 @@ def _place_room_props(room, rng):
     - Corners/edges for urns, bones, pots, and rubble.
     """
     # Clutter filter: props that look like collectible items/loot are never placed as static scenery
-    ITEM_PROPS = {"prop_gold_pile", "prop_coins", "prop_sword", "prop_shield", "prop_hammer", "prop_chest"}
+    ITEM_PROPS = {
+        "prop_gold_pile", "prop_coins", "prop_coin",
+        "prop_sword", "prop_shield", "prop_hammer",
+        "prop_chest",
+        "prop_ring", "prop_amulet", "prop_key",
+        "prop_essence", "prop_crystal",
+        "prop_potion_health", "prop_potion_mana",
+        "prop_backpack", "prop_cap",
+    }
     prop_list = [s for s in room.get("props", []) if s not in ITEM_PROPS]
     if not prop_list:
         return []

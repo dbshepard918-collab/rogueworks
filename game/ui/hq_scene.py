@@ -22,6 +22,7 @@ class HQScene:
         self.active_npc = None
         self.message = ""
         self.message_timer = 0.0
+        self._move_timer = 0.0   # held-key repeat timer
         # Camera offset for HQ
         self.camera_x = 0
         self.camera_y = 0
@@ -30,36 +31,47 @@ class HQScene:
         # Accept any quest whose prereqs are satisfied (chain progression)
         self.quest_tracker.accept_available()
 
+
     def _update_camera(self):
         """Center camera on player."""
         self.camera_x = self.hq_state.player_tx * self.TILE - 640 + self.TILE // 2
         self.camera_y = self.hq_state.player_ty * self.TILE - 360 + self.TILE // 2
 
+    # Seconds between steps when holding a key (first step is instant, then this interval)
+    _MOVE_FIRST = 0.18   # delay before repeat kicks in
+    _MOVE_REPEAT = 0.10  # repeat interval while held
+
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
             if self.dialogue.is_active():
-                if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+                if event.key in (pygame.K_RETURN, pygame.K_SPACE):
                     self.dialogue.update()
                     if not self.dialogue.is_active():
                         self.dialogue.close()
                 elif event.key == pygame.K_ESCAPE:
                     self.dialogue.close()
             else:
-                if event.key == pygame.K_LEFT or event.key == pygame.K_a:
-                    self.hq_state.move_player(-1, 0)
-                elif event.key == pygame.K_RIGHT or event.key == pygame.K_d:
-                    self.hq_state.move_player(1, 0)
-                elif event.key == pygame.K_UP or event.key == pygame.K_w:
-                    self.hq_state.move_player(0, -1)
-                elif event.key == pygame.K_DOWN or event.key == pygame.K_s:
-                    self.hq_state.move_player(0, 1)
-                elif event.key == pygame.K_e:
+                if event.key == pygame.K_e:
                     self._try_interact()
                 elif event.key == pygame.K_TAB:
                     pass  # Could open quest log
                 elif event.key == pygame.K_ESCAPE:
-                    # Save and quit to menu
                     self.game.show_menu()
+                # First keydown fires a step immediately
+                elif event.key in (pygame.K_LEFT, pygame.K_a):
+                    self._move_and_reset(-1, 0)
+                elif event.key in (pygame.K_RIGHT, pygame.K_d):
+                    self._move_and_reset(1, 0)
+                elif event.key in (pygame.K_UP, pygame.K_w):
+                    self._move_and_reset(0, -1)
+                elif event.key in (pygame.K_DOWN, pygame.K_s):
+                    self._move_and_reset(0, 1)
+        self._update_camera()
+
+    def _move_and_reset(self, dx, dy):
+        """Move one step and reset the held-key repeat timer."""
+        self.hq_state.move_player(dx, dy)
+        self._move_timer = self._MOVE_FIRST   # wait before first repeat
         self._update_camera()
 
     def _try_interact(self):
@@ -84,17 +96,48 @@ class HQScene:
         if self.message_timer > 0:
             self.message_timer -= dt
 
+        # Smooth held-key movement (only when dialogue is not open)
+        if not self.dialogue.is_active():
+            keys = pygame.key.get_pressed()
+            dx, dy = 0, 0
+            if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+                dx = -1
+            elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+                dx = 1
+            elif keys[pygame.K_UP] or keys[pygame.K_w]:
+                dy = -1
+            elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
+                dy = 1
+
+            if dx != 0 or dy != 0:
+                self._move_timer -= dt
+                if self._move_timer <= 0:
+                    self.hq_state.move_player(dx, dy)
+                    self._move_timer = self._MOVE_REPEAT
+                    self._update_camera()
+            else:
+                self._move_timer = 0.0
+
+
+
     def draw(self, surface, dt=0.0):
         surface.fill(colour("void", (11, 10, 16)))
-        # Draw rooms
+        # Draw rooms and corridors
         for room in hq_sys.hq_rooms().get("rooms", []):
             self._draw_room(surface, room)
+        self._draw_corridors(surface)
+        # Descent entrance beacon (drawn over floor, under NPCs)
+        self._draw_descent_beacon(surface, dt)
+        # Room name banners
+        self._draw_room_banners(surface)
         # Draw NPCs
         for npc_id, npc_state in self.hq_state.npc_states.items():
             if npc_state.visible:
                 self._draw_npc(surface, npc_state)
         # Draw player
         self._draw_player(surface)
+        # Descent prompt when player is near the entrance
+        self._draw_descent_prompt(surface)
         # Draw HUD
         self._draw_hud(surface)
         # Draw dialogue
@@ -460,6 +503,64 @@ class HQScene:
             pass
         # Fallback: gold rectangle
         pygame.draw.rect(surface, (232, 178, 60), (px - 10, py - 10, 20, 20))
+
+    def _draw_descent_beacon(self, surface, dt):
+        """Draw a glowing stairwell beacon over the depths_entrance room."""
+        import math
+        # depths_entrance is at x:8, y:8, w:4, h:4 in the hq_rooms layout
+        rx, ry, rw, rh = 8, 8, 4, 4
+        cx = (rx + rw // 2) * self.TILE - self.camera_x
+        cy = (ry + rh // 2) * self.TILE - self.camera_y
+        if cx < -200 or cx > 1480 or cy < -200 or cy > 920:
+            return
+        t = pygame.time.get_ticks() / 1000.0
+
+        # Outer pulsing glow ring
+        pulse = 0.55 + 0.45 * math.sin(t * 2.5)
+        glow_r = int(96 + 20 * math.sin(t * 1.8))
+        glow_surf = pygame.Surface((glow_r * 2, glow_r * 2), pygame.SRCALPHA)
+        alpha = int(45 * pulse)
+        pygame.draw.circle(glow_surf, (232, 178, 60, alpha), (glow_r, glow_r), glow_r)
+        surface.blit(glow_surf, (cx - glow_r, cy - glow_r), special_flags=pygame.BLEND_RGBA_ADD)
+
+        # Inner warm void circle
+        inner_r = int(52 + 6 * math.sin(t * 3.1))
+        inner_surf = pygame.Surface((inner_r * 2, inner_r * 2), pygame.SRCALPHA)
+        pygame.draw.circle(inner_surf, (11, 8, 20, 180), (inner_r, inner_r), inner_r)
+        surface.blit(inner_surf, (cx - inner_r, cy - inner_r))
+
+        # Spiral stair indicator (8 short lines arranged in circle)
+        for i in range(8):
+            angle = t * 0.6 + i * (math.pi / 4)
+            r1 = 18 + (i % 2) * 6
+            r2 = r1 + 10
+            x1 = cx + int(math.cos(angle) * r1)
+            y1 = cy + int(math.sin(angle) * r1)
+            x2 = cx + int(math.cos(angle) * r2)
+            y2 = cy + int(math.sin(angle) * r2)
+            bright = int(180 + 60 * pulse)
+            col = (bright, int(bright * 0.77), 0)
+            pygame.draw.line(surface, col, (x1, y1), (x2, y2), 2)
+
+        # "▼ THE DESCENT" label above the beacon
+        label = "THE DESCENT"
+        lw, lh = text_size(label, 2)
+        lx = cx - lw // 2 - 10
+        ly = cy - inner_r - 38
+        pygame.draw.rect(surface, (11, 8, 20), (lx, ly, lw + 20, 26))
+        pygame.draw.rect(surface, (232, 178, 60), (lx, ly, lw + 20, 26), 2)
+        draw_text(surface, label, (lx + 10, ly + 5), 2, colour=(232, 178, 60))
+
+        # [E] badge below the label when player is near
+        ptx, pty = self.hq_state.player_tx, self.hq_state.player_ty
+        if 6 <= ptx <= 13 and 6 <= pty <= 13:
+            badge = "[E] DESCEND"
+            bw, bh = text_size(badge, 2)
+            bx = cx - bw // 2 - 10
+            by = cy + inner_r + 10
+            pygame.draw.rect(surface, (11, 8, 20), (bx, by, bw + 20, 24))
+            pygame.draw.rect(surface, (232, 178, 60), (bx, by, bw + 20, 24), 2)
+            draw_text(surface, badge, (bx + 10, by + 4), 2, colour=(232, 178, 60))
 
     def _draw_descent_prompt(self, surface):
         ptx, pty = self.hq_state.player_tx, self.hq_state.player_ty

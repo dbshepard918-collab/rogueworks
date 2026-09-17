@@ -867,6 +867,7 @@ class World:
         player.apply_knockback(self.level, dt)
         # P3.3: event-room interaction (E key)
         if inp.has("interact"):
+            self.player_interact()           # P3.2: cracked wall / secret room
             self.player_interact_event()
             self._interact_quest_prop()
             if _tut and self.floor == self.start_floor:

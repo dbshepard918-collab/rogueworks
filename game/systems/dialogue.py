@@ -5,8 +5,8 @@ import json
 from pathlib import Path
 from typing import Optional
 
-ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT / "game/data"
+ROOT = Path(__file__).resolve().parents[2]
+DATA_DIR = ROOT / "game" / "data"
 
 
 class DialogueLine:
