@@ -2886,6 +2886,387 @@
         "prop_water_pool",
         "prop_bones"
       ]
+    },
+    {
+      "id": "painter_catacombs_crypt",
+      "biome": "catacombs",
+      "kind": "combat",
+      "w": 14,
+      "h": 12,
+      "spawn_budget": 6,
+      "props": [
+        "prop_sarcophagus",
+        "prop_bones",
+        "prop_candles",
+        "prop_pillar"
+      ],
+      "template": "painter",
+      "decoration": "ancient_crypt"
+    },
+    {
+      "id": "painter_catacombs_necropolis",
+      "biome": "catacombs",
+      "kind": "combat",
+      "w": 18,
+      "h": 14,
+      "spawn_budget": 9,
+      "props": [
+        "prop_pillar",
+        "prop_brazier",
+        "prop_urn",
+        "prop_bones"
+      ],
+      "template": "painter",
+      "decoration": "necropolis_hall"
+    },
+    {
+      "id": "painter_catacombs_vault",
+      "biome": "catacombs",
+      "kind": "treasure",
+      "w": 10,
+      "h": 10,
+      "spawn_budget": 1,
+      "props": [
+        "prop_chest",
+        "prop_gold_pile",
+        "prop_candles"
+      ],
+      "template": "painter",
+      "decoration": "treasure_vault"
+    },
+    {
+      "id": "painter_catacombs_shrine_dark",
+      "biome": "catacombs",
+      "kind": "shrine",
+      "w": 9,
+      "h": 9,
+      "spawn_budget": 0,
+      "props": [
+        "prop_shrine",
+        "prop_candles",
+        "prop_bones"
+      ],
+      "template": "painter",
+      "decoration": "dark_shrine"
+    },
+    {
+      "id": "painter_catacombs_boss_throne",
+      "biome": "catacombs",
+      "kind": "boss",
+      "w": 24,
+      "h": 20,
+      "spawn_budget": 1,
+      "props": [
+        "prop_altar",
+        "prop_brazier",
+        "prop_pillar",
+        "prop_sarcophagus"
+      ],
+      "template": "painter",
+      "decoration": "throne_of_bones"
+    },
+    {
+      "id": "painter_ember_forge",
+      "biome": "ember_warrens",
+      "kind": "combat",
+      "w": 16,
+      "h": 12,
+      "spawn_budget": 8,
+      "props": [
+        "prop_forge",
+        "prop_anvil",
+        "prop_lava_vent",
+        "prop_pipes"
+      ],
+      "template": "painter",
+      "decoration": "molten_forge"
+    },
+    {
+      "id": "painter_ember_bridge",
+      "biome": "ember_warrens",
+      "kind": "combat",
+      "w": 22,
+      "h": 10,
+      "spawn_budget": 7,
+      "props": [
+        "prop_pipes",
+        "prop_rubble",
+        "prop_lava_vent"
+      ],
+      "template": "painter",
+      "decoration": "lava_bridge"
+    },
+    {
+      "id": "painter_ember_cache",
+      "biome": "ember_warrens",
+      "kind": "treasure",
+      "w": 9,
+      "h": 9,
+      "spawn_budget": 1,
+      "props": [
+        "prop_chest",
+        "prop_anvil",
+        "prop_gold_pile"
+      ],
+      "template": "painter",
+      "decoration": "ember_cache"
+    },
+    {
+      "id": "painter_ember_shrine_fire",
+      "biome": "ember_warrens",
+      "kind": "shrine",
+      "w": 8,
+      "h": 8,
+      "spawn_budget": 0,
+      "props": [
+        "prop_shrine",
+        "prop_forge",
+        "prop_lava_vent"
+      ],
+      "template": "painter",
+      "decoration": "fire_shrine"
+    },
+    {
+      "id": "painter_ember_boss_colossus",
+      "biome": "ember_warrens",
+      "kind": "boss",
+      "w": 24,
+      "h": 20,
+      "spawn_budget": 1,
+      "props": [
+        "prop_forge",
+        "prop_anvil",
+        "prop_lava_vent",
+        "prop_pipes"
+      ],
+      "template": "painter",
+      "decoration": "colossus_pit"
+    },
+    {
+      "id": "painter_drowned_aqueduct",
+      "biome": "drowned_vaults",
+      "kind": "combat",
+      "w": 16,
+      "h": 12,
+      "spawn_budget": 7,
+      "props": [
+        "prop_pillar",
+        "prop_rubble",
+        "prop_urn"
+      ],
+      "template": "painter",
+      "decoration": "flooded_aqueduct"
+    },
+    {
+      "id": "painter_drowned_grotto",
+      "biome": "drowned_vaults",
+      "kind": "combat",
+      "w": 14,
+      "h": 14,
+      "spawn_budget": 8,
+      "props": [
+        "prop_urn",
+        "prop_bones",
+        "prop_pillar"
+      ],
+      "template": "painter",
+      "decoration": "coral_grotto"
+    },
+    {
+      "id": "painter_drowned_vault_deep",
+      "biome": "drowned_vaults",
+      "kind": "treasure",
+      "w": 10,
+      "h": 10,
+      "spawn_budget": 1,
+      "props": [
+        "prop_chest",
+        "prop_gold_pile",
+        "prop_urn"
+      ],
+      "template": "painter",
+      "decoration": "sunken_vault"
+    },
+    {
+      "id": "painter_drowned_shrine_tide",
+      "biome": "drowned_vaults",
+      "kind": "shrine",
+      "w": 9,
+      "h": 9,
+      "spawn_budget": 0,
+      "props": [
+        "prop_shrine",
+        "prop_urn",
+        "prop_bones"
+      ],
+      "template": "painter",
+      "decoration": "tidal_shrine"
+    },
+    {
+      "id": "painter_drowned_boss_abyss",
+      "biome": "drowned_vaults",
+      "kind": "boss",
+      "w": 24,
+      "h": 20,
+      "spawn_budget": 1,
+      "props": [
+        "prop_altar",
+        "prop_urn",
+        "prop_pillar",
+        "prop_bones"
+      ],
+      "template": "painter",
+      "decoration": "abyssal_throne"
+    },
+    {
+      "id": "painter_sunken_catacomb",
+      "biome": "sunken_ossuary",
+      "kind": "combat",
+      "w": 15,
+      "h": 12,
+      "spawn_budget": 7,
+      "props": [
+        "prop_sarcophagus",
+        "prop_bones",
+        "prop_candles"
+      ],
+      "template": "painter",
+      "decoration": "ossuary_catacomb"
+    },
+    {
+      "id": "painter_sunken_mausoleum",
+      "biome": "sunken_ossuary",
+      "kind": "combat",
+      "w": 18,
+      "h": 14,
+      "spawn_budget": 9,
+      "props": [
+        "prop_pillar",
+        "prop_sarcophagus",
+        "prop_bones",
+        "prop_urn"
+      ],
+      "template": "painter",
+      "decoration": "grand_mausoleum"
+    },
+    {
+      "id": "painter_sunken_reliquary",
+      "biome": "sunken_ossuary",
+      "kind": "treasure",
+      "w": 10,
+      "h": 10,
+      "spawn_budget": 1,
+      "props": [
+        "prop_chest",
+        "prop_candles",
+        "prop_gold_pile"
+      ],
+      "template": "painter",
+      "decoration": "sacred_reliquary"
+    },
+    {
+      "id": "painter_sunken_shrine_bone",
+      "biome": "sunken_ossuary",
+      "kind": "shrine",
+      "w": 8,
+      "h": 8,
+      "spawn_budget": 0,
+      "props": [
+        "prop_shrine",
+        "prop_bones",
+        "prop_candles"
+      ],
+      "template": "painter",
+      "decoration": "bone_shrine"
+    },
+    {
+      "id": "painter_sunken_boss_crypt",
+      "biome": "sunken_ossuary",
+      "kind": "boss",
+      "w": 22,
+      "h": 18,
+      "spawn_budget": 1,
+      "props": [
+        "prop_altar",
+        "prop_sarcophagus",
+        "prop_bones",
+        "prop_pillar"
+      ],
+      "template": "painter",
+      "decoration": "crypt_king"
+    },
+    {
+      "id": "painter_special_gambling_den",
+      "biome": "catacombs",
+      "kind": "gambling",
+      "w": 10,
+      "h": 8,
+      "spawn_budget": 0,
+      "props": [
+        "prop_coffer",
+        "prop_gold_pile",
+        "prop_candles"
+      ],
+      "template": "painter",
+      "decoration": "gambling_den"
+    },
+    {
+      "id": "painter_special_blacksmith",
+      "biome": "ember_warrens",
+      "kind": "blacksmith",
+      "w": 10,
+      "h": 9,
+      "spawn_budget": 0,
+      "props": [
+        "prop_anvil",
+        "prop_hammer",
+        "prop_forge"
+      ],
+      "template": "painter",
+      "decoration": "master_forge"
+    },
+    {
+      "id": "painter_special_fountain",
+      "biome": "drowned_vaults",
+      "kind": "fountain",
+      "w": 8,
+      "h": 8,
+      "spawn_budget": 0,
+      "props": [
+        "prop_fountain",
+        "prop_candles"
+      ],
+      "template": "painter",
+      "decoration": "healing_fountain"
+    },
+    {
+      "id": "painter_special_omen",
+      "biome": "sunken_ossuary",
+      "kind": "omen",
+      "w": 8,
+      "h": 8,
+      "spawn_budget": 0,
+      "props": [
+        "prop_eye",
+        "prop_candles",
+        "prop_bones"
+      ],
+      "template": "painter",
+      "decoration": "eye_of_doom"
+    },
+    {
+      "id": "painter_special_shop",
+      "biome": "catacombs",
+      "kind": "shop",
+      "w": 8,
+      "h": 7,
+      "spawn_budget": 0,
+      "props": [
+        "prop_shop_stall",
+        "prop_candles"
+      ],
+      "template": "painter",
+      "decoration": "wandering_merchant"
     }
   ]
 }

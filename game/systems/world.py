@@ -165,7 +165,7 @@ class World:
         else:
             class_id = "lantern_keeper"
         base = save_sys.class_stats(class_id, self.meta_totals)
-        self.player = Player(self.next_id(), TILE * 2 + 16, TILE * 2 + 16,
+        self.player = Player(self.next_id(), TILE * 2 + 32, TILE * 2 + 32,
                              base_stats=base,
                              meta_totals=self.meta_totals, meta_effects=effects)
         self.entities.append(self.player)
@@ -255,8 +255,8 @@ class World:
         self.rooms_visited += 1
 
         player = self.player
-        player.x = self.level.spawn_tile[0] * TILE + 16
-        player.y = self.level.spawn_tile[1] * TILE + 16
+        player.x = self.level.spawn_tile[0] * TILE + 32
+        player.y = self.level.spawn_tile[1] * TILE + 32
         # P4.3: update audio listener position for distance attenuation
         if self.audio.ok:
             self.audio.set_player_pos(player.x, player.y)
@@ -800,6 +800,8 @@ class World:
                 _tut.record_success("dash")
         moved = player.move(inp.move, dt, self.level)
         player.set_moving(moved)
+        # Update animation state machine after movement is resolved
+        player.tick_anim(dt)
         # biome: drowned "slip" tracks whether the player moved this tick
         if moved:
             _bm.mark_moved(self)

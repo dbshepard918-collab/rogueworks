@@ -82,8 +82,6 @@ class Player(Actor):
         self.dash_timer = 0.0
         self.dash_cooldown = 0.0
         self.dash_dir = (0.0, 0.0)
-        self.anim_time = 0.0
-        self.walk_anim = 0
         self.swing_timer = 0.0
         self.swing_dir = (1.0, 0.0)
         self.last_damage_taken = 0.0
@@ -91,6 +89,11 @@ class Player(Actor):
         self.hurt_timer = 0.0
         self.attack_phase = 0  # 0=anticipation, 1=main, 2=settle
         self.death_timer = 0.0
+
+        # Animation state machine
+        self._anim_state = None      # current animation state
+        self._anim_timer = 0.0       # time in current state
+        self._anim_frame = 0         # frame index for walk/idle cycling
 
         # P1.3 meta-derived runtime tuning (read once, updated by the world when profile changes)
         self._meta_effects = meta_effects or {}
@@ -200,10 +203,6 @@ class Player(Actor):
             self.anim_time = 0.0
             return False
         moved = move_with_collision(self, mx * speed * TILE * dt, my * speed * TILE * dt, level)
-        self.anim_time += dt
-        if self.anim_time > 0.12:
-            self.anim_time = 0.0
-            self.walk_anim = (self.walk_anim + 1) % 4
         return moved[0] or moved[1]
 
     def start_dash(self, direction, world=None):
@@ -242,45 +241,104 @@ class Player(Actor):
         self.last_damage_taken = max(0.0, self.last_damage_taken - dt)
         self.death_timer = max(0.0, self.death_timer - dt)
         self.hurt_timer = max(0.0, self.hurt_timer - dt)
-        self.anim_time += dt
         # P2.6: hold-to-attack — keep auto-melee going while the button is held
         if hold_to_attack and self.attack_ready() and self.swing_timer <= 0.0:
             pass  # Attack is triggered by world.step based on continuous input
 
-    def current_frame(self):
-        """Return (frame_name, flip_horizontal) for the shipped 32x32 art set."""
+    # -- animation state machine ----------------------------------------
+    ANIM_IDLE = "idle"
+    ANIM_WALK = "walk"
+    ANIM_ATTACK = "attack"
+    ANIM_HURT = "hurt"
+    ANIM_DEATH = "death"
+    ANIM_DASH = "dash"
+
+    def set_anim_state(self, state):
+        """Transition to a new animation state, resetting per-state timers."""
+        if getattr(self, "_anim_state", None) != state:
+            self._anim_state = state
+            self._anim_timer = 0.0
+            self._anim_frame = 0
+
+    def tick_anim(self, dt):
+        """Advance the animation state machine one tick."""
+        self._anim_timer += dt
         direction = facing_direction(self.facing)
+
+        # State transitions (priority order)
         if not self.alive:
+            self.set_anim_state(self.ANIM_DEATH)
+        elif self.dash_timer > 0.0:
+            self.set_anim_state(self.ANIM_DASH)
+        elif self.hurt_timer > 0.0 or self.hit_flash > 0.0:
+            self.set_anim_state(self.ANIM_HURT)
+        elif self.swing_timer > 0.0:
+            self.set_anim_state(self.ANIM_ATTACK)
+        elif self._moving:
+            self.set_anim_state(self.ANIM_WALK)
+        else:
+            self.set_anim_state(self.ANIM_IDLE)
+
+        # Advance frame counters per state
+        if self._anim_state == self.ANIM_WALK:
+            if self._anim_timer > 0.12:
+                self._anim_timer = 0.0
+                self._anim_frame = (self._anim_frame + 1) % 4
+        elif self._anim_state == self.ANIM_IDLE:
+            if self._anim_timer > 0.12:
+                self._anim_timer = 0.0
+        elif self._anim_state == self.ANIM_ATTACK:
+            ratio = 1.0 - (self.swing_timer / 0.18)
+            if ratio < 0.33:
+                self.attack_phase = 0
+            elif ratio < 0.66:
+                self.attack_phase = 1
+            else:
+                self.attack_phase = 2
+        elif self._anim_state == self.ANIM_HURT:
+            if self._anim_timer > 0.15:
+                self._anim_timer = 0.0
+
+    def current_frame(self):
+        """Return (frame_name, flip_horizontal) for the shipped 32x32 art set.
+
+        Uses the animation state machine for clean state transitions
+        between idle/walk/attack/hurt/death/dash states.
+        """
+        direction = facing_direction(self.facing)
+
+        # Ensure state machine has been ticked
+        if not hasattr(self, "_anim_state"):
+            self.set_anim_state(self.ANIM_IDLE)
+
+        state = self._anim_state
+
+        if state == self.ANIM_DEATH or not self.alive:
             if self.death_timer <= 0:
                 frame_idx = 3
             else:
                 frame_idx = min(int((self.death_timer / 0.6) * 4), 3)
             return (PLAYER_FRAMES["death"][frame_idx], False)
-        if self.dash_timer > 0.0:
+
+        if state == self.ANIM_DASH:
             return (PLAYER_FRAMES["dash"]["right"], self.dash_dir[0] < 0)
-        if self.hit_flash > 0.0 or self.hurt_timer > 0.0:
+
+        if state == self.ANIM_HURT:
+            frame_idx = int((self._anim_timer / 0.15) * 2) % 2
             if self.hurt_timer <= 0.0:
                 self.hurt_timer = 0.15
-            frame_idx = int((self.hurt_timer / 0.15) * 2) % 2
             return (PLAYER_FRAMES["hurt"]["left"][frame_idx], direction == "right")
-        if self.swing_timer > 0.0:
-            # Determine attack phase: anticipation -> main -> settle
-            ratio = 1.0 - (self.swing_timer / 0.18)
-            if ratio < 0.33:
-                self.attack_phase = 0  # anticipation
-            elif ratio < 0.66:
-                self.attack_phase = 1  # main
-            else:
-                self.attack_phase = 2  # settle
+
+        if state == self.ANIM_ATTACK:
             frames = PLAYER_FRAMES["attack"].get(direction, PLAYER_FRAMES["attack"]["down"])
             return (frames[self.attack_phase], False)
-        if self._moving:
+
+        if state == self.ANIM_WALK:
             names = PLAYER_FRAMES["walk"].get(direction) or [PLAYER_FRAMES["idle"][direction]]
-            return (names[self.walk_anim % len(names)], False)
-        # Idle: alternate breathing frames
-        if self.anim_time > 0.12:
-            self.anim_time = 0.0
-        breath_idx = int(self.anim_time / 0.06) % 2
+            return (names[self._anim_frame % len(names)], False)
+
+        # ANIM_IDLE: alternate breathing frames
+        breath_idx = int(self._anim_timer / 0.06) % 2
         return (PLAYER_FRAMES["idle_breath"][direction][breath_idx], False)
 
     swinging = False
