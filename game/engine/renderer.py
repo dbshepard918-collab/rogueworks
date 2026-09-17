@@ -590,8 +590,11 @@ class Renderer:
                 surface.blit(glow_surf, (gx - glow_radius, gy - glow_radius),
                              special_flags=pygame.BLEND_RGB_ADD)
             img = self.frame(world, sprite_name)
-            if st != 1.0:
-                img = pygame.transform.scale(img, (int(TILE*st), int(TILE*st)))
+            iw, ih = img.get_size()
+            # Props are authored at 32×32 but tiles render at tile_px (64 at 1× zoom).
+            # Always scale to fill the tile so props look like set-pieces, not loot dots.
+            if iw != tile_px or ih != tile_px:
+                img = pygame.transform.scale(img, (tile_px, tile_px))
             surface.blit(img, (sx, sy))
             draw_list.append(("prop", sprite_name, prop["tx"], prop["ty"]))
 
@@ -752,8 +755,7 @@ class Renderer:
             fade = max(0.25, min(1.0, sprite["life"] / max(0.001, sprite["max_life"])))
             if fade < 0.99:
                 img = img.copy()
-                shade = int(255 * (1.0 - fade))
-                img.fill((shade, shade, shade, 0), special_flags=pygame.BLEND_RGB_SUB)
+                img.set_alpha(int(255 * fade))
             self._blit_centered(surface, img, sprite["x"], sprite["y"], ox, oy)
             draw_list.append(("vfx", sprite["name"]))
 
