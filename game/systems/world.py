@@ -16,6 +16,7 @@ from ..entities.player import Player
 from . import ai, combat, loot, procgen, spawn, statuses as status_sys, shrines as shrine_sys
 from . import save as save_sys
 from . import tutorial as tutorial_sys
+from .quest_tracker import QuestTracker
 from .spawn import make_monster
 from .data import Content
 from .rng import RNG
@@ -41,6 +42,8 @@ class World:
         self.seed = int(seed)
         self.headless = bool(headless)
         self.profile = profile
+        # Quests are meta-progression: tracked during the run, persisted to profile.
+        self.quests = QuestTracker(profile)
         self.warnings = warnings if warnings is not None else []
         self.errors = []
         self.content = Content(warnings=self.warnings, data_dir=data_dir, mod_dir=mod_dir)
@@ -116,6 +119,7 @@ class World:
         # P3.1: room-clear locks & rewards
         self.room_clear_state = {}      # room_id -> {cleared, reward_chosen, reward_type}
         self.active_reward_choice = None  # {room_id, options}
+        self.reward_selection = 0       # index into active_reward_choice options
         self.room_doors = {}            # room_id -> {doors, locked}
         self.cracked_walls = {}         # (tx,ty) -> room_id for cracked walls
         self.hidden_doors = {}          # (tx,ty) -> room_id for hidden doors
@@ -315,6 +319,8 @@ class World:
 
         # P1.8: apply run_curses to player on first floor start — handled in RunScene.__init__ now
         self._curses_applied = True  # already applied in RunScene.__init__
+        # Quests: track reach_floor objectives and complete any finished quests
+        self._step_quests_on_floor()
         # P5.1: autosave on floor entry
         if self.profile is not None and self.floor != self.previous_floor:
             try:
@@ -322,6 +328,30 @@ class World:
             except Exception:
                 pass  # autosave failure must not break gameplay
             self.previous_floor = self.floor
+
+    def _step_quests_on_floor(self):
+        """Track reach_floor objectives and surface completed quests."""
+        if self.quests is None:
+            return
+        self.quests.check_floor_reached(self.floor)
+        self._process_quest_completions()
+
+    def _process_quest_completions(self):
+        """Grant rewards for newly-completed quests and notify the player."""
+        completed = self.quests.process_completions()
+        for entry in completed:
+            title = entry.get("title", "Quest")
+            self.floating.add("QUEST COMPLETE: %s" % title, color=(121, 176, 74), life=3.0)
+            self.notice = "Quest complete: %s" % title
+            self.notice_timer = 3.0
+            for reward in entry.get("rewards", []):
+                rtype = reward.get("type")
+                if rtype == "essence":
+                    self.floating.add("+%d essence" % int(reward.get("amount", 0)),
+                                      color=(232, 178, 60), life=2.5)
+                elif rtype == "unlock":
+                    self.floating.add("Unlocked: %s" % reward.get("label", reward.get("target", "")),
+                                      color=(121, 176, 74), life=2.5)
 
     def stairs_unlocked(self):
         """Biome-dependent exit condition (GDD section 2)."""
@@ -440,6 +470,7 @@ class World:
                         "room_id": rid,
                         "options": ["item", "gold", "heal", "shrine"]
                     }
+                    self.reward_selection = 0
                 # Open door tiles visually
                 self._open_door_tiles(rid)
                 return rid
@@ -702,6 +733,10 @@ class World:
                 current = int(self.profile.get("unlocked_ascension", 0) or 0)
                 if current < 5:
                     self.profile["unlocked_ascension"] = current + 1
+            # Quests: track kill_boss objectives
+            if self.quests is not None:
+                self.quests.check_kill(mon_id)
+                self._process_quest_completions()
         play(self, "death")
         spawn.drop_loot_for(self, mon)
         if mon.elite and self.rng.chance(0.25):
@@ -789,6 +824,8 @@ class World:
                 _tut.record_attempt("move")
             if inp.has("attack"):
                 _tut.record_attempt("attack")
+            if inp.has("ranged"):
+                _tut.record_attempt("ranged")
             if inp.has("dash"):
                 _tut.record_attempt("dash")
             if inp.has("interact"):
@@ -826,7 +863,7 @@ class World:
         if inp.has("ranged") and player.ranged_ready():
             combat.player_ranged(self, player)
             if _tut and self.floor == self.start_floor:
-                _tut.record_success("attack")
+                _tut.record_success("ranged")
         player.apply_knockback(self.level, dt)
         # P3.3: event-room interaction (E key)
         if inp.has("interact"):
@@ -1192,6 +1229,10 @@ class World:
         item_id = item.get("id")
         if item_id:
             self.seen_items.add(item_id)
+        # Quests: track collect_item objectives
+        if item_id and self.quests is not None:
+            self.quests.check_collect(item_id)
+            self._process_quest_completions()
         item_tier = int(item.get("tier", 1) or 1)
         if item_id and item_tier >= 2 and self.profile is not None:
             save_sys.unlock_item(self.profile, item_id)
@@ -1475,6 +1516,11 @@ class World:
                         self.rooms_visited += 1
                         self._last_room_id = rid
                     self._interact_event_room(rid, kind)
+                    # Quests: track interact objectives (event rooms + named props)
+                    if self.quests is not None:
+                        self.quests.check_interact(kind)
+                        self.quests.check_interact(rid)
+                        self._process_quest_completions()
                 return True
         return False
 

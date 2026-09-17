@@ -27,10 +27,8 @@ class HQScene:
         self.camera_y = 0
         self.hq_state.update_room()
         self._update_camera()
-        # Accept starting quests
-        for q in self.quest_tracker.quests.values():
-            if not q.get("prereqs"):
-                self.quest_tracker.accept(q["id"])
+        # Accept any quest whose prereqs are satisfied (chain progression)
+        self.quest_tracker.accept_available()
 
     def _update_camera(self):
         """Center camera on player."""
@@ -147,11 +145,11 @@ class HQScene:
         pygame.draw.rect(surface, wall, (rx, ry, rw, rh), 6)
         pygame.draw.line(surface, (11, 10, 16), (rx + 8, ry + rh - 8), (rx + rw - 8, ry + rh - 8), 4)
         name = room.get("name", "")
-        tw, th = text_size(name, 1)
+        tw, th = text_size(name, 2)
         if tw > 0:
             label_w = tw + 20
-            pygame.draw.rect(surface, (11, 10, 16), (rx + rw // 2 - label_w // 2, ry + 10, label_w, 22))
-            draw_text(surface, name, (rx + rw // 2 - tw // 2, ry + 14), 1, colour=(217, 210, 197))
+            pygame.draw.rect(surface, (11, 10, 16), (rx + rw // 2 - label_w // 2, ry + 10, label_w, 26))
+            draw_text(surface, name, (rx + rw // 2 - tw // 2, ry + 14), 2, colour=(217, 210, 197))
 
     def _draw_npc(self, surface, npc_state):
         nx = npc_state.x - self.camera_x
@@ -172,13 +170,13 @@ class HQScene:
                         surface.blit(surf, (nx - surf.get_width() // 2,
                                             ny - surf.get_height() // 2))
                         name = npc_state.definition.get("name", "")
-                        tw, th = text_size(name, 1)
+                        tw, th = text_size(name, 2)
                         if tw > 0:
-                            draw_text(surface, name, (nx - tw // 2, ny - 28), 1, colour=(217, 210, 197))
+                            draw_text(surface, name, (nx - tw // 2, ny - 32), 2, colour=(217, 210, 197))
                         hint = "[E] Talk"
-                        hw, hh = text_size(hint, 1)
+                        hw, hh = text_size(hint, 2)
                         if hw > 0:
-                            draw_text(surface, hint, (nx - hw // 2, ny + 20), 1, colour=(121, 176, 74))
+                            draw_text(surface, hint, (nx - hw // 2, ny + 22), 2, colour=(121, 176, 74))
                         return
             except Exception:
                 pass
@@ -191,9 +189,9 @@ class HQScene:
                   (196, 99, 95)
         pygame.draw.rect(surface, npc_col, (nx - 12, ny - 12, 24, 24))
         name = npc_state.definition.get("name", "")
-        tw, th = text_size(name, 1)
+        tw, th = text_size(name, 2)
         if tw > 0:
-            draw_text(surface, name, (nx - tw // 2, ny - 24), 1, colour=(217, 210, 197))
+            draw_text(surface, name, (nx - tw // 2, ny - 28), 2, colour=(217, 210, 197))
 
     def _draw_player(self, surface):
         px = self.hq_state.player_tx * self.TILE - self.camera_x
@@ -229,21 +227,21 @@ class HQScene:
         if self.hq_state.active_room:
             room = hq_sys.room_by_id(self.hq_state.active_room)
             if room:
-                draw_text(surface, room.get("name", ""), (18, 16), 1, colour=(217, 210, 197))
+                draw_text(surface, room.get("name", ""), (18, 16), 2, colour=(217, 210, 197))
         # Controls hint
         pygame.draw.rect(surface, (11, 10, 16), (8, 680, 390, 28))
         draw_text(surface, "WASD MOVE   E INTERACT   ESC MENU", (18, 689), 1, colour=(138, 132, 150))
         # Active quests
         quests = self.quest_tracker.active_quests_with_progress()
         if quests:
-            pygame.draw.rect(surface, (11, 10, 16), (902, 8, 366, 132))
-            pygame.draw.rect(surface, (87, 80, 112), (902, 8, 366, 132), 2)
-            draw_text(surface, "ACTIVE QUESTS", (918, 16), 1, colour=(217, 210, 197))
+            pygame.draw.rect(surface, (11, 10, 16), (902, 8, 366, 184))
+            pygame.draw.rect(surface, (87, 80, 112), (902, 8, 366, 184), 2)
+            draw_text(surface, "ACTIVE QUESTS", (918, 16), 2, colour=(217, 210, 197))
             for i, q in enumerate(quests[:3]):
-                draw_text(surface, q["title"][:30], (918, 38 + i * 40), 1, colour=(121, 176, 74))
+                draw_text(surface, q["title"][:30], (918, 40 + i * 40), 2, colour=(121, 176, 74))
                 for j, obj in enumerate(q["objectives"][:2]):
                     check = "[x]" if obj["done"] else "[ ]"
-                    draw_text(surface, f"  {check} {obj['label'][:25]}", (918, 54 + i * 40 + j * 14), 1, colour=(138, 132, 150))
+                    draw_text(surface, f"  {check} {obj['label'][:25]}", (918, 58 + i * 40 + j * 16), 2, colour=(138, 132, 150))
 
     def _draw_dialogue(self, surface):
         # r49: dialogue panel background
@@ -263,7 +261,7 @@ class HQScene:
         if self.dialogue.active and self.dialogue.active.current_line():
             line = self.dialogue.active.current_line()
             text = line.get("text", "") if isinstance(line, dict) else str(line)
-            draw_text(surface, text[:80], (20, box_y + 40), 1, colour=(232, 178, 60))
+            draw_text(surface, text[:80], (20, box_y + 40), 2, colour=(232, 178, 60))
         draw_text(surface, "ENTER: Continue | ESC: Close", (20, box_y + 130), 1, colour=(138, 132, 150))
 
     def _draw_message(self, surface):

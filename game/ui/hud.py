@@ -155,6 +155,9 @@ class HUD:
 
         self._combo_panel(world, surface)
 
+        # Quests: active-quest progress panel (top-right)
+        self._quest_panel(world, surface)
+
         x = 24
         y = 70 * fs
         for inst in player.statuses:
@@ -184,6 +187,39 @@ class HUD:
         panel.fill((21, 19, 31, 200))
         pygame.draw.rect(panel, (58, 52, 80), pygame.Rect(0, 0, rect.w, rect.h), 1)
         surface.blit(panel, (rect.x, rect.y))
+
+    def _quest_panel(self, world, surface):
+        """Show active quests with objective progress during the run."""
+        quests = getattr(world, "quests", None)
+        if quests is None:
+            return
+        active = quests.active_quests_with_progress()
+        if not active:
+            return
+        active = active[:3]
+        lines = 1  # header
+        for q in active:
+            lines += 1 + min(4, len(q["objectives"])) + 1  # title + objectives + gap
+        panel_w = 300
+        panel_h = 12 + lines * 16
+        px = surface.get_width() - panel_w - 12
+        py = 12
+        panel = pygame.Surface((panel_w, panel_h), pygame.SRCALPHA)
+        panel.fill((21, 19, 31, 200))
+        pygame.draw.rect(panel, (58, 52, 80), pygame.Rect(0, 0, panel_w, panel_h), 1)
+        surface.blit(panel, (px, py))
+        draw_text(surface, "QUESTS", (px + 12, py + 8), 1, colour=(217, 210, 197))
+        y = py + 26
+        for q in active:
+            draw_text(surface, q["title"][:32], (px + 12, y), 1, colour=(121, 176, 74))
+            y += 16
+            for obj in q["objectives"][:4]:
+                done = obj["done"]
+                check = "[x]" if done else "[ ]"
+                colour = (121, 176, 74) if done else (138, 132, 150)
+                draw_text(surface, "%s %s" % (check, obj["label"][:28]), (px + 20, y), 1, colour=colour)
+                y += 16
+            y += 6
 
     def _bar(self, world, surface, frame_name, fill_name, x, y, w, h, fraction,
              fill_colour=(79, 209, 200)):
@@ -266,27 +302,56 @@ class HUD:
         choice = world.active_reward_choice
         if choice is None:
             return
-        room_id = choice.get("room_id", "")
         options = choice.get("options", ["item", "gold", "heal", "shrine"])
-        panel_w = 260
-        panel_h = len(options) * 30 + 24
+        sel = max(0, min(len(options) - 1, int(getattr(world, "reward_selection", 0))))
+
+        option_meta = {
+            "item": ("Item", "prop_chest", "A new piece of loot"),
+            "gold": ("Gold", "prop_gold_pile", "Coins for the shop"),
+            "heal": ("Heal", "prop_potion_health", "Restore half your HP"),
+            "shrine": ("Shrine", "prop_shrine", "A boon (and a curse)"),
+        }
+
+        row_h = 44
+        panel_w = 320
+        panel_h = len(options) * row_h + 34
         px = surface.get_width() // 2 - panel_w // 2
-        py = 100
+        py = 96
 
         panel = pygame.Surface((panel_w, panel_h), pygame.SRCALPHA)
-        panel.fill((21, 19, 31, 220))
+        panel.fill((21, 19, 31, 235))
         pygame.draw.rect(panel, (232, 178, 60, 255), pygame.Rect(0, 0, panel_w, panel_h), 2)
         surface.blit(panel, (px, py))
 
-        draw_text(surface, "Choose a reward", (px + panel_w // 2 - 50, py + 6), 1,
+        title = "Choose a reward"
+        draw_text(surface, title, (px + (panel_w - text_size(title, 1)[0]) // 2, py + 8), 1,
                   colour=(232, 178, 60))
 
-        y = py + 26
-        option_labels = {"item": "Item", "gold": "Gold", "heal": "Heal", "shrine": "Shrine"}
-        for opt in options:
-            label = option_labels.get(opt, opt.capitalize())
-            draw_text(surface, label, (px + 12, y), 1, colour=(246, 242, 232))
-            y += 30
+        y = py + 28
+        for i, opt in enumerate(options):
+            label, icon, desc = option_meta.get(opt, (opt.capitalize(), "prop_chest", ""))
+            row_rect = pygame.Rect(px + 6, y, panel_w - 12, row_h - 4)
+            if i == sel:
+                # highlighted row: brighter fill + accent border
+                pygame.draw.rect(surface, (58, 52, 80), row_rect)
+                pygame.draw.rect(surface, (232, 178, 60), row_rect, 1)
+                # selection arrow
+                draw_text(surface, ">", (px + 14, y + 14), 1, colour=(232, 178, 60))
+            else:
+                pygame.draw.rect(surface, (31, 28, 46), row_rect)
+            # icon
+            icon_img = self._img(world, icon, (32, 32))
+            surface.blit(icon_img, (px + 34, y + 6))
+            # label + description
+            draw_text(surface, label, (px + 76, y + 4), 1,
+                      colour=(246, 242, 232) if i == sel else (200, 196, 210))
+            draw_text(surface, desc, (px + 76, y + 22), 1,
+                      colour=(138, 132, 150))
+            y += row_h
+
+        hint = "W/S or Up/Down to choose  -  Enter to confirm"
+        draw_text(surface, hint, (px + (panel_w - text_size(hint, 1)[0]) // 2, py + panel_h - 16), 1,
+                  colour=(138, 132, 150))
 
     def _cracked_wall_prompt(self, world, surface):
         """P3.2: Show interaction prompt when player is adjacent to a cracked wall."""

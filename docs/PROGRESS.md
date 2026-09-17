@@ -1,3 +1,29 @@
+## 2026-09-16 (r76) — Quest system wired into the run (narrative → gameplay)
+
+- **Quest tracking during runs** — the r46 narrative content (5 quests, 5-act storyline) was
+  accepted and displayed in the HQ but its objectives were never tracked in the dungeon and its
+  rewards never granted. `QuestTracker` is now profile-backed (`profile["quests"]` with
+  `active`/`completed`/`progress`, persisted through `save_profile`/`load_profile` with a
+  `_norm_quests` guard) and wired into `World`: `new_floor` tracks `reach_floor`,
+  `on_monster_death` tracks `kill_boss`, `_collect_item` tracks `collect_item`, and
+  `player_interact_event` tracks `interact`. Completed quests grant rewards (essence, class
+  unlocks, permanent upgrades, lore) and surface a "QUEST COMPLETE" notice.
+- **Quest HUD panel** — the run HUD now shows active quests with `[x]`/`[ ]` objective progress
+  in the top-right corner (up to 3 quests, 4 objectives each). Vision-audited clean.
+- **Quest chain progression** — the HQ now calls `accept_available()` so quests whose prereqs are
+  satisfied get accepted automatically (was: only no-prereq quests).
+- **Quest data reconciliation** — fixed id mismatches that would have silently blocked completion:
+  `boss_forge_colossus`→`forge_colossus`, `item_brokk_hammer`→`brokk_hammer`,
+  `class_grave_warden`→`grave_warden`.
+- **secret_wall fix** — 4 `sunken_ossuary` secret rooms (`ossuary_room_secret_18/26/33/41`) were
+  missing their `secret_wall` field (the recurring `warnings=4` in every gate run). Added
+  north/east/south/west. Headless runs now report `warnings=0`.
+- **Gates** — `tools.selftest` 22/22 PASS; `tools.studio.verify_gate` 7/7 green;
+  `game.main --headless --turns 300 --seed 0..2` exit 0, violations=[], warnings=0;
+  `tools.validate_data` 0 errors.
+
+---
+
 ## 2026-09-16 (r69) — QA Gate Check
 
 - **QA gate sweep** — Full verification pass. All 4 gates green:

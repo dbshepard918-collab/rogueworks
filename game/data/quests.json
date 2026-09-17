@@ -12,7 +12,7 @@
       ],
       "rewards": [
         {"type": "essence", "amount": 50},
-        {"type": "unlock", "target": "class_grave_warden", "label": "Grave Warden class"}
+        {"type": "unlock", "target": "grave_warden", "label": "Grave Warden class"}
       ],
       "prereqs": [],
       "story_beat": "act_1"
@@ -24,8 +24,8 @@
       "description": "Brokk's hammer is somewhere in the Ember Warrens. He can't forge without it. He won't say why he really needs it back.",
       "objectives": [
         {"type": "reach_floor", "target": 7, "label": "Reach the Ember Warrens"},
-        {"type": "kill_boss", "target": "boss_forge_colossus", "label": "Defeat the Forge Colossus"},
-        {"type": "collect_item", "target": "item_brokk_hammer", "label": "Recover Brokk's Hammer"}
+        {"type": "kill_boss", "target": "forge_colossus", "label": "Defeat the Forge Colossus"},
+        {"type": "collect_item", "target": "brokk_hammer", "label": "Recover Brokk's Hammer"}
       ],
       "rewards": [
         {"type": "essence", "amount": 200},

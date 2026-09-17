@@ -202,6 +202,7 @@ def default_profile():
         "run": None, "class_id": "lantern_keeper", "unlocks": {},
         "ascension": 0, "unlocked_classes": ["lantern_keeper"], "unlocked_ascension": 0,
         "settings": {}, "run_history": [], "codex": {}, "bestiary": {},
+        "quests": {"active": [], "completed": [], "progress": {}},
         "save_slots": {"default": str(DEFAULT_SAVE_PATH), "autosave": str(PROJECT_ROOT / "save_autosave.json")},
         "autosave": {"last_floor": 0, "last_biome": "", "last_seed": 0, "timestamp": 0},
     }
@@ -289,6 +290,28 @@ def _norm_unlocked_classes(classes):
     if "lantern_keeper" not in out:
         out.insert(0, "lantern_keeper")
     return out
+
+
+def _norm_quests(raw):
+    """Normalise the persistent quest state (active/completed/progress)."""
+    if not isinstance(raw, dict):
+        return {"active": [], "completed": [], "progress": {}}
+    active = [str(x) for x in raw.get("active", []) if isinstance(x, str)]
+    completed = [str(x) for x in raw.get("completed", []) if isinstance(x, str)]
+    progress = raw.get("progress") if isinstance(raw.get("progress"), dict) else {}
+    clean_progress = {}
+    for qid, obj in progress.items():
+        if isinstance(qid, str) and isinstance(obj, dict):
+            clean_obj = {}
+            for k, v in obj.items():
+                if not isinstance(k, str):
+                    continue
+                try:
+                    clean_obj[k] = int(v or 0)
+                except (TypeError, ValueError):
+                    clean_obj[k] = 0
+            clean_progress[qid] = clean_obj
+    return {"active": active, "completed": completed, "progress": clean_progress}
 
 
 # ----- pricing -----
@@ -493,6 +516,7 @@ def save_profile(profile, path=None, slot_name=None):
         "run_history": profile.get("run_history", []),
         "codex": profile.get("codex", {}),
         "bestiary": profile.get("bestiary", {}),
+        "quests": _norm_quests(profile.get("quests", {})),
     }
     try:
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -659,6 +683,7 @@ def load_profile(path=None):
             profile["bestiary"] = raw["bestiary"]
         else:
             profile["bestiary"] = {}
+        profile["quests"] = _norm_quests(raw.get("quests"))
         return profile, notes
 
     # --- v3 native load ---
@@ -725,6 +750,7 @@ def load_profile(path=None):
         profile["bestiary"] = raw["bestiary"]
     else:
         profile["bestiary"] = {}
+    profile["quests"] = _norm_quests(raw.get("quests"))
     return profile, notes
 
 
