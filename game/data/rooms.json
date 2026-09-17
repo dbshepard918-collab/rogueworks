@@ -58,8 +58,7 @@
       "h": 8,
       "spawn_budget": 2,
       "props": [
-        "prop_chest",
-        "prop_gold_pile"
+        "prop_sarcophagus"
       ]
     },
     {
@@ -119,7 +118,7 @@
       "h": 5,
       "spawn_budget": 0,
       "props": [
-        "prop_chest",
+        "prop_sarcophagus",
         "prop_rubble"
       ],
       "secret_wall": "east"
@@ -132,7 +131,6 @@
       "h": 5,
       "spawn_budget": 0,
       "props": [
-        "prop_gold_pile",
         "prop_candles"
       ],
       "secret_wall": "south"
@@ -194,7 +192,7 @@
       "h": 8,
       "spawn_budget": 2,
       "props": [
-        "prop_chest",
+        "prop_crystal",
         "prop_anvil"
       ]
     },
@@ -255,7 +253,7 @@
       "h": 5,
       "spawn_budget": 0,
       "props": [
-        "prop_chest",
+        "prop_crystal",
         "prop_lava_vent"
       ],
       "secret_wall": "north"
@@ -268,7 +266,6 @@
       "h": 5,
       "spawn_budget": 0,
       "props": [
-        "prop_gold_pile",
         "prop_rubble"
       ],
       "secret_wall": "south"
@@ -329,8 +326,7 @@
       "h": 9,
       "spawn_budget": 3,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_coral",
         "prop_water_pool"
       ]
     },
@@ -391,8 +387,7 @@
       "h": 5,
       "spawn_budget": 0,
       "props": [
-        "prop_chest",
-        "prop_gold_pile"
+        "prop_coral"
       ],
       "secret_wall": "west"
     },
@@ -417,8 +412,7 @@
       "h": 7,
       "spawn_budget": 0,
       "props": [
-        "prop_coffer",
-        "prop_gold_pile"
+        "prop_coffer"
       ]
     },
     {
@@ -430,7 +424,7 @@
       "spawn_budget": 0,
       "props": [
         "prop_anvil",
-        "prop_hammer"
+        "prop_brazier"
       ]
     },
     {
@@ -463,8 +457,7 @@
       "h": 7,
       "spawn_budget": 0,
       "props": [
-        "prop_coffer",
-        "prop_gold_pile"
+        "prop_coffer"
       ]
     },
     {
@@ -476,7 +469,7 @@
       "spawn_budget": 0,
       "props": [
         "prop_anvil",
-        "prop_hammer"
+        "prop_forge"
       ]
     },
     {
@@ -509,8 +502,7 @@
       "h": 7,
       "spawn_budget": 0,
       "props": [
-        "prop_coffer",
-        "prop_gold_pile"
+        "prop_coffer"
       ]
     },
     {
@@ -522,7 +514,7 @@
       "spawn_budget": 0,
       "props": [
         "prop_anvil",
-        "prop_hammer"
+        "prop_brazier"
       ]
     },
     {
@@ -642,7 +634,7 @@
       "props": [
         "prop_shrine",
         "prop_candles",
-        "prop_chest"
+        "prop_sarcophagus"
       ]
     },
     {
@@ -653,8 +645,7 @@
       "h": 9,
       "spawn_budget": 4,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_sarcophagus",
         "prop_rubble",
         "prop_torch"
       ]
@@ -667,8 +658,7 @@
       "h": 8,
       "spawn_budget": 2,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_sarcophagus",
         "prop_brazier"
       ]
     },
@@ -680,8 +670,6 @@
       "h": 10,
       "spawn_budget": 3,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
         "prop_sarcophagus"
       ]
     },
@@ -694,7 +682,7 @@
       "spawn_budget": 0,
       "props": [
         "prop_anvil",
-        "prop_hammer",
+        "prop_brazier",
         "prop_pillar",
         "prop_torch"
       ]
@@ -708,7 +696,7 @@
       "spawn_budget": 0,
       "props": [
         "prop_anvil",
-        "prop_hammer",
+        "prop_brazier",
         "prop_rubble"
       ]
     },
@@ -721,8 +709,7 @@
       "spawn_budget": 0,
       "props": [
         "prop_coffer",
-        "prop_gold_pile",
-        "prop_chest"
+        "prop_sarcophagus"
       ]
     },
     {
@@ -734,7 +721,6 @@
       "spawn_budget": 0,
       "props": [
         "prop_coffer",
-        "prop_gold_pile",
         "prop_sarcophagus",
         "prop_candles"
       ]
@@ -832,7 +818,7 @@
       "h": 6,
       "spawn_budget": 0,
       "props": [
-        "prop_chest",
+        "prop_sarcophagus",
         "prop_candles"
       ],
       "secret_wall": "south"
@@ -845,9 +831,8 @@
       "h": 19,
       "spawn_budget": 3,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
-        "prop_chest"
+        "prop_sarcophagus",
+        "prop_urn"
       ]
     },
     {
@@ -858,8 +843,7 @@
       "h": 13,
       "spawn_budget": 3,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_sarcophagus",
         "prop_pillar"
       ]
     },
@@ -883,7 +867,6 @@
       "h": 12,
       "spawn_budget": 7,
       "props": [
-        "prop_chest",
         "prop_sarcophagus"
       ]
     },
@@ -895,7 +878,6 @@
       "h": 14,
       "spawn_budget": 7,
       "props": [
-        "prop_chest",
         "prop_sarcophagus"
       ]
     },
@@ -919,8 +901,7 @@
       "h": 18,
       "spawn_budget": 3,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_sarcophagus",
         "prop_pillar"
       ]
     },
@@ -932,8 +913,7 @@
       "h": 15,
       "spawn_budget": 3,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_sarcophagus",
         "prop_candles",
         "prop_urn"
       ]
@@ -946,9 +926,8 @@
       "h": 10,
       "spawn_budget": 4,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
-        "prop_chest",
+        "prop_sarcophagus",
+        "prop_urn",
         "prop_candles"
       ]
     },
@@ -985,8 +964,7 @@
       "h": 8,
       "spawn_budget": 5,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_sarcophagus",
         "prop_candles"
       ]
     },
@@ -998,9 +976,8 @@
       "h": 12,
       "spawn_budget": 3,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
-        "prop_chest",
+        "prop_sarcophagus",
+        "prop_urn",
         "prop_torch"
       ]
     },
@@ -1052,7 +1029,7 @@
       "props": [
         "prop_rubble",
         "prop_pillar",
-        "prop_chest"
+        "prop_sarcophagus"
       ]
     },
     {
@@ -1065,7 +1042,7 @@
       "props": [
         "prop_crystal",
         "prop_chain",
-        "prop_chest"
+        "prop_rubble"
       ]
     },
     {
@@ -1076,8 +1053,8 @@
       "h": 20,
       "spawn_budget": 20,
       "props": [
-        "prop_chest",
-        "prop_sword",
+        "prop_crystal",
+        "prop_rubble",
         "prop_chain"
       ]
     },
@@ -1160,8 +1137,7 @@
       "h": 8,
       "spawn_budget": 4,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_crystal",
         "prop_anvil",
         "prop_chain"
       ]
@@ -1174,8 +1150,7 @@
       "h": 10,
       "spawn_budget": 3,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_crystal",
         "prop_anvil"
       ]
     },
@@ -1187,8 +1162,7 @@
       "h": 9,
       "spawn_budget": 4,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_crystal",
         "prop_forge"
       ]
     },
@@ -1201,9 +1175,8 @@
       "spawn_budget": 0,
       "props": [
         "prop_anvil",
-        "prop_hammer",
-        "prop_crystal",
-        "prop_anvil"
+        "prop_forge",
+        "prop_crystal"
       ]
     },
     {
@@ -1215,9 +1188,9 @@
       "spawn_budget": 0,
       "props": [
         "prop_anvil",
-        "prop_hammer",
+        "prop_forge",
         "prop_rubble",
-        "prop_sword"
+        "prop_lava_vent"
       ]
     },
     {
@@ -1229,7 +1202,6 @@
       "spawn_budget": 0,
       "props": [
         "prop_coffer",
-        "prop_gold_pile",
         "prop_chain",
         "prop_crystal"
       ]
@@ -1243,9 +1215,8 @@
       "spawn_budget": 0,
       "props": [
         "prop_coffer",
-        "prop_gold_pile",
         "prop_forge",
-        "prop_chest"
+        "prop_crystal"
       ]
     },
     {
@@ -1304,7 +1275,7 @@
       "spawn_budget": 0,
       "props": [
         "prop_eye",
-        "prop_sword"
+        "prop_rubble"
       ]
     },
     {
@@ -1315,7 +1286,7 @@
       "h": 6,
       "spawn_budget": 0,
       "props": [
-        "prop_shield"
+        "prop_rubble"
       ],
       "secret_wall": "north"
     },
@@ -1376,8 +1347,6 @@
       "h": 20,
       "spawn_budget": 4,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
         "prop_crystal",
         "prop_rubble"
       ]
@@ -1416,8 +1385,8 @@
       "spawn_budget": 4,
       "props": [
         "prop_chain",
-        "prop_sword",
-        "prop_shield"
+        "prop_rubble",
+        "prop_lava_vent"
       ]
     },
     {
@@ -1428,8 +1397,7 @@
       "h": 9,
       "spawn_budget": 2,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_crystal",
         "prop_pipes",
         "prop_lava_vent"
       ]
@@ -1444,7 +1412,7 @@
       "props": [
         "prop_pipes",
         "prop_rubble",
-        "prop_chest"
+        "prop_crystal"
       ]
     },
     {
@@ -1456,7 +1424,7 @@
       "spawn_budget": 8,
       "props": [
         "prop_pipes",
-        "prop_chest",
+        "prop_crystal",
         "prop_chain"
       ]
     },
@@ -1468,10 +1436,9 @@
       "h": 17,
       "spawn_budget": 3,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_crystal",
         "prop_lava_vent",
-        "prop_shield"
+        "prop_rubble"
       ]
     },
     {
@@ -1494,8 +1461,7 @@
       "h": 20,
       "spawn_budget": 4,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_crystal",
         "prop_forge",
         "prop_anvil"
       ]
@@ -1521,10 +1487,9 @@
       "h": 10,
       "spawn_budget": 3,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
-        "prop_sword",
-        "prop_shield"
+        "prop_crystal",
+        "prop_rubble",
+        "prop_lava_vent"
       ]
     },
     {
@@ -1536,7 +1501,7 @@
       "spawn_budget": 6,
       "props": [
         "prop_pipes",
-        "prop_chest",
+        "prop_crystal",
         "prop_anvil"
       ]
     },
@@ -1548,9 +1513,8 @@
       "h": 17,
       "spawn_budget": 5,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
-        "prop_shield"
+        "prop_crystal",
+        "prop_rubble"
       ]
     },
     {
@@ -1671,8 +1635,7 @@
       "h": 10,
       "spawn_budget": 2,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_coral",
         "prop_water_pool",
         "prop_pillar_drowned"
       ]
@@ -1685,8 +1648,7 @@
       "h": 10,
       "spawn_budget": 2,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_coral",
         "prop_water_pool",
         "prop_pillar_drowned"
       ]
@@ -1699,8 +1661,7 @@
       "h": 8,
       "spawn_budget": 4,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_coral",
         "prop_jelly",
         "prop_kelp"
       ]
@@ -1714,7 +1675,7 @@
       "spawn_budget": 0,
       "props": [
         "prop_anvil",
-        "prop_hammer",
+        "prop_brazier",
         "prop_kelp",
         "prop_urn"
       ]
@@ -1728,7 +1689,7 @@
       "spawn_budget": 0,
       "props": [
         "prop_anvil",
-        "prop_hammer",
+        "prop_brazier",
         "prop_crystal"
       ]
     },
@@ -1741,7 +1702,6 @@
       "spawn_budget": 0,
       "props": [
         "prop_coffer",
-        "prop_gold_pile",
         "prop_rubble"
       ]
     },
@@ -1754,7 +1714,6 @@
       "spawn_budget": 0,
       "props": [
         "prop_coffer",
-        "prop_gold_pile",
         "prop_urn",
         "prop_crystal"
       ]
@@ -1865,8 +1824,7 @@
       "h": 16,
       "spawn_budget": 5,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_coral",
         "prop_water_pool"
       ]
     },
@@ -1929,8 +1887,7 @@
       "h": 17,
       "spawn_budget": 4,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_coral",
         "prop_roots"
       ]
     },
@@ -1942,8 +1899,6 @@
       "h": 16,
       "spawn_budget": 5,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
         "prop_coral",
         "prop_pillar_drowned"
       ]
@@ -1980,8 +1935,7 @@
       "h": 16,
       "spawn_budget": 4,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_coral",
         "prop_jelly"
       ]
     },
@@ -1993,8 +1947,7 @@
       "h": 11,
       "spawn_budget": 3,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_coral",
         "prop_crystal"
       ]
     },
@@ -2006,8 +1959,7 @@
       "h": 18,
       "spawn_budget": 4,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_coral",
         "prop_urn"
       ]
     },
@@ -2043,8 +1995,7 @@
       "h": 19,
       "spawn_budget": 2,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_coral",
         "prop_crystal",
         "prop_jelly"
       ]
@@ -2070,8 +2021,7 @@
       "h": 9,
       "spawn_budget": 3,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_coral",
         "prop_candles"
       ]
     },
@@ -2183,8 +2133,7 @@
       "h": 10,
       "spawn_budget": 4,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_sarcophagus",
         "prop_mussel"
       ]
     },
@@ -2196,8 +2145,7 @@
       "h": 10,
       "spawn_budget": 3,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_sarcophagus",
         "prop_crystal"
       ]
     },
@@ -2209,8 +2157,7 @@
       "h": 8,
       "spawn_budget": 3,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_sarcophagus",
         "prop_pillar"
       ]
     },
@@ -2223,7 +2170,7 @@
       "spawn_budget": 0,
       "props": [
         "prop_anvil",
-        "prop_hammer",
+        "prop_brazier",
         "prop_chain"
       ]
     },
@@ -2236,7 +2183,7 @@
       "spawn_budget": 0,
       "props": [
         "prop_anvil",
-        "prop_hammer",
+        "prop_brazier",
         "prop_sarcophagus"
       ]
     },
@@ -2249,7 +2196,6 @@
       "spawn_budget": 0,
       "props": [
         "prop_coffer",
-        "prop_gold_pile",
         "prop_brazier",
         "prop_water_pool"
       ]
@@ -2263,7 +2209,6 @@
       "spawn_budget": 0,
       "props": [
         "prop_coffer",
-        "prop_gold_pile",
         "prop_crystal"
       ]
     },
@@ -2383,8 +2328,7 @@
       "h": 10,
       "spawn_budget": 2,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_sarcophagus",
         "prop_chain"
       ]
     },
@@ -2432,8 +2376,7 @@
       "h": 13,
       "spawn_budget": 2,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_sarcophagus",
         "prop_bones",
         "prop_water_pool"
       ]
@@ -2470,8 +2413,7 @@
       "h": 8,
       "spawn_budget": 5,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_sarcophagus",
         "prop_crystal"
       ]
     },
@@ -2507,8 +2449,7 @@
       "h": 10,
       "spawn_budget": 2,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_sarcophagus",
         "prop_water_pool",
         "prop_bones"
       ]
@@ -2534,8 +2475,7 @@
       "h": 20,
       "spawn_budget": 5,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_sarcophagus",
         "prop_urn"
       ]
     },
@@ -2608,8 +2548,7 @@
       "h": 12,
       "spawn_budget": 5,
       "props": [
-        "prop_gold_pile",
-        "prop_chest"
+        "prop_sarcophagus"
       ]
     },
     {
@@ -2693,8 +2632,7 @@
       "h": 11,
       "spawn_budget": 4,
       "props": [
-        "prop_gold_pile",
-        "prop_chest"
+        "prop_sarcophagus"
       ]
     },
     {
@@ -2766,8 +2704,7 @@
       "h": 12,
       "spawn_budget": 5,
       "props": [
-        "prop_gold_pile",
-        "prop_chest"
+        "prop_sarcophagus"
       ]
     },
     {
@@ -2851,8 +2788,7 @@
       "h": 11,
       "spawn_budget": 4,
       "props": [
-        "prop_gold_pile",
-        "prop_chest"
+        "prop_sarcophagus"
       ]
     },
     {
@@ -2931,8 +2867,7 @@
       "h": 10,
       "spawn_budget": 1,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_sarcophagus",
         "prop_candles"
       ],
       "template": "painter",
@@ -3008,9 +2943,8 @@
       "h": 9,
       "spawn_budget": 1,
       "props": [
-        "prop_chest",
-        "prop_anvil",
-        "prop_gold_pile"
+        "prop_crystal",
+        "prop_anvil"
       ],
       "template": "painter",
       "decoration": "ember_cache"
@@ -3084,8 +3018,7 @@
       "h": 10,
       "spawn_budget": 1,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_coral",
         "prop_urn"
       ],
       "template": "painter",
@@ -3161,9 +3094,8 @@
       "h": 10,
       "spawn_budget": 1,
       "props": [
-        "prop_chest",
-        "prop_candles",
-        "prop_gold_pile"
+        "prop_sarcophagus",
+        "prop_candles"
       ],
       "template": "painter",
       "decoration": "sacred_reliquary"
@@ -3208,7 +3140,6 @@
       "spawn_budget": 0,
       "props": [
         "prop_coffer",
-        "prop_gold_pile",
         "prop_candles"
       ],
       "template": "painter",
@@ -3223,7 +3154,6 @@
       "spawn_budget": 0,
       "props": [
         "prop_anvil",
-        "prop_hammer",
         "prop_forge"
       ],
       "template": "painter",
@@ -3341,8 +3271,7 @@
       "h": 8,
       "spawn_budget": 3,
       "props": [
-        "prop_chest",
-        "prop_gold_pile",
+        "prop_sarcophagus",
         "prop_jelly"
       ]
     },
@@ -3403,7 +3332,7 @@
       "h": 5,
       "spawn_budget": 0,
       "props": [
-        "prop_chest",
+        "prop_sarcophagus",
         "prop_jelly"
       ],
       "secret_wall": "east"
@@ -3416,7 +3345,6 @@
       "h": 5,
       "spawn_budget": 0,
       "props": [
-        "prop_gold_pile",
         "prop_candles"
       ],
       "secret_wall": "south"
@@ -3429,8 +3357,7 @@
       "h": 7,
       "spawn_budget": 0,
       "props": [
-        "prop_coffer",
-        "prop_gold_pile"
+        "prop_coffer"
       ]
     },
     {
@@ -3442,7 +3369,7 @@
       "spawn_budget": 0,
       "props": [
         "prop_anvil",
-        "prop_hammer"
+        "prop_brazier"
       ]
     },
     {

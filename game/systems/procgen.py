@@ -160,7 +160,9 @@ def _place_room_props(room, rng):
     - Symmetrical pillars and braziers flanking halls and entries.
     - Corners/edges for urns, bones, pots, and rubble.
     """
-    prop_list = list(room.get("props", []))
+    # Clutter filter: props that look like collectible items/loot are never placed as static scenery
+    ITEM_PROPS = {"prop_gold_pile", "prop_coins", "prop_sword", "prop_shield", "prop_hammer", "prop_chest"}
+    prop_list = [s for s in room.get("props", []) if s not in ITEM_PROPS]
     if not prop_list:
         return []
 
@@ -208,18 +210,6 @@ def _place_room_props(room, rng):
         if sprite in ("prop_anvil", "prop_fountain", "prop_eye", "prop_altar") or (sprite == "prop_coffer" and kind in ("gambling", "shop")):
             if not try_place(sprite, cx, cy):
                 try_place(sprite, cx, cy - 1)
-        elif sprite == "prop_hammer":
-            if has_centerpiece:
-                if not try_place(sprite, cx + 1, cy):
-                    try_place(sprite, cx, cy + 1)
-            else:
-                try_place(sprite, rx + 2, ry + 1)
-        elif sprite in ("prop_gold_pile", "prop_coins"):
-            if has_centerpiece:
-                if not try_place(sprite, cx - 1, cy):
-                    try_place(sprite, cx + 1, cy)
-            else:
-                try_place(sprite, rx + 2, ry + 1)
         elif sprite in ("prop_candles",):
             # Candles flank centerpieces or sit flush along the north wall, never isolated in walking space
             if has_centerpiece:
@@ -228,7 +218,7 @@ def _place_room_props(room, rng):
             else:
                 if not try_place(sprite, cx, ry + 1):
                     try_place(sprite, rx + 2, ry + 1)
-        elif sprite in ("prop_chest", "prop_sarcophagus", "prop_statue"):
+        elif sprite in ("prop_sarcophagus", "prop_statue"):
             if not try_place(sprite, cx, ry + 1):
                 if not try_place(sprite, rx + 2, ry + 1):
                     try_place(sprite, rx + rw - 3, ry + 1)
@@ -692,9 +682,9 @@ def _fallback_rooms(biome_id):
         {"id": "fallback_shop", "biome": biome_id, "kind": "shop",
          "w": 7, "h": 7, "spawn_budget": 0, "props": []},
         {"id": "fallback_gambling", "biome": biome_id, "kind": "gambling",
-         "w": 8, "h": 7, "spawn_budget": 0, "props": ["prop_coffer", "prop_gold_pile"]},
+         "w": 8, "h": 7, "spawn_budget": 0, "props": ["prop_coffer", "prop_urn"]},
         {"id": "fallback_blacksmith", "biome": biome_id, "kind": "blacksmith",
-         "w": 9, "h": 8, "spawn_budget": 0, "props": ["prop_anvil", "prop_hammer"]},
+         "w": 9, "h": 8, "spawn_budget": 0, "props": ["prop_anvil", "prop_forge"]},
         {"id": "fallback_fountain", "biome": biome_id, "kind": "fountain",
          "w": 7, "h": 7, "spawn_budget": 0, "props": ["prop_fountain"]},
         {"id": "fallback_omen", "biome": biome_id, "kind": "omen",

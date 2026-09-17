@@ -180,10 +180,52 @@ class HUD:
                              pygame.Rect(x, y + 20 * fs, int(status_size * remaining), 3 * fs))
             x += 24 * fs
 
-        self._cooldown(world, surface, "ui_icon_sword", player.attack_timer,
-                       player.ATTACK_COOLDOWN, 12, 676)
-        self._cooldown(world, surface, "ui_icon_dash", player.dash_cooldown,
-                       player.DASH_COOLDOWN, 46, 676)
+        self._draw_action_bar(world, surface)
+
+    def _draw_action_bar(self, world, surface):
+        player = world.player
+        bx = 12
+        by = surface.get_height() - 68
+        bw = 100
+        bh = 58
+
+        panel = pygame.Surface((bw, bh), pygame.SRCALPHA)
+        panel.fill((21, 19, 31, 220))
+        pygame.draw.rect(panel, (58, 52, 80), panel.get_rect(), 1)
+        pygame.draw.line(panel, (232, 178, 60), (2, 0), (28, 0), 2)
+        surface.blit(panel, (bx, by))
+
+        slots = [
+            ("ui_icon_sword", player.attack_timer, player.ATTACK_COOLDOWN, "LMB"),
+            ("ui_icon_dash", player.dash_cooldown, player.DASH_COOLDOWN, "SPACE"),
+        ]
+        slot_size = 36
+        for i, (icon, timer, total, label) in enumerate(slots):
+            sx = bx + 8 + i * 44
+            sy = by + 6
+            # Slot frame
+            pygame.draw.rect(surface, (11, 10, 16), pygame.Rect(sx, sy, slot_size, slot_size))
+            pygame.draw.rect(surface, (87, 80, 112), pygame.Rect(sx, sy, slot_size, slot_size), 1)
+
+            # Icon
+            img = self._img(world, icon, (slot_size - 4, slot_size - 4))
+            surface.blit(img, (sx + 2, sy + 2))
+
+            # Cooldown shade
+            if timer > 0.0 and total > 0:
+                frac = max(0.0, min(1.0, timer / float(total)))
+                ch = max(1, int(slot_size * frac))
+                overlay = pygame.Surface((slot_size, ch), pygame.SRCALPHA)
+                overlay.fill((11, 10, 16, 175))
+                surface.blit(overlay, (sx, sy + (slot_size - ch)))
+                if timer >= 0.15:
+                    cd_str = "%.1f" % timer
+                    tw, th = text_size(cd_str, 1)
+                    draw_text(surface, cd_str, (sx + (slot_size - tw) // 2, sy + (slot_size - th) // 2), 1, colour=(246, 242, 232))
+
+            # Key label
+            tw, _ = text_size(label, 1)
+            draw_text(surface, label, (sx + (slot_size - tw) // 2, sy + slot_size + 3), 1, colour=(180, 175, 195))
 
     def _panel(self, surface, rect):
         panel = pygame.Surface((rect.w, rect.h), pygame.SRCALPHA)
