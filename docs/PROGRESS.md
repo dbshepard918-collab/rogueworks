@@ -1,3 +1,10 @@
+## 2026-09-17 (r78-QA) — QA gate verification pass
+
+- **All 4 gates PASS**: `game.main --headless --turns 300 --seed 0..2` exit 0 violations=[] (seeds 0/1/2); `tools.selftest` 22/22; `tools.validate_data` 0 errors (748 entries); `tools.art.verify` 0 off-palette (691 sprites, 703 frames).
+- Full report: `runs/reports/BUILD-2026-09-17.md`
+
+---
+
 ## 2026-09-17 (r78) — 5th biome "The Wound" + final boss "Heart of the Depths"
 
 - **Biome** — `the_wound` appended to `biomes.json` (tileset `tile_wound`, modifier `wound_pulse`,
