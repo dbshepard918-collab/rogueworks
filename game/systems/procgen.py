@@ -120,17 +120,13 @@ def _place_rooms(content, biome_id, level_w, level_h, cell, rng):
             continue
         used_slots.add(key)
 
-        # origin in tiles, centered in its grid slot and clamped inside the level
-        rw = int(room.get("w", 8))
-        rh = int(room.get("h", 8))
-        cell_w = (level_w - 6) // 3
-        cell_h = (level_h - 6) // 2
-        max_x = level_w - rw - 2
-        max_y = level_h - rh - 2
-        x = col * cell_w + 3 + max(0, (cell_w - rw) // 2)
-        y = row * cell_h + 3 + max(0, (cell_h - rh) // 2)
-        x = max(2, min(max_x, x))
-        y = max(2, min(max_y, y))
+        # origin in tiles, clamped so the room fits inside the level
+        max_x = level_w - int(room.get("w", 8))
+        max_y = level_h - int(room.get("h", 8))
+        x = col * cell + 2
+        y = row * cell + 2
+        x = max(0, min(max_x, x))
+        y = max(0, min(max_y, y))
         room_d = dict(room)
         room_d["x"] = x
         room_d["y"] = y

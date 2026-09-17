@@ -297,7 +297,7 @@ class Renderer:
         out = self._frames.get(key)
         if out is None:
             out = img.copy()
-            out.fill((70, 70, 70, 0), special_flags=pygame.BLEND_RGB_SUB)
+            out.fill((16, 16, 16, 0), special_flags=pygame.BLEND_RGB_SUB)
             self._frames[key] = out
         return out
 
