@@ -228,6 +228,10 @@ update `docs/TICKETS.md`, append to `docs/PROGRESS.md`, and only then take the n
       sunken_ossuary 28), 150 items, 60 affixes, 4th biome `sunken_ossuary` with `modifier: ossuary_toxic`
       in schema enum, 205 room templates (55/55/55/40 per biome), 11 tier-5 bosses across all 4 biomes.
       `deep_floors` confirms sunken_ossuary floor 16 spawns 24 monsters. `validate_data` PASS, `selftest` 21/21. | `python -m tools.validate_data` exit 0; `python -m tools.qa.deep_floors --seeds 0 1 2` OK 12 floors / 4 biomes; `python -m tools.studio.verify_gate` → PASS all 7 green; `python -m game.main --headless --turns 300 --seed 0..2` exit 0, violations=[] ✓
+      **5th biome 2026-09-17 (r78)** — `the_wound` ("The Wound", floors 21–25) with modifier
+      `wound_pulse` (heartbeat global damage + weeping-wall bleed), 8 flesh minions + final boss
+      `the_wound` ("Heart of the Depths", 3 phases + enrage), 16 room templates, 34 `tile_wound_*`
+      frames. Quest 5 "Close the Wound" completable. `deep_floors` 10 floors / 5 biomes clean.
 
 ### Phase 0b — close the gate reds the content round opened (do these before more content)
 

@@ -218,6 +218,51 @@
         "hit": "hit_stone",
         "death": "death_damp_echo"
       }
+    },
+    {
+      "id": "the_wound",
+      "name": "The Wound",
+      "tileset": "tile_wound",
+      "modifier": "wound_pulse",
+      "secret_rooms": [
+        "the_wound_secret_1",
+        "the_wound_secret_2",
+        "the_wound_secret_3"
+      ],
+      "monsters": [
+        "flesh_spawn",
+        "wound_maggot",
+        "vein_lurker",
+        "heart_thrall",
+        "pulse_caller",
+        "viscera_brute",
+        "wound_horror",
+        "flesh_weaver",
+        "the_wound"
+      ],
+      "ambient": [
+        60,
+        14,
+        22
+      ],
+      "fog": 0.68,
+      "music": "boss_theme",
+      "ambient_sound": {
+        "frequency": 60.0,
+        "pattern": "heartbeat",
+        "volume": 0.3
+      },
+      "attenuation": {
+        "min_distance": 1.0,
+        "max_distance": 30.0,
+        "rolloff": 1.6
+      },
+      "sfx_events": {
+        "footstep": "tile_wound_floor",
+        "door": "tile_wound_door",
+        "hit": "hit_metal",
+        "death": "death_damp_echo"
+      }
     }
   ]
 }

@@ -3271,6 +3271,201 @@
       ],
       "template": "painter",
       "decoration": "wandering_merchant"
+    },
+    {
+      "id": "the_wound_entrance",
+      "biome": "the_wound",
+      "kind": "entrance",
+      "w": 13,
+      "h": 11,
+      "spawn_budget": 0,
+      "props": [
+        "prop_tentacle",
+        "prop_roots"
+      ]
+    },
+    {
+      "id": "the_wound_combat_small",
+      "biome": "the_wound",
+      "kind": "combat",
+      "w": 10,
+      "h": 9,
+      "spawn_budget": 5,
+      "props": [
+        "prop_jelly",
+        "prop_bones"
+      ]
+    },
+    {
+      "id": "the_wound_combat_hall",
+      "biome": "the_wound",
+      "kind": "combat",
+      "w": 18,
+      "h": 14,
+      "spawn_budget": 11,
+      "props": [
+        "prop_tentacle",
+        "prop_pillar"
+      ]
+    },
+    {
+      "id": "the_wound_combat_chamber",
+      "biome": "the_wound",
+      "kind": "combat",
+      "w": 16,
+      "h": 16,
+      "spawn_budget": 10,
+      "props": [
+        "prop_tentacle",
+        "prop_jelly",
+        "prop_brazier"
+      ]
+    },
+    {
+      "id": "the_wound_combat_artery",
+      "biome": "the_wound",
+      "kind": "combat",
+      "w": 20,
+      "h": 10,
+      "spawn_budget": 9,
+      "props": [
+        "prop_roots",
+        "prop_rubble"
+      ]
+    },
+    {
+      "id": "the_wound_treasure",
+      "biome": "the_wound",
+      "kind": "treasure",
+      "w": 9,
+      "h": 8,
+      "spawn_budget": 3,
+      "props": [
+        "prop_chest",
+        "prop_gold_pile",
+        "prop_jelly"
+      ]
+    },
+    {
+      "id": "the_wound_shrine",
+      "biome": "the_wound",
+      "kind": "shrine",
+      "w": 8,
+      "h": 9,
+      "spawn_budget": 1,
+      "props": [
+        "prop_shrine",
+        "prop_candles"
+      ]
+    },
+    {
+      "id": "the_wound_shop",
+      "biome": "the_wound",
+      "kind": "shop",
+      "w": 8,
+      "h": 7,
+      "spawn_budget": 0,
+      "props": [
+        "prop_shop_stall"
+      ]
+    },
+    {
+      "id": "the_wound_boss",
+      "biome": "the_wound",
+      "kind": "boss",
+      "w": 24,
+      "h": 20,
+      "spawn_budget": 1,
+      "props": [
+        "prop_altar",
+        "prop_tentacle",
+        "prop_brazier"
+      ]
+    },
+    {
+      "id": "the_wound_secret_1",
+      "biome": "the_wound",
+      "kind": "secret",
+      "w": 6,
+      "h": 6,
+      "spawn_budget": 0,
+      "props": [
+        "prop_sarcophagus",
+        "prop_bones"
+      ],
+      "secret_wall": "north"
+    },
+    {
+      "id": "the_wound_secret_2",
+      "biome": "the_wound",
+      "kind": "secret",
+      "w": 5,
+      "h": 5,
+      "spawn_budget": 0,
+      "props": [
+        "prop_chest",
+        "prop_jelly"
+      ],
+      "secret_wall": "east"
+    },
+    {
+      "id": "the_wound_secret_3",
+      "biome": "the_wound",
+      "kind": "secret",
+      "w": 7,
+      "h": 5,
+      "spawn_budget": 0,
+      "props": [
+        "prop_gold_pile",
+        "prop_candles"
+      ],
+      "secret_wall": "south"
+    },
+    {
+      "id": "the_wound_gambling",
+      "biome": "the_wound",
+      "kind": "gambling",
+      "w": 8,
+      "h": 7,
+      "spawn_budget": 0,
+      "props": [
+        "prop_coffer",
+        "prop_gold_pile"
+      ]
+    },
+    {
+      "id": "the_wound_blacksmith",
+      "biome": "the_wound",
+      "kind": "blacksmith",
+      "w": 9,
+      "h": 8,
+      "spawn_budget": 0,
+      "props": [
+        "prop_anvil",
+        "prop_hammer"
+      ]
+    },
+    {
+      "id": "the_wound_fountain",
+      "biome": "the_wound",
+      "kind": "fountain",
+      "w": 7,
+      "h": 7,
+      "spawn_budget": 0,
+      "props": [
+        "prop_fountain"
+      ]
+    },
+    {
+      "id": "the_wound_omen",
+      "biome": "the_wound",
+      "kind": "omen",
+      "w": 7,
+      "h": 7,
+      "spawn_budget": 0,
+      "props": [
+        "prop_eye"
+      ]
     }
   ]
 }

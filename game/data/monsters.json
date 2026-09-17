@@ -2700,6 +2700,249 @@
       "telegraph_duration": 0.35,
       "telegraph_sprite": "vfx_soul_wisp",
       "element": "poison"
+    },
+    {
+      "id": "flesh_spawn",
+      "name": "Flesh Spawn",
+      "biome": "the_wound",
+      "tier": 1,
+      "hp": 16,
+      "damage": 5,
+      "armor": 0,
+      "speed": 1.8,
+      "xp": 5,
+      "weight": 30,
+      "behavior": "chaser",
+      "sprite": "monster_putrid_ghoul",
+      "status_on_hit": "bleed",
+      "telegraph_duration": 0.25,
+      "telegraph_sprite": "vfx_blood",
+      "element": "shadow"
+    },
+    {
+      "id": "wound_maggot",
+      "name": "Wound Maggot",
+      "biome": "the_wound",
+      "tier": 1,
+      "hp": 12,
+      "damage": 4,
+      "armor": 0,
+      "speed": 2.0,
+      "xp": 4,
+      "weight": 26,
+      "behavior": "chaser",
+      "sprite": "monster_crypt_crawler",
+      "status_on_hit": null,
+      "telegraph_duration": 0.25,
+      "telegraph_sprite": "vfx_blood",
+      "element": "shadow"
+    },
+    {
+      "id": "vein_lurker",
+      "name": "Vein Lurker",
+      "biome": "the_wound",
+      "tier": 2,
+      "hp": 22,
+      "damage": 7,
+      "armor": 1,
+      "speed": 1.6,
+      "xp": 8,
+      "weight": 18,
+      "behavior": "ambusher",
+      "sprite": "monster_bone_stalker",
+      "status_on_hit": "bleed",
+      "telegraph_duration": 0.4,
+      "telegraph_sprite": "vfx_blood",
+      "element": "shadow"
+    },
+    {
+      "id": "heart_thrall",
+      "name": "Heart Thrall",
+      "biome": "the_wound",
+      "tier": 3,
+      "hp": 34,
+      "damage": 10,
+      "armor": 2,
+      "speed": 1.2,
+      "xp": 13,
+      "weight": 16,
+      "behavior": "chaser",
+      "sprite": "monster_waterlogged_husk",
+      "status_on_hit": "bleed",
+      "telegraph_duration": 0.35,
+      "telegraph_sprite": "vfx_blood",
+      "element": "shadow"
+    },
+    {
+      "id": "pulse_caller",
+      "name": "Pulse Caller",
+      "biome": "the_wound",
+      "tier": 3,
+      "hp": 28,
+      "damage": 9,
+      "armor": 1,
+      "speed": 1.0,
+      "xp": 14,
+      "weight": 14,
+      "behavior": "ranged",
+      "sprite": "monster_tide_caller",
+      "status_on_hit": "bleed",
+      "telegraph_duration": 0.35,
+      "telegraph_sprite": "vfx_soul_wisp",
+      "element": "shadow"
+    },
+    {
+      "id": "viscera_brute",
+      "name": "Viscera Brute",
+      "biome": "the_wound",
+      "tier": 4,
+      "hp": 70,
+      "damage": 15,
+      "armor": 5,
+      "speed": 0.6,
+      "xp": 22,
+      "weight": 12,
+      "behavior": "brute",
+      "sprite": "monster_mire_hulk",
+      "status_on_hit": null,
+      "telegraph_duration": 0.55,
+      "telegraph_sprite": "vfx_shockwave",
+      "element": "shadow"
+    },
+    {
+      "id": "wound_horror",
+      "name": "Wound Horror",
+      "biome": "the_wound",
+      "tier": 4,
+      "hp": 46,
+      "damage": 13,
+      "armor": 3,
+      "speed": 1.4,
+      "xp": 19,
+      "weight": 10,
+      "behavior": "ambusher",
+      "sprite": "monster_coral_horror",
+      "status_on_hit": "bleed",
+      "telegraph_duration": 0.4,
+      "telegraph_sprite": "vfx_blood",
+      "element": "shadow"
+    },
+    {
+      "id": "flesh_weaver",
+      "name": "Flesh Weaver",
+      "biome": "the_wound",
+      "tier": 4,
+      "hp": 40,
+      "damage": 11,
+      "armor": 2,
+      "speed": 1.0,
+      "xp": 20,
+      "weight": 9,
+      "behavior": "summoner",
+      "sprite": "monster_ossuary_summoner",
+      "status_on_hit": "bleed",
+      "telegraph_duration": 0.55,
+      "telegraph_sprite": "vfx_soul_wisp",
+      "element": "shadow"
+    },
+    {
+      "id": "the_wound",
+      "name": "Heart of the Depths",
+      "biome": "the_wound",
+      "tier": 5,
+      "hp": 520,
+      "damage": 34,
+      "armor": 18,
+      "speed": 0.7,
+      "xp": 150,
+      "weight": 1,
+      "behavior": "brute",
+      "sprite": "monster_coral_leviathan",
+      "status_on_hit": "bleed",
+      "telegraph_duration": 0.55,
+      "telegraph_sprite": "vfx_shockwave",
+      "phases": [
+        {
+          "phase": 1,
+          "hp_threshold": 1.0,
+          "name": "The Heart Beats",
+          "adds": [
+            "flesh_spawn"
+          ],
+          "hazards": [
+            "blood_pool"
+          ],
+          "telegraph_sprite": "vfx_blood"
+        },
+        {
+          "phase": 2,
+          "hp_threshold": 0.5,
+          "name": "The Wound Opens",
+          "adds": [
+            "flesh_spawn",
+            "heart_thrall"
+          ],
+          "hazards": [
+            "blood_pool",
+            "vein_lash"
+          ],
+          "telegraph_sprite": "vfx_leap_slam"
+        },
+        {
+          "phase": 3,
+          "hp_threshold": 0.25,
+          "name": "The Depths Scream",
+          "adds": [
+            "flesh_spawn",
+            "heart_thrall",
+            "viscera_brute"
+          ],
+          "hazards": [
+            "blood_pool",
+            "vein_lash",
+            "heart_pulse"
+          ],
+          "telegraph_sprite": "vfx_shockwave"
+        }
+      ],
+      "hazards": {
+        "blood_pool": {
+          "type": "damage_zone",
+          "damage": 6,
+          "tick_interval": 0.5,
+          "duration": 4.0,
+          "visual": "vfx_blood",
+          "telegraph": 0.5
+        },
+        "vein_lash": {
+          "type": "damage",
+          "damage": 14,
+          "count": 6,
+          "angle_spread": 60,
+          "telegraph": 0.4,
+          "visual": "vfx_blood"
+        },
+        "heart_pulse": {
+          "type": "knockback",
+          "damage": 12,
+          "knockback_force": 260,
+          "telegraph": 0.6,
+          "visual": "vfx_shockwave"
+        }
+      },
+      "minibosses": [
+        "heart_thrall",
+        "viscera_brute",
+        "wound_horror"
+      ],
+      "enrage": {
+        "trigger_hp": 0.25,
+        "damage_multiplier": 1.8,
+        "speed_multiplier": 1.25,
+        "vfx": "vfx_blood",
+        "duration": 450
+      },
+      "element": "shadow"
     }
   ],
   "telegraph": {

@@ -74,7 +74,7 @@
       "giver": "keeper_eira",
       "description": "Eira tells you the truth: the Depths are alive. The only way out is through. Descend to the Heart and end it.",
       "objectives": [
-        {"type": "reach_floor", "target": 20, "label": "Reach the Heart"},
+        {"type": "reach_floor", "target": 21, "label": "Reach the Heart"},
         {"type": "kill_boss", "target": "the_wound", "label": "Defeat the Heart of the Depths"}
       ],
       "rewards": [

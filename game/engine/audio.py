@@ -43,6 +43,8 @@ _BIOME_AMBIENCE = {
     "catacombs":      {"music": "music_catacombs_drip",  "loop_gain": 0.12},
     "ember_warrens":  {"music": "music_ember_warrens",   "loop_gain": 0.12},
     "drowned_vaults": {"music": "music_drowned_vaults",  "loop_gain": 0.10},
+    "sunken_ossuary": {"music": "music_drowned_vaults",  "loop_gain": 0.10},
+    "the_wound":      {"music": "boss_theme",            "loop_gain": 0.15},
 }
 
 # Distance attenuation model

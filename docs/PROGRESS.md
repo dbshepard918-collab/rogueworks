@@ -1,3 +1,28 @@
+## 2026-09-17 (r78) — 5th biome "The Wound" + final boss "Heart of the Depths"
+
+- **Biome** — `the_wound` appended to `biomes.json` (tileset `tile_wound`, modifier `wound_pulse`,
+  flesh monster list, dark-red ambient, `boss_theme` music, 3 secret rooms). Maps to floors 21–25
+  (5th biome slot); final boss floor 25. Quest 5 "Close the Wound" is now completable.
+- **Modifier `wound_pulse`** — the signature mechanic for a *living* dungeon: a **heartbeat**
+  (global damage every ~5 s, scaled +1/5 floors) plus **weeping walls** (standing against a flesh
+  wall applies `bleed`). Added to `biome_mods.py` `_MODULES`/`step()` and the `validate_data.py`
+  modifier enum.
+- **Flesh monsters + boss** — 8 flesh minions (tiers 1–4) + `the_wound` (tier-5 boss, 520 hp,
+  `bleed`/`shadow`) with a full 3-phase arc (adds + hazards + 1.8× enrage), mirroring
+  `forge_colossus`.
+- **Rooms** — 16 `the_wound` room templates (entrance/combat/treasure/shrine/shop/boss/secret/
+  event rooms) with flesh props (`prop_tentacle`, `prop_jelly`, `prop_roots`).
+- **Tileset art** — `gen_tiles_procedural.py` gained a `wound` theme with dedicated organic
+  `_flesh_floor`/`_flesh_wall` generators (mottled tissue + veins, not brick); 34 new
+  `tile_wound_*` frames, 0 off-palette.
+- **Ambience** — `the_wound` (and the previously-silent `sunken_ossuary`) added to
+  `_BIOME_AMBIENCE`; the_wound loops `boss_theme`.
+- **Gates** — `tools.selftest` 22/22 PASS; `tools.studio.verify_gate` 7/7 green;
+  `game.main --headless --turns 300 --seed 0..2` exit 0, violations=[];
+  `tools.validate_data` 0 errors (748 entries); `deep_floors` 10 floors / 5 biomes clean.
+
+---
+
 ## 2026-09-16 (r77) — Quest content: Brokk's Hammer, flood gates, bone altar
 
 - **Brokk's Hammer** — `brokk_hammer` added to `items.json` (tier-4 weapon, `quest_only: true` so

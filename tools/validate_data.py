@@ -121,7 +121,7 @@ SCHEMAS: dict[str, dict[str, dict]] = {
         "ambient": {"type": "list", "items": {"type": "int", "min": 0, "max": 255}, "len": 3},
         "fog": {"type": "num", "min": 0.0, "max": 1.0},
         "music": {"type": "str", "nullable": True},
-        "modifier": {"type": "str", "enum": {"catacombs_darkness", "ember_heat", "drowned_water", "ossuary_toxic", None}, "nullable": True},
+        "modifier": {"type": "str", "enum": {"catacombs_darkness", "ember_heat", "drowned_water", "ossuary_toxic", "wound_pulse", None}, "nullable": True},
         "secret_rooms": {"type": "list", "required": False},
         "ambient_sound": {"type": "dict", "required": False},
         "attenuation": {"type": "dict", "required": False},

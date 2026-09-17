@@ -82,6 +82,18 @@ _MODULES = {
         "respawn_hp_frac": 0.5,
         "respawn_tier_cap": 3,
     },
+    "wound_pulse": {
+        "hud_label": "PULSE",
+        "hud_color": (196, 99, 95),
+        # the floor itself is alive: a heartbeat deals global damage scaled by depth
+        "pulse_every": 300,            # ticks (~5 s at 60 Hz)
+        "pulse_base_damage": 1,
+        "pulse_ramp_per_5": 1,
+        # standing against the flesh walls weeps blood: bleed
+        "wall_bleed_every": 180,       # ticks (~3 s)
+        "wall_bleed_duration": 180,
+        "wall_bleed_magnitude": 2,
+    },
 }
 
 # undead heuristic — kept cheap and stable; only catacombs rooms use this path.
@@ -97,7 +109,8 @@ class _BiomeState:
     """Mutable state attached to a World for the current run/floor."""
     __slots__ = ("modifier", "heat_timer", "slip_timer",
                  "was_in_water", "respawn_queue", "respawned_ids",
-                 "last_moved", "toxic_timer", "miasma_timer")
+                 "last_moved", "toxic_timer", "miasma_timer",
+                 "pulse_timer", "wall_bleed_timer")
 
     def __init__(self):
         self.modifier = None
@@ -109,6 +122,8 @@ class _BiomeState:
         self.last_moved = False
         self.toxic_timer = 0.0
         self.miasma_timer = 0.0
+        self.pulse_timer = 0.0
+        self.wall_bleed_timer = 0.0
 
 
 def attach_biome_state(world):
@@ -135,6 +150,8 @@ def set_modifier(world, mid):
     st.slip_timer = 0.0
     st.toxic_timer = 0.0
     st.miasma_timer = 0.0
+    st.pulse_timer = 0.0
+    st.wall_bleed_timer = 0.0
     st.was_in_water = False
     st.last_moved = False
     # respawn queue is floor-scoped; cleared in new_floor
@@ -160,6 +177,8 @@ def step(world, dt):
         _step_catacombs(world, cfg, st)
     elif mid == "ossuary_toxic":
         _step_ossuary(world, cfg, st)
+    elif mid == "wound_pulse":
+        _step_wound(world, cfg, st)
 
 
 def _step_ossuary(world, cfg, st):
@@ -193,6 +212,59 @@ def _step_ossuary(world, cfg, st):
         status_sys.apply_status(world, player, "weaken",
                                 duration_ticks=cfg["miasma_duration"],
                                 magnitude=cfg["miasma_magnitude"])
+
+
+def _step_wound(world, cfg, st):
+    """The Wound: the floor is alive.
+
+    Two distinct pressures, both on-theme for a living dungeon:
+
+    * a **heartbeat** — every ``pulse_every`` ticks the floor itself beats and
+      deals global damage scaled by depth (the Depths are alive and angry);
+    * **weeping walls** — standing against a flesh wall applies bleed (the
+      walls are veins, and they bleed on you).
+    """
+    player = world.player
+    if player is None or not player.alive:
+        st.pulse_timer = 0.0
+        return
+
+    # heartbeat — the Depths beat beneath your feet
+    st.pulse_timer += 1.0
+    if st.pulse_timer >= cfg["pulse_every"]:
+        st.pulse_timer = 0.0
+        ramp = max(0, (world.floor - 1) // 5) * cfg["pulse_ramp_per_5"]
+        dmg = cfg["pulse_base_damage"] + ramp
+        from . import combat
+        combat.damage_target(world, player, dmg, source=None, damage_type="physical")
+        world.floating.add("the wound pulses", color=(196, 99, 95), life=1.2)
+        world.particles.burst(player.x, player.y, world.rng, count=12,
+                              color=(196, 99, 95), speed=130.0, life=0.45, size=3)
+
+    # wall adjacency — the flesh walls weep blood
+    if _adjacent_to_wall(world, player):
+        st.wall_bleed_timer += 1.0
+        if st.wall_bleed_timer >= cfg["wall_bleed_every"]:
+            st.wall_bleed_timer = 0.0
+            status_sys.apply_status(world, player, "bleed",
+                                    duration_ticks=cfg["wall_bleed_duration"],
+                                    magnitude=cfg["wall_bleed_magnitude"])
+    else:
+        st.wall_bleed_timer = 0.0
+
+
+def _adjacent_to_wall(world, player):
+    """True when the player's tile borders a wall tile (value 1)."""
+    level = world.level
+    if level is None or player is None:
+        return False
+    tx, ty = player.tile_x, player.tile_y
+    for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+        nx, ny = tx + dx, ty + dy
+        if 0 <= nx < level.w and 0 <= ny < level.h:
+            if level.tiles[nx][ny] == 1:      # WALL
+                return True
+    return False
 
 
 def _step_ember(world, cfg, st):
